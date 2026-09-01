@@ -1,0 +1,43 @@
+{
+  "SchemaVersion": 2,
+  "Trivy": {"Version": "0.72.0"},
+  "ReportID": "fixture-report",
+  "CreatedAt": "2026-08-30T00:00:00Z",
+  "ArtifactID": "sha256:fixture",
+  "ArtifactName": "vulhub/elasticsearch:1.4.2",
+  "Results": [
+    {
+      "Target": "vulhub/elasticsearch:1.4.2 (debian 9.5)",
+      "Class": "os-pkgs",
+      "Type": "debian",
+      "Vulnerabilities": [{
+        "VulnerabilityID": "CVE-2019-3462",
+        "PkgName": "apt",
+        "InstalledVersion": "1.4.8",
+        "FixedVersion": "1.4.9",
+        "PkgIdentifier": {"PURL": "pkg:deb/debian/apt@1.4.8", "UID": "apt-fixture"},
+        "Severity": "HIGH",
+        "SeveritySource": "debian",
+        "CVSS": {"nvd": {"V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H", "V3Score": 8.1}}
+      }]
+    },
+    {
+      "Target": "Java",
+      "Class": "lang-pkgs",
+      "Type": "jar",
+      "Vulnerabilities": [{
+        "VulnerabilityID": "CVE-2019-17571",
+        "PkgName": "log4j:log4j",
+        "InstalledVersion": "1.2.17",
+        "FixedVersion": null,
+        "PkgIdentifier": {"PURL": "pkg:maven/log4j/log4j@1.2.17", "UID": "log4j-fixture"},
+        "Severity": "CRITICAL",
+        "SeveritySource": "ghsa",
+        "CVSS": {
+          "ghsa": {"V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H", "V3Score": 9.8},
+          "nvd": {"V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H", "V3Score": 9.8}
+        }
+      }]
+    }
+  ]
+}

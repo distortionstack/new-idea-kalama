@@ -1,0 +1,853 @@
+{
+  "after_target": {
+    "facts": {
+      "command": [
+        "catalina.sh",
+        "run"
+      ],
+      "container_id": "526144a2938b430de31f0d12b541e0ef16b494b1ad75524735634d65afa6c0aa",
+      "container_name": "victim-after-cOqnU",
+      "container_state": "running",
+      "entrypoint": [],
+      "environment": [
+        "CATALINA_HOME=/usr/local/tomcat",
+        "CA_CERTIFICATES_JAVA_VERSION=20170531+nmu1",
+        "GPG_KEYS=05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5 541FBE7D8F78B25E055DDEE13C370389288584E7 61B832AC2F1C5A90F0F9B00A1C506407564C17A3 713DA88BE50911535FE716F5208B0AB1D63011C7 79F7026C690BAA50B92CD8B66A3AD3F4F22C4FED 9BA44C2621385CB966EBA586F72C284D731FABEE A27677289986DB50844682F8ACB77FC2E86E29AC A9C5DF4D22E99998D9875A5110C01C5A2F6059E7 DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23",
+        "JAVA_DEBIAN_VERSION=8u181-b13-1~deb9u1",
+        "JAVA_HOME=/docker-java-home/jre",
+        "JAVA_VERSION=8u181",
+        "LANG=C.UTF-8",
+        "LD_LIBRARY_PATH=/usr/local/tomcat/native-jni-lib",
+        "OPENSSL_VERSION=1.1.0f-3+deb9u2",
+        "PATH=/usr/local/tomcat/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "TOMCAT_ASC_URLS=https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc \thttps://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc \thttps://www.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc \thttps://archive.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc",
+        "TOMCAT_MAJOR=8",
+        "TOMCAT_NATIVE_LIBDIR=/usr/local/tomcat/native-jni-lib",
+        "TOMCAT_SHA512=bb6b3c27284697a835d1625bf63921b6147f98f3e1167b896d28b05bbcf7d6c71baa0aef35d8405ad41f897985dacf288f3a403b7d65bd726808637d97bfad11",
+        "TOMCAT_TGZ_URLS=https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz \thttps://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz \thttps://www.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz \thttps://archive.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz",
+        "TOMCAT_VERSION=8.5.33"
+      ],
+      "exposed_ports": [
+        {
+          "container_port": 8080,
+          "protocol": "tcp",
+          "source": "docker_exposed_port"
+        }
+      ],
+      "image_digest": "kalama/struts2@sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+      "image_id": "sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+      "ip_address": "172.18.0.5",
+      "listening_ports": [
+        {
+          "address": "127.0.0.11",
+          "container_port": 43821,
+          "protocol": "tcp",
+          "source": "proc_net"
+        }
+      ],
+      "listening_ports_status": "AVAILABLE",
+      "network": "kalama-net",
+      "phase": "after",
+      "published_ports": [],
+      "reachable_ports": [],
+      "reachable_ports_status": "UNKNOWN",
+      "requested_image_reference": "kalama/struts2:patched-coqnu",
+      "run_id": "cOqnU"
+    },
+    "image_identity": {
+      "canonical_identity": "kalama/struts2@sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+      "image_id": "sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+      "platform": "linux/amd64",
+      "repo_digests": [
+        "kalama/struts2@sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29"
+      ],
+      "repo_tags": [
+        "kalama/struts2:patched-coqnu"
+      ],
+      "requested_reference": "kalama/struts2:patched-coqnu",
+      "selected_digest": "kalama/struts2@sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+      "source_kind": "LOCAL_BUILT"
+    }
+  },
+  "artifact_history": [
+    {
+      "created_at": "2026-09-01T17:27:18Z",
+      "kind": "ATTACK_FORM",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/forms/attack_form_cOqnU_r1.yaml",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.attack-form/v1",
+      "sha256": "700342515620ca0cec3a1989c49324edacb513fbe542cb615df7f7ccbadc5e68",
+      "summary": {
+        "base_config_sha256": null,
+        "base_resolver_sha256": "635bff1e439fab8ad764d318b258e28aaa9c138c08bb0c558870bcceda781975",
+        "cve_count": 9,
+        "revision": 1
+      }
+    },
+    {
+      "created_at": "2026-09-01T17:28:43Z",
+      "kind": "ATTACK_FORM_SUBMISSION",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/forms/submissions/attack_form_submission_cOqnU_r1.yaml",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.attack-form/v1",
+      "sha256": "77cd4d1dd552d740d943a2d1a62ff0d2363933ba9e854d472f2602d3e947e053",
+      "summary": {
+        "form_revision": 1
+      }
+    },
+    {
+      "created_at": "2026-09-01T17:28:43Z",
+      "kind": "EXPLOIT_CONFIG_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/config/exploit_config_before_cOqnU_r1.json",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.exploit-config-set/v1",
+      "sha256": "7d9dd901ad30ba4166aa6220277407190d709ce653e73690215f8eaf978450cc",
+      "summary": {
+        "revision": 1
+      }
+    },
+    {
+      "created_at": "2026-09-01T17:46:05Z",
+      "kind": "PATCH_PLAN",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/plan/patch_plan_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_5_PATCH_PLAN",
+      "schema": "kalama.patch-plan/v1",
+      "sha256": "08e2b56ae3bee973b286b9c5cee76b136d27c2fecef37cd031d5b8328c5d8913",
+      "summary": {
+        "actions": 1,
+        "intended_cves": 1,
+        "waiting_actions": 1
+      }
+    },
+    {
+      "created_at": "2026-09-01T17:51:17Z",
+      "kind": "PATCH_RESULT",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/results/patch_result_2026-09-01_cOqnU_attempt_1.json",
+      "producer_stage": "STEP_5_PATCH_EXECUTION",
+      "schema": "kalama.patch-result/v1",
+      "sha256": "80465a16c344bf49d77c9f54f8dc7f6f24fc90e27c316eb48838a657c21fbe0b",
+      "summary": {
+        "actions": 1,
+        "attempt": 1,
+        "succeeded": 1
+      }
+    },
+    {
+      "created_at": "2026-09-01T17:56:01Z",
+      "kind": "PATCH_RESULT",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/results/patch_result_2026-09-01_cOqnU_attempt_2.json",
+      "producer_stage": "STEP_5_PATCH_EXECUTION",
+      "schema": "kalama.patch-result/v1",
+      "sha256": "91416bec3cd5711ca2e81593f444f966358a6837d31f83a238ba5216b68b1d24",
+      "summary": {
+        "actions": 1,
+        "attempt": 2,
+        "succeeded": 1
+      }
+    }
+  ],
+  "artifacts": {
+    "ATTACK_AFTER": {
+      "created_at": "2026-09-01T18:02:14Z",
+      "kind": "ATTACK_AFTER",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/msf/after/attack_res_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_7_REEXPLOIT",
+      "schema": "kalama.attack-result/v1",
+      "sha256": "4d887f56b2533e879ab0a82b82784a05402e067ed91931c6b621597d3c9fcd4e",
+      "summary": {
+        "AFTER_ENVIRONMENT_UNRESOLVED": 0,
+        "EXPLOIT_FAILED": 1,
+        "EXPLOIT_SUCCEEDED": 0,
+        "INCONCLUSIVE": 0,
+        "NOT_EXECUTED": 0,
+        "attempted": 1,
+        "metric_eligible": 1,
+        "selected": 1
+      }
+    },
+    "ATTACK_BEFORE": {
+      "created_at": "2026-09-01T17:33:15Z",
+      "kind": "ATTACK_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/msf/before/attack_res_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_4_BEFORE_EXPLOIT",
+      "schema": "kalama.attack-result/v1",
+      "sha256": "874bea4c0753bc87154a74b0397012af6a3b09c9b334c8e9a1274ac9f7dfe4a2",
+      "summary": {
+        "CHECK_ONLY": 3,
+        "ENVIRONMENT_ERROR": 0,
+        "EXPLOIT_FAILED": 2,
+        "EXPLOIT_SUCCEEDED": 1,
+        "INCONCLUSIVE": 3,
+        "NOT_EXECUTED": 0,
+        "NO_MSF_MODULE": 21,
+        "attempted": 9,
+        "metric_eligible": 3,
+        "selected": 30
+      }
+    },
+    "ATTACK_FORM": {
+      "created_at": "2026-09-01T17:28:43Z",
+      "kind": "ATTACK_FORM",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/forms/attack_form_cOqnU_r2.yaml",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.attack-form/v1",
+      "sha256": "3d34e9f9e45bfa0cab2b5d12047255319111778515e89ea6452641c096b60031",
+      "summary": {
+        "base_config_sha256": "7d9dd901ad30ba4166aa6220277407190d709ce653e73690215f8eaf978450cc",
+        "base_resolver_sha256": "635bff1e439fab8ad764d318b258e28aaa9c138c08bb0c558870bcceda781975",
+        "cve_count": 2,
+        "revision": 2
+      }
+    },
+    "ATTACK_FORM_SUBMISSION": {
+      "created_at": "2026-09-01T17:29:13Z",
+      "kind": "ATTACK_FORM_SUBMISSION",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/forms/submissions/attack_form_submission_cOqnU_r2.yaml",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.attack-form/v1",
+      "sha256": "0d1f703c9379ccd47a8088ac49e5aafbf05a1c66b7749d7cdf73f6a044725bf6",
+      "summary": {
+        "form_revision": 2
+      }
+    },
+    "EVALUATION_DATASET": {
+      "created_at": "2026-09-01T18:03:54Z",
+      "kind": "EVALUATION_DATASET",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/evaluation/evaluation_dataset_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_8_EVALUATION",
+      "schema": "kalama.evaluation-dataset/v1",
+      "sha256": "e403d49f0d3c95f7372b56a248f5305719bc43cb5a8aad0d105ae6c733e76101",
+      "summary": {
+        "records": 30,
+        "scope": "TOP_N_ONLY"
+      }
+    },
+    "EVALUATION_METRICS": {
+      "created_at": "2026-09-01T18:03:54Z",
+      "kind": "EVALUATION_METRICS",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/evaluation/metrics_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_8_EVALUATION",
+      "schema": "kalama.metrics/v1",
+      "sha256": "72f1e2c641f1d8e4b1cac974d90627eabd6e6944de1af1a4de143c43d53d9342",
+      "summary": {
+        "precision_available": true,
+        "scope": "TOP_N_ONLY"
+      }
+    },
+    "EXPLOIT_CONFIG_AFTER": {
+      "created_at": "2026-09-01T18:01:45Z",
+      "kind": "EXPLOIT_CONFIG_AFTER",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/config/exploit_config_after_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_7_REEXPLOIT",
+      "schema": "kalama.exploit-config-set/v1",
+      "sha256": "3ef2f401b3e363db8dc5bbca848775123a8d83c7aaed8c4c32e3d5f2bf890353",
+      "summary": {
+        "ready": 1,
+        "targets": 1
+      }
+    },
+    "EXPLOIT_CONFIG_BEFORE": {
+      "created_at": "2026-09-01T17:29:13Z",
+      "kind": "EXPLOIT_CONFIG_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/config/exploit_config_before_cOqnU_r2.json",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.exploit-config-set/v1",
+      "sha256": "7b799e03df6c2413e7724c4b3ef6d67f587b7f3904984209184200fc41ac65ab",
+      "summary": {
+        "revision": 2
+      }
+    },
+    "PATCH_FORM": {
+      "created_at": "2026-09-01T17:46:05Z",
+      "kind": "PATCH_FORM",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/forms/patch_form_cOqnU_r1.yaml",
+      "producer_stage": "STEP_5_PATCH_PLAN",
+      "schema": "kalama.patch-form/v1",
+      "sha256": "9fd2e83eec1e8c248601366bb66d8d95172f1fbc3b4b8c73311e385750bf2240",
+      "summary": {
+        "action_count": 1,
+        "revision": 1
+      }
+    },
+    "PATCH_FORM_SUBMISSION": {
+      "created_at": "2026-09-01T17:48:33Z",
+      "kind": "PATCH_FORM_SUBMISSION",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/forms/submissions/patch_form_submission_cOqnU_r1.yaml",
+      "producer_stage": "STEP_5_PATCH_PLAN",
+      "schema": "kalama.patch-form/v1",
+      "sha256": "ae0e71f83a970336418a311b79515a304d1f2d582565aaf3f434b008294e49bc",
+      "summary": {
+        "revision": 1
+      }
+    },
+    "PATCH_PLAN": {
+      "created_at": "2026-09-01T17:48:33Z",
+      "kind": "PATCH_PLAN",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/plan/patch_plan_cOqnU_r1.json",
+      "producer_stage": "STEP_5_PATCH_PLAN",
+      "schema": "kalama.patch-plan/v1",
+      "sha256": "7c61021cf581a4bf77ff63490226aeb0fd99c43cdc8345d5b2d1b0439b96adc4",
+      "summary": {
+        "revision": 1,
+        "waiting_actions": 0
+      }
+    },
+    "PATCH_RESULT": {
+      "created_at": "2026-09-01T17:58:20Z",
+      "kind": "PATCH_RESULT",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/results/patch_result_2026-09-01_cOqnU_attempt_3.json",
+      "producer_stage": "STEP_5_PATCH_EXECUTION",
+      "schema": "kalama.patch-result/v1",
+      "sha256": "02ae564fc18296eb1a3c871eba7ebeaf0c2dfc347fb19c06069b8f6792f4cbd1",
+      "summary": {
+        "actions": 1,
+        "attempt": 3,
+        "succeeded": 1
+      }
+    },
+    "REMEDIATION_DISCOVERY": {
+      "created_at": "2026-09-01T17:46:05Z",
+      "kind": "REMEDIATION_DISCOVERY",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/discovery/discovery_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_5_PATCH_PLAN",
+      "schema": "kalama.remediation-discovery/v1",
+      "sha256": "bbfc6e0fb2170e56764abb2c847db93de8603e9ac04b6f7daa75519bd76e49f5",
+      "summary": {
+        "target_count": 1
+      }
+    },
+    "REMEDIATION_RESULT": {
+      "created_at": "2026-09-01T18:02:14Z",
+      "kind": "REMEDIATION_RESULT",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/verification/remediation_result_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_7_REEXPLOIT",
+      "schema": "kalama.remediation-result/v1",
+      "sha256": "9f2b91b7a58c6aba00d26818053cccb9071d3dcf8d7799a5e47ca7994ff3d3a5",
+      "summary": {
+        "failed": 0,
+        "inconclusive": 0,
+        "not_evaluated": 0,
+        "targets": 1,
+        "verified": 1
+      }
+    },
+    "REMEDIATION_SCAN_RESULT": {
+      "created_at": "2026-09-01T18:00:05Z",
+      "kind": "REMEDIATION_SCAN_RESULT",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/trivy/after/verification_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_6_AFTER_SCAN",
+      "schema": "kalama.remediation-scan-result/v1",
+      "sha256": "71fa632a8d14c3a199274fc4cc2c16f8a90273cc46751de4e7f686c17560f058",
+      "summary": {
+        "found": 0,
+        "intended_total": 1,
+        "not_found": 1,
+        "unknown": 0
+      }
+    },
+    "RESOLVER_BEFORE": {
+      "created_at": "2026-09-01T17:27:17Z",
+      "kind": "RESOLVER_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/resolver/resolver_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.resolver/v1",
+      "sha256": "635bff1e439fab8ad764d318b258e28aaa9c138c08bb0c558870bcceda781975",
+      "summary": {
+        "environment_error": 0,
+        "no_msf_module": 21,
+        "ready_to_execute": 0,
+        "selected_count": 30,
+        "unresolved_config": 0,
+        "waiting_for_user_input": 9
+      }
+    },
+    "RUN_SUMMARY": {
+      "created_at": "2026-09-01T18:03:54Z",
+      "kind": "RUN_SUMMARY",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/evaluation/run_summary_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_8_EVALUATION",
+      "schema": "kalama.run-summary/v1",
+      "sha256": "1b7db7fa218cef798fa6caae6543aeffaf187bf834682d48148cddedd864c621",
+      "summary": {
+        "completed_at": "2026-09-01T18:03:54Z",
+        "warnings": 7
+      }
+    },
+    "TOP30_BEFORE": {
+      "created_at": "2026-09-01T17:23:36Z",
+      "kind": "TOP30_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/scoring/before/top30_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_3_PRIORITIZATION",
+      "schema": "kalama.prioritization/v1",
+      "sha256": "cf40ba76171b6905b05e31cb9e973093946714de3aa2234f6e50c5d7918c1ea0",
+      "summary": {
+        "score_model": "kalama-priority-v1",
+        "top_n_requested": 30,
+        "top_n_returned": 30
+      }
+    },
+    "TRIVY_AFTER": {
+      "created_at": "2026-09-01T18:00:05.204043542Z",
+      "kind": "TRIVY_AFTER",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/trivy/after/scan_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_6_AFTER_SCAN",
+      "schema": 2,
+      "sha256": "f9701f1cccd32417d4b9462a51d0c3ddf1275b1387bd22867cc5157daea3937c",
+      "summary": {
+        "image_id": "sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+        "scan_subject": "kalama/struts2@sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+        "trivy_version": "0.74.0"
+      }
+    },
+    "TRIVY_BEFORE": {
+      "created_at": "2026-09-01T17:23:35.892233716Z",
+      "kind": "TRIVY_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/trivy/before/scan_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_2_TARGET_SCAN",
+      "schema": 2,
+      "sha256": "87ed9b96217eebb69bc5b00008358e6417d0db9cc15d2cc8b8f1b892180ad571",
+      "summary": {
+        "scan_subject": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+        "scanner": "trivy"
+      }
+    }
+  },
+  "created_at": "2026-09-01T17:23:31Z",
+  "current_stage": "STEP_8_EVALUATION",
+  "cves": {
+    "CVE-2014-0114": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 29,
+      "remediation_status": null,
+      "resolver_status": "EXPLOIT_FAILED"
+    },
+    "CVE-2015-7501": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 11,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2017-17485": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 21,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2017-7525": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 24,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2017-9805": {
+      "after_exploit_disposition": "EXPLOIT_FAILED",
+      "after_scan_status": "NOT_FOUND",
+      "patch_action_status": "SUCCEEDED",
+      "rank": 7,
+      "remediation_status": "VERIFIED",
+      "resolver_status": "EXPLOIT_SUCCEEDED"
+    },
+    "CVE-2018-11776": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 6,
+      "remediation_status": null,
+      "resolver_status": "INCONCLUSIVE"
+    },
+    "CVE-2019-0230": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 10,
+      "remediation_status": null,
+      "resolver_status": "CHECK_ONLY"
+    },
+    "CVE-2019-8457": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 22,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2020-15999": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 8,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2020-17530": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 3,
+      "remediation_status": null,
+      "resolver_status": "CHECK_ONLY"
+    },
+    "CVE-2020-26217": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 20,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2020-8840": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 28,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-21342": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 27,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-21344": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 16,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-21345": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 17,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-21346": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 15,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-21351": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 19,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-29505": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 23,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-31805": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 12,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2021-39144": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 5,
+      "remediation_status": null,
+      "resolver_status": "INCONCLUSIVE"
+    },
+    "CVE-2021-44228": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 1,
+      "remediation_status": null,
+      "resolver_status": "INCONCLUSIVE"
+    },
+    "CVE-2021-45046": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 4,
+      "remediation_status": null,
+      "resolver_status": "EXPLOIT_FAILED"
+    },
+    "CVE-2022-25236": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 25,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2022-29155": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 18,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2023-44487": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 9,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2023-50164": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 13,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2024-53677": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 14,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2025-24813": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 2,
+      "remediation_status": null,
+      "resolver_status": "CHECK_ONLY"
+    },
+    "CVE-2025-48976": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 26,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    },
+    "CVE-2025-48988": {
+      "after_exploit_disposition": null,
+      "after_scan_status": null,
+      "patch_action_status": null,
+      "rank": 30,
+      "remediation_status": null,
+      "resolver_status": "NO_MSF_MODULE"
+    }
+  },
+  "errors": [
+    {
+      "code": "PATCH_EXECUTION_FAILED",
+      "details": {},
+      "error_id": "E0001",
+      "message": "victim did not become ready before timeout; state={'Status': 'exited', 'Running': False, 'Paused': False, 'Restarting': False, 'OOMKilled': False, 'Dead': False, 'Pid': 0, 'ExitCode': 127, 'Error': '', 'StartedAt': '2026-09-01T17:51:17.561786897Z', 'FinishedAt': '2026-09-01T17:51:17.749358801Z'}",
+      "retryable": false,
+      "stage": "STEP_5_PATCH_EXECUTION",
+      "timestamp": "2026-09-01T17:51:17Z"
+    },
+    {
+      "code": "AFTER_TARGET_IDENTITY_ERROR",
+      "details": {},
+      "error_id": "E0002",
+      "message": "AFTER_TARGET_IDENTITY_ERROR",
+      "retryable": false,
+      "stage": "STEP_5_PATCH_EXECUTION",
+      "timestamp": "2026-09-01T17:56:01Z"
+    }
+  ],
+  "mode": "through-prioritization",
+  "patched_image": {
+    "image_id": "sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29",
+    "platform": "linux/amd64",
+    "reference": "kalama/struts2:patched-coqnu",
+    "repo_digests": [
+      "kalama/struts2@sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29"
+    ],
+    "repo_tags": [
+      "kalama/struts2:patched-coqnu"
+    ],
+    "requested_reference": "kalama/struts2:patched-coqnu",
+    "selected_digest": "kalama/struts2@sha256:d45fa554bfd712806302d2710f0f15dc3b64c341df9474cb4aa7199f0ae9dc29"
+  },
+  "request": {
+    "victim_image": "vulhub/struts2:2.5.12-rest-showcase"
+  },
+  "research_context": {
+    "epss_data_date": "2026-09-01"
+  },
+  "run_id": "cOqnU",
+  "schema": "kalama.run-state/v1",
+  "stages": {
+    "STEP_2_TARGET_SCAN": {
+      "completed_at": "2026-09-01T17:23:36Z",
+      "started_at": "2026-09-01T17:23:31Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_3_PRIORITIZATION": {
+      "completed_at": "2026-09-01T17:24:25Z",
+      "started_at": "2026-09-01T17:23:36Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_4_BEFORE_EXPLOIT": {
+      "completed_at": "2026-09-01T17:33:15Z",
+      "started_at": "2026-09-01T17:30:48Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_4_RESOLVER": {
+      "completed_at": "2026-09-01T17:29:13Z",
+      "started_at": "2026-09-01T17:25:35Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_5_PATCH": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_5_PATCH_EXECUTION": {
+      "completed_at": "2026-09-01T17:58:20Z",
+      "started_at": "2026-09-01T17:58:16Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_5_PATCH_PLAN": {
+      "completed_at": "2026-09-01T17:48:33Z",
+      "started_at": "2026-09-01T17:46:05Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_6_AFTER_SCAN": {
+      "completed_at": "2026-09-01T18:00:05Z",
+      "started_at": "2026-09-01T17:59:59Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_7_REEXPLOIT": {
+      "completed_at": "2026-09-01T18:02:14Z",
+      "started_at": "2026-09-01T18:01:45Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_8_EVALUATION": {
+      "completed_at": "2026-09-01T18:03:54Z",
+      "started_at": "2026-09-01T18:03:54Z",
+      "status": "SUCCEEDED"
+    }
+  },
+  "status": "COMPLETED",
+  "target": {
+    "facts": {
+      "command": [
+        "catalina.sh",
+        "run"
+      ],
+      "container_id": "7c6b0a5ab5b912cd5964cbdf0ab2f854fcc888b58845875de5486536721e6513",
+      "container_name": "victim-cOqnU",
+      "container_state": "running",
+      "entrypoint": [],
+      "environment": [
+        "CATALINA_HOME=/usr/local/tomcat",
+        "CA_CERTIFICATES_JAVA_VERSION=20170531+nmu1",
+        "GPG_KEYS=05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5 541FBE7D8F78B25E055DDEE13C370389288584E7 61B832AC2F1C5A90F0F9B00A1C506407564C17A3 713DA88BE50911535FE716F5208B0AB1D63011C7 79F7026C690BAA50B92CD8B66A3AD3F4F22C4FED 9BA44C2621385CB966EBA586F72C284D731FABEE A27677289986DB50844682F8ACB77FC2E86E29AC A9C5DF4D22E99998D9875A5110C01C5A2F6059E7 DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23",
+        "JAVA_DEBIAN_VERSION=8u181-b13-1~deb9u1",
+        "JAVA_HOME=/docker-java-home/jre",
+        "JAVA_VERSION=8u181",
+        "LANG=C.UTF-8",
+        "LD_LIBRARY_PATH=/usr/local/tomcat/native-jni-lib",
+        "OPENSSL_VERSION=1.1.0f-3+deb9u2",
+        "PATH=/usr/local/tomcat/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "TOMCAT_ASC_URLS=https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc \thttps://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc \thttps://www.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc \thttps://archive.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz.asc",
+        "TOMCAT_MAJOR=8",
+        "TOMCAT_NATIVE_LIBDIR=/usr/local/tomcat/native-jni-lib",
+        "TOMCAT_SHA512=bb6b3c27284697a835d1625bf63921b6147f98f3e1167b896d28b05bbcf7d6c71baa0aef35d8405ad41f897985dacf288f3a403b7d65bd726808637d97bfad11",
+        "TOMCAT_TGZ_URLS=https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz \thttps://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz \thttps://www.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz \thttps://archive.apache.org/dist/tomcat/tomcat-8/v8.5.33/bin/apache-tomcat-8.5.33.tar.gz",
+        "TOMCAT_VERSION=8.5.33"
+      ],
+      "exposed_ports": [
+        {
+          "container_port": 8080,
+          "protocol": "tcp",
+          "source": "docker_exposed_port"
+        }
+      ],
+      "image_digest": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+      "image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+      "ip_address": "172.18.0.4",
+      "listening_ports": [
+        {
+          "address": "127.0.0.11",
+          "container_port": 42283,
+          "protocol": "tcp",
+          "source": "proc_net"
+        }
+      ],
+      "listening_ports_status": "AVAILABLE",
+      "network": "kalama-net",
+      "phase": "before",
+      "published_ports": [],
+      "reachable_ports": [],
+      "reachable_ports_status": "UNKNOWN",
+      "requested_image_reference": "vulhub/struts2:2.5.12-rest-showcase",
+      "run_id": "cOqnU"
+    },
+    "image_identity": {
+      "canonical_identity": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+      "image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+      "platform": "linux/amd64",
+      "repo_digests": [
+        "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+      ],
+      "repo_tags": [
+        "vulhub/struts2:2.5.12-rest-showcase"
+      ],
+      "requested_reference": "vulhub/struts2:2.5.12-rest-showcase",
+      "selected_digest": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+      "source_kind": "LOCAL_EXISTING"
+    }
+  },
+  "updated_at": "2026-09-01T18:03:54Z",
+  "waiting_reason": null,
+  "warnings": [
+    {
+      "code": "NEXT_STAGE_NOT_INTEGRATED",
+      "message": "Step 4 Resolver is not integrated yet",
+      "timestamp": "2026-09-01T17:24:25Z"
+    },
+    {
+      "code": "ATTACK_FORM_REQUIRED",
+      "message": "human confirmation is required in the Attack Form",
+      "timestamp": "2026-09-01T17:27:18Z"
+    },
+    {
+      "code": "BEFORE_EXPLOIT_NOT_INTEGRATED",
+      "message": "canonical configuration reached the before-exploit boundary",
+      "timestamp": "2026-09-01T17:29:13Z"
+    },
+    {
+      "code": "PATCH_NOT_INTEGRATED",
+      "message": "Step 5 patching is not integrated yet",
+      "timestamp": "2026-09-01T17:33:15Z"
+    },
+    {
+      "code": "DB_PROVENANCE_UNAVAILABLE",
+      "message": "db provenance unavailable",
+      "timestamp": "2026-09-01T18:00:05Z"
+    }
+  ]
+}

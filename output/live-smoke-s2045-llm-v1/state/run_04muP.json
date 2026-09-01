@@ -1,0 +1,171 @@
+{
+  "after_target": null,
+  "artifact_history": [],
+  "artifacts": {
+    "TOP30_BEFORE": {
+      "created_at": "2026-09-01T07:57:32Z",
+      "kind": "TOP30_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/live-smoke-s2045-llm-v1/scoring/before/top30_2026-09-01_04muP.json",
+      "producer_stage": "STEP_3_PRIORITIZATION",
+      "schema": "kalama.prioritization/v1",
+      "sha256": "167333ec88c6536ef6307ce202cc6d35bb95ff3e855c48dad0c30d0c77bd75cf",
+      "summary": {
+        "score_model": "kalama-priority-v1",
+        "top_n_requested": 30,
+        "top_n_returned": 30
+      }
+    },
+    "TRIVY_BEFORE": {
+      "created_at": "2026-09-01T07:57:31.838598323Z",
+      "kind": "TRIVY_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/live-smoke-s2045-llm-v1/trivy/before/scan_2026-09-01_04muP.json",
+      "producer_stage": "STEP_2_TARGET_SCAN",
+      "schema": 2,
+      "sha256": "4c52a9a7136f49577a3c949f9f62e767a888f1c79c714b823b85819c7d0d77e2",
+      "summary": {
+        "scan_subject": "vulhub/struts2@sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8",
+        "scanner": "trivy"
+      }
+    }
+  },
+  "created_at": "2026-09-01T07:57:30Z",
+  "current_stage": "STEP_4_RESOLVER",
+  "cves": {},
+  "errors": [],
+  "mode": "through-prioritization",
+  "patched_image": null,
+  "request": {
+    "victim_image": "vulhub/struts2:2.3.30"
+  },
+  "research_context": {
+    "epss_data_date": "2026-09-01"
+  },
+  "run_id": "04muP",
+  "schema": "kalama.run-state/v1",
+  "stages": {
+    "STEP_2_TARGET_SCAN": {
+      "completed_at": "2026-09-01T07:57:32Z",
+      "started_at": "2026-09-01T07:57:30Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_3_PRIORITIZATION": {
+      "completed_at": "2026-09-01T07:58:22Z",
+      "started_at": "2026-09-01T07:57:32Z",
+      "status": "SUCCEEDED"
+    },
+    "STEP_4_BEFORE_EXPLOIT": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_4_RESOLVER": {
+      "completed_at": null,
+      "started_at": "2026-09-01T07:58:35Z",
+      "status": "RUNNING"
+    },
+    "STEP_5_PATCH": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_5_PATCH_EXECUTION": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_5_PATCH_PLAN": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_6_AFTER_SCAN": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_7_REEXPLOIT": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_8_EVALUATION": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    }
+  },
+  "status": "RUNNING",
+  "target": {
+    "facts": {
+      "command": [
+        "mvn",
+        "jetty:run"
+      ],
+      "container_id": "632634c7b75867b88f0c56cee4af4d062f51b121e2cc8634f591e49a1fdea31a",
+      "container_name": "victim-04muP",
+      "container_state": "running",
+      "entrypoint": [
+        "/usr/local/bin/mvn-entrypoint.sh"
+      ],
+      "environment": [
+        "JAVA_BASE_URL=https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jdk_",
+        "JAVA_HOME=/usr/local/openjdk-8",
+        "JAVA_URL_VERSION=8u222b10",
+        "JAVA_VERSION=8u222",
+        "LANG=C.UTF-8",
+        "MAVEN_CONFIG=/root/.m2",
+        "MAVEN_HOME=/usr/share/maven",
+        "PATH=/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "exposed_ports": [
+        {
+          "container_port": 8080,
+          "protocol": "tcp",
+          "source": "docker_exposed_port"
+        }
+      ],
+      "image_digest": "vulhub/struts2@sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8",
+      "image_id": "sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8",
+      "ip_address": "172.18.0.3",
+      "listening_ports": [
+        {
+          "address": "127.0.0.11",
+          "container_port": 41267,
+          "protocol": "tcp",
+          "source": "proc_net"
+        }
+      ],
+      "listening_ports_status": "AVAILABLE",
+      "network": "kalama-net",
+      "phase": "before",
+      "published_ports": [],
+      "reachable_ports": [],
+      "reachable_ports_status": "UNKNOWN",
+      "requested_image_reference": "vulhub/struts2:2.3.30",
+      "run_id": "04muP"
+    },
+    "image_identity": {
+      "canonical_identity": "vulhub/struts2@sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8",
+      "image_id": "sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8",
+      "platform": "linux/amd64",
+      "repo_digests": [
+        "vulhub/struts2@sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8"
+      ],
+      "repo_tags": [
+        "vulhub/struts2:2.3.30"
+      ],
+      "requested_reference": "vulhub/struts2:2.3.30",
+      "selected_digest": "vulhub/struts2@sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8",
+      "source_kind": "LOCAL_EXISTING"
+    }
+  },
+  "updated_at": "2026-09-01T07:58:35Z",
+  "waiting_reason": null,
+  "warnings": [
+    {
+      "code": "NEXT_STAGE_NOT_INTEGRATED",
+      "message": "Step 4 Resolver is not integrated yet",
+      "timestamp": "2026-09-01T07:58:22Z"
+    }
+  ]
+}

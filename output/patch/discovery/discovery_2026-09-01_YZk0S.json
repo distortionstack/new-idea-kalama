@@ -1,0 +1,85 @@
+{
+  "phase": "patch",
+  "provider_stats": {
+    "os_package": {
+      "query_count": 0,
+      "query_elapsed": 0.0
+    }
+  },
+  "run_id": "YZk0S",
+  "schema": "kalama.remediation-discovery/v1",
+  "targets": [
+    {
+      "availability": null,
+      "branch_reason": "same major AND minor release branch match",
+      "build_system": null,
+      "candidate_status": "KNOWLEDGE_REQUIRED",
+      "classification": "PREBUILT_IMAGE",
+      "classification_status": "RESOLVED",
+      "current_version": "2.5.12",
+      "cve_id": "CVE-2017-9805",
+      "eol": false,
+      "evidence": [
+        {
+          "detail": null,
+          "fact": "package",
+          "provenance": "SCANNER_EVIDENCE",
+          "value": "org.apache.struts:struts2-rest-plugin"
+        },
+        {
+          "detail": null,
+          "fact": "maven_purl",
+          "provenance": "SCANNER_EVIDENCE",
+          "value": "pkg:maven/org.apache.struts/struts2-rest-plugin@2.5.12"
+        },
+        {
+          "detail": null,
+          "fact": "installed_version",
+          "provenance": "SCANNER_EVIDENCE",
+          "value": "2.5.12"
+        },
+        {
+          "detail": null,
+          "fact": "fixed_versions",
+          "provenance": "SCANNER_EVIDENCE",
+          "value": [
+            "2.3.34",
+            "2.5.13"
+          ]
+        },
+        {
+          "detail": null,
+          "fact": "fixed_version",
+          "provenance": "SCANNER_EVIDENCE",
+          "value": "2.5.13"
+        },
+        {
+          "detail": null,
+          "fact": "branch_policy",
+          "provenance": "SCANNER_EVIDENCE",
+          "value": "same major AND minor release branch match"
+        }
+      ],
+      "execution_readiness": "NOT_READY",
+      "fix_type": "B",
+      "fixed_version": "2.5.13",
+      "fixed_versions": [
+        "2.5.13"
+      ],
+      "installed_versions": [
+        "2.5.12"
+      ],
+      "issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+      "package_manager": null,
+      "package_or_product": "org.apache.struts:struts2-rest-plugin",
+      "packages": [
+        "org.apache.struts:struts2-rest-plugin"
+      ],
+      "same_branch": true,
+      "source_identifier": null,
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target": null,
+      "version_status": "RESOLVED"
+    }
+  ]
+}

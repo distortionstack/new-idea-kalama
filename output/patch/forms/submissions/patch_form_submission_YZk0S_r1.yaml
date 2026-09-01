@@ -1,0 +1,53 @@
+schema: kalama.patch-form/v1
+run_id: YZk0S
+phase: patch
+revision: 1
+base_patch_plan_sha256: 06c358b150375c25cbbc8b633b6cd3c6fadbc2f99c5e176a50ae76fa790d0c38
+actions:
+  patch-001:
+    target_cves:
+    - CVE-2017-9805
+    package:
+      name: org.apache.struts:struts2-rest-plugin
+      ecosystem: jar
+      before_versions:
+      - 2.5.12
+      scanner_fixed_versions:
+      - 2.3.34
+      - 2.5.13
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.34
+      - 2.5.13
+      suggested: 2.5.13
+      confirmed: 2.5.13
+    artifact:
+      suggested_source: null
+      confirmed_source: https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar
+      checksum:
+        suggested: null
+        confirmed: f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: >-
+        set -eu; dir=/usr/local/tomcat/webapps/ROOT/WEB-INF/lib;
+        curl -fsSL https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar
+        -o "$dir/struts2-rest-plugin-2.5.13.jar";
+        echo "f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59  $dir/struts2-rest-plugin-2.5.13.jar"
+        | sha256sum -c -;
+        rm -f "$dir/struts2-rest-plugin-2.5.12.jar"
+    validation_command:
+      confirmed: >-
+        test ! -e /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/struts2-rest-plugin-2.5.12.jar
+        && echo "f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59  /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar"
+        | sha256sum -c -
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: Replace vulnerable Struts REST plugin 2.5.12 with same-branch fixed version 2.5.13.

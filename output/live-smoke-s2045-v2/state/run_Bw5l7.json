@@ -1,0 +1,102 @@
+{
+  "after_target": null,
+  "artifact_history": [],
+  "artifacts": {},
+  "created_at": "2026-09-01T05:22:40Z",
+  "current_stage": "STEP_2_TARGET_SCAN",
+  "cves": {},
+  "errors": [
+    {
+      "code": "TRIVY_EXECUTION_FAILED",
+      "details": {
+        "command": [
+          "docker",
+          "exec",
+          "kalama-workbench-modern",
+          "trivy",
+          "image",
+          "--scanners",
+          "vuln",
+          "--list-all-pkgs",
+          "--format",
+          "json",
+          "vulhub/struts2@sha256:b992e080d8e5ad332bf526ae26124d28f56ca4fc9e0eaa91510dbee9870eb2c8"
+        ],
+        "exit_code": 1,
+        "stderr": "Error response from daemon: container 9d7108f425c3ac3709482f47c211d25210a069458fe74b1d3356e24e73f28e3a is not running"
+      },
+      "error_id": "E0001",
+      "message": "Trivy image scan failed",
+      "retryable": true,
+      "stage": "STEP_2_TARGET_SCAN",
+      "timestamp": "2026-09-01T05:22:41Z"
+    }
+  ],
+  "mode": "through-prioritization",
+  "patched_image": null,
+  "request": {
+    "victim_image": "vulhub/struts2:2.3.30"
+  },
+  "research_context": {
+    "epss_data_date": "2026-09-01"
+  },
+  "run_id": "Bw5l7",
+  "schema": "kalama.run-state/v1",
+  "stages": {
+    "STEP_2_TARGET_SCAN": {
+      "completed_at": "2026-09-01T05:22:41Z",
+      "started_at": "2026-09-01T05:22:40Z",
+      "status": "FAILED"
+    },
+    "STEP_3_PRIORITIZATION": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_4_BEFORE_EXPLOIT": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_4_RESOLVER": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_5_PATCH": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_5_PATCH_EXECUTION": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_5_PATCH_PLAN": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_6_AFTER_SCAN": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_7_REEXPLOIT": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    },
+    "STEP_8_EVALUATION": {
+      "completed_at": null,
+      "started_at": null,
+      "status": "NOT_STARTED"
+    }
+  },
+  "status": "FAILED_FATAL",
+  "target": null,
+  "updated_at": "2026-09-01T05:22:41Z",
+  "waiting_reason": null,
+  "warnings": []
+}

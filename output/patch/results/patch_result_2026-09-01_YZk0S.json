@@ -1,0 +1,76 @@
+{
+  "actions": [
+    {
+      "action_id": "patch-001",
+      "attempt_number": 1,
+      "ended_at": "2026-09-01T15:35:18Z",
+      "evidence": {
+        "command_sha256": "3e9c58513115da67bbdf297030d6a47c71d471ccf3b6e3da3432482ca9734bcb",
+        "execution_target": "patch-workspace",
+        "exit_code": 23,
+        "operation": "HUMAN_COMMAND",
+        "stderr": "mesg: ttyname failed: Inappropriate ioctl for device\ncurl: (23) Failed writing body (0 != 1360)\n",
+        "success": false
+      },
+      "incidental_cves": [],
+      "result": "FAILED",
+      "source_image": {
+        "image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+        "platform": "linux/amd64",
+        "reference": "vulhub/struts2:2.5.12-rest-showcase",
+        "repo_digests": [
+          "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+        ],
+        "repo_tags": [
+          "vulhub/struts2:2.5.12-rest-showcase"
+        ],
+        "requested_reference": "vulhub/struts2:2.5.12-rest-showcase",
+        "selected_digest": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+      },
+      "started_at": "2026-09-01T15:35:18Z",
+      "strategy": "HUMAN_COMMAND",
+      "target_cves": [
+        "CVE-2017-9805"
+      ],
+      "workspace": {
+        "container_id": "14232812b249c3300e58590f95585427a9fbb2534d9111ab047e1e48d7d120d9",
+        "container_name": "patch-workspace-YZk0S",
+        "labels": {
+          "kalama.managed": "true",
+          "kalama.phase": "patch",
+          "kalama.role": "patch-workspace",
+          "kalama.run_id": "YZk0S"
+        },
+        "source_image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+      }
+    }
+  ],
+  "after_target": null,
+  "created_at": "2026-09-01T15:35:18Z",
+  "errors": [
+    "PATCH_ACTION_FAILED"
+  ],
+  "patched_image": null,
+  "phase": "patch",
+  "plan": {
+    "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/plan/patch_plan_YZk0S_r1.json",
+    "revision": 1,
+    "sha256": "576efd0d5f9e208b5dcba23a8df2450f74ca0eb03994e8944db49ad0376a282e"
+  },
+  "remediation_verified": false,
+  "run_id": "YZk0S",
+  "schema": "kalama.patch-result/v1",
+  "source_image": {
+    "image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+    "platform": "linux/amd64",
+    "reference": "vulhub/struts2:2.5.12-rest-showcase",
+    "repo_digests": [
+      "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+    ],
+    "repo_tags": [
+      "vulhub/struts2:2.5.12-rest-showcase"
+    ],
+    "requested_reference": "vulhub/struts2:2.5.12-rest-showcase",
+    "selected_digest": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+  }
+}

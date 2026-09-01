@@ -1,0 +1,135 @@
+{
+  "actions": [
+    {
+      "action_id": "patch-001",
+      "attempt_number": 3,
+      "command_evidence": {
+        "command_sha256": "798951b573428cf0454edc9ec22b92630c64e08b2f72bd5904f7907f56113a9f",
+        "execution_target": "patch-workspace",
+        "exit_code": 0,
+        "operation": "HUMAN_COMMAND",
+        "stderr": "mesg: ttyname failed: Inappropriate ioctl for device\n",
+        "stdout": "extracted/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar: OK\nZIP_OK:/tmp/tmp.kEFYwiUm6S/ROOT_new.war\n",
+        "success": true
+      },
+      "ended_at": "2026-09-01T17:15:17Z",
+      "evidence": {
+        "command_sha256": "798951b573428cf0454edc9ec22b92630c64e08b2f72bd5904f7907f56113a9f",
+        "execution_target": "patch-workspace",
+        "exit_code": 0,
+        "operation": "HUMAN_COMMAND",
+        "stderr": "mesg: ttyname failed: Inappropriate ioctl for device\n",
+        "stdout": "extracted/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar: OK\nZIP_OK:/tmp/tmp.kEFYwiUm6S/ROOT_new.war\n",
+        "success": true
+      },
+      "incidental_cves": [],
+      "result": "SUCCEEDED",
+      "source_image": {
+        "image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+        "platform": "linux/amd64",
+        "reference": "vulhub/struts2:2.5.12-rest-showcase",
+        "repo_digests": [
+          "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+        ],
+        "repo_tags": [
+          "vulhub/struts2:2.5.12-rest-showcase"
+        ],
+        "requested_reference": "vulhub/struts2:2.5.12-rest-showcase",
+        "selected_digest": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+      },
+      "started_at": "2026-09-01T17:15:15Z",
+      "strategy": "HUMAN_COMMAND",
+      "target_cves": [
+        "CVE-2017-9805"
+      ],
+      "workspace": {
+        "container_id": "9f1ccc265281c66217d3adb2d26c06b4f5264235fb9030ebd786ed913b7fdef8",
+        "container_name": "patch-workspace-YZk0S-a3",
+        "labels": {
+          "kalama.attempt": "3",
+          "kalama.managed": "true",
+          "kalama.phase": "patch",
+          "kalama.role": "patch-workspace",
+          "kalama.run_id": "YZk0S"
+        },
+        "source_image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+      }
+    }
+  ],
+  "after_start_evidence": null,
+  "after_target": null,
+  "attempt": 3,
+  "created_at": "2026-09-01T17:15:21Z",
+  "errors": [
+    "victim did not become ready before timeout; state={'Status': 'exited', 'Running': False, 'Paused': False, 'Restarting': False, 'OOMKilled': False, 'Dead': False, 'Pid': 0, 'ExitCode': 127, 'Error': '', 'StartedAt': '2026-09-01T17:15:21.36868117Z', 'FinishedAt': '2026-09-01T17:15:21.561376016Z'}"
+  ],
+  "failed_at": "EXECUTION",
+  "finalize_evidence": {
+    "image_identity": {
+      "image_id": "sha256:9dacb7af4c9b98397c98d1b1a5928b9e784968fcb86fa67e186e969606cb27c7",
+      "platform": "linux/amd64",
+      "reference": "kalama/struts2:patched-yzk0s",
+      "repo_digests": [
+        "kalama/struts2@sha256:9dacb7af4c9b98397c98d1b1a5928b9e784968fcb86fa67e186e969606cb27c7"
+      ],
+      "repo_tags": [
+        "kalama/struts2:patched-yzk0s"
+      ],
+      "requested_reference": "kalama/struts2:patched-yzk0s",
+      "selected_digest": "kalama/struts2@sha256:9dacb7af4c9b98397c98d1b1a5928b9e784968fcb86fa67e186e969606cb27c7"
+    },
+    "status": "IMAGE_COMMITTED"
+  },
+  "lineage": {
+    "attempt": 3,
+    "created_at": "2026-09-01T17:05:27Z",
+    "mode": "EDIT_PLAN",
+    "reason": "PATCH_ACTION_FAILED",
+    "retry_of": "245cad64e893651988e686ae22f3020847f926e25b8ecc8a1e17433e3ffea8e2"
+  },
+  "patched_image": {
+    "image_id": "sha256:9dacb7af4c9b98397c98d1b1a5928b9e784968fcb86fa67e186e969606cb27c7",
+    "platform": "linux/amd64",
+    "reference": "kalama/struts2:patched-yzk0s",
+    "repo_digests": [
+      "kalama/struts2@sha256:9dacb7af4c9b98397c98d1b1a5928b9e784968fcb86fa67e186e969606cb27c7"
+    ],
+    "repo_tags": [
+      "kalama/struts2:patched-yzk0s"
+    ],
+    "requested_reference": "kalama/struts2:patched-yzk0s",
+    "selected_digest": "kalama/struts2@sha256:9dacb7af4c9b98397c98d1b1a5928b9e784968fcb86fa67e186e969606cb27c7"
+  },
+  "phase": "patch",
+  "plan": {
+    "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/patch/plan/patch_plan_YZk0S_r3.json",
+    "revision": 3,
+    "sha256": "cee3fe1b591486d0c34a4284ddf11c988fedea772046a18b0dd7c9cb21d99a6c"
+  },
+  "remediation_verified": false,
+  "run_id": "YZk0S",
+  "schema": "kalama.patch-result/v1",
+  "source_image": {
+    "image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+    "platform": "linux/amd64",
+    "reference": "vulhub/struts2:2.5.12-rest-showcase",
+    "repo_digests": [
+      "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+    ],
+    "repo_tags": [
+      "vulhub/struts2:2.5.12-rest-showcase"
+    ],
+    "requested_reference": "vulhub/struts2:2.5.12-rest-showcase",
+    "selected_digest": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+  },
+  "status": "FAILED",
+  "validation_evidence": {
+    "command_sha256": "e5b4b64d40d2c5096324f87f58ea08f68750215e860b7fd96ab6b51a6494feb2",
+    "execution_target": "patch-workspace",
+    "exit_code": 0,
+    "operation": "validation",
+    "stderr": "mesg: ttyname failed: Inappropriate ioctl for device\n",
+    "stdout": "extracted/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar: OK\n",
+    "success": true
+  }
+}

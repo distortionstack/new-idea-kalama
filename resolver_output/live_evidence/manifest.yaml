@@ -1,0 +1,60 @@
+# Manifest of re-verification runs, 2026-08-29.
+# Generated after reading each log file back from disk (not from terminal
+# scrollback or memory of the run). Every field below is quoted/derived
+# directly from the corresponding log file in this directory.
+
+- cve_id: CVE-2017-5638
+  module: exploit/multi/http/struts2_content_type_ognl
+  log_file: resolver_output/live_evidence/CVE-2017-5638_20260829_042513.log
+  target_container: s2-045-struts2-1
+  target_recreated_this_run: true   # was Exited; brought back up via `docker compose up -d` in vulhub/struts2/s2-045
+  check_verdict: "172.19.0.3:8080 - The target is vulnerable. Successfully executed the injected code"
+  check_supported: true   # NEW FINDING: ground-truth attack yaml's open_items said this was
+                           # never tested; it is in fact supported. Oracle for this CVE still
+                           # uses the legacy marker_path (not msf_check) per attack/exploit_st_A/CVE-2017-5638.yaml
+                           # -- this run did not change verdict_source, just noted the module answers check() too.
+  session_established: false   # expected -- PAYLOAD is cmd/unix/generic (inline exec, no session), matches
+                                 # documented behavior ("Exploit completed, but no session was created")
+  marker_file_confirmed: true   # /tmp/success present on s2-045-struts2-1 after exploit (verified via docker exec ls -la /tmp/, logged)
+  oracle_verdict: SUCCESS
+  matches_prior_claim: true
+  timestamp: "2026-08-28T21:25:13Z"
+
+- cve_id: CVE-2017-9805
+  log_file: resolver_output/live_evidence/CVE-2017-9805_20260829_042711.log
+  target_container: s2-052-struts2-1
+  target_recreated_this_run: true   # was Exited; brought back up via `docker compose up -d` in vulhub/struts2/s2-052
+  exploit_method: raw_http_xml_gadget   # NOT the resolver-suggested MSF module (exploit/multi/http/struts2_rest_xstream).
+                                         # cve_meta/CVE-2017-9805.yaml and note/wk1/Lab-Jul-14-69.md document the only
+                                         # actual prior live success as a raw curl POST with an XStream/Nashorn XML
+                                         # gadget chain to /orders/3/edit -- reproduced verbatim here, per "reuse the
+                                         # same values as before."
+  discrepancy_from_audit_framing: >
+    The status audit that prompted this re-verification treated CVE-2017-9805 as one of
+    "3 resolver-derived live tests." It was not: resolver.py's candidate module was never
+    what got fired. This run verifies the actual historical method, not a resolver-derived one.
+  check_verdict: null   # not applicable -- this exploit path has no MSF check() step at all (no MSF involved)
+  http_response_code: 500   # expected -- matches documented signature exactly:
+                              # "java.lang.String cannot be cast to java.security.Provider$Service"
+                              # (gadget chain executes via a ClassCastException side effect, not a clean 200)
+  session_established: false   # not applicable -- no MSF session concept in this exploit path
+  marker_file_confirmed: true   # /tmp/success absent at baseline (confirmed in log), present after POST (confirmed in log)
+  oracle_verdict: SUCCESS
+  matches_prior_claim: true
+  timestamp: "2026-08-28T21:27:11Z"
+
+- cve_id: CVE-2015-1427
+  module: exploit/multi/elasticsearch/search_groovy_script
+  log_file: resolver_output/live_evidence/CVE-2015-1427_20260829_042819.log
+  target_container: victim
+  target_recreated_this_run: true   # was Exited; removed and freshly `docker run` per single_image deployment
+                                      # mode in attack/exploit_st_A/CVE-2015-1427.yaml, then reconnected to kalama-net
+  setup_steps_run: true   # dummy document POST + _refresh, per the ground-truth's documented empty-index
+                            # precondition fix -- both requests logged with HTTP 201/200 responses
+  check_verdict: "172.18.0.3:9200 - The target is vulnerable. Arbitrary Java execution confirmed via Groovy scripting"
+  check_passed: true
+  session_established: true   # "Meterpreter session 1 opened (172.18.0.4:4444 -> 172.18.0.3:44512)"
+  evidence_completeness: full   # per dual-signal oracle: check passed AND session established
+  oracle_verdict: SUCCESS
+  matches_prior_claim: true
+  timestamp: "2026-08-28T21:28:19Z"

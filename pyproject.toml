@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kalama-mvp"
+version = "0.1.0"
+description = "State-driven vulnerability research pipeline for authorized labs"
+requires-python = ">=3.10"
+dependencies = [
+  "PyYAML>=6.0",
+]
+
+[project.scripts]
+kalama = "kalama.cli:main"
+
+[tool.setuptools]
+packages = [
+  "kalama",
+  "kalama.evaluation",
+  "kalama.execution",
+  "kalama.guidance",
+  "kalama.prioritizer",
+  "kalama.reexploit",
+  "kalama.remediation",
+  "kalama.resolution",
+  "kalama.state",
+  "kalama.target",
+  "kalama.verification",
+]
+py-modules = [
+  "resolver",
+  "resolver_core",
+  "resolver_models",
+  "resolver_config",
+  "resolver_config_models",
+]
+
+[tool.setuptools.package-dir]
+kalama = "src/app/kalama"

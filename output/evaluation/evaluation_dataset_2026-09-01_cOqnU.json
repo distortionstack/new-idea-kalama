@@ -1,0 +1,1299 @@
+{
+  "created_at": "2026-09-01T18:03:54Z",
+  "evaluation_universe": {
+    "candidate_universe_available": false,
+    "candidate_universe_total": null,
+    "predicted_negatives_empirically_evaluated": false,
+    "scope": "TOP_N_ONLY"
+  },
+  "inputs": {
+    "attack_before": {
+      "created_at": "2026-09-01T17:33:15Z",
+      "kind": "ATTACK_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/msf/before/attack_res_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_4_BEFORE_EXPLOIT",
+      "schema": "kalama.attack-result/v1",
+      "sha256": "874bea4c0753bc87154a74b0397012af6a3b09c9b334c8e9a1274ac9f7dfe4a2",
+      "summary": {
+        "CHECK_ONLY": 3,
+        "ENVIRONMENT_ERROR": 0,
+        "EXPLOIT_FAILED": 2,
+        "EXPLOIT_SUCCEEDED": 1,
+        "INCONCLUSIVE": 3,
+        "NOT_EXECUTED": 0,
+        "NO_MSF_MODULE": 21,
+        "attempted": 9,
+        "metric_eligible": 3,
+        "selected": 30
+      }
+    },
+    "remediation_result": {
+      "created_at": "2026-09-01T18:02:14Z",
+      "kind": "REMEDIATION_RESULT",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/verification/remediation_result_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_7_REEXPLOIT",
+      "schema": "kalama.remediation-result/v1",
+      "sha256": "9f2b91b7a58c6aba00d26818053cccb9071d3dcf8d7799a5e47ca7994ff3d3a5",
+      "summary": {
+        "failed": 0,
+        "inconclusive": 0,
+        "not_evaluated": 0,
+        "targets": 1,
+        "verified": 1
+      }
+    },
+    "top30_before": {
+      "created_at": "2026-09-01T17:23:36Z",
+      "kind": "TOP30_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/scoring/before/top30_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_3_PRIORITIZATION",
+      "schema": "kalama.prioritization/v1",
+      "sha256": "cf40ba76171b6905b05e31cb9e973093946714de3aa2234f6e50c5d7918c1ea0",
+      "summary": {
+        "score_model": "kalama-priority-v1",
+        "top_n_requested": 30,
+        "top_n_returned": 30
+      }
+    }
+  },
+  "prediction": {
+    "definition": "SELECTED_TOP_N",
+    "score_model": "kalama-priority-v1",
+    "top_n_requested": 30,
+    "top_n_returned": 30
+  },
+  "records": [
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-44228",
+      "empirical_before": {
+        "disposition": "INCONCLUSIVE",
+        "evidence_basis": "CHECK_ONLY",
+        "metric_eligible": false,
+        "oracle": "INCONCLUSIVE"
+      },
+      "exclusion_reason": "CHECK_ONLY_PROTOCOL",
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "10",
+        "epss": {
+          "contribution": "2.999970000",
+          "raw": "0.999990000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 1,
+        "score": "16.00",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2025-24813",
+      "empirical_before": {
+        "disposition": "CHECK_ONLY",
+        "evidence_basis": "CHECK_ONLY",
+        "metric_eligible": false,
+        "oracle": "NOT_VULNERABLE"
+      },
+      "exclusion_reason": "CHECK_ONLY_PROTOCOL",
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.997810000",
+          "raw": "0.999270000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 2,
+        "score": "15.80",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2020-17530",
+      "empirical_before": {
+        "disposition": "CHECK_ONLY",
+        "evidence_basis": "CHECK_ONLY",
+        "metric_eligible": false,
+        "oracle": "NOT_VULNERABLE"
+      },
+      "exclusion_reason": "CHECK_ONLY_PROTOCOL",
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.877930000",
+          "raw": "0.959310000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 3,
+        "score": "15.68",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": false,
+        "confusion_class": "FP",
+        "eligible": true,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-45046",
+      "empirical_before": {
+        "disposition": "EXPLOIT_FAILED",
+        "evidence_basis": "EXPLOIT_NO_NEW_SESSION",
+        "metric_eligible": true,
+        "oracle": "NOT_VULNERABLE"
+      },
+      "exclusion_reason": null,
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "9",
+        "epss": {
+          "contribution": "2.999310000",
+          "raw": "0.999770000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 4,
+        "score": "15.00",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-39144",
+      "empirical_before": {
+        "disposition": "INCONCLUSIVE",
+        "evidence_basis": "CHECK_ONLY",
+        "metric_eligible": false,
+        "oracle": "INCONCLUSIVE"
+      },
+      "exclusion_reason": "CHECK_ONLY_PROTOCOL",
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "8.5",
+        "epss": {
+          "contribution": "2.943720000",
+          "raw": "0.981240000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 5,
+        "score": "14.44",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2018-11776",
+      "empirical_before": {
+        "disposition": "INCONCLUSIVE",
+        "evidence_basis": "CHECK_ONLY",
+        "metric_eligible": false,
+        "oracle": "INCONCLUSIVE"
+      },
+      "exclusion_reason": "CHECK_ONLY_PROTOCOL",
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "8.1",
+        "epss": {
+          "contribution": "2.999730000",
+          "raw": "0.999910000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 6,
+        "score": "14.10",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": true,
+        "confusion_class": "TP",
+        "eligible": true,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2017-9805",
+      "empirical_before": {
+        "disposition": "EXPLOIT_SUCCEEDED",
+        "evidence_basis": "CHECK",
+        "metric_eligible": true,
+        "oracle": "VULNERABLE"
+      },
+      "exclusion_reason": null,
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "8.1",
+        "epss": {
+          "contribution": "2.981880000",
+          "raw": "0.993960000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 7,
+        "score": "14.08",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": "EXPLOIT_FAILED",
+        "after_scan_status": "NOT_FOUND",
+        "final_remediation_status": "VERIFIED"
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2020-15999",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.6",
+        "epss": {
+          "contribution": "1.329090000",
+          "raw": "0.443030000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 8,
+        "score": "13.93",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2023-44487",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "7.5",
+        "epss": {
+          "contribution": "2.999970000",
+          "raw": "0.999990000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "3",
+          "listed": true
+        },
+        "rank": 9,
+        "score": "13.50",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2019-0230",
+      "empirical_before": {
+        "disposition": "CHECK_ONLY",
+        "evidence_basis": "CHECK_ONLY",
+        "metric_eligible": false,
+        "oracle": "NOT_VULNERABLE"
+      },
+      "exclusion_reason": "CHECK_ONLY_PROTOCOL",
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.913360000",
+          "raw": "0.971120000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 10,
+        "score": "12.71",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2015-7501",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.566860000",
+          "raw": "0.855620000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 11,
+        "score": "12.37",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-31805",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.562990000",
+          "raw": "0.854330000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 12,
+        "score": "12.36",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2023-50164",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.424570000",
+          "raw": "0.808190000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 13,
+        "score": "12.22",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2024-53677",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.345940000",
+          "raw": "0.781980000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 14,
+        "score": "12.15",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-21346",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.291010000",
+          "raw": "0.763670000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 15,
+        "score": "12.09",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-21344",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "2.279400000",
+          "raw": "0.759800000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 16,
+        "score": "12.08",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-21345",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.9",
+        "epss": {
+          "contribution": "2.169720000",
+          "raw": "0.723240000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 17,
+        "score": "12.07",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2022-29155",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "1.934610000",
+          "raw": "0.644870000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 18,
+        "score": "11.73",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-21351",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.1",
+        "epss": {
+          "contribution": "2.464080000",
+          "raw": "0.821360000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 19,
+        "score": "11.56",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2020-26217",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "8.8",
+        "epss": {
+          "contribution": "2.550030000",
+          "raw": "0.850010000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 20,
+        "score": "11.35",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2017-17485",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "1.491810000",
+          "raw": "0.497270000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 21,
+        "score": "11.29",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2019-8457",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "1.362780000",
+          "raw": "0.454260000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 22,
+        "score": "11.16",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-29505",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "8.8",
+        "epss": {
+          "contribution": "2.316960000",
+          "raw": "0.772320000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 23,
+        "score": "11.12",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2017-7525",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "1.131630000",
+          "raw": "0.377210000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 24,
+        "score": "10.93",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2022-25236",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "1.076010000",
+          "raw": "0.358670000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 25,
+        "score": "10.88",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2025-48976",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "8.7",
+        "epss": {
+          "contribution": "2.034630000",
+          "raw": "0.678210000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 26,
+        "score": "10.73",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2021-21342",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.1",
+        "epss": {
+          "contribution": "1.499700000",
+          "raw": "0.499900000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 27,
+        "score": "10.60",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2020-8840",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "9.8",
+        "epss": {
+          "contribution": "0.797610000",
+          "raw": "0.265870000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 28,
+        "score": "10.60",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": false,
+        "confusion_class": "FP",
+        "eligible": true,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2014-0114",
+      "empirical_before": {
+        "disposition": "EXPLOIT_FAILED",
+        "evidence_basis": "EXPLOIT_NO_NEW_SESSION",
+        "metric_eligible": true,
+        "oracle": "NOT_VULNERABLE"
+      },
+      "exclusion_reason": null,
+      "metasploit": {
+        "module_available": true
+      },
+      "prediction": {
+        "cvss": "7.5",
+        "epss": {
+          "contribution": "2.970960000",
+          "raw": "0.990320000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 29,
+        "score": "10.47",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    },
+    {
+      "binary_evaluation": {
+        "actual_positive": null,
+        "confusion_class": null,
+        "eligible": false,
+        "predicted_positive": true
+      },
+      "cve_id": "CVE-2025-48988",
+      "empirical_before": {
+        "disposition": "NO_MSF_MODULE",
+        "evidence_basis": null,
+        "metric_eligible": false,
+        "oracle": "NOT_EVALUATED"
+      },
+      "exclusion_reason": "NO_MSF_MODULE",
+      "metasploit": {
+        "module_available": false
+      },
+      "prediction": {
+        "cvss": "8.7",
+        "epss": {
+          "contribution": "1.708800000",
+          "raw": "0.569600000",
+          "weight": "3"
+        },
+        "in_candidate_universe": true,
+        "kev": {
+          "contribution": "0",
+          "listed": false
+        },
+        "rank": 30,
+        "score": "10.41",
+        "score_model": "kalama-priority-v1",
+        "selected_top_n": true
+      },
+      "remediation": {
+        "after_exploit_disposition": null,
+        "after_scan_status": null,
+        "final_remediation_status": null
+      }
+    }
+  ],
+  "run_id": "cOqnU",
+  "schema": "kalama.evaluation-dataset/v1"
+}

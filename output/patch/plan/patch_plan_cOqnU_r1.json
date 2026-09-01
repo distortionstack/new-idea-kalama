@@ -1,0 +1,284 @@
+{
+  "actions": [
+    {
+      "action_id": "patch-001",
+      "before_versions": [
+        "2.5.12"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-rest-plugin",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": "f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59",
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-rest-plugin"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-rest-plugin@2.5.12"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.5.12"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.34",
+              "2.5.13"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.5.13"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "human_patch_form",
+        "source_identifier": "https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar",
+        "source_type": "human_confirmed",
+        "source_url": "https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar",
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.5.13",
+        "trusted": true,
+        "version_status": "RESOLVED"
+      },
+      "ecosystem": "jar",
+      "execution": {
+        "command": "set -eu\nwebapps=/usr/local/tomcat/webapps\nroot=\"$webapps/ROOT\"\nwar=\"$webapps/ROOT.war\"\nartifact=/tmp/struts2-rest-plugin-2.5.13.jar\ncurl -fsSL -o \"$artifact\" https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar\necho \"f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59  $artifact\" | sha256sum -c -\nrm -rf \"$root\"\nmkdir -p \"$root\"\nunzip -q \"$war\" -d \"$root\"\nrm -f \"$root/WEB-INF/lib/struts2-rest-plugin-2.5.12.jar\"\ninstall -m 0644 \"$artifact\" \"$root/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar\"\nrm -f \"$artifact\" \"$war\"",
+        "execution_target": "patch-workspace",
+        "validation_command": "set -eu\nroot=/usr/local/tomcat/webapps/ROOT\ntest -f \"$root/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar\"\ntest ! -e \"$root/WEB-INF/lib/struts2-rest-plugin-2.5.12.jar\"\ntest ! -e /usr/local/tomcat/webapps/ROOT.war\necho \"f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59  $root/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar\" | sha256sum -c -"
+      },
+      "fix_type": "B",
+      "human_confirmed_fields": [
+        "artifact_checksum",
+        "artifact_source",
+        "command",
+        "execution_target",
+        "fix_type",
+        "strategy",
+        "target_version",
+        "validation_command"
+      ],
+      "incidental_cves": [],
+      "input_reasons": [],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-9805",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 1,
+          "fixed_versions": [
+            "2.3.34",
+            "2.5.13"
+          ],
+          "installed_version": "2.5.12",
+          "modified_at": "2026-06-17T01:28:57.493Z",
+          "package_name": "org.apache.struts:struts2-rest-plugin",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-rest-plugin@2.5.12",
+          "package_uid": "a603f2f5a399e05e",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+          "published_at": "2017-09-15T19:29:00.237Z",
+          "references": [
+            "http://www.oracle.com/technetwork/security-advisory/alert-cve-2017-9805-3889403.html",
+            "http://www.securityfocus.com/bid/100609",
+            "http://www.securitytracker.com/id/1039263",
+            "https://access.redhat.com/security/cve/CVE-2017-9805",
+            "https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=1488482",
+            "https://cwiki.apache.org/confluence/display/WW/S2-052",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/19494718865f2fb7da5ea363de3822f87fbda26",
+            "https://github.com/apache/struts/commit/6dd6e5cfb7b5e020abffe7e8091bd63fe97c10a",
+            "https://lgtm.com/blog/apache_struts_CVE-2017-9805",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-9805",
+            "https://security.netapp.com/advisory/ntap-20170907-0001",
+            "https://security.netapp.com/advisory/ntap-20170907-0001/",
+            "https://struts.apache.org/docs/s2-052.html",
+            "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170907-struts2",
+            "https://web.archive.org/web/20170909031344/http://www.securityfocus.com/bid/100609",
+            "https://web.archive.org/web/20170922053119/http://www.securitytracker.com/id/1039263",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-9805",
+            "https://www.cve.org/CVERecord?id=CVE-2017-9805",
+            "https://www.exploit-db.com/exploits/42627",
+            "https://www.exploit-db.com/exploits/42627/",
+            "https://www.kb.cert.org/vuls/id/112992"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "8.1",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "8.1",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "nvd",
+              "score": "6.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+              "version": "2.0"
+            },
+            {
+              "authority": "redhat",
+              "score": "8.1",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "HIGH",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-9805"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-rest-plugin@2.5.12",
+      "package_name": "org.apache.struts:struts2-rest-plugin",
+      "scanner_fixed_versions": [
+        "2.3.34",
+        "2.5.13"
+      ],
+      "status": "READY_FOR_PATCH_EXECUTION",
+      "strategy": "HUMAN_COMMAND",
+      "target_cves": [
+        "CVE-2017-9805"
+      ]
+    }
+  ],
+  "created_at": "2026-09-01T17:48:33Z",
+  "inputs": {
+    "attack_before": {
+      "created_at": "2026-09-01T17:33:15Z",
+      "kind": "ATTACK_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/msf/before/attack_res_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_4_BEFORE_EXPLOIT",
+      "schema": "kalama.attack-result/v1",
+      "sha256": "874bea4c0753bc87154a74b0397012af6a3b09c9b334c8e9a1274ac9f7dfe4a2",
+      "summary": {
+        "CHECK_ONLY": 3,
+        "ENVIRONMENT_ERROR": 0,
+        "EXPLOIT_FAILED": 2,
+        "EXPLOIT_SUCCEEDED": 1,
+        "INCONCLUSIVE": 3,
+        "NOT_EXECUTED": 0,
+        "NO_MSF_MODULE": 21,
+        "attempted": 9,
+        "metric_eligible": 3,
+        "selected": 30
+      }
+    },
+    "top30_before": {
+      "created_at": "2026-09-01T17:23:36Z",
+      "kind": "TOP30_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/scoring/before/top30_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_3_PRIORITIZATION",
+      "schema": "kalama.prioritization/v1",
+      "sha256": "cf40ba76171b6905b05e31cb9e973093946714de3aa2234f6e50c5d7918c1ea0",
+      "summary": {
+        "score_model": "kalama-priority-v1",
+        "top_n_requested": 30,
+        "top_n_returned": 30
+      }
+    },
+    "trivy_before": {
+      "created_at": "2026-09-01T17:23:35.892233716Z",
+      "kind": "TRIVY_BEFORE",
+      "path": "/home/distorion/kalama-labs-area/new-idea-kalama/output/trivy/before/scan_2026-09-01_cOqnU.json",
+      "producer_stage": "STEP_2_TARGET_SCAN",
+      "schema": 2,
+      "sha256": "87ed9b96217eebb69bc5b00008358e6417d0db9cc15d2cc8b8f1b892180ad571",
+      "summary": {
+        "scan_subject": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+        "scanner": "trivy"
+      }
+    }
+  },
+  "phase": "patch",
+  "planned_after": {
+    "container_name": "victim-after-cOqnU",
+    "image_reference": "kalama/struts2:patched-coqnu",
+    "patch_workspace": "patch-workspace-cOqnU"
+  },
+  "policy": {
+    "fallback": "LATEST_UPSTREAM",
+    "major_version_change_requires_confirmation": true,
+    "preferred": "SAME_BRANCH"
+  },
+  "provenance": {
+    "patch_form_sha256": "9fd2e83eec1e8c248601366bb66d8d95172f1fbc3b4b8c73311e385750bf2240",
+    "previous_patch_plan_sha256": "08e2b56ae3bee973b286b9c5cee76b136d27c2fecef37cd031d5b8328c5d8913",
+    "submission_sha256": "ae0e71f83a970336418a311b79515a304d1f2d582565aaf3f434b008294e49bc"
+  },
+  "readiness": "READY_FOR_PATCH_EXECUTION",
+  "revision": 1,
+  "run_id": "cOqnU",
+  "schema": "kalama.patch-plan/v1",
+  "source_image": {
+    "canonical_identity": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+    "do_not_delete_source_image": true,
+    "image_id": "sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+    "platform": "linux/amd64",
+    "repo_digests": [
+      "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099"
+    ],
+    "repo_tags": [
+      "vulhub/struts2:2.5.12-rest-showcase"
+    ],
+    "requested_reference": "vulhub/struts2:2.5.12-rest-showcase",
+    "selected_digest": "vulhub/struts2@sha256:d2a78993bd613d18f678dc6cadef53c07cf1a4ee3330e38d222d5da76a431099",
+    "source_kind": "LOCAL_EXISTING"
+  },
+  "summary": {
+    "actions": 1,
+    "intended_cves": 1,
+    "waiting_actions": 0
+  }
+}

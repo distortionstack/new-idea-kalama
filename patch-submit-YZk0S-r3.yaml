@@ -1,0 +1,40 @@
+schema: kalama.patch-form/v1
+run_id: YZk0S
+phase: patch
+revision: 3
+base_patch_plan_sha256: 9649e568486556677d728432533c9fe4bdebb86a2661c333a7d0cbec517460ed
+actions:
+  patch-001:
+    target_cves:
+    - CVE-2017-9805
+    package:
+      name: org.apache.struts:struts2-rest-plugin
+      ecosystem: jar
+      before_versions:
+      - 2.5.12
+      scanner_fixed_versions:
+      - 2.3.34
+      - 2.5.13
+    input_reasons: []
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      suggested: 2.5.13
+      confirmed: 2.5.13
+    artifact:
+      suggested_source: https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar
+      confirmed_source: https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar
+      checksum:
+        suggested: f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59
+        confirmed: f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59
+    strategy:
+      suggested: HUMAN_COMMAND
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: "set -eu; WAR=/usr/local/tomcat/webapps/ROOT.war; TMPDIR=$(mktemp -d); cd \"$TMPDIR\"; unzip -q \"$WAR\" -d extracted; rm -f extracted/WEB-INF/lib/struts2-rest-plugin-2.5.12.jar; curl -fsSL https://repo.maven.apache.org/maven2/org/apache/struts/struts2-rest-plugin/2.5.13/struts2-rest-plugin-2.5.13.jar -o extracted/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar; echo \"f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59  extracted/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar\" | sha256sum -c -; echo dmFyIFpPUyA9IEphdmEudHlwZSgiamF2YS51dGlsLnppcC5aaXBPdXRwdXRTdHJlYW0iKTsKdmFyIFpFID0gSmF2YS50eXBlKCJqYXZhLnV0aWwuemlwLlppcEVudHJ5Iik7CnZhciBzcmMgPSBuZXcgamF2YS5pby5GaWxlKGFyZ3VtZW50c1swXSk7CnZhciBkc3QgPSBuZXcgamF2YS5pby5GaWxlT3V0cHV0U3RyZWFtKGFyZ3VtZW50c1sxXSk7CnZhciB6ID0gbmV3IFpPUyhkc3QpOwp2YXIgYnVmID0gamF2YS5sYW5nLnJlZmxlY3QuQXJyYXkubmV3SW5zdGFuY2UoamF2YS5sYW5nLkJ5dGUuVFlQRSwgODE5Mik7CmZ1bmN0aW9uIHdhbGsoZGlyLCBwcmVmaXgpIHsKICAgIHZhciBsaXN0ID0gZGlyLmxpc3RGaWxlcygpOwogICAgZm9yICh2YXIgaSA9IDA7IGkgPCBsaXN0Lmxlbmd0aDsgaSsrKSB7CiAgICAgICAgdmFyIGYgPSBsaXN0W2ldOwogICAgICAgIHZhciBuYW1lID0gcHJlZml4ID8gcHJlZml4ICsgIi8iICsgZi5nZXROYW1lKCkgOiBmLmdldE5hbWUoKTsKICAgICAgICBpZiAoZi5pc0RpcmVjdG9yeSgpKSB7CiAgICAgICAgICAgIHdhbGsoZiwgbmFtZSk7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgei5wdXROZXh0RW50cnkobmV3IFpFKG5hbWUpKTsKICAgICAgICAgICAgdmFyIGlucCA9IG5ldyBqYXZhLmlvLkZpbGVJbnB1dFN0cmVhbShmKTsKICAgICAgICAgICAgdmFyIG47CiAgICAgICAgICAgIHdoaWxlICgobiA9IGlucC5yZWFkKGJ1ZikpID4gMCkgewogICAgICAgICAgICAgICAgei53cml0ZShidWYsIDAsIG4pOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGlucC5jbG9zZSgpOwogICAgICAgICAgICB6LmNsb3NlRW50cnkoKTsKICAgICAgICB9CiAgICB9Cn0Kd2FsayhzcmMsICIiKTsKei5jbG9zZSgpOwpwcmludCgiWklQX09LOiIgKyBhcmd1bWVudHNbMV0pOwo= | base64 -d > \"$TMPDIR/mkzip.js\"; jjs -scripting \"$TMPDIR/mkzip.js\" -- \"$TMPDIR/extracted\" \"$TMPDIR/ROOT_new.war\"; mv \"$TMPDIR/ROOT_new.war\" \"$WAR\"; cd /; rm -rf \"$TMPDIR\""
+    validation_command:
+      confirmed: "set -eu; TMPDIR=$(mktemp -d); cd \"$TMPDIR\"; unzip -q /usr/local/tomcat/webapps/ROOT.war WEB-INF/lib/struts2-rest-plugin-2.5.13.jar -d extracted; echo \"f43e8ea108811a2b9d54d342f4442cd9fdcb6a4e79ce488858477d7832a27a59  extracted/WEB-INF/lib/struts2-rest-plugin-2.5.13.jar\" | sha256sum -c -; test ! -f extracted/WEB-INF/lib/struts2-rest-plugin-2.5.12.jar; cd /; rm -rf \"$TMPDIR\""
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
