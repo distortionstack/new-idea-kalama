@@ -130,7 +130,7 @@ else
 fi
 
 mkdir -p "${repo_root}/output/state"
-python_command="${repo_root}/.venv/bin/python"
+python_command="${KALAMA_PYTHON:-${repo_root}/.venv/bin/python}"
 if [[ ! -x "${python_command}" ]]; then
   python_command="$(command -v python3)"
 fi

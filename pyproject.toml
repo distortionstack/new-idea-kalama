@@ -15,19 +15,7 @@ dependencies = [
 kalama = "kalama.cli:main"
 
 [tool.setuptools]
-packages = [
-  "kalama",
-  "kalama.evaluation",
-  "kalama.execution",
-  "kalama.guidance",
-  "kalama.prioritizer",
-  "kalama.reexploit",
-  "kalama.remediation",
-  "kalama.resolution",
-  "kalama.state",
-  "kalama.target",
-  "kalama.verification",
-]
+package-dir = {"" = "src"}
 py-modules = [
   "resolver",
   "resolver_core",
@@ -36,5 +24,6 @@ py-modules = [
   "resolver_config_models",
 ]
 
-[tool.setuptools.package-dir]
-kalama = "src/app/kalama"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["kalama*"]

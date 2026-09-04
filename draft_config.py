@@ -10,7 +10,7 @@ against a human-verified attack/ config.
 Comparison only. Does not execute, check, or configure any exploit. Does
 not touch any Docker container beyond what resolver.py already does for
 module-metadata lookup. Does not modify anything under attack/, cve_meta/,
-patch/, or src/app/kalama/ -- the ground-truth file is read-only input.
+patch/, or src/kalama/ -- the ground-truth file is read-only input.
 
 Usage:
     python draft_config.py run --cve CVE-2015-1427 \
@@ -22,7 +22,7 @@ import sys
 
 import yaml  # read-only parse of the ground-truth attack/ config
 
-import resolver  # resolver.py, same directory -- build_draft() and its
+from kalama.resolver import backend as resolver  # resolver.py, same directory -- build_draft() and its
                   # fact/option constants now live there so the batch/review
                   # CLI in resolver.py can reuse them without a circular import
 

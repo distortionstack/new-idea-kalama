@@ -64,7 +64,7 @@ kalama --help
 python3 -m kalama --help
 ```
 
-For a detailed Thai walkthrough, including Attack Form and Patch Form examples, see [MANUAL_TH.md](MANUAL_TH.md).
+For a detailed Thai walkthrough, including Attack Form and Patch Form examples, see [MANUAL_TH.md](docs/MANUAL_TH.md).
 
 ## Current remediation boundary
 

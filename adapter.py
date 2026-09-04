@@ -55,7 +55,7 @@ def find_pipeline_root(explicit: Path | None) -> Path | None:
         candidates.append(explicit)
     candidates.extend((Path.cwd(), Path.cwd().parent / "kalama-mvp"))
     for root in candidates:
-        if (root / "src/app/kalama/scan/scan.py").is_file() and (root / "attack").is_dir():
+        if (root / "src/kalama/scan/scan.py").is_file() and (root / "attack").is_dir():
             return root.resolve()
     if explicit:
         raise AdapterError(f"pipeline root does not have the expected Kalama layout: {explicit}")
