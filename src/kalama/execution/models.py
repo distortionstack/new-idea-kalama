@@ -31,6 +31,12 @@ class SessionCollectionStatus(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
+class ImpactEvidenceStatus(str, Enum):
+    NOT_COLLECTED = "NOT_COLLECTED"
+    COLLECTED = "COLLECTED"
+    UNKNOWN = "UNKNOWN"
+
+
 class OracleVerdict(str, Enum):
     VULNERABLE = "VULNERABLE"
     NOT_VULNERABLE = "NOT_VULNERABLE"
@@ -75,6 +81,13 @@ class ExecutionPlan:
     precondition_required: bool
     pre_attack_command: str | None
     pre_attack_target: str | None
+    module_source: str = "stock"
+    fixture_source_path: str | None = None
+    fixture_sha256: str | None = None
+    fixture_manifest: dict[str, Any] | None = None
+    fixture_modules_root: str | None = None
+    fixture_namespace: str | None = None
+    loaded_module_path: str | None = None
 
 
 @dataclass(frozen=True)
@@ -110,11 +123,33 @@ class SessionEvidence:
     new_ids: tuple[str, ...] = ()
     attribution: str = "UNKNOWN"
     error: str | None = None
+    session_details: tuple[tuple[str, tuple[tuple[str, Any], ...]], ...] = ()
+    attributable_ids: tuple[str, ...] = ()
+    mismatched_ids: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {"status": self.status.value, "baseline_session_ids": list(self.baseline_ids),
                 "post_session_ids": list(self.post_ids), "new_session_ids": list(self.new_ids),
-                "attribution": self.attribution, "error": self.error}
+                "attribution": self.attribution, "error": self.error,
+                "session_details": {sid: dict(values) for sid, values in self.session_details},
+                "attributable_session_ids": list(self.attributable_ids),
+                "mismatched_session_ids": list(self.mismatched_ids)}
+
+
+@dataclass(frozen=True)
+class ImpactEvidence:
+    status: ImpactEvidenceStatus = ImpactEvidenceStatus.NOT_COLLECTED
+    basis: str | None = None
+    confirmed: bool = False
+    complete_negative: bool = False
+    details: tuple[tuple[str, Any], ...] = ()
+    error: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"status": self.status.value, "basis": self.basis,
+                "confirmed": self.confirmed,
+                "complete_negative": self.complete_negative,
+                "details": dict(self.details), "error": self.error}
 
 
 @dataclass(frozen=True)

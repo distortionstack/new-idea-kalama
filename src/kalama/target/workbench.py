@@ -34,8 +34,10 @@ class WorkbenchToolRunner:
                                      timeout=timeout)
             if result.exit_code == 0 and output_path is not None:
                 try:
-                    output_path.write_text(result.stdout, encoding="utf-8")
-                except OSError as exc:
+                    payload = (result.stdout_bytes if result.stdout_bytes is not None
+                               else result.stdout.encode("utf-8"))
+                    output_path.write_bytes(payload)
+                except (OSError, TypeError) as exc:
                     return CommandResult(result.argv, 1, result.stdout,
                                          f"workbench scan output transfer failed: {exc}")
             return result

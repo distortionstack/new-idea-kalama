@@ -12,6 +12,10 @@ from typing import Sequence
 
 import yaml
 
+from .dynamic_probe import (
+    NucleiDoctorConfig, TemplatePolicyError, load_approved_template_manifest,
+    resolve_approved_template_path, sha256_file, template_tree_sha256,
+)
 from .target.models import CommandResult
 from .target.victim_manager import CommandRunner, SubprocessCommandRunner
 from .infrastructure import WORKBENCH_NAME
@@ -92,7 +96,104 @@ def _storage_check(output_root: Path) -> CheckResult:
                            CheckStatus.FAIL, True, f"OUTPUT_ROOT_UNWRITABLE: {exc}")
 
 
-def run_doctor(output_root: Path, *, runner: CommandRunner | None = None) -> DoctorReport:
+def _nuclei_checks(config: NucleiDoctorConfig, runner: CommandRunner) -> list[CheckResult]:
+    """Inspect an explicitly configured future integration without mutating it."""
+    checks: list[CheckResult] = []
+    binary = config.binary_path
+    if not binary.is_file():
+        checks.append(CheckResult("NUCLEI_BINARY", "Nuclei", "Nuclei binary", CheckStatus.FAIL,
+                                  True, "NUCLEI_BINARY_NOT_FOUND: configured binary is missing"))
+    else:
+        checks.append(CheckResult("NUCLEI_BINARY", "Nuclei", "Nuclei binary", CheckStatus.OK,
+                                  True, str(binary)))
+        actual_hash = sha256_file(binary)
+        hash_ok = (config.expected_binary_sha256 is None
+                   or actual_hash == config.expected_binary_sha256)
+        checks.append(CheckResult(
+            "NUCLEI_BINARY_SHA256", "Nuclei", "Nuclei binary SHA-256",
+            CheckStatus.OK if hash_ok else CheckStatus.FAIL, True,
+            actual_hash if hash_ok else "NUCLEI_BINARY_HASH_MISMATCH: " + actual_hash))
+        result = runner.run((str(binary), "-version"), timeout=10)
+        version = result.stdout.strip() or result.stderr.strip()
+        version_ok = result.exit_code == 0 and (
+            config.expected_version is None or config.expected_version in version)
+        checks.append(CheckResult(
+            "NUCLEI_VERSION", "Nuclei", "Nuclei version",
+            CheckStatus.OK if version_ok else CheckStatus.FAIL, True,
+            version if version_ok else "NUCLEI_VERSION_MISMATCH: " + (version or "unavailable")))
+
+    root = config.template_root
+    if not root.is_dir():
+        checks.append(CheckResult("NUCLEI_TEMPLATE_ROOT", "Nuclei", "pinned template root",
+                                  CheckStatus.FAIL, True,
+                                  "NUCLEI_TEMPLATE_ROOT_MISSING: configured root is missing"))
+        return checks
+    checks.append(CheckResult("NUCLEI_TEMPLATE_ROOT", "Nuclei", "pinned template root",
+                              CheckStatus.OK, True, str(root)))
+    try:
+        tree_hash = template_tree_sha256(root)
+        tree_ok = (config.expected_template_tree_sha256 is None
+                   or tree_hash == config.expected_template_tree_sha256)
+        checks.append(CheckResult(
+            "NUCLEI_TEMPLATE_TREE_SHA256", "Nuclei", "template tree SHA-256",
+            CheckStatus.OK if tree_ok else CheckStatus.FAIL, True,
+            tree_hash if tree_ok else "NUCLEI_TEMPLATE_HASH_MISMATCH: " + tree_hash))
+    except OSError as exc:
+        checks.append(CheckResult("NUCLEI_TEMPLATE_TREE_SHA256", "Nuclei", "template tree SHA-256",
+                                  CheckStatus.FAIL, True,
+                                  f"NUCLEI_TEMPLATE_ROOT_MISSING: {exc}"))
+
+    manifest_path = config.manifest_path
+    if not manifest_path.is_file():
+        checks.append(CheckResult("NUCLEI_MANIFEST", "Nuclei", "approved template manifest",
+                                  CheckStatus.FAIL, True,
+                                  "NUCLEI_MANIFEST_INVALID: configured manifest is missing"))
+        return checks
+    manifest_hash = sha256_file(manifest_path)
+    manifest_ok = (config.expected_manifest_sha256 is None
+                   or manifest_hash == config.expected_manifest_sha256)
+    checks.append(CheckResult(
+        "NUCLEI_MANIFEST_SHA256", "Nuclei", "approved manifest SHA-256",
+        CheckStatus.OK if manifest_ok else CheckStatus.FAIL, True,
+        manifest_hash if manifest_ok else "NUCLEI_MANIFEST_INVALID: SHA-256 mismatch"))
+    try:
+        manifest = load_approved_template_manifest(manifest_path, root)
+    except TemplatePolicyError as exc:
+        checks.append(CheckResult("NUCLEI_MANIFEST", "Nuclei", "approved template manifest",
+                                  CheckStatus.FAIL, True, f"{exc.code}: {exc}"))
+        return checks
+    revision_ok = bool(manifest.template_revision) and (
+        config.template_revision is None or manifest.template_revision == config.template_revision)
+    checks.append(CheckResult(
+        "NUCLEI_TEMPLATE_REVISION", "Nuclei", "template revision",
+        CheckStatus.OK if revision_ok else CheckStatus.FAIL, True,
+        manifest.template_revision or "NUCLEI_MANIFEST_INVALID: template_revision missing"
+        if revision_ok else "NUCLEI_TEMPLATE_REVISION_MISMATCH: "
+        f"expected {config.template_revision}, got {manifest.template_revision}"))
+    checks.append(CheckResult("NUCLEI_APPROVED_TEMPLATE_COUNT", "Nuclei", "approved templates",
+                              CheckStatus.OK, True, str(len(manifest.templates))))
+    for template in manifest.templates:
+        try:
+            path = resolve_approved_template_path(root, template.relative_path)
+            actual = sha256_file(path)
+        except TemplatePolicyError as exc:
+            checks.append(CheckResult("NUCLEI_TEMPLATE_PATH", "Nuclei", template.template_id,
+                                      CheckStatus.FAIL, True, f"{exc.code}: {exc}"))
+            continue
+        except OSError as exc:
+            checks.append(CheckResult("NUCLEI_TEMPLATE_SHA256", "Nuclei", template.template_id,
+                                      CheckStatus.FAIL, True,
+                                      f"NUCLEI_TEMPLATE_HASH_MISMATCH: {exc}"))
+            continue
+        ok = actual == template.expected_sha256
+        checks.append(CheckResult("NUCLEI_TEMPLATE_SHA256", "Nuclei", template.template_id,
+                                  CheckStatus.OK if ok else CheckStatus.FAIL, True,
+                                  actual if ok else "NUCLEI_TEMPLATE_HASH_MISMATCH: " + actual))
+    return checks
+
+
+def run_doctor(output_root: Path, *, runner: CommandRunner | None = None,
+               nuclei_config: NucleiDoctorConfig | None = None) -> DoctorReport:
     runner = runner or SubprocessCommandRunner()
     checks = [
         CheckResult("PYTHON_VERSION", "Python", "Python version",
@@ -213,6 +314,8 @@ def run_doctor(output_root: Path, *, runner: CommandRunner | None = None) -> Doc
                     "configured; network is exercised by the pipeline"),
         _storage_check(output_root.resolve()),
     ))
+    if nuclei_config is not None:
+        checks.extend(_nuclei_checks(nuclei_config, runner))
     return DoctorReport(tuple(checks))
 
 

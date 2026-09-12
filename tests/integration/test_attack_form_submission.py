@@ -12,7 +12,8 @@ from kalama.resolver.models import ModuleOption, PayloadEvidence
 from kalama.resolution.confirmation_orchestrator import AttackFormOrchestrator
 from kalama.resolution.config_codec import exploit_config_from_dict
 from kalama.resolution.orchestrator import ResolverOrchestrator, production_step4_processor
-from kalama.state.models import ArtifactKind, RunStatus, StageStatus
+from kalama.execution.executor import build_execution_plan
+from kalama.state.models import ArtifactKind, PipelineStage, RunStatus, StageStatus
 from kalama.state.store import StateStore
 from tests.integration import test_step4_orchestrator as step4_helpers
 
@@ -34,10 +35,13 @@ class AttackFormSubmissionTests(unittest.TestCase):
         self.temp.cleanup()
 
     def waiting_run(self, cves=("CVE-2099-0001",), *, options=(), payloads=(),
-                    payload_status="UNAVAILABLE", check_supported=True):
+                    payload_status="UNAVAILABLE", check_supported=True,
+                    candidate_overrides=None):
         self.helper.prepare(cves)
         candidates = {"exploit/a": {"rank": "excellent", "check_supported": check_supported},
                       "exploit/b": {"rank": "good", "check_supported": check_supported}}
+        if candidate_overrides:
+            candidates.update(candidate_overrides)
         live_options = [{"name": name, "type": kind, "required": required, "default": default}
                         for name, kind, required, default in options]
         live = {"exploit/a": {"options": live_options, "status": payload_status,
@@ -121,6 +125,115 @@ class AttackFormSubmissionTests(unittest.TestCase):
         self.assertEqual(artifact["provenance"]["previous_config_sha256"], config1.sha256)
         self.assertEqual(artifact["provenance"]["submission_sha256"],
                          final.artifact(ArtifactKind.ATTACK_FORM_SUBMISSION).sha256)
+
+    def test_second_revision_skip_finishes_without_third_form(self):
+        state = self.waiting_run(("CVE-2099-0001", "CVE-2099-0002"))
+
+        def first(form):
+            del form["cves"]["CVE-2099-0002"]
+            form["cves"]["CVE-2099-0001"]["module"]["confirmed"] = "exploit/a"
+            form["cves"]["CVE-2099-0001"]["execution_protocol"]["confirmed"] = True
+
+        state = self.apply(self.submission(state, first, "first.yaml"))
+        r2_form = state.artifact(ArtifactKind.ATTACK_FORM)
+        self.assertEqual(dict(r2_form.summary)["revision"], 2)
+
+        def skip_second(form):
+            form["cves"]["CVE-2099-0002"]["decision"] = {
+                "confirmed": "skip",
+                "reason": "operator declined validation for this CVE",
+            }
+
+        final = self.apply(self.submission(state, skip_second, "skip-second.yaml"))
+        self.assertEqual(final.status, RunStatus.PAUSED)
+        self.assertEqual(final.waiting_reason, "BEFORE_EXPLOIT_NOT_INTEGRATED")
+        self.assertEqual(final.stage(final.current_stage).status, StageStatus.SUCCEEDED)
+        self.assertEqual([x.resolver_status for x in final.cves],
+                         ["READY_TO_EXECUTE", "USER_SKIPPED"])
+        self.assertEqual(final.artifact(ArtifactKind.ATTACK_FORM).sha256, r2_form.sha256)
+
+    def test_mixed_ready_and_user_skipped_finishes_resolver(self):
+        state = self.waiting_run(("CVE-2099-0001", "CVE-2099-0002"))
+
+        def complete_and_skip(form):
+            ready = form["cves"]["CVE-2099-0001"]
+            ready["module"]["confirmed"] = "exploit/a"
+            ready["execution_protocol"]["confirmed"] = True
+            ready["targeturi"]["confirmed"] = "/ready"
+            skipped = form["cves"]["CVE-2099-0002"]
+            skipped["decision"]["confirmed"] = "skip"
+            skipped["decision"]["reason"] = "module mapping is not applicable"
+
+        final = self.apply(self.submission(state, complete_and_skip, "mixed.yaml"))
+        self.assertEqual(final.status, RunStatus.PAUSED)
+        self.assertEqual(final.waiting_reason, "BEFORE_EXPLOIT_NOT_INTEGRATED")
+        self.assertEqual([x.resolver_status for x in final.cves],
+                         ["READY_TO_EXECUTE", "USER_SKIPPED"])
+        artifact = json.loads(Path(final.artifact(
+            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
+        skipped = next(x for x in artifact["cves"] if x["cve_id"] == "CVE-2099-0002")
+        self.assertEqual(skipped["status"], "USER_SKIPPED")
+        self.assertEqual(skipped["user_decision"]["reason"],
+                         "module mapping is not applicable")
+
+    def test_first_revision_skip_is_preserved_after_later_partial_submission(self):
+        state = self.waiting_run(("CVE-2099-0001", "CVE-2099-0002", "CVE-2099-0003"))
+
+        def first(form):
+            ready = form["cves"]["CVE-2099-0001"]
+            ready["module"]["confirmed"] = "exploit/a"
+            ready["execution_protocol"]["confirmed"] = True
+            skipped = form["cves"]["CVE-2099-0002"]
+            skipped["decision"]["confirmed"] = "skip"
+            skipped["decision"]["reason"] = "operator declined this CVE"
+            del form["cves"]["CVE-2099-0003"]
+
+        state = self.apply(self.submission(state, first, "skip-first-partial.yaml"))
+        self.assertEqual(state.status, RunStatus.WAITING_FOR_USER_INPUT)
+        self.assertEqual([x.resolver_status for x in state.cves],
+                         ["READY_TO_EXECUTE", "USER_SKIPPED", "WAITING_FOR_USER_INPUT"])
+        r2_form = yaml.safe_load(Path(state.artifact(ArtifactKind.ATTACK_FORM).path).read_bytes())
+        self.assertEqual(list(r2_form["cves"]), ["CVE-2099-0003"])
+
+        def second(form):
+            waiting = form["cves"]["CVE-2099-0003"]
+            waiting["module"]["confirmed"] = "exploit/a"
+            waiting["execution_protocol"]["confirmed"] = True
+
+        final = self.apply(self.submission(state, second, "complete-later-partial.yaml"))
+        self.assertEqual(final.status, RunStatus.PAUSED)
+        self.assertEqual(final.waiting_reason, "BEFORE_EXPLOIT_NOT_INTEGRATED")
+        self.assertEqual(final.stage(final.current_stage).status, StageStatus.SUCCEEDED)
+        self.assertEqual([x.resolver_status for x in final.cves],
+                         ["READY_TO_EXECUTE", "USER_SKIPPED", "READY_TO_EXECUTE"])
+
+        artifact = json.loads(Path(final.artifact(
+            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
+        statuses = {item["cve_id"]: item["status"] for item in artifact["cves"]}
+        self.assertEqual(statuses["CVE-2099-0001"], "READY_TO_EXECUTE")
+        self.assertEqual(statuses["CVE-2099-0002"], "USER_SKIPPED")
+        self.assertEqual(statuses["CVE-2099-0003"], "READY_TO_EXECUTE")
+        skipped = next(x for x in artifact["cves"] if x["cve_id"] == "CVE-2099-0002")
+        self.assertEqual(skipped["user_decision"]["reason"], "operator declined this CVE")
+
+    def test_invalid_decision_values_are_input_errors(self):
+        state = self.waiting_run()
+        original = state.artifact(ArtifactKind.ATTACK_FORM).sha256
+
+        def invalid_value(form):
+            form["cves"]["CVE-2099-0001"]["decision"]["confirmed"] = "execute"
+            form["cves"]["CVE-2099-0001"]["decision"]["reason"] = "bad value"
+
+        rejected = self.apply(self.submission(state, invalid_value, "bad-decision.yaml"))
+        self.assertEqual(rejected.status, RunStatus.WAITING_FOR_USER_INPUT)
+        self.assertEqual(rejected.errors[-1].code, "ATTACK_FORM_INVALID_OPTION")
+        self.assertEqual(rejected.artifact(ArtifactKind.ATTACK_FORM).sha256, original)
+
+        def missing_reason(form):
+            form["cves"]["CVE-2099-0001"]["decision"]["confirmed"] = "skip"
+
+        rejected = self.apply(self.submission(rejected, missing_reason, "missing-reason.yaml"))
+        self.assertEqual(rejected.errors[-1].code, "ATTACK_FORM_INVALID_OPTION")
 
     def test_partial_field_human_provenance_and_new_form(self):
         state = self.waiting_run(options=(("TARGETURI", "path", True, "/"),))
@@ -208,6 +321,39 @@ class AttackFormSubmissionTests(unittest.TestCase):
         self.assertEqual(next_form["cves"]["CVE-2099-0001"]["payload_options"]
                          ["LPORT"]["suggested"], 4444)
 
+    def test_payload_introspection_failure_restores_waiting_state(self):
+        payloads = ({"name": "cmd/unix/reverse_bash", "options": []},)
+        state = self.waiting_run(payloads=payloads, payload_status="FOUND",
+                                 check_supported=False)
+        original_form = state.artifact(ArtifactKind.ATTACK_FORM).sha256
+
+        def choose(form):
+            cve = form["cves"]["CVE-2099-0001"]
+            cve["module"]["confirmed"] = "exploit/a"
+            cve["payload"]["confirmed"] = "cmd/unix/reverse_bash"
+            cve["execution_protocol"]["confirmed"] = True
+
+        path = self.submission(state, choose, "payload-introspection-timeout.yaml")
+
+        def failing_introspector(_module, _payload):
+            raise RuntimeError("payload introspection deadline expired before subprocess invocation")
+
+        failed = AttackFormOrchestrator(
+            self.store, clock=lambda: NOW,
+            payload_introspector=failing_introspector).apply_attack_form("aB3x9", path)
+
+        self.assertEqual(failed.status, RunStatus.WAITING_FOR_USER_INPUT)
+        self.assertEqual(failed.stage(PipelineStage.STEP_4_RESOLVER).status,
+                         StageStatus.WAITING)
+        self.assertEqual(failed.waiting_reason, "ATTACK_FORM")
+        self.assertEqual(failed.errors[-1].code, "CONFIG_APPLICATION_ERROR")
+        self.assertIn("payload introspection deadline expired",
+                      failed.errors[-1].message)
+        self.assertEqual(failed.artifact(ArtifactKind.ATTACK_FORM).sha256,
+                         original_form)
+        self.assertIsNone(failed.artifact(ArtifactKind.ATTACK_FORM_SUBMISSION))
+        self.assertIsNone(failed.artifact(ArtifactKind.EXPLOIT_CONFIG_BEFORE))
+
     def test_all_resolved_config_is_only_future_executor_input(self):
         state = self.waiting_run()
 
@@ -230,6 +376,43 @@ class AttackFormSubmissionTests(unittest.TestCase):
         self.assertIn("invariant", serialized)
         self.assertIn("environment", serialized)
 
+    def test_fixture_module_selection_preserves_provenance_in_execution_plan(self):
+        state = self.waiting_run(candidate_overrides={
+            "exploit/fixture/example_compat": {
+                "rank": "excellent",
+                "check_supported": True,
+                "module_source": "lab_fixture",
+                "fixture_source_path": r"C:\fixtures\modules\exploits\fixture\example_compat.rb",
+                "fixture_sha256": "f" * 64,
+                "fixture_manifest": {"id": "compat-fixture"},
+                "fixture_modules_root": r"C:\fixtures\modules",
+                "fixture_namespace": "abc123",
+                "loaded_module_path": "/tmp/kalama-msf-lab-fixtures/abc123/modules/exploits/fixture/example_compat.rb",
+            }
+        })
+
+        form = yaml.safe_load(Path(state.artifact(ArtifactKind.ATTACK_FORM).path).read_bytes())
+        form_candidate = next(item for item in form["cves"]["CVE-2099-0001"]["module"]["candidates"]
+                              if item["module_path"] == "exploit/fixture/example_compat")
+        self.assertEqual(form_candidate["module_source"], "lab_fixture")
+        self.assertEqual(form_candidate["fixture_sha256"], "f" * 64)
+
+        def complete(form):
+            cve = form["cves"]["CVE-2099-0001"]
+            cve["module"]["confirmed"] = "exploit/fixture/example_compat"
+            cve["execution_protocol"]["confirmed"] = True
+
+        final = self.apply(self.submission(state, complete, "fixture-module.yaml"))
+        artifact = json.loads(Path(final.artifact(
+            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
+        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
+        plan = build_execution_plan(config, 1)
+
+        self.assertEqual(plan.module, "exploit/fixture/example_compat")
+        self.assertEqual(plan.module_source, "lab_fixture")
+        self.assertEqual(plan.fixture_sha256, "f" * 64)
+        self.assertEqual(plan.fixture_manifest, {"id": "compat-fixture"})
+
     def test_check_then_exploit_protocol_is_human_selectable(self):
         payloads = ({"name": "cmd/unix/generic", "options": []},)
         state = self.waiting_run(payloads=payloads, payload_status="FOUND")
@@ -248,6 +431,76 @@ class AttackFormSubmissionTests(unittest.TestCase):
         config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
         self.assertTrue(config.invariant.execution_protocol.run_check)
         self.assertTrue(config.invariant.execution_protocol.run_exploit)
+
+    def test_precondition_required_flag_commands_and_check_only_protocol_are_preserved(self):
+        state = self.waiting_run()
+
+        def complete(form):
+            cve = form["cves"]["CVE-2099-0001"]
+            cve["module"]["confirmed"] = "exploit/a"
+            cve["execution_protocol"]["confirmed"] = True
+            cve["preconditions"] = {
+                "description": "prepare target data",
+                "commands": ["first command", "second command"],
+                "execution_target": "kalama-workbench",
+                "required": True,
+                "confirmation_status": "HUMAN_CONFIRMED",
+            }
+
+        final = self.apply(self.submission(state, complete, "precondition-required.yaml"))
+        artifact = json.loads(Path(final.artifact(
+            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
+        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
+        plan = build_execution_plan(config, 1)
+
+        self.assertTrue(config.invariant.preconditions.required)
+        self.assertTrue(plan.precondition_required)
+        self.assertEqual(plan.precondition_commands, ("first command", "second command"))
+        self.assertEqual(plan.precondition_target, "kalama-workbench")
+        self.assertTrue(plan.run_check)
+        self.assertFalse(plan.run_exploit)
+        self.assertIsNone(plan.payload)
+
+    def test_precondition_required_false_is_preserved(self):
+        state = self.waiting_run()
+
+        def optional(form):
+            cve = form["cves"]["CVE-2099-0001"]
+            cve["module"]["confirmed"] = "exploit/a"
+            cve["execution_protocol"]["confirmed"] = True
+            cve["preconditions"] = {
+                "description": "optional preparation",
+                "commands": ["optional command"],
+                "execution_target": "kalama-workbench",
+                "required": False,
+                "confirmation_status": "HUMAN_CONFIRMED",
+            }
+
+        final = self.apply(self.submission(state, optional, "precondition-optional.yaml"))
+        artifact = json.loads(Path(final.artifact(
+            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
+        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
+        self.assertFalse(build_execution_plan(config, 1).precondition_required)
+
+    def test_precondition_required_omitted_preserves_existing_behavior(self):
+        state = self.waiting_run()
+
+        def omitted(form):
+            cve = form["cves"]["CVE-2099-0001"]
+            cve["module"]["confirmed"] = "exploit/a"
+            cve["execution_protocol"]["confirmed"] = True
+            cve["preconditions"] = {
+                "description": "legacy preparation",
+                "commands": ["legacy command"],
+                "execution_target": "kalama-workbench",
+                "confirmation_status": "HUMAN_CONFIRMED",
+            }
+
+        final = self.apply(self.submission(state, omitted, "precondition-omitted.yaml"))
+        artifact = json.loads(Path(final.artifact(
+            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
+        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
+        self.assertFalse(build_execution_plan(config, 1).precondition_required)
 
     def test_snapshot_or_config_write_failure_does_not_commit_confirmations(self):
         state = self.waiting_run()

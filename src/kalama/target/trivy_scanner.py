@@ -66,12 +66,12 @@ def scan_image(image: ImageIdentity, output_path: Path, runner: CommandRunner,
         try:
             raw = Path(temporary).read_bytes()
             data = json.loads(raw)
-        except (OSError, json.JSONDecodeError) as exc:
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise Step2OperationError(Step2Issue(
                 Step2FailureCode.TRIVY_INVALID_JSON, "trivy_validation",
                 f"Trivy produced invalid JSON: {exc}"))
         validate_trivy_json(data)
-        with open(temporary, "rb") as validated:
+        with open(temporary, "r+b") as validated:
             os.fsync(validated.fileno())
         try:
             os.replace(temporary, output_path)

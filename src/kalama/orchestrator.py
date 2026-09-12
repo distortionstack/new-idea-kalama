@@ -264,9 +264,9 @@ class PrioritizationOrchestrator:
         state = state.with_stage(PipelineStage.STEP_3_PRIORITIZATION, StageStatus.SUCCEEDED, timestamp)
         returned = meta.get("top_n_returned")
         notice_code = (IntegrationFailureCode.NO_RANKABLE_CVES.value if returned == 0
-                       else IntegrationFailureCode.NEXT_STAGE_NOT_INTEGRATED.value)
+                       else "STEP_4_RESOLVER_READY")
         notice_message = ("prioritization completed with no rankable CVEs" if returned == 0
-                          else "Step 4 Resolver is not integrated yet")
+                          else "prioritization completed; Step 4 Resolver is ready to continue")
         notice = RunNotice(notice_code, notice_message, timestamp)
         state = replace(state, status=RunStatus.PAUSED,
                         current_stage=PipelineStage.STEP_4_RESOLVER,

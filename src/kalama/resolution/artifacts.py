@@ -65,9 +65,20 @@ def _form_cve(item: ResolverCVEResult, guidance: Mapping[str, Any] | None = None
     selection = invariant.module_selection
     candidates = []
     for ranked in selection.ranking.ranked_candidates:
-        candidates.append({"rank_position": ranked.rank_position, "score": ranked.score,
-                           "module_path": ranked.candidate.module_path,
-                           "evidence": [x.to_dict() for x in ranked.evidence]})
+        candidate = {"rank_position": ranked.rank_position, "score": ranked.score,
+                     "module_path": ranked.candidate.module_path,
+                     "evidence": [x.to_dict() for x in ranked.evidence],
+                     "module_source": ranked.candidate.module_source}
+        if ranked.candidate.module_source == "lab_fixture":
+            candidate.update({
+                "fixture_source_path": ranked.candidate.fixture_source_path,
+                "fixture_sha256": ranked.candidate.fixture_sha256,
+                "fixture_manifest": ranked.candidate.fixture_manifest,
+                "fixture_modules_root": ranked.candidate.fixture_modules_root,
+                "fixture_namespace": ranked.candidate.fixture_namespace,
+                "loaded_module_path": ranked.candidate.loaded_module_path,
+            })
+        candidates.append(candidate)
     module_options = {}
     for option in sorted(invariant.module_options, key=lambda x: (x.name.casefold(), x.name)):
         if option.name.upper() in {"RHOSTS", "RPORT", "LHOST", "TARGETURI"}:
@@ -83,6 +94,7 @@ def _form_cve(item: ResolverCVEResult, guidance: Mapping[str, Any] | None = None
         "rank": item.input.rank,
         "input_reasons": sorted({issue.reason.value for issue in validation.issues}),
         "module": {**_value_projection(selection.module), "candidates": candidates},
+        "decision": {"confirmed": None, "reason": None},
         "target": {"required": target.required,
                    "index": _value_projection(target.target_index, default=target.default_target_index),
                    "name": _value_projection(target.target_name, default=target.default_target_name)},

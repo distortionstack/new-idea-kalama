@@ -10,6 +10,13 @@ container_name="msf-resolver-host"
 msf_image="${KALAMA_MSF_IMAGE:-metasploitframework/metasploit-framework:latest}"
 msf_data="${HOME}/.msf4"
 
+# Git Bash rewrites POSIX container paths when invoking the Windows Docker CLI.
+# Keep the Docker socket mount in its Linux form, and translate only the path
+# passed to the native Windows Python executable below.
+if [[ "$(uname -o 2>/dev/null || true)" == "Msys" ]]; then
+  export MSYS_NO_PATHCONV=1
+fi
+
 if ! command -v docker >/dev/null 2>&1; then
   echo "DOCKER_CLI_MISSING: install Docker Engine before running setup" >&2
   exit 1
@@ -130,9 +137,18 @@ else
 fi
 
 mkdir -p "${repo_root}/output/state"
+doctor_output_root="${repo_root}/output"
+if [[ "$(uname -o 2>/dev/null || true)" == "Msys" ]] && command -v cygpath >/dev/null 2>&1; then
+  doctor_output_root="$(cygpath -w "${doctor_output_root}")"
+fi
 python_command="${KALAMA_PYTHON:-${repo_root}/.venv/bin/python}"
 if [[ ! -x "${python_command}" ]]; then
-  python_command="$(command -v python3)"
+  windows_venv_python="${repo_root}/.venv/Scripts/python.exe"
+  if [[ -x "${windows_venv_python}" ]]; then
+    python_command="${windows_venv_python}"
+  else
+    python_command="$(command -v python3)"
+  fi
 fi
 
-"${python_command}" -m kalama --output-root "${repo_root}/output" doctor
+"${python_command}" -m kalama --output-root "${doctor_output_root}" doctor

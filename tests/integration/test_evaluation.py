@@ -46,13 +46,14 @@ class MetricTests(unittest.TestCase):
         records += [record(18, eligible=False, exclusion="NO_MSF_MODULE"),
                     record(19, eligible=False, exclusion="ENVIRONMENT_ERROR"),
                     record(20, eligible=False, exclusion="UNRESOLVED_CONFIG"),
-                    record(21, eligible=False, exclusion="CHECK_ONLY")]
+                    record(21, eligible=False, exclusion="CHECK_ONLY"),
+                    record(22, eligible=False, exclusion="USER_SKIPPED")]
         metrics = compute_metrics(dataset(records, top_n=30))
         prior = metrics["prioritization"]
         self.assertEqual(prior["confusion_matrix"], {"tp": 12, "fp": 5,
                                                       "fn": None, "tn": None})
         self.assertAlmostEqual(prior["precision"]["value"], 12 / 17)
-        self.assertEqual(prior["precision"]["name"], "Precision@21")
+        self.assertEqual(prior["precision"]["name"], "Precision@22")
         self.assertFalse(prior["recall"]["available"])
         self.assertIsNone(prior["recall"]["value"])
         self.assertEqual(prior["recall"]["reason"],
@@ -61,7 +62,8 @@ class MetricTests(unittest.TestCase):
         self.assertEqual(metrics["coverage"]["selected_binary_metric_eligible"], 17)
         self.assertEqual(metrics["exclusions"], {"CHECK_ONLY": 1, "ENVIRONMENT_ERROR": 1,
                                                   "NO_MSF_MODULE": 1,
-                                                  "UNRESOLVED_CONFIG": 1})
+                                                  "UNRESOLVED_CONFIG": 1,
+                                                  "USER_SKIPPED": 1})
 
     def test_metric_ineligible_apparent_failure_and_zero_denominator(self):
         value = record(1, eligible=False, exclusion="SESSION_EVIDENCE_UNAVAILABLE",

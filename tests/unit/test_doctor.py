@@ -6,7 +6,12 @@ import unittest
 from unittest.mock import patch
 
 from kalama.doctor import run_doctor
+from kalama.dynamic_probe import (
+    APPROVED_TEMPLATE_MANIFEST_SCHEMA, NucleiDoctorConfig, sha256_file,
+    template_tree_sha256,
+)
 from kalama.target.models import CommandResult
+import yaml
 
 
 class FakeRunner:
@@ -105,6 +110,64 @@ class DoctorTests(unittest.TestCase):
         forbidden = {"create", "run", "start", "rm", "pull", "prune", "apt", "pip"}
         for command in runner.calls:
             self.assertTrue(forbidden.isdisjoint(command), command)
+
+    def test_optional_nuclei_preflight_checks_pinned_local_manifest(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            binary = root / "nuclei"
+            binary.write_bytes(b"pinned binary")
+            templates = root / "templates"
+            templates.mkdir()
+            template = templates / "http.yaml"
+            template.write_text("id: safe-template\n", encoding="utf-8")
+            manifest = root / "approved.yaml"
+            manifest.write_text(yaml.safe_dump({
+                "schema": APPROVED_TEMPLATE_MANIFEST_SCHEMA,
+                "profile": "safe-cve-http",
+                "template_revision": "reviewed-test",
+                "approved_templates": [{
+                    "template_id": "safe-template", "relative_path": "http.yaml",
+                    "expected_sha256": sha256_file(template),
+                    "mapped_cves": ["CVE-2099-0001"],
+                }],
+            }, sort_keys=False), encoding="utf-8")
+            output = root / "output"
+            output.mkdir()
+            config = NucleiDoctorConfig(
+                binary, templates, manifest, expected_binary_sha256=sha256_file(binary),
+                expected_template_tree_sha256=template_tree_sha256(templates),
+                expected_manifest_sha256=sha256_file(manifest), template_revision="reviewed-test",
+            )
+            report = run_doctor(output, runner=FakeRunner(), nuclei_config=config)
+        self.assertTrue(report.ready)
+        self.assertIn("NUCLEI_APPROVED_TEMPLATE_COUNT", {item.check_id for item in report.checks})
+
+    def test_optional_nuclei_preflight_detects_template_hash_mismatch(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            binary = root / "nuclei"
+            binary.write_bytes(b"pinned binary")
+            templates = root / "templates"
+            templates.mkdir()
+            (templates / "http.yaml").write_text("id: tampered\n", encoding="utf-8")
+            manifest = root / "approved.yaml"
+            manifest.write_text(yaml.safe_dump({
+                "schema": APPROVED_TEMPLATE_MANIFEST_SCHEMA,
+                "profile": "safe-cve-http",
+                "approved_templates": [{
+                    "template_id": "tampered", "relative_path": "http.yaml",
+                    "expected_sha256": "0" * 64,
+                    "mapped_cves": ["CVE-2099-0001"],
+                }],
+            }, sort_keys=False), encoding="utf-8")
+            output = root / "output"
+            output.mkdir()
+            report = run_doctor(output, runner=FakeRunner(), nuclei_config=NucleiDoctorConfig(
+                binary, templates, manifest,
+            ))
+        mismatch = next(item for item in report.checks if item.check_id == "NUCLEI_TEMPLATE_SHA256")
+        self.assertEqual(mismatch.status.value, "FAIL")
+        self.assertIn("NUCLEI_TEMPLATE_HASH_MISMATCH", mismatch.message)
 
 
 if __name__ == "__main__":

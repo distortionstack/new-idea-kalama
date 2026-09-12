@@ -27,13 +27,32 @@ class SubprocessCommandRunner:
     def run(self, argv: Sequence[str], *, timeout: float | None = None) -> CommandResult:
         args = tuple(str(x) for x in argv)
         try:
-            completed = subprocess.run(args, capture_output=True, text=True, timeout=timeout,
+            completed = subprocess.run(args, capture_output=True, text=False, timeout=timeout,
                                        shell=False, check=False)
-            return CommandResult(args, completed.returncode, completed.stdout, completed.stderr)
+            stdout = completed.stdout or b""
+            stderr = completed.stderr or b""
+            return CommandResult(args, completed.returncode,
+                                 stdout.decode("utf-8", errors="replace"),
+                                 stderr.decode("utf-8", errors="replace"),
+                                 stdout, stderr)
         except FileNotFoundError as exc:
             return CommandResult(args, 127, "", str(exc))
         except subprocess.TimeoutExpired as exc:
-            return CommandResult(args, 124, exc.stdout or "", exc.stderr or "command timed out")
+            stdout = exc.stdout or b""
+            stderr = exc.stderr or b""
+            if isinstance(stdout, str):
+                stdout_text = stdout
+                stdout_bytes = stdout.encode("utf-8")
+            else:
+                stdout_text = stdout.decode("utf-8", errors="replace")
+                stdout_bytes = stdout
+            if isinstance(stderr, str):
+                stderr_text = stderr or "command timed out"
+                stderr_bytes = stderr.encode("utf-8") if stderr else b""
+            else:
+                stderr_text = stderr.decode("utf-8", errors="replace") if stderr else "command timed out"
+                stderr_bytes = stderr
+            return CommandResult(args, 124, stdout_text, stderr_text, stdout_bytes, stderr_bytes)
 
 
 class Step2OperationError(RuntimeError):

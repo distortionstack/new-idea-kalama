@@ -26,6 +26,10 @@ import sys
 
 import yaml  # batch/review file I/O and ground-truth reads (draft_config.py)
 
+from kalama.metasploit_fixtures import (
+    ApprovedFixtureRegistry,
+    registry_from_env,
+)
 from kalama.resolver.core import DiscoveryBackend, discover_cve
 from kalama.resolver.models import DiscoveryStatus
 
@@ -42,6 +46,17 @@ JSON_SENTINEL_START = "===KALAMA_RESOLVER_JSON_START==="
 JSON_SENTINEL_END = "===KALAMA_RESOLVER_JSON_END==="
 
 MODULE_PATH_RE = re.compile(r"^(exploit|auxiliary|post|payload|encoder|nop)/")
+
+
+def _positive_timeout(seconds, *, operation):
+    """Return a subprocess timeout, rejecting expired deadline budgets early."""
+    try:
+        value = float(seconds)
+    except (TypeError, ValueError) as exc:
+        raise RuntimeError(f"{operation} timeout is invalid") from exc
+    if value <= 0:
+        raise RuntimeError(f"{operation} deadline expired before subprocess invocation")
+    return value
 
 # Msf::RankingName, mirrored here because modules_metadata.json stores rank
 # as the raw integer, not the string msfconsole displays.
@@ -136,11 +151,16 @@ def load_json_cache(path=MSF_METADATA_CACHE):
     if not os.path.isfile(path):
         return None
     try:
-        with open(path, "r") as f:
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
-    except (OSError, json.JSONDecodeError) as e:
-        eprint(f"[resolver] warning: could not parse {path}: {e}")
-        return None
+    except UnicodeDecodeError as e:
+        raise RuntimeError(
+            f"metadata cache decode failed for {path}: expected UTF-8 JSON: {e}"
+        ) from e
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"metadata cache JSON parse failed for {path}: {e}") from e
+    except OSError as e:
+        raise RuntimeError(f"metadata cache read failed for {path}: {e}") from e
 
 
 def references_as_list(raw_refs):
@@ -220,6 +240,8 @@ def find_candidates_from_cache(cache, cve_id):
             "targets": targets,
             "check_supported": check_supported,
             "references": refs,
+            "cache_module_path": entry.get("path"),
+            "cache_is_install_path": entry.get("is_install_path"),
         }
     return found
 
@@ -308,12 +330,27 @@ def get_msfconsole_binary(container):
 # Fallback: msfconsole text search (only when the JSON cache is unavailable)
 # --------------------------------------------------------------------------
 
-def find_candidates_via_msfconsole_search(cve_id, container):
+def _fixture_loadpath_commands(container, fixture_registry: ApprovedFixtureRegistry | None):
+    if fixture_registry is None or not fixture_registry.enabled:
+        return []
+    return [
+        f"loadpath {root}"
+        for root in fixture_registry.ensure_container_roots_subprocess(
+            container, timeout=DOCKER_TIMEOUT_SECONDS)
+    ]
+
+
+def find_candidates_via_msfconsole_search(cve_id, container,
+                                          fixture_registry: ApprovedFixtureRegistry | None = None):
     ensure_container_running(container)
     msfconsole_bin = get_msfconsole_binary(container)
+    prefix = "; ".join(_fixture_loadpath_commands(container, fixture_registry))
+    search_command = f"search cve:{cve_id}; exit"
+    if prefix:
+        search_command = f"{prefix}; {search_command}"
     cmd = [
         "docker", "exec", "-i", container,
-        msfconsole_bin, "-q", "-n", "-x", f"search cve:{cve_id}; exit",
+        msfconsole_bin, "-q", "-n", "-x", search_command,
     ]
     try:
         proc = subprocess.run(
@@ -341,6 +378,28 @@ def find_candidates_via_msfconsole_search(cve_id, container):
             if parts[1] not in fullnames:
                 fullnames.append(parts[1])
     return fullnames
+
+
+def find_fixture_candidates_via_msfconsole_search(
+    cve_id,
+    container,
+    fixture_registry: ApprovedFixtureRegistry,
+):
+    if not fixture_registry.enabled:
+        return {}
+    fullnames = find_candidates_via_msfconsole_search(
+        cve_id, container, fixture_registry=fixture_registry)
+    candidates = {}
+    for fullname in fullnames:
+        module = fixture_registry.module(fullname)
+        if module is None:
+            continue
+        candidates[fullname] = {
+            **module.provenance(),
+            "discovery_source": "lab_fixture_search",
+            "metadata_source": ["lab_fixture"],
+        }
+    return candidates
 
 
 # --------------------------------------------------------------------------
@@ -515,7 +574,8 @@ exit -y
 """
 
 
-def query_msfconsole_for_modules(fullnames, container):
+def query_msfconsole_for_modules(fullnames, container,
+                                 fixture_registry: ApprovedFixtureRegistry | None = None):
     """Runs one batched msfconsole resource script for all fullnames, inside
     the persistent Docker container.
 
@@ -535,12 +595,15 @@ def query_msfconsole_for_modules(fullnames, container):
     if not fullnames:
         return {}
 
+    loadpaths = "\n".join(_fixture_loadpath_commands(container, fixture_registry))
     script_body = (
         RUBY_TEMPLATE
         .replace("__FULLNAMES_JSON__", json.dumps(fullnames))
         .replace("__START__", JSON_SENTINEL_START)
         .replace("__END__", JSON_SENTINEL_END)
     )
+    if loadpaths:
+        script_body = f"{loadpaths}\n{script_body}"
 
     ensure_container_running(container)
     msfconsole_bin = get_msfconsole_binary(container)
@@ -603,15 +666,19 @@ def query_msfconsole_for_modules(fullnames, container):
     return json.loads(blob.strip())
 
 
-def introspect_msf_payload(module_name, payload_name, container):
+def introspect_msf_payload(module_name, payload_name, container,
+                           fixture_registry: ApprovedFixtureRegistry | None = None):
     """Load one compatible payload schema after allowlist validation."""
     if not MODULE_PATH_RE.match(module_name) or not payload_name or payload_name.startswith("payload/"):
         raise ValueError("invalid module or payload identity")
+    loadpaths = "\n".join(_fixture_loadpath_commands(container, fixture_registry))
     script_body = (PAYLOAD_RUBY_TEMPLATE
                    .replace("__MODULE_JSON__", json.dumps(module_name))
                    .replace("__PAYLOAD_JSON__", json.dumps(payload_name))
                    .replace("__START__", JSON_SENTINEL_START)
                    .replace("__END__", JSON_SENTINEL_END))
+    if loadpaths:
+        script_body = f"{loadpaths}\n{script_body}"
     ensure_container_running(container)
     msfconsole_bin = get_msfconsole_binary(container)
     try:
@@ -623,7 +690,8 @@ def introspect_msf_payload(module_name, payload_name, container):
         proc = subprocess.run(
             ["docker", "exec", "-i", container, msfconsole_bin, "-q", "-n", "-r",
              CONTAINER_SCRIPT_PATH], capture_output=True, text=True,
-            timeout=MSF_TIMEOUT_SECONDS)
+            timeout=_positive_timeout(MSF_TIMEOUT_SECONDS,
+                                      operation="payload introspection"))
     except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
         raise RuntimeError(f"payload introspection failed: {exc}") from exc
     finally:
@@ -703,14 +771,19 @@ def emit_result_yaml(result):
 
 def resolver_backend():
     """Bind the preserved MSF transport functions to the structured core."""
+    fixture_registry = registry_from_env()
     return DiscoveryBackend(
         load_cache=load_json_cache,
         find_from_cache=find_candidates_from_cache,
         search_live=find_candidates_via_msfconsole_search,
-        query_modules=query_msfconsole_for_modules,
+        query_modules=lambda fullnames, container: query_msfconsole_for_modules(
+            fullnames, container, fixture_registry),
         cache_description=MSF_METADATA_CACHE,
         resolve_msf_ip=resolve_msf_container_ip,
-        introspect_payload=introspect_msf_payload,
+        introspect_payload=lambda module, payload, container: introspect_msf_payload(
+            module, payload, container, fixture_registry),
+        search_fixtures=lambda cve, container: find_fixture_candidates_via_msfconsole_search(
+            cve, container, fixture_registry),
     )
 
 
@@ -750,6 +823,13 @@ def discovery_result_to_legacy(result):
             "check_supported": candidate.check_supported,
             "references": list(candidate.references),
             "options": [option.to_dict() for option in candidate.options],
+            "module_source": candidate.module_source,
+            "fixture_source_path": candidate.fixture_source_path,
+            "fixture_sha256": candidate.fixture_sha256,
+            "fixture_manifest": candidate.fixture_manifest,
+            "fixture_modules_root": candidate.fixture_modules_root,
+            "fixture_namespace": candidate.fixture_namespace,
+            "loaded_module_path": candidate.loaded_module_path,
         } for candidate in result.candidates],
     }
 

@@ -12,7 +12,7 @@ from kalama.resolver.models import (
 
 
 def make_backend(*, cache, cached_candidates=None, live_names=None, live_data=None,
-                 search_error=None, query_error=None):
+                 search_error=None, query_error=None, fixture_candidates=None):
     def load_cache():
         return cache
 
@@ -29,12 +29,16 @@ def make_backend(*, cache, cached_candidates=None, live_names=None, live_data=No
             raise RuntimeError(query_error)
         return live_data or {}
 
+    def search_fixtures(_cve_id, _container):
+        return fixture_candidates or {}
+
     return DiscoveryBackend(
         load_cache=load_cache,
         find_from_cache=find_from_cache,
         search_live=search_live,
         query_modules=query_modules,
         cache_description="test-cache.json",
+        search_fixtures=search_fixtures,
     )
 
 
@@ -127,6 +131,92 @@ class ResolverCoreContractTests(unittest.TestCase):
         self.assertEqual(result.status, DiscoveryStatus.FOUND)
         self.assertEqual([item.module_path for item in result.candidates], ["exploit/a", "exploit/b"])
         self.assertNotIn("selected_module", result.to_dict())
+
+    def test_fixture_candidate_is_added_without_replacing_stock_cache_candidate(self):
+        fixture = {
+            "exploit/test/example_compat": {
+                "module_source": "lab_fixture",
+                "fixture_source_path": r"C:\fixtures\modules\exploits\test\example_compat.rb",
+                "fixture_sha256": "f" * 64,
+                "fixture_manifest": {"id": "compat-fixture"},
+                "fixture_modules_root": r"C:\fixtures\modules",
+                "fixture_namespace": "abc123",
+                "loaded_module_path": "/tmp/kalama-msf-lab-fixtures/abc123/modules/exploits/test/example_compat.rb",
+            }
+        }
+        live = {
+            "exploit/test/example": {"options": []},
+            "exploit/test/example_compat": {
+                "rank": "excellent",
+                "check_supported": True,
+                "references": ["CVE-2099-0001"],
+                "options": [],
+            },
+        }
+        result = discover_cve(
+            "CVE-2099-0001", "msf", make_backend(
+                cache={"present": True},
+                cached_candidates={"exploit/test/example": {"rank": "good"}},
+                live_data=live,
+                fixture_candidates=fixture,
+            ),
+        )
+
+        self.assertEqual(result.status, DiscoveryStatus.FOUND)
+        self.assertEqual(
+            [item.module_path for item in result.candidates],
+            ["exploit/test/example", "exploit/test/example_compat"],
+        )
+        candidate = result.candidates[1]
+        self.assertEqual(candidate.module_source, "lab_fixture")
+        self.assertEqual(candidate.fixture_sha256, "f" * 64)
+        self.assertEqual(candidate.fixture_manifest, {"id": "compat-fixture"})
+        self.assertEqual(candidate.metadata_source, ("lab_fixture", "live_msfconsole"))
+
+    def test_fixture_fullname_collision_is_environment_error(self):
+        result = discover_cve(
+            "CVE-2099-0001", "msf", make_backend(
+                cache={"present": True},
+                cached_candidates={"exploit/test/example": {"rank": "good"}},
+                live_data={"exploit/test/example": {"options": []}},
+                fixture_candidates={"exploit/test/example": {
+                    "module_source": "lab_fixture",
+                    "fixture_sha256": "f" * 64,
+                }},
+            ),
+        )
+
+        self.assertEqual(result.status, DiscoveryStatus.ENVIRONMENT_ERROR)
+        self.assertIn("collides with stock discovery", result.errors[0])
+
+    def test_stale_non_stock_cache_entry_does_not_block_approved_fixture(self):
+        fixture = {
+            "exploit/test/example_compat": {
+                "module_source": "lab_fixture",
+                "fixture_source_path": r"C:\fixtures\modules\exploits\test\example_compat.rb",
+                "fixture_sha256": "f" * 64,
+                "fixture_modules_root": r"C:\fixtures\modules",
+                "fixture_namespace": "abc123",
+                "loaded_module_path": "/tmp/kalama-msf-lab-fixtures/abc123/modules/exploits/test/example_compat.rb",
+            }
+        }
+        result = discover_cve(
+            "CVE-2099-0001", "msf", make_backend(
+                cache={"present": True},
+                cached_candidates={"exploit/test/example_compat": {
+                    "rank": "excellent",
+                    "cache_module_path": "/tmp/old-fixture/modules/exploits/test/example_compat.rb",
+                    "cache_is_install_path": False,
+                }},
+                live_data={"exploit/test/example_compat": {"options": []}},
+                fixture_candidates=fixture,
+            ),
+        )
+
+        self.assertEqual(result.status, DiscoveryStatus.FOUND)
+        self.assertEqual(len(result.candidates), 1)
+        self.assertEqual(result.candidates[0].module_source, "lab_fixture")
+        self.assertEqual(result.candidates[0].fixture_sha256, "f" * 64)
 
     def test_genuine_no_module_is_distinct(self):
         result = discover_cve(

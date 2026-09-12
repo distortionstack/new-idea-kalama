@@ -37,6 +37,26 @@ INTEGRITY_FAILURES = {
     "SOURCE_IMAGE_PRESERVATION_ERROR",
     "PATCHED_IMAGE_IDENTITY_ERROR",
 }
+POST_PATCH_RETRY_REASON = "POST_PATCH_VALIDATION_FAILED"
+FORCED_POST_PATCH_SMOKE_FAILED = "FORCED_POST_PATCH_SMOKE_FAILED"
+POST_PATCH_EVIDENCE_KEYS = {
+    "application_evidence",
+    "application_validation_evidence",
+    "healthcheck_evidence",
+    "post_patch_validation",
+    "post_patch_validation_evidence",
+    "smoke_evidence",
+    "smoke_test_evidence",
+    "validation_evidence",
+}
+FAILURE_TEXT = {
+    "ERROR",
+    "FAILED",
+    "FAILURE",
+    "HTTP_404",
+    "NOT_FOUND",
+    "UNHEALTHY",
+}
 
 
 class PatchRetryError(RuntimeError):
@@ -120,6 +140,46 @@ def _attempts_on_disk(root: Path, run_id: str) -> set[int]:
     return set(found)
 
 
+def _evidence_failed(value: Any) -> bool:
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            name = str(key).casefold()
+            if name in {"success", "passed", "ok"} and item is False:
+                return True
+            if name in {"exit_code", "status_code", "http_status"}:
+                try:
+                    code = int(item)
+                except (TypeError, ValueError):
+                    code = None
+                if code not in (None, 0, 200, 201, 202, 204):
+                    return True
+            if name in {"status", "result", "verdict", "state", "code"}:
+                text = str(item).strip().upper()
+                if text in FAILURE_TEXT or text.startswith("HTTP_4") or text.startswith("HTTP_5"):
+                    return True
+            if _evidence_failed(item):
+                return True
+    elif isinstance(value, (list, tuple)):
+        return any(_evidence_failed(item) for item in value)
+    elif isinstance(value, str):
+        text = value.casefold()
+        return " 404" in text or "404 not found" in text or "response status code does not indicate success: 404" in text
+    return False
+
+
+def _post_patch_validation_failed(result: Mapping[str, Any]) -> bool:
+    for key in POST_PATCH_EVIDENCE_KEYS:
+        if key in result and _evidence_failed(result[key]):
+            return True
+    for action in result.get("actions") or ():
+        if not isinstance(action, Mapping):
+            continue
+        for key in POST_PATCH_EVIDENCE_KEYS:
+            if key in action and _evidence_failed(action[key]):
+                return True
+    return False
+
+
 class PatchRetryOrchestrator:
     def __init__(self, store: StateStore, *,
                  clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc)):
@@ -199,27 +259,66 @@ class PatchRetryOrchestrator:
         except Exception as exc:
             raise PatchRetryError("PATCH_FORM_SUBMISSION_INTEGRITY_ERROR", str(exc)) from exc
 
-    def _eligible(self, state: RunState) -> tuple[str, ArtifactReference | None]:
-        if state.status != RunStatus.FAILED_FATAL:
-            raise PatchRetryError("PATCH_RETRY_NOT_FAILED", "run is not FAILED_FATAL")
-        if state.current_stage != PipelineStage.STEP_5_PATCH_EXECUTION:
-            raise PatchRetryError("PATCH_RETRY_WRONG_STAGE", "run did not fail in Patch Execution")
-        if state.stage(PipelineStage.STEP_5_PATCH_EXECUTION).status != StageStatus.FAILED:
-            raise PatchRetryError("PATCH_RETRY_WRONG_STAGE", "Patch Execution stage is not failed")
-        reason = state.errors[-1].code if state.errors else "UNKNOWN"
-        if reason in INTEGRITY_FAILURES:
-            raise PatchRetryError("PATCH_RETRY_INTEGRITY_FAILURE", reason)
-        if reason not in RECOVERABLE_PATCH_FAILURES:
-            raise PatchRetryError("PATCH_RETRY_UNSUPPORTED_FAILURE", reason)
+    def _eligible(self, state: RunState, *, edit_plan: bool = True,
+                  force_smoke_failed: bool = False) -> tuple[str, ArtifactReference | None]:
         result_ref = state.artifact(ArtifactKind.PATCH_RESULT)
+        result = None
         if result_ref is not None:
             path = Path(result_ref.path)
             try:
                 if not path.is_file() or _sha(path) != result_ref.sha256:
                     raise ValueError("result digest mismatch")
+                result = json.loads(path.read_bytes())
+                if (not isinstance(result, Mapping) or result.get("schema") != PATCH_RESULT_SCHEMA
+                        or result.get("run_id") != state.run_id or result.get("phase") != "patch"):
+                    raise ValueError("result identity mismatch")
             except Exception as exc:
                 raise PatchRetryError("PATCH_RESULT_INTEGRITY_ERROR", str(exc)) from exc
-        return reason, result_ref
+
+        if force_smoke_failed:
+            if not edit_plan:
+                raise PatchRetryError(
+                    "PATCH_RETRY_FORCE_REQUIRES_EDIT_PLAN",
+                    "force-smoke-failed override requires --edit-plan")
+            if result_ref is None or result is None:
+                raise PatchRetryError("PATCH_RETRY_NO_ATTEMPT", "no Patch Result attempt exists")
+            if not (state.status == RunStatus.PAUSED
+                    and state.current_stage == PipelineStage.STEP_6_AFTER_SCAN
+                    and state.waiting_reason == "AFTER_SCAN_NOT_INTEGRATED"
+                    and state.stage(PipelineStage.STEP_5_PATCH_EXECUTION).status == StageStatus.SUCCEEDED):
+                raise PatchRetryError(
+                    "PATCH_RETRY_FORCE_INELIGIBLE",
+                    "force-smoke-failed requires PAUSED/STEP_6_AFTER_SCAN/"
+                    "AFTER_SCAN_NOT_INTEGRATED with SUCCEEDED Patch Execution")
+            return FORCED_POST_PATCH_SMOKE_FAILED, result_ref
+
+        if state.status == RunStatus.FAILED_FATAL:
+            if state.current_stage != PipelineStage.STEP_5_PATCH_EXECUTION:
+                raise PatchRetryError("PATCH_RETRY_WRONG_STAGE", "run did not fail in Patch Execution")
+            if state.stage(PipelineStage.STEP_5_PATCH_EXECUTION).status != StageStatus.FAILED:
+                raise PatchRetryError("PATCH_RETRY_WRONG_STAGE", "Patch Execution stage is not failed")
+            reason = state.errors[-1].code if state.errors else "UNKNOWN"
+            if reason in INTEGRITY_FAILURES:
+                raise PatchRetryError("PATCH_RETRY_INTEGRITY_FAILURE", reason)
+            if reason not in RECOVERABLE_PATCH_FAILURES:
+                raise PatchRetryError("PATCH_RETRY_UNSUPPORTED_FAILURE", reason)
+            if result_ref is None:
+                raise PatchRetryError("PATCH_RETRY_NO_ATTEMPT", "no Patch Result attempt exists")
+            return reason, result_ref
+
+        if (state.status == RunStatus.PAUSED
+                and state.current_stage == PipelineStage.STEP_6_AFTER_SCAN
+                and state.waiting_reason == "AFTER_SCAN_NOT_INTEGRATED"
+                and state.stage(PipelineStage.STEP_5_PATCH_EXECUTION).status == StageStatus.SUCCEEDED):
+            if result_ref is None or result is None:
+                raise PatchRetryError("PATCH_RETRY_NO_ATTEMPT", "no Patch Result attempt exists")
+            if _post_patch_validation_failed(result):
+                return POST_PATCH_RETRY_REASON, result_ref
+            raise PatchRetryError("PATCH_RETRY_NOT_FAILED",
+                                  "patch execution succeeded and no failed post-patch validation evidence was recorded")
+
+        if state.status != RunStatus.FAILED_FATAL:
+            raise PatchRetryError("PATCH_RETRY_NOT_FAILED", "run is not FAILED_FATAL")
 
     @staticmethod
     def _form_from_plan(plan_artifact: Mapping[str, Any], *, run_id: str,
@@ -253,9 +352,11 @@ class PatchRetryOrchestrator:
         return {"schema": PATCH_FORM_SCHEMA, "run_id": run_id, "phase": "patch",
                 "revision": revision, "base_patch_plan_sha256": base_sha, "actions": actions}
 
-    def retry(self, run_id: str, *, edit_plan: bool) -> RunState:
+    def retry(self, run_id: str, *, edit_plan: bool,
+              force_smoke_failed: bool = False) -> RunState:
         state = self.store.load(run_id)
-        reason, result_ref = self._eligible(state)
+        reason, result_ref = self._eligible(
+            state, edit_plan=edit_plan, force_smoke_failed=force_smoke_failed)
         plan_ref, plan_artifact = self._load_plan(state)
         self._load_form(state)
         self._load_submission(state, plan_artifact)

@@ -15,10 +15,16 @@ from .state import ArtifactKind, RunState, RunStatus, StateStoreError
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="kalama", description="Kalama MVP pipeline")
-    parser.add_argument("--output-root", default="output", help="canonical output root (default: output)")
+    parser.add_argument("--output-root", default="output", help="canonical output root (default: output; per-case: output/<case>)")
     sub = parser.add_subparsers(dest="command", required=True)
     run = sub.add_parser("run", help="create a run and execute target scan + prioritization")
     run.add_argument("--image", required=True, help="victim image reference")
+    run.add_argument("--dynamic-scan", choices=["off", "nuclei"], default="off",
+                     help="opt-in shadow dynamic probing with approved Nuclei templates (default: off)")
+    run.add_argument("--nuclei-profile", choices=["safe-cve-http"], default="safe-cve-http",
+                     help="approved Nuclei template profile (default: safe-cve-http)")
+    run.add_argument("--dynamic-scan-required", action="store_true",
+                     help="fail the run when requested dynamic probing is inconclusive")
     for name, help_text in (
         ("continue", "execute exactly one pipeline stage"),
         ("status", "show canonical run state"),
@@ -38,6 +44,10 @@ def build_parser() -> argparse.ArgumentParser:
                             help="create the next editable Patch Form revision")
     retry_mode.add_argument("--same-plan", action="store_true",
                             help="retry the current confirmed Patch Plan unchanged")
+    retry.add_argument("--force-smoke-failed", action="store_true",
+                       help="bounded override: retry a mechanically successful patch "
+                            "that failed live smoke (PAUSED/STEP_6_AFTER_SCAN only, "
+                            "requires --edit-plan)")
     doctor = sub.add_parser("doctor", help="validate the production environment without modifying it")
     doctor.add_argument("--json", action="store_true", help="emit a machine-readable report")
     return parser
@@ -144,7 +154,9 @@ def main(argv: list[str] | None = None, *, runtime_factory: Callable = build_run
         if args.command == "run":
             if not args.image.strip():
                 raise ValueError("IMAGE_REQUIRED: image must not be empty")
-            state = runtime.start(args.image.strip())
+            state = runtime.start(args.image.strip(), dynamic_scan=args.dynamic_scan,
+                                  nuclei_profile=args.nuclei_profile,
+                                  dynamic_scan_required=args.dynamic_scan_required)
         else:
             path = runtime.store.path_for(args.run_id)
             if not path.is_file():
@@ -164,7 +176,9 @@ def main(argv: list[str] | None = None, *, runtime_factory: Callable = build_run
             elif args.command == "submit-patch-form":
                 state = runtime.submit_patch_form(args.run_id, args.file)
             else:
-                state = runtime.retry_patch_execution(args.run_id, edit_plan=args.edit_plan)
+                state = runtime.retry_patch_execution(
+                    args.run_id, edit_plan=args.edit_plan,
+                    force_smoke_failed=args.force_smoke_failed)
         render_state(state, runtime.store.path_for(state.run_id), stdout)
         return 1 if state.status == RunStatus.FAILED_FATAL else 0
     except (StateStoreError, ValueError, RuntimeError) as exc:

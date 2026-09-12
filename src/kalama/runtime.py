@@ -6,6 +6,7 @@ from pathlib import Path
 import os
 from typing import Mapping, Sequence, Any
 
+from kalama.metasploit_fixtures import registry_from_env
 from kalama.resolver.backend import resolver_backend
 
 from .dispatcher import dispatch_stage
@@ -54,7 +55,9 @@ class ProductionRuntime:
         self.runner = SubprocessCommandRunner()
         self.scanner_runner = WorkbenchToolRunner(self.runner)
 
-    def start(self, image: str) -> RunState:
+    def start(self, image: str, *, dynamic_scan: str = "off",
+              nuclei_profile: str = "safe-cve-http",
+              dynamic_scan_required: bool = False) -> RunState:
         initial = PrioritizationOrchestrator(
             self.store,
             lambda request: execute_step2(request, self.scanner_runner),
@@ -62,6 +65,19 @@ class ProductionRuntime:
                 epss_provider=FIRSTEPSSProvider(), kev_provider=CISAKEVProvider()),
         )
         state = initial.run(image)
+        state = self.store.load(state.run_id)
+        # Shadow dynamic probing runs after Step 3 on the committed Top-N
+        # candidates. Feature off (default) returns the v1 state untouched.
+        if dynamic_scan == "nuclei" and state.status == RunStatus.PAUSED:
+            from .dynamic_shadow import DynamicShadowOrchestrator, dynamic_config_from_env
+            config = dynamic_config_from_env(
+                dynamic_scan=dynamic_scan, nuclei_profile=nuclei_profile,
+                required=dynamic_scan_required)
+            state = DynamicShadowOrchestrator(
+                self.store, command_runner=self.runner).run_shadow(state.run_id, config)
+        elif dynamic_scan not in ("off", "nuclei"):
+            raise ValueError(
+                f"DYNAMIC_CONFIG_INVALID: --dynamic-scan must be off|nuclei, got {dynamic_scan!r}")
         return self.store.load(state.run_id)
 
     def submit_attack_form(self, run_id: str, path: Path) -> RunState:
@@ -77,8 +93,10 @@ class ProductionRuntime:
         PatchConfirmationOrchestrator(self.store).apply_patch_form(run_id, path)
         return self.store.load(run_id)
 
-    def retry_patch_execution(self, run_id: str, *, edit_plan: bool) -> RunState:
-        PatchRetryOrchestrator(self.store).retry(run_id, edit_plan=edit_plan)
+    def retry_patch_execution(self, run_id: str, *, edit_plan: bool,
+                              force_smoke_failed: bool = False) -> RunState:
+        PatchRetryOrchestrator(self.store).retry(
+            run_id, edit_plan=edit_plan, force_smoke_failed=force_smoke_failed)
         return self.store.load(run_id)
 
     def continue_once(self, run_id: str) -> RunState:
@@ -94,9 +112,10 @@ class ProductionRuntime:
             "kalama-workbench": WORKBENCH_NAME,
             "msf-resolver-host": "msf-resolver-host",
         }
+        fixture_registry = registry_from_env()
         common = (
             DockerEnvironmentValidator(self.runner),
-            DockerMetasploitExecutor(self.runner),
+            DockerMetasploitExecutor(self.runner, fixture_registry=fixture_registry),
         )
         stages = {
             "resolver": lambda: ResolverOrchestrator(

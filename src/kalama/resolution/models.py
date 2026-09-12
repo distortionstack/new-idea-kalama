@@ -13,6 +13,7 @@ from kalama.resolver.models import CandidateRankingResult, DiscoveryResult
 class ResolverCVEStatus(str, Enum):
     READY_TO_EXECUTE = "READY_TO_EXECUTE"
     WAITING_FOR_USER_INPUT = "WAITING_FOR_USER_INPUT"
+    USER_SKIPPED = "USER_SKIPPED"
     NO_MSF_MODULE = "NO_MSF_MODULE"
     UNRESOLVED_CONFIG = "UNRESOLVED_CONFIG"
     ENVIRONMENT_ERROR = "ENVIRONMENT_ERROR"

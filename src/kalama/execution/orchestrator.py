@@ -47,12 +47,14 @@ class BeforeExploitOrchestrator:
                  metasploit: MetasploitExecutor, lab_commands: LabCommandExecutor, *,
                  clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
                  operation_timeout: float = 120.0, command_timeout: float = 30.0,
-                 session_timeout: float = 30.0):
+                 session_timeout: float = 30.0,
+                 session_settle_seconds: float | None = None):
         self.store, self.environment_validator = store, environment_validator
         self.metasploit, self.lab_commands = metasploit, lab_commands
         self.clock = clock
         self.operation_timeout, self.command_timeout = operation_timeout, command_timeout
         self.session_timeout = session_timeout
+        self.session_settle_seconds = session_settle_seconds
 
     def _now(self) -> str:
         return utc_text(self.clock())
@@ -122,7 +124,8 @@ class BeforeExploitOrchestrator:
             target_facts=target_facts, environment_validator=self.environment_validator,
             metasploit=self.metasploit, lab_commands=self.lab_commands, now=self._now,
             operation_timeout=self.operation_timeout, command_timeout=self.command_timeout,
-            session_timeout=self.session_timeout)
+            session_timeout=self.session_timeout,
+            session_settle_seconds=self.session_settle_seconds)
 
     def run(self, run_id: str) -> RunState:
         try:
@@ -151,8 +154,9 @@ class BeforeExploitOrchestrator:
         for raw in entries:
             rank, cve_id, status = int(raw["rank"]), str(raw["cve_id"]), str(raw["status"])
             if status != "READY_TO_EXECUTE" or raw.get("exploit_config") is None:
+                disposition = "NOT_EXECUTED" if status == "USER_SKIPPED" else status
                 results.append({"rank": rank, "cve_id": cve_id, "config_status": status,
-                                "disposition": status,
+                                "disposition": disposition,
                                 "attempt": None, "oracle": {"verdict": "NOT_EVALUATED"},
                                 "metric_eligibility": {"eligible": False,
                                                        "exclusion_reason": status}})
@@ -187,7 +191,7 @@ class BeforeExploitOrchestrator:
 
         counts = {name: sum(x.resolver_status == name for x in summaries) for name in (
             "EXPLOIT_SUCCEEDED", "EXPLOIT_FAILED", "CHECK_ONLY", "INCONCLUSIVE",
-            "NOT_EXECUTED", "NO_MSF_MODULE", "ENVIRONMENT_ERROR")}
+            "NOT_EXECUTED", "USER_SKIPPED", "NO_MSF_MODULE", "ENVIRONMENT_ERROR")}
         attack = {"schema": ATTACK_RESULT_SCHEMA,
                   "artifact": {"run_id": run_id, "phase": "before",
                                "created_at": self._now(),

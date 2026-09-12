@@ -52,8 +52,8 @@ class FakeRuntime:
         self.calls.append(("patch", run_id, path))
         return self.store.load(run_id)
 
-    def retry_patch_execution(self, run_id, *, edit_plan):
-        self.calls.append(("retry", run_id, edit_plan))
+    def retry_patch_execution(self, run_id, *, edit_plan, force_smoke_failed=False):
+        self.calls.append(("retry", run_id, edit_plan, force_smoke_failed))
         return self.store.load(run_id)
 
 
@@ -135,9 +135,11 @@ class CLITests(unittest.TestCase):
         runtime = FakeRuntime(self.store)
         self.invoke(["retry", "aB3x9", "--edit-plan"], runtime)
         self.invoke(["retry", "aB3x9", "--same-plan"], runtime)
+        self.invoke(["retry", "aB3x9", "--edit-plan", "--force-smoke-failed"], runtime)
         self.assertEqual(runtime.calls, [
-            ("retry", "aB3x9", True),
-            ("retry", "aB3x9", False),
+            ("retry", "aB3x9", True, False),
+            ("retry", "aB3x9", False, False),
+            ("retry", "aB3x9", True, True),
         ])
 
     def test_completed_and_failed_do_not_dispatch(self):

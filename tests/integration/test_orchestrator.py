@@ -220,6 +220,10 @@ class OrchestrationTests(unittest.TestCase):
             self.assertEqual(state.target.facts["ip_address"], "172.18.0.3")
             self.assertEqual(state.status, RunStatus.PAUSED)
             self.assertEqual(state.current_stage, PipelineStage.STEP_4_RESOLVER)
+            self.assertEqual(state.stage(PipelineStage.STEP_4_RESOLVER).status,
+                             StageStatus.NOT_STARTED)
+            self.assertEqual(state.warnings[-1].code, "STEP_4_RESOLVER_READY")
+            self.assertIn("ready to continue", state.warnings[-1].message)
 
     def test_step2_failure_stops_and_never_calls_step3(self):
         with tempfile.TemporaryDirectory() as tmp:

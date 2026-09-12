@@ -22,6 +22,8 @@ class SubmissionValidationError(ValueError):
 class AppliedConfig:
     config: ExploitConfig
     validation: Any
+    skipped: bool = False
+    skip_reason: str | None = None
 
 
 def _mapping(value: Any, name: str) -> Mapping[str, Any]:
@@ -39,6 +41,28 @@ def _confirmed(raw: Any) -> tuple[bool, Any]:
 def _human(field: ExploitValue, value: Any) -> ExploitValue:
     return replace(field, value=value, source=FieldSource.HUMAN_ATTACK_FORM,
                    confirmation_status=ConfirmationStatus.HUMAN_CONFIRMED)
+
+
+def _skip_reason(human_input: Mapping[str, Any]) -> str | None:
+    raw = human_input.get("decision")
+    if raw is None:
+        return None
+    decision = _mapping(raw, "decision")
+    unknown = set(decision) - {"confirmed", "reason"}
+    if unknown:
+        raise SubmissionValidationError("ATTACK_FORM_UNKNOWN_FIELD",
+                                        f"unknown decision field(s): {', '.join(sorted(unknown))}")
+    confirmed = decision.get("confirmed")
+    if confirmed is None:
+        return None
+    if confirmed != "skip":
+        raise SubmissionValidationError("ATTACK_FORM_INVALID_OPTION",
+                                        "decision.confirmed must be 'skip' or null")
+    reason = decision.get("reason")
+    if not isinstance(reason, str) or not reason.strip():
+        raise SubmissionValidationError("ATTACK_FORM_INVALID_OPTION",
+                                        "decision.reason is required when skipping a CVE")
+    return reason
 
 
 def _typed(value: Any, option: ConfigOption) -> Any:
@@ -121,11 +145,16 @@ def apply_human_confirmation(
 ) -> AppliedConfig:
     allowed = {"rank", "input_reasons", "module", "target", "targeturi", "module_options",
                "payload", "payload_options", "preconditions", "pre_attack",
-               "execution_protocol", "environment", "guidance"}
+               "execution_protocol", "environment", "guidance", "decision"}
     unknown = set(human_input) - allowed
     if unknown:
         raise SubmissionValidationError("ATTACK_FORM_UNKNOWN_FIELD",
                                         f"unknown CVE field(s): {', '.join(sorted(unknown))}")
+    skip_reason = _skip_reason(human_input)
+    if skip_reason is not None:
+        validation = validate_exploit_config(config)
+        return AppliedConfig(replace(config, readiness=validation.readiness), validation,
+                             True, skip_reason)
     invariant, environment = config.invariant, config.environment
 
     module_raw = human_input.get("module")
@@ -200,8 +229,17 @@ def apply_human_confirmation(
 
     if "preconditions" in human_input:
         raw = _mapping(human_input["preconditions"], "preconditions")
+        allowed_preconditions = {"description", "commands", "execution_target",
+                                 "required", "confirmation_status"}
+        if set(raw) - allowed_preconditions:
+            raise SubmissionValidationError("ATTACK_FORM_UNKNOWN_FIELD",
+                                            "unknown precondition field")
         description, commands = raw.get("description"), raw.get("commands")
         execution_target = raw.get("execution_target")
+        required = raw.get("required", invariant.preconditions.required)
+        if not isinstance(required, bool):
+            raise SubmissionValidationError("ATTACK_FORM_INVALID_OPTION",
+                                            "preconditions.required must be boolean")
         if description is not None or commands or execution_target is not None:
             if description is not None and not isinstance(description, str):
                 raise SubmissionValidationError("ATTACK_FORM_INVALID_OPTION", "description must be text")
@@ -212,7 +250,7 @@ def apply_human_confirmation(
                                                 "precondition execution_target must be text")
             invariant = replace(invariant, preconditions=replace(
                 invariant.preconditions, description=description,
-                commands=tuple(commands), execution_target=execution_target,
+                commands=tuple(commands), execution_target=execution_target, required=required,
                 source=FieldSource.HUMAN_ATTACK_FORM,
                 confirmation_status=ConfirmationStatus.HUMAN_CONFIRMED))
 

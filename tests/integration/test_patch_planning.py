@@ -77,7 +77,9 @@ class PatchPlanningIntegrationTests(unittest.TestCase):
         self.root, self.store = self.helper.root, self.helper.store
         self.helper.make_exploit_protocol()
         self.state = self.helper.execute_pipeline(
-            task4_helpers.FakeMsf(sessions=(("1",), ("1", "2"))))
+            task4_helpers.FakeMsf(sessions=(("1",), ("1", "2")),
+                                  session_details=({}, {"2": {"tunnel_peer": "172.18.0.3:4444",
+                                                             "via_exploit": "exploit/a"}})))
         top_ref = self.state.artifact(ArtifactKind.TOP30_BEFORE)
         top = json.loads(Path(top_ref.path).read_bytes())
         top["ranked_cves"][0]["occurrences"] = [occurrence("CVE-2099-0001")]

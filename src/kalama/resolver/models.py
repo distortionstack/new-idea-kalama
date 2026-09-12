@@ -149,6 +149,13 @@ class ModuleCandidate:
     default_target_index: int | None = None
     payload_discovery_status: PayloadDiscoveryStatus = PayloadDiscoveryStatus.UNAVAILABLE
     payloads: tuple[PayloadEvidence, ...] = ()
+    module_source: str = "stock"
+    fixture_source_path: str | None = None
+    fixture_sha256: str | None = None
+    fixture_manifest: dict[str, Any] | None = None
+    fixture_modules_root: str | None = None
+    fixture_namespace: str | None = None
+    loaded_module_path: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -166,6 +173,13 @@ class ModuleCandidate:
             "default_target_index": self.default_target_index,
             "payload_discovery_status": self.payload_discovery_status.value,
             "payloads": [payload.to_dict() for payload in self.payloads],
+            "module_source": self.module_source,
+            "fixture_source_path": self.fixture_source_path,
+            "fixture_sha256": self.fixture_sha256,
+            "fixture_manifest": self.fixture_manifest,
+            "fixture_modules_root": self.fixture_modules_root,
+            "fixture_namespace": self.fixture_namespace,
+            "loaded_module_path": self.loaded_module_path,
         }
 
 

@@ -137,8 +137,8 @@ class Step4OrchestrationTests(unittest.TestCase):
         self.assertEqual(seen, ["CVE-2099-0001"])
         self.assertEqual(state.status, RunStatus.PAUSED)
         self.assertEqual(state.waiting_reason, "NO_EXECUTABLE_MSF_CANDIDATE")
-        self.assertEqual(Path(state.artifact(ArtifactKind.RESOLVER_BEFORE).path).parent,
-                         self.root / "resolver")
+        self.assertTrue(Path(state.artifact(ArtifactKind.RESOLVER_BEFORE).path)
+                        .parent.samefile(self.root / "resolver"))
         self.assertTrue(chosen.exists())
 
     def test_digest_mismatch_fails_before_processor(self):

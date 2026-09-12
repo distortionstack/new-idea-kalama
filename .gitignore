@@ -20,6 +20,9 @@ htmlcov/
 
 # Generated pipeline and resolver runtime artifacts
 output/
+# Safety net: never let per-case roots pile at repo root again (canonical is output/<case>)
+output-*/
+screening-output/
 resolver_output/
 attack-submit*.yaml
 patch-submit*.yaml

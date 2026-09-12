@@ -1,5 +1,6 @@
 import json
 import hashlib
+from dataclasses import replace
 from pathlib import Path
 import unittest
 
@@ -176,6 +177,15 @@ class PatchTask5BTests(unittest.TestCase):
         self.store.save(state)
         return self.store.load("aB3x9")
 
+    def update_patch_result(self, state, update):
+        ref = state.artifact(ArtifactKind.PATCH_RESULT)
+        artifact = json.loads(Path(ref.path).read_bytes())
+        update(artifact)
+        Path(ref.path).write_text(json.dumps(artifact, sort_keys=True), encoding="utf-8")
+        updated = replace(ref, sha256=hashlib.sha256(Path(ref.path).read_bytes()).hexdigest())
+        self.store.save(state.with_artifact(updated, state.updated_at))
+        return self.store.load("aB3x9")
+
     def test_complete_confirmation_revises_canonical_plan_then_executes_without_form(self):
         waiting = self.fixture.run_plan(planning_helpers.FakeProvider())
         form_ref = waiting.artifact(ArtifactKind.PATCH_FORM)
@@ -288,6 +298,41 @@ class PatchTask5BTests(unittest.TestCase):
                          StageStatus.SUCCEEDED)
         names = [call[0] for call in backend.calls]
         self.assertLess(names.index("execute_validation"), names.index("finalize_image"))
+
+    def test_retry_rejected_after_successful_patch_and_validation_pass(self):
+        self.add_validation(self.ready(), "validate-patch")
+        state = PatchExecutionOrchestrator(
+            self.store, FakePatchBackend(validation_success=True), clock=lambda: NOW).run("aB3x9")
+        attempt1 = state.artifact(ArtifactKind.PATCH_RESULT)
+        with self.assertRaisesRegex(Exception, "no failed post-patch validation evidence"):
+            PatchRetryOrchestrator(self.store, clock=lambda: NOW).retry("aB3x9", edit_plan=True)
+        self.assertEqual(self.store.load("aB3x9").artifact(ArtifactKind.PATCH_RESULT), attempt1)
+
+    def test_retry_allowed_after_command_success_and_smoke_failure(self):
+        self.add_validation(self.ready(), "validate-patch")
+        state = PatchExecutionOrchestrator(
+            self.store, FakePatchBackend(validation_success=True), clock=lambda: NOW).run("aB3x9")
+        attempt1 = state.artifact(ArtifactKind.PATCH_RESULT)
+        state = self.update_patch_result(state, lambda artifact: artifact.update({
+            "smoke_test_evidence": {
+                "success": False,
+                "status_code": 404,
+                "stdout": "S2-045 returned 404 Not Found",
+            },
+        }))
+        patched_result_ref = state.artifact(ArtifactKind.PATCH_RESULT)
+        before_retry = Path(patched_result_ref.path).read_bytes()
+
+        retried = PatchRetryOrchestrator(
+            self.store, clock=lambda: NOW).retry("aB3x9", edit_plan=True)
+
+        self.assertEqual(retried.status, RunStatus.WAITING_FOR_USER_INPUT)
+        self.assertEqual(retried.current_stage, PipelineStage.STEP_5_PATCH_PLAN)
+        self.assertEqual(retried.waiting_reason, "PATCH_FORM")
+        self.assertEqual(Path(patched_result_ref.path).read_bytes(), before_retry)
+        form_summary = dict(retried.artifact(ArtifactKind.PATCH_FORM).summary)
+        self.assertEqual(form_summary["retry_attempt"], 2)
+        self.assertEqual(form_summary["retry_reason"], "POST_PATCH_VALIDATION_FAILED")
 
     def test_source_preservation_failure_never_commits_after_identity(self):
         self.ready()
@@ -587,6 +632,102 @@ class PatchTask5BTests(unittest.TestCase):
         self.assertEqual(state3.artifact(ArtifactKind.PATCH_RESULT), result3)
         workspaces = [call[1]["attempt"] for call in backend3.calls if call[0] == "prepare_workspace"]
         self.assertEqual(workspaces, [3])
+
+
+class PatchForceSmokeRetryTests(unittest.TestCase):
+    """Bounded --force-smoke-failed override for legacy successful patches."""
+
+    def setUp(self):
+        self.fixture = planning_helpers.PatchPlanningIntegrationTests()
+        self.fixture.setUp()
+        self.store = self.fixture.store
+
+    def tearDown(self):
+        self.fixture.tearDown()
+
+    def _succeeded_without_smoke_evidence(self):
+        candidate = RemediationCandidate(
+            "1.1", FixType.C, PatchStrategy.PACKAGE_MANAGER,
+            "official_repository", "debian-security", trusted=True, same_branch=True)
+        self.fixture.run_plan(planning_helpers.FakeProvider(candidate))
+        ref = self.store.load("aB3x9").artifact(ArtifactKind.PATCH_PLAN)
+        artifact = json.loads(Path(ref.path).read_bytes())
+        artifact["actions"][0]["execution"] = {
+            **dict(artifact["actions"][0].get("execution") or {}),
+            "validation_command": "validate-patch",
+            "execution_target": "patch-workspace",
+        }
+        Path(ref.path).write_text(json.dumps(artifact), encoding="utf-8")
+        ref = replace(ref, sha256=hashlib.sha256(Path(ref.path).read_bytes()).hexdigest())
+        loaded = self.store.load("aB3x9")
+        self.store.save(loaded.with_artifact(ref, loaded.updated_at))
+        return PatchExecutionOrchestrator(
+            self.store, FakePatchBackend(validation_success=True),
+            clock=lambda: NOW).run("aB3x9")
+
+    def test_successful_patch_rejects_without_force(self):
+        state = self._succeeded_without_smoke_evidence()
+        self.assertEqual(state.status, RunStatus.PAUSED)
+        self.assertEqual(state.current_stage, PipelineStage.STEP_6_AFTER_SCAN)
+        with self.assertRaisesRegex(Exception, "no failed post-patch validation evidence"):
+            PatchRetryOrchestrator(self.store, clock=lambda: NOW).retry(
+                "aB3x9", edit_plan=True)
+        self.assertIsNone(self.store.load("aB3x9").artifact(ArtifactKind.PATCH_FORM))
+
+    def test_force_allows_retry_with_edit_plan(self):
+        state = self._succeeded_without_smoke_evidence()
+        attempt1 = state.artifact(ArtifactKind.PATCH_RESULT)
+        retried = PatchRetryOrchestrator(self.store, clock=lambda: NOW).retry(
+            "aB3x9", edit_plan=True, force_smoke_failed=True)
+        self.assertEqual(retried.status, RunStatus.WAITING_FOR_USER_INPUT)
+        self.assertEqual(retried.current_stage, PipelineStage.STEP_5_PATCH_PLAN)
+        self.assertEqual(retried.waiting_reason, "PATCH_FORM")
+        form_ref = retried.artifact(ArtifactKind.PATCH_FORM)
+        summary = dict(form_ref.summary)
+        self.assertEqual(summary["retry_attempt"], 2)
+        self.assertEqual(summary["retry_reason"], "FORCED_POST_PATCH_SMOKE_FAILED")
+        self.assertEqual(summary["retry_mode"], "EDIT_PLAN")
+        self.assertEqual(summary["revision"], 1)
+        self.assertIn("_r1.yaml", form_ref.path)
+        self.assertEqual(retried.artifact(ArtifactKind.PATCH_RESULT), attempt1)
+
+    def test_force_rejects_without_patch_attempt(self):
+        candidate = RemediationCandidate(
+            "1.1", FixType.C, PatchStrategy.PACKAGE_MANAGER,
+            "official_repository", "debian-security", trusted=True, same_branch=True)
+        self.fixture.run_plan(planning_helpers.FakeProvider(candidate))
+        with self.assertRaisesRegex(Exception, "PATCH_RETRY_NO_ATTEMPT"):
+            PatchRetryOrchestrator(self.store, clock=lambda: NOW).retry(
+                "aB3x9", edit_plan=True, force_smoke_failed=True)
+        self.assertIsNone(self.store.load("aB3x9").artifact(ArtifactKind.PATCH_RESULT))
+
+    def test_force_rejects_wrong_state(self):
+        state = self._succeeded_without_smoke_evidence()
+        for mutate in (
+            lambda s: replace(s, status=RunStatus.COMPLETED),
+            lambda s: replace(s, current_stage=PipelineStage.STEP_5_PATCH_EXECUTION),
+            lambda s: replace(s, waiting_reason="PATCH_EXECUTION_NOT_INTEGRATED"),
+        ):
+            self.store.save(mutate(self.store.load("aB3x9")))
+            with self.assertRaisesRegex(Exception, "PATCH_RETRY_FORCE_INELIGIBLE"):
+                PatchRetryOrchestrator(self.store, clock=lambda: NOW).retry(
+                    "aB3x9", edit_plan=True, force_smoke_failed=True)
+            self.store.save(state)
+        with self.assertRaisesRegex(Exception, "PATCH_RETRY_FORCE_REQUIRES_EDIT_PLAN"):
+            PatchRetryOrchestrator(self.store, clock=lambda: NOW).retry(
+                "aB3x9", edit_plan=False, force_smoke_failed=True)
+
+    def test_force_does_not_modify_historical_result(self):
+        state = self._succeeded_without_smoke_evidence()
+        ref = state.artifact(ArtifactKind.PATCH_RESULT)
+        before_bytes = Path(ref.path).read_bytes()
+        before_sha = hashlib.sha256(before_bytes).hexdigest()
+        self.assertEqual(ref.sha256, before_sha)
+        PatchRetryOrchestrator(self.store, clock=lambda: NOW).retry(
+            "aB3x9", edit_plan=True, force_smoke_failed=True)
+        self.assertEqual(Path(ref.path).read_bytes(), before_bytes)
+        self.assertEqual(self.store.load("aB3x9").artifact(
+            ArtifactKind.PATCH_RESULT).sha256, before_sha)
 
 
 if __name__ == "__main__":

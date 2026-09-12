@@ -50,7 +50,15 @@ def _candidate(raw: Any) -> ModuleCandidate:
         bool(value.get("check_supported")), tuple(value.get("references") or ()), options,
         value.get("discovery_source"), tuple(value.get("metadata_source") or ()),
         targets, value.get("default_target_index"),
-        PayloadDiscoveryStatus(value.get("payload_discovery_status", "UNAVAILABLE")), payloads)
+        PayloadDiscoveryStatus(value.get("payload_discovery_status", "UNAVAILABLE")), payloads,
+        str(value.get("module_source") or "stock"),
+        None if value.get("fixture_source_path") is None else str(value.get("fixture_source_path")),
+        None if value.get("fixture_sha256") is None else str(value.get("fixture_sha256")),
+        (dict(value["fixture_manifest"]) if isinstance(value.get("fixture_manifest"), Mapping)
+         else None),
+        None if value.get("fixture_modules_root") is None else str(value.get("fixture_modules_root")),
+        None if value.get("fixture_namespace") is None else str(value.get("fixture_namespace")),
+        None if value.get("loaded_module_path") is None else str(value.get("loaded_module_path")))
 
 
 def _ranking(raw: Any) -> CandidateRankingResult:

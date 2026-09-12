@@ -226,11 +226,23 @@ class AttackFormOrchestrator:
                     applied = apply_human_confirmation(
                         config, human, payload_introspector=self.payload_introspector)
                     config, validation = applied.config, applied.validation
+                    skip_reason = applied.skip_reason
                 else:
                     validation = validate_exploit_config(config)
                     config = replace(config, readiness=validation.readiness)
+                    decision = raw.get("user_decision")
+                    if (raw.get("status") == ResolverCVEStatus.USER_SKIPPED.value
+                            and isinstance(decision, Mapping)
+                            and decision.get("confirmed") == "skip"
+                            and isinstance(decision.get("reason"), str)
+                            and decision["reason"].strip()):
+                        skip_reason = decision["reason"]
+                    else:
+                        skip_reason = None
                 discovery_status = config.invariant.module_selection.discovery_status
-                if discovery_status == DiscoveryStatus.NO_MSF_MODULE:
+                if skip_reason is not None:
+                    status = ResolverCVEStatus.USER_SKIPPED
+                elif discovery_status == DiscoveryStatus.NO_MSF_MODULE:
                     status = ResolverCVEStatus.NO_MSF_MODULE
                 elif discovery_status == DiscoveryStatus.ENVIRONMENT_ERROR:
                     status = ResolverCVEStatus.ENVIRONMENT_ERROR
@@ -240,11 +252,13 @@ class AttackFormOrchestrator:
                 updated = dict(raw)
                 updated.update(status=status.value, exploit_config=config.to_dict(),
                                validation=validation.to_dict())
+                if skip_reason is not None:
+                    updated["user_decision"] = {"confirmed": "skip", "reason": skip_reason}
                 updated_entries.append(updated)
                 analysis_items.append(ResolverCVEResult(
                     RankedCVEInput(int(rank), str(cve_id), tuple()), status,
                     None, config.invariant.module_selection.ranking, config, validation))
-        except (KeyError, TypeError, ValueError, SubmissionValidationError) as exc:
+        except (KeyError, TypeError, ValueError, RuntimeError, SubmissionValidationError) as exc:
             code = exc.code if isinstance(exc, SubmissionValidationError) else "CONFIG_APPLICATION_ERROR"
             return self._input_error(run_id, code, str(exc))
 

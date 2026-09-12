@@ -7,7 +7,7 @@ does not inspect pipeline directories or read/write a run state file.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 from kalama.resolver.models import (
     CandidateAmbiguityStatus,
@@ -62,6 +62,7 @@ class DiscoveryBackend:
     query_payloads: Callable[[list[str], str], dict[str, dict[str, Any]]] | None = None
     resolve_msf_ip: Callable[[str, str], str | None] | None = None
     introspect_payload: Callable[[str, str, str], PayloadEvidence] | None = None
+    search_fixtures: Callable[[str, str], dict[str, dict[str, Any]]] | None = None
 
 
 def _option_from_raw(raw: dict[str, Any]) -> ModuleOption:
@@ -82,15 +83,38 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) -> 
     try:
         cache = backend.load_cache()
         cache_candidates = backend.find_from_cache(cache, cve_id)
+        fixture_candidates = (backend.search_fixtures(cve_id, msf_container)
+                              if backend.search_fixtures is not None else {})
 
         if cache_candidates:
-            fullnames = list(cache_candidates)
-            discovery_source = "metadata_cache"
+            source_candidates: dict[str, dict[str, Any]] = dict(cache_candidates)
+            discovery_sources = {fullname: "metadata_cache" for fullname in source_candidates}
         elif cache is None:
-            fullnames = backend.search_live(cve_id, msf_container)
-            discovery_source = "msfconsole_search"
+            source_candidates = {fullname: {} for fullname in backend.search_live(cve_id, msf_container)}
+            discovery_sources = {fullname: "msfconsole_search" for fullname in source_candidates}
         else:
-            return DiscoveryResult(cve_id, DiscoveryStatus.NO_MSF_MODULE)
+            source_candidates = {}
+            discovery_sources = {}
+
+        collisions = sorted(set(source_candidates).intersection(fixture_candidates))
+        stale_non_stock_collisions = [
+            fullname for fullname in collisions
+            if _is_explicit_non_stock_cache_entry(source_candidates[fullname])
+        ]
+        for fullname in stale_non_stock_collisions:
+            source_candidates.pop(fullname, None)
+            discovery_sources.pop(fullname, None)
+        collisions = sorted(set(source_candidates).intersection(fixture_candidates))
+        if collisions:
+            raise RuntimeError(
+                "approved fixture module fullname collides with stock discovery; "
+                f"refusing silent substitution: {', '.join(collisions)}"
+            )
+        for fullname, metadata in fixture_candidates.items():
+            source_candidates[fullname] = dict(metadata)
+            discovery_sources[fullname] = "lab_fixture"
+
+        fullnames = list(source_candidates)
 
         if not fullnames:
             return DiscoveryResult(cve_id, DiscoveryStatus.NO_MSF_MODULE)
@@ -109,14 +133,16 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) -> 
     errors: list[str] = []
     for fullname in fullnames:
         live_entry = live_data.get(fullname, {})
-        base = cache_candidates.get(fullname, {})
+        base = source_candidates.get(fullname, {})
         if "error" in live_entry:
             errors.append(f"{fullname}: {live_entry['error']}")
             if not base:
                 continue
 
         metadata_sources = []
-        if base:
+        if str(base.get("module_source") or "stock") == "lab_fixture":
+            metadata_sources.append("lab_fixture")
+        elif base:
             metadata_sources.append(backend.cache_description)
         if live_entry and "error" not in live_entry:
             metadata_sources.append("live_msfconsole")
@@ -161,12 +187,19 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) -> 
             check_supported=bool(base.get("check_supported", live_entry.get("check_supported", False))),
             references=tuple(base.get("references") or live_entry.get("references") or ()),
             options=tuple(_option_from_raw(option) for option in live_entry.get("options", ())),
-            discovery_source=discovery_source,
+            discovery_source=discovery_sources.get(fullname),
             metadata_source=tuple(metadata_sources),
             target_details=target_details,
             default_target_index=default_target_index,
             payload_discovery_status=payload_status,
             payloads=tuple(payloads),
+            module_source=str(base.get("module_source") or live_entry.get("module_source") or "stock"),
+            fixture_source_path=_optional_str(base, live_entry, "fixture_source_path"),
+            fixture_sha256=_optional_str(base, live_entry, "fixture_sha256"),
+            fixture_manifest=_optional_mapping(base, live_entry, "fixture_manifest"),
+            fixture_modules_root=_optional_str(base, live_entry, "fixture_modules_root"),
+            fixture_namespace=_optional_str(base, live_entry, "fixture_namespace"),
+            loaded_module_path=_optional_str(base, live_entry, "loaded_module_path"),
         ))
 
     if not candidates:
@@ -182,6 +215,31 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) -> 
         candidates=tuple(candidates),
         errors=tuple(errors),
     )
+
+
+def _optional_str(base: Mapping[str, Any], live: Mapping[str, Any], key: str) -> str | None:
+    value = base.get(key)
+    if value is None:
+        value = live.get(key)
+    return str(value) if value is not None else None
+
+
+def _optional_mapping(base: Mapping[str, Any], live: Mapping[str, Any],
+                      key: str) -> dict[str, Any] | None:
+    value = base.get(key)
+    if value is None:
+        value = live.get(key)
+    return dict(value) if isinstance(value, Mapping) else None
+
+
+def _is_explicit_non_stock_cache_entry(value: Mapping[str, Any]) -> bool:
+    if value.get("cache_is_install_path") is False:
+        return True
+    path = value.get("cache_module_path")
+    if not isinstance(path, str) or not path:
+        return False
+    normalized = path.replace("\\", "/")
+    return not normalized.startswith("/modules/")
 
 
 def _normalize_msf_rank(raw_rank: str | None) -> tuple[str, int, bool]:
