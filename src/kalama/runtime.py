@@ -21,6 +21,7 @@ from .execution import (
 from .orchestrator import PrioritizationOrchestrator, production_step3_executor
 from .prioritizer import CISAKEVProvider, FIRSTEPSSProvider
 from .reexploit import ReexploitOrchestrator
+from .reexploit.orchestrator import ReexploitRetryOrchestrator
 from .remediation import (
     DockerPatchBackend,
     PatchConfirmationOrchestrator,
@@ -33,7 +34,10 @@ from .resolution import AttackFormOrchestrator, ResolverOrchestrator, production
 from .guidance import GuidanceService, OllamaConfig, OllamaProvider
 from .state import RunState, RunStatus, StateStore
 from .target import SubprocessCommandRunner, WorkbenchToolRunner, execute_step2
-from .verification import AfterScanOrchestrator, docker_image_inspector, production_after_scanner
+from .verification import (
+    AfterScanOrchestrator, AfterScanRetryOrchestrator, docker_after_target_inspector,
+    docker_image_inspector, production_after_scanner,
+)
 
 
 class ManualRemediationProvider:
@@ -93,10 +97,23 @@ class ProductionRuntime:
         PatchConfirmationOrchestrator(self.store).apply_patch_form(run_id, path)
         return self.store.load(run_id)
 
-    def retry_patch_execution(self, run_id: str, *, edit_plan: bool,
+    def retry_patch_execution(self, run_id: str, *, edit_plan: bool = False,
                               force_smoke_failed: bool = False) -> RunState:
-        PatchRetryOrchestrator(self.store).retry(
-            run_id, edit_plan=edit_plan, force_smoke_failed=force_smoke_failed)
+        state = self.store.load(run_id)
+        if (state.status == RunStatus.FAILED_FATAL
+                and getattr(state.current_stage, "value", None) == "STEP_6_AFTER_SCAN"):
+            if edit_plan or force_smoke_failed:
+                raise ValueError("AFTER_SCAN_RETRY_REQUIRES_SAME_PLAN: use --same-plan")
+            AfterScanRetryOrchestrator(
+                self.store, docker_after_target_inspector(self.runner)).retry(run_id)
+        elif (state.status == RunStatus.FAILED_FATAL
+                and getattr(state.current_stage, "value", None) == "STEP_7_REEXPLOIT"):
+            if edit_plan or force_smoke_failed:
+                raise ValueError("REEXPLOIT_RETRY_DOES_NOT_ACCEPT_PLAN_FLAGS")
+            ReexploitRetryOrchestrator(self.store).retry(run_id)
+        else:
+            PatchRetryOrchestrator(self.store).retry(
+                run_id, edit_plan=edit_plan, force_smoke_failed=force_smoke_failed)
         return self.store.load(run_id)
 
     def continue_once(self, run_id: str) -> RunState:

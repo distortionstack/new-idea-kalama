@@ -14,7 +14,7 @@ from ..state.models import ArtifactKind,ArtifactReference,PipelineStage,RunError
 from ..state.store import StateStore,utc_text
 from .codec import patch_plan_from_artifact,validate_patch_plan
 from .execution import PatchBackend
-from .models import PatchStrategy,PlanningStatus
+from .models import ActionDisposition, PatchStrategy,PlanningStatus
 
 
 def _sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -123,14 +123,15 @@ class PatchExecutionOrchestrator:
             source=dict(self.backend.inspect_source(artifact["source_image"]))
             expected_source_id=artifact["source_image"].get("image_id")
             if expected_source_id and source.get("image_id")!=expected_source_id:raise RuntimeError("SOURCE_IMAGE_IDENTITY_MISMATCH")
-            prebuilt=all(x.strategy==PatchStrategy.PREBUILT_IMAGE_REPLACEMENT for x in plan.actions)
+            executable=[x for x in plan.actions if x.disposition==ActionDisposition.EXECUTE and x.status==PlanningStatus.READY_FOR_PATCH_EXECUTION]
+            prebuilt=all(x.strategy in (PatchStrategy.PREBUILT_IMAGE_REPLACEMENT, PatchStrategy.IMAGE_REPLACEMENT) for x in executable)
             workspace=None if prebuilt else dict(self.backend.prepare_workspace(artifact,attempt=attempt))
             failed=False
-            for action in plan.actions:
+            for action in executable:
                 if failed:
                     records.append({"action_id":action.action_id,"target_cves":list(action.target_cves),"strategy":action.strategy.value,"attempt_number":attempt,"source_image":source,"workspace":workspace,"result":"NOT_EXECUTED"});continue
                 start=self._now()
-                if action.strategy==PatchStrategy.PREBUILT_IMAGE_REPLACEMENT:
+                if action.strategy in (PatchStrategy.PREBUILT_IMAGE_REPLACEMENT, PatchStrategy.IMAGE_REPLACEMENT):
                     evidence=dict(self.backend.resolve_prebuilt_image(action,artifact));ok=bool(evidence.get("success"));
                     if ok:patched=dict(evidence["image_identity"])
                 else:

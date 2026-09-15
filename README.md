@@ -106,6 +106,44 @@ kalama doctor
 
 Doctor is read-only. It checks Python/PyYAML, Docker and its daemon, `kalama-net`, the resolver container, workbench socket/Trivy, provider setup, and writable output. `Overall READY` means the core environment is ready.
 
+## Windows (Docker Desktop + Git Bash)
+
+Use Git Bash to run the shell setup script. Docker Desktop must be running and
+configured for Linux containers before beginning. The first setup downloads the
+workbench, Trivy, and Metasploit images, so it can take a few minutes.
+
+Install these prerequisites:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) with its engine running
+- [Git for Windows](https://git-scm.com/download/win), including Git Bash
+- Python 3.10 or newer, with `python` available in Git Bash
+
+From Git Bash, clone and prepare the project:
+
+```bash
+git clone <repo>
+cd <repo>
+
+python -m venv .venv
+source .venv/Scripts/activate
+python -m pip install --upgrade pip
+python -m pip install -e .
+```
+
+Start Docker Desktop and wait until it reports that the engine is running. Then
+run the setup and check its result:
+
+```bash
+./setup-workbench.sh
+./.venv/Scripts/python.exe -m kalama doctor
+```
+
+The expected final line is `Overall READY`. If the script reports
+`DOCKER_DAEMON_UNREACHABLE`, Docker Desktop has not finished starting yet; wait
+for the engine to run and execute the script again.
+
+Setup creates or reuses `kalama-net`, `kalama-workbench-modern`, and `msf-resolver-host`, then prepares `output/state`. Trivy is checksum-verified and installed inside `kalama-workbench-modern`; it is intentionally not a host dependency. Existing incompatible containers cause a conflict error and are never replaced automatically.
+
 ## 7. Your first lab run
 
 **LAB USE ONLY.** This verified example stays on the isolated Kalama network:

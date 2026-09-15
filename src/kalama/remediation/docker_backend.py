@@ -208,13 +208,22 @@ class DockerPatchBackend:
 
     def resolve_prebuilt_image(self, action: PatchAction,
                                plan_artifact: Mapping[str, Any]) -> Mapping[str, Any]:
-        selected = action.candidate.source_identifier if action.candidate else None
+        candidate = action.candidate
+        # IMAGE_REPLACEMENT deploys an already validated artifact; the historical
+        # PREBUILT_IMAGE_REPLACEMENT path remains source_identifier based.
+        selected = ((candidate.replacement_target if action.strategy == PatchStrategy.IMAGE_REPLACEMENT else candidate.source_identifier)
+                    if candidate else None)
         if not selected:
             return {"success": False, "code": "PREBUILT_IMAGE_UNRESOLVED"}
         try:
             data = _inspect(self.runner, "image", selected)
         except DockerPatchError as exc:
             return {"success": False, "code": "PREBUILT_IMAGE_NOT_FOUND", "message": str(exc)}
+        if action.strategy == PatchStrategy.IMAGE_REPLACEMENT:
+            expected = candidate.checksum
+            if data.get("Id") != expected:
+                return {"success": False, "code": "APPROVED_IMAGE_ID_MISMATCH",
+                        "expected_image_id": expected, "observed_image_id": data.get("Id")}
         reference = str(plan_artifact["planned_after"]["image_reference"])
         conflict = self.runner.run(("docker", "image", "inspect", reference))
         if conflict.exit_code == 0:

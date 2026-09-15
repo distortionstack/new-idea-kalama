@@ -12,7 +12,7 @@ from kalama.remediation.models import FixType, PatchStrategy, RemediationCandida
 from kalama.state.models import ArtifactKind, PipelineStage, RunStatus, StageStatus
 from kalama.target.models import TrivyArtifact
 from kalama.verification.comparison import compare_remediation_targets
-from kalama.verification.orchestrator import AfterScanOrchestrator
+from kalama.verification.orchestrator import AfterScanOrchestrator, AfterScanRetryError, AfterScanRetryOrchestrator
 
 
 NOW = planning.task4_helpers.NOW
@@ -172,6 +172,39 @@ class AfterScanIntegrationTests(unittest.TestCase):
         self.assertEqual(state.status, RunStatus.FAILED_FATAL)
         self.assertIsNone(state.artifact(ArtifactKind.TRIVY_AFTER))
         self.assertIsNone(state.artifact(ArtifactKind.REMEDIATION_SCAN_RESULT))
+
+    def test_scanner_failure_can_retry_only_step6_with_same_verified_target(self):
+        failed = AfterScanOrchestrator(
+            self.store, FakeScanner(report(), fail=True), self.inspector,
+            clock=lambda: NOW).run("aB3x9")
+        before_hashes = {kind: failed.artifact(kind).sha256 for kind in self.prior_hashes}
+        recovered = AfterScanRetryOrchestrator(
+            self.store,
+            lambda _: {"container_id": failed.after_target.facts["container_id"],
+                       "image_id": failed.patched_image["image_id"], "running": True},
+            clock=lambda: NOW).retry("aB3x9")
+        self.assertEqual(recovered.status, RunStatus.PAUSED)
+        self.assertEqual(recovered.current_stage, PipelineStage.STEP_6_AFTER_SCAN)
+        self.assertEqual(recovered.waiting_reason, "AFTER_SCAN_NOT_INTEGRATED")
+        self.assertEqual(recovered.errors[-1].code, "TRIVY_AFTER_FAILED")
+        self.assertEqual(recovered.warnings[-1].code, "AFTER_SCAN_RETRY_RECOVERY")
+        for kind, digest in before_hashes.items():
+            self.assertEqual(recovered.artifact(kind).sha256, digest)
+        succeeded = AfterScanOrchestrator(
+            self.store, FakeScanner(report()), self.inspector,
+            clock=lambda: NOW).run("aB3x9")
+        self.assertEqual(succeeded.current_stage, PipelineStage.STEP_7_REEXPLOIT)
+        self.assertIsNotNone(succeeded.artifact(ArtifactKind.REMEDIATION_SCAN_RESULT))
+
+    def test_retry_fails_closed_for_missing_or_changed_after_target(self):
+        AfterScanOrchestrator(
+            self.store, FakeScanner(report(), fail=True), self.inspector,
+            clock=lambda: NOW).run("aB3x9")
+        with self.assertRaises(AfterScanRetryError) as caught:
+            AfterScanRetryOrchestrator(
+                self.store, lambda _: {"container_id": "changed", "image_id": "sha256:other", "running": False},
+                clock=lambda: NOW).retry("aB3x9")
+        self.assertEqual(caught.exception.code, "AFTER_TARGET_IDENTITY_ERROR")
 
     def test_comparison_publication_failure_preserves_committed_trivy_after(self):
         with patch("kalama.verification.orchestrator.write_remediation_scan_result",

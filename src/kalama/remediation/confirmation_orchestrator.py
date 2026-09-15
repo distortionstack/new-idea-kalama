@@ -55,8 +55,10 @@ class PatchConfirmationOrchestrator:
             c=a.candidate
             actions[a.action_id]={"target_cves":list(a.target_cves),"package":{"name":a.package_name,"ecosystem":a.ecosystem,"before_versions":list(a.before_versions),"scanner_fixed_versions":list(a.scanner_fixed_versions)},
                 "input_reasons":[x.value for x in a.input_reasons],"fix_type":{"suggested":a.fix_type.value if a.fix_type else None,"confirmed":None},
-                "target_version":{"suggested":c.target_version if c else None,"confirmed":None},"artifact":{"suggested_source":c.source_url if c else None,"confirmed_source":None,"checksum":{"suggested":c.checksum if c else None,"confirmed":None}},
-                "strategy":{"suggested":a.strategy.value if a.strategy else None,"confirmed":None},"command":{"confirmed":None},"validation_command":{"confirmed":None},"execution_target":"patch-workspace","major_version_approved":None,"notes":None}
+                "target_version":{"suggested":c.target_version if c else None,"confirmed":None},
+                "strategy":{"suggested":a.strategy.value if a.strategy else None,"confirmed":None},"command":{"confirmed":None},"validation_command":{"confirmed":None},"execution_target":"patch-workspace","major_version_approved":None,"notes":None,
+                "disposition":{"suggested":a.disposition.value,"confirmed":None},"disposition_reason":a.disposition_reason,
+                "artifact":{"suggested_source":c.source_url if c else None,"confirmed_source":None,"source_identifier":c.source_identifier if c else None,"build_system":c.build_system if c else None,"image_reference":c.replacement_target if c else None,"image_id":c.checksum if c else None,"checksum":{"suggested":c.checksum if c else None,"confirmed":None}}}
         return {"schema":PATCH_FORM_SCHEMA,"run_id":run_id,"phase":"patch","revision":revision,"base_patch_plan_sha256":base_sha,"actions":actions}
     def apply_patch_form(self,run_id:str,submission_path:Path)->RunState:
         state=self.store.load(run_id)

@@ -34,6 +34,10 @@ class ImageInspector(Protocol):
     def __call__(self, immutable_subject: str) -> Mapping[str, Any]: ...
 
 
+class AfterTargetInspector(Protocol):
+    def __call__(self, container_name: str) -> Mapping[str, Any]: ...
+
+
 def docker_image_inspector(runner: CommandRunner) -> ImageInspector:
     def inspect(subject: str) -> Mapping[str, Any]:
         result = runner.run(("docker", "image", "inspect", subject))
@@ -45,6 +49,22 @@ def docker_image_inspector(runner: CommandRunner) -> ImageInspector:
         data = value[0]
         digests = tuple(sorted(x for x in data.get("RepoDigests", []) if isinstance(x, str)))
         return {"image_id": data.get("Id"), "repo_digests": digests}
+    return inspect
+
+
+def docker_after_target_inspector(runner: CommandRunner) -> AfterTargetInspector:
+    """Inspect the existing managed AFTER container without recreating it."""
+    def inspect(container_name: str) -> Mapping[str, Any]:
+        result = runner.run(("docker", "container", "inspect", container_name))
+        if result.exit_code != 0:
+            raise RuntimeError("after target container inspect failed")
+        value = json.loads(result.stdout)
+        if not isinstance(value, list) or not value or not isinstance(value[0], Mapping):
+            raise RuntimeError("after target container inspect returned invalid JSON")
+        data = value[0]
+        state = dict(data.get("State") or {})
+        return {"container_id": data.get("Id"), "image_id": data.get("Image"),
+                "running": state.get("Running") is True}
     return inspect
 
 
@@ -77,6 +97,66 @@ class AfterScanError(RuntimeError):
     def __init__(self, code: str, message: str):
         super().__init__(message)
         self.code = code
+
+
+class AfterScanRetryError(RuntimeError):
+    def __init__(self, code: str, message: str):
+        super().__init__(f"{code}: {message}")
+        self.code = code
+
+
+class AfterScanRetryOrchestrator:
+    """Recover a scanner-runtime failure back to the canonical Step 6 boundary.
+
+    This deliberately validates only the already-created target; it never invokes
+    remediation or creates another AFTER container.
+    """
+    def __init__(self, store: StateStore, inspector: AfterTargetInspector,
+                 *, clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc)):
+        self.store, self.inspector, self.clock = store, inspector, clock
+
+    def retry(self, run_id: str) -> RunState:
+        state = self.store.load(run_id)
+        if (state.status != RunStatus.FAILED_FATAL
+                or state.current_stage != PipelineStage.STEP_6_AFTER_SCAN
+                or state.stage(PipelineStage.STEP_6_AFTER_SCAN).status != StageStatus.FAILED):
+            raise AfterScanRetryError("AFTER_SCAN_RETRY_WRONG_STAGE",
+                                      "run did not fail in Step 6 AFTER scan")
+        if not state.errors or state.errors[-1].code != "TRIVY_AFTER_FAILED":
+            raise AfterScanRetryError("AFTER_SCAN_RETRY_UNSUPPORTED_FAILURE",
+                                      state.errors[-1].code if state.errors else "UNKNOWN")
+        if state.artifact(ArtifactKind.TRIVY_AFTER) or state.artifact(ArtifactKind.REMEDIATION_SCAN_RESULT):
+            raise AfterScanRetryError("AFTER_SCAN_RETRY_ARTIFACT_PRESENT",
+                                      "a prior AFTER scan artifact is already recorded")
+        if state.patched_image is None or state.after_target is None:
+            raise AfterScanRetryError("NO_AFTER_TARGET", "patched image and after target are required")
+        facts = dict(state.after_target.facts or {})
+        name, expected_container = facts.get("container_name"), facts.get("container_id")
+        expected_image = dict(state.patched_image).get("image_id")
+        if not name or not expected_container or not expected_image:
+            raise AfterScanRetryError("AFTER_TARGET_IDENTITY_ERROR",
+                                      "recorded AFTER target identity is incomplete")
+        try:
+            current = self.inspector(str(name))
+        except Exception as exc:
+            raise AfterScanRetryError("AFTER_TARGET_IDENTITY_ERROR", str(exc)) from exc
+        if (current.get("running") is not True
+                or current.get("container_id") != expected_container
+                or current.get("image_id") != expected_image):
+            raise AfterScanRetryError("AFTER_TARGET_IDENTITY_ERROR",
+                                      "existing AFTER target is missing or differs from patched image")
+        now = utc_text(self.clock())
+        stages = tuple(replace(item, status=StageStatus.NOT_STARTED,
+                               started_at=None, completed_at=None)
+                       if item.stage == PipelineStage.STEP_6_AFTER_SCAN else item
+                       for item in state.stages)
+        notice = RunNotice("AFTER_SCAN_RETRY_RECOVERY", "recovery source = retry", now)
+        recovered = replace(state, status=RunStatus.PAUSED,
+                            current_stage=PipelineStage.STEP_6_AFTER_SCAN,
+                            waiting_reason="AFTER_SCAN_NOT_INTEGRATED", stages=stages,
+                            warnings=state.warnings + (notice,), updated_at=now)
+        self.store.save(recovered)
+        return self.store.load(run_id)
 
 
 class AfterScanOrchestrator:

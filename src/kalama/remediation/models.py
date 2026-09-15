@@ -20,16 +20,27 @@ class PatchStrategy(str, Enum):
     MUTATION = "MUTATION"
     REBUILD = "REBUILD"
     PREBUILT_IMAGE_REPLACEMENT = "PREBUILT_IMAGE_REPLACEMENT"
+    IMAGE_REPLACEMENT = "IMAGE_REPLACEMENT"
     DOCKER_COMMIT = "DOCKER_COMMIT"
     HUMAN_COMMAND = "HUMAN_COMMAND"
 
 
 class PlanningStatus(str, Enum):
     READY_FOR_PATCH_EXECUTION = "READY_FOR_PATCH_EXECUTION"
+    SKIP_OUT_OF_SCOPE = "SKIP_OUT_OF_SCOPE"
     WAITING_FOR_USER_INPUT = "WAITING_FOR_USER_INPUT"
     NOT_REMEDIATION_TARGET = "NOT_REMEDIATION_TARGET"
     PATCH_UNSUPPORTED = "PATCH_UNSUPPORTED"
     ENVIRONMENT_ERROR = "ENVIRONMENT_ERROR"
+
+
+class ActionDisposition(str, Enum):
+    """Human scope decision for a remediation action.
+
+    Fix type A denotes a source build; REBUILD denotes its execution strategy.
+    """
+    EXECUTE = "EXECUTE"
+    SKIP_OUT_OF_SCOPE = "SKIP_OUT_OF_SCOPE"
 
 
 class PlanningReason(str, Enum):
@@ -98,6 +109,8 @@ class PatchAction:
     input_reasons: tuple[PlanningReason, ...]
     execution: Mapping[str, Any] = None
     human_confirmed_fields: tuple[str, ...] = ()
+    disposition: ActionDisposition = ActionDisposition.EXECUTE
+    disposition_reason: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return ({"action_id": self.action_id, "target_cves": list(self.target_cves),
@@ -112,7 +125,9 @@ class PatchAction:
                 "status": self.status.value,
                 "input_reasons": [x.value for x in self.input_reasons]}
                 | {"execution": dict(self.execution or {}),
-                   "human_confirmed_fields": list(self.human_confirmed_fields)})
+                   "human_confirmed_fields": list(self.human_confirmed_fields),
+                   "disposition": self.disposition.value,
+                   "disposition_reason": self.disposition_reason})
 
 
 @dataclass(frozen=True)

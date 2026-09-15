@@ -11,7 +11,8 @@ from typing import Any, Callable, Mapping
 
 from ..resolution.artifacts import (
     ATTACK_RESULT_SCHEMA, EVALUATION_DATASET_SCHEMA, EVALUATION_METRICS_SCHEMA,
-    REMEDIATION_RESULT_SCHEMA, RUN_SUMMARY_SCHEMA, ArtifactWriteError,
+    PATCH_PLAN_SCHEMA, REMEDIATION_RESULT_SCHEMA,
+    REMEDIATION_SCAN_RESULT_SCHEMA, RUN_SUMMARY_SCHEMA, ArtifactWriteError,
     write_evaluation_dataset, write_evaluation_metrics, write_run_summary,
 )
 from ..state.models import (
@@ -20,6 +21,117 @@ from ..state.models import (
 )
 from ..state.store import StateStore, utc_text
 from .metrics import TOP_N_ONLY, build_evaluation_records, compute_metrics
+from .scoped_evidence import (
+    ScopedScannerStatus, classify_scoped_remediation, derive_global_evidence,
+    derive_scoped_status,
+)
+
+
+def _patch_disposition_by_cve(patch_plan: Mapping[str, Any] | None) -> dict[str, str | None]:
+    """Map CVE to its PatchAction disposition (EXECUTE default, SKIP preserved)."""
+    mapping: dict[str, str | None] = {}
+    if not isinstance(patch_plan, Mapping):
+        return mapping
+    actions = patch_plan.get("actions")
+    if not isinstance(actions, list):
+        return mapping
+    for action in actions:
+        if not isinstance(action, Mapping):
+            continue
+        disposition = action.get("disposition") or "EXECUTE"
+        for cve in action.get("target_cves") or ():
+            key = str(cve)
+            # A CVE covered by any EXECUTE action is evaluated; only CVEs
+            # covered exclusively by SKIP remain non-evaluated.
+            if key not in mapping:
+                mapping[key] = str(disposition)
+            elif mapping[key] == "SKIP_OUT_OF_SCOPE" and disposition == "EXECUTE":
+                mapping[key] = "EXECUTE"
+    return mapping
+
+
+def _scan_entry_by_cve(scan_result: Mapping[str, Any] | None) -> dict[str, Mapping[str, Any]]:
+    mapping: dict[str, Mapping[str, Any]] = {}
+    if not isinstance(scan_result, Mapping):
+        return mapping
+    for item in scan_result.get("intended_targets") or ():
+        if isinstance(item, Mapping) and isinstance(item.get("cve_id"), str):
+            mapping[str(item["cve_id"])] = item
+    return mapping
+
+
+def enrich_records_with_scoped_evidence(
+    records: list[dict[str, Any]],
+    remediation: Mapping[str, Any],
+    scan_result: Mapping[str, Any] | None,
+    patch_plan: Mapping[str, Any] | None,
+) -> list[dict[str, Any]]:
+    """Attach ScopedRemediationEvidence + GlobalAfterEvidence to each record.
+
+    Pure reinterpretation of already-committed Step 6 / Step 7 artifacts.
+    Never modifies scanner detection, patch execution, retry, or oracle output.
+    """
+    remediation_by_cve = {
+        str(item.get("cve_id")): item
+        for item in remediation.get("cves") or ()
+        if isinstance(item, Mapping) and isinstance(item.get("cve_id"), str)
+    }
+    scan_by_cve = _scan_entry_by_cve(scan_result)
+    disposition_by_cve = _patch_disposition_by_cve(patch_plan)
+    enriched: list[dict[str, Any]] = []
+    for record in records:
+        cve_id = str(record.get("cve_id"))
+        rem = remediation_by_cve.get(cve_id) or {}
+        scan_entry = scan_by_cve.get(cve_id)
+        patch_status = (rem.get("patch") or {}).get("action_status")
+        before_disposition = (rem.get("before") or {}).get("disposition")
+        after_exploit = rem.get("after_exploit") or {}
+        after_disposition = after_exploit.get("disposition")
+        after_oracle = after_exploit.get("oracle")
+        metric_eligible = bool(after_exploit.get("metric_eligible"))
+        comparable = bool((rem.get("comparability") or {}).get("same_invariant_config"))
+        disposition = disposition_by_cve.get(cve_id) or "EXECUTE"
+        scoped_derived = derive_scoped_status(
+            scan_entry,
+            patch_action_status=patch_status,
+            patch_disposition=disposition,
+        )
+        scoped_status = str(scoped_derived["scoped_status"])
+        same_elsewhere = bool(scoped_derived.get("same_cve_found_elsewhere", False))
+        global_evidence = derive_global_evidence(scan_entry)
+        global_status = str(global_evidence["global_status"])
+        # same_cve_found_elsewhere is true when the scoped target is clean
+        # while the image-wide scan still reports the CVE.
+        if scoped_status == ScopedScannerStatus.SCOPED_NOT_FOUND.value and global_status == "FOUND":
+            same_elsewhere = True
+        judged = classify_scoped_remediation(
+            cve_id=cve_id,
+            before_disposition=before_disposition,
+            patch_status=patch_status,
+            patch_disposition=disposition,
+            scoped_status=scoped_status,
+            global_status=global_status,
+            same_cve_found_elsewhere=same_elsewhere,
+            after_disposition=after_disposition,
+            after_oracle=after_oracle,
+            metric_eligible=metric_eligible,
+            comparable=comparable,
+        )
+        # Preserve global evidence separately; scoped judges the PatchAction.
+        scoped_block = {
+            "scoped_status": scoped_status,
+            "scoped_reason": scoped_derived.get("reason"),
+            "global_status": global_status,
+            "same_cve_found_elsewhere": same_elsewhere,
+            "global_residual_risk": bool(global_evidence.get("residual_risk", False)),
+            "patch_disposition": disposition,
+            "scoped_final_status": judged["final_status"],
+            "remediation_validated": bool(judged["remediation_validated"]),
+            "residual_risk": bool(judged["residual_risk"]),
+            "evaluation_reason": judged["reason"],
+        }
+        enriched.append({**record, "scoped_remediation": scoped_block})
+    return enriched
 
 
 def _sha(path: Path) -> str:
@@ -90,15 +202,24 @@ class EvaluationOrchestrator:
                                             ATTACK_RESULT_SCHEMA)
             remediation_ref, remediation = self._load(state, ArtifactKind.REMEDIATION_RESULT,
                                                        REMEDIATION_RESULT_SCHEMA)
+            # Scoped evaluation reuses already-committed Step 6 artifacts.
+            # It never reruns scans; it only reinterprets them per PatchAction.
+            scan_ref, scan_result = self._load(state, ArtifactKind.REMEDIATION_SCAN_RESULT,
+                                               REMEDIATION_SCAN_RESULT_SCHEMA)
+            plan_ref, patch_plan = self._load(state, ArtifactKind.PATCH_PLAN,
+                                              PATCH_PLAN_SCHEMA)
             meta = top.get("artifact") or {}
             if (meta.get("run_id") != run_id
                     or (attack.get("artifact") or {}).get("run_id") != run_id
-                    or remediation.get("run_id") != run_id):
+                    or remediation.get("run_id") != run_id
+                    or scan_result.get("run_id") != run_id):
                 raise ValueError("run identity mismatch")
             remediation_inputs = remediation.get("inputs") or {}
             if remediation_inputs.get("attack_before", {}).get("sha256") != attack_ref.sha256:
                 raise ValueError("REMEDIATION_RESULT attack lineage mismatch")
             records = build_evaluation_records(top, attack, remediation)
+            records = enrich_records_with_scoped_evidence(
+                records, remediation, scan_result, patch_plan)
         except EvaluationError as exc:
             return self._fail(run_id, exc.code, str(exc))
         except Exception as exc:
@@ -119,7 +240,9 @@ class EvaluationOrchestrator:
                 "score_model": (top.get("score_model") or {}).get("id")},
             "inputs": {"top30_before": top_ref.to_dict(),
                        "attack_before": attack_ref.to_dict(),
-                       "remediation_result": remediation_ref.to_dict()},
+                       "remediation_result": remediation_ref.to_dict(),
+                       "remediation_scan_result": scan_ref.to_dict(),
+                       "patch_plan": plan_ref.to_dict()},
             "records": records}
         date = state.created_at[:10]
         dataset_path = self.store.output_root / "evaluation" / f"evaluation_dataset_{date}_{run_id}.json"
@@ -188,6 +311,7 @@ class EvaluationOrchestrator:
                 "after_scan": dict(scan_ref.summary),
                 "after_exploit": attack_after.get("summary") or {},
                 "remediation": metrics["remediation"],
+                "scoped_remediation": metrics.get("scoped_remediation") or {},
                 "metrics": {"precision": metrics["prioritization"]["precision"],
                     "recall": metrics["prioritization"]["recall"],
                     "f1": metrics["prioritization"]["f1"],

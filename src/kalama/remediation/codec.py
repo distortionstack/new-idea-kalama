@@ -6,7 +6,7 @@ from dataclasses import replace
 from typing import Any, Mapping
 
 from .models import (
-    FixType, PatchAction, PatchPlan, PatchStrategy, PlanningReason, PlanningStatus,
+    ActionDisposition, FixType, PatchAction, PatchPlan, PatchStrategy, PlanningReason, PlanningStatus,
     RemediationCandidate,
 )
 
@@ -31,7 +31,9 @@ def action_from_dict(raw: Any) -> PatchAction:
         PatchStrategy(raw["strategy"]) if raw.get("strategy") else None,
         candidate_from_dict(raw.get("candidate")), PlanningStatus(raw["status"]),
         tuple(PlanningReason(x) for x in raw.get("input_reasons") or ()),
-        dict(raw.get("execution") or {}), tuple(raw.get("human_confirmed_fields") or ()))
+        dict(raw.get("execution") or {}), tuple(raw.get("human_confirmed_fields") or ()),
+        ActionDisposition(raw.get("disposition", ActionDisposition.EXECUTE.value)),
+        raw.get("disposition_reason"))
 
 
 def patch_plan_from_artifact(raw: Mapping[str, Any]) -> PatchPlan:
@@ -40,6 +42,10 @@ def patch_plan_from_artifact(raw: Mapping[str, Any]) -> PatchPlan:
 
 
 def validate_patch_action(action: PatchAction) -> tuple[PlanningReason, ...]:
+    if action.disposition == ActionDisposition.SKIP_OUT_OF_SCOPE:
+        if not isinstance(action.disposition_reason, str) or not action.disposition_reason.strip():
+            raise ValueError("SKIP_OUT_OF_SCOPE requires a non-empty disposition_reason")
+        return ()
     reasons = []
     candidate = action.candidate
     if action.fix_type is None: reasons.append(PlanningReason.FIX_TYPE_UNRESOLVED)
@@ -55,8 +61,15 @@ def validate_patch_action(action: PatchAction) -> tuple[PlanningReason, ...]:
     if action.strategy == PatchStrategy.PREBUILT_IMAGE_REPLACEMENT and not (
             candidate and candidate.source_identifier):
         reasons.append(PlanningReason.ARTIFACT_SOURCE_UNRESOLVED)
+    if action.strategy == PatchStrategy.IMAGE_REPLACEMENT and not (
+            candidate and candidate.replacement_target and candidate.checksum):
+        reasons.append(PlanningReason.ARTIFACT_SOURCE_UNRESOLVED)
+    if (action.fix_type == FixType.A and action.strategy == PatchStrategy.IMAGE_REPLACEMENT
+            and not (candidate and candidate.source_identifier and candidate.build_system)):
+        reasons.append(PlanningReason.BUILD_PLAN_REQUIRES_HUMAN_INPUT)
     if action.strategy == PatchStrategy.REBUILD and not (
             candidate and candidate.source_identifier and candidate.build_system
+            and candidate.replacement_target and candidate.checksum
             and execution.get("command")):
         reasons.append(PlanningReason.BUILD_PLAN_REQUIRES_HUMAN_INPUT)
     if action.strategy == PatchStrategy.ARTIFACT_REPLACEMENT and not (
@@ -72,10 +85,11 @@ def validate_patch_plan(plan: PatchPlan) -> PatchPlan:
     actions = []
     for action in plan.actions:
         reasons = validate_patch_action(action)
-        status = (PlanningStatus.READY_FOR_PATCH_EXECUTION if not reasons
+        status = (PlanningStatus.SKIP_OUT_OF_SCOPE if action.disposition == ActionDisposition.SKIP_OUT_OF_SCOPE
+                  else PlanningStatus.READY_FOR_PATCH_EXECUTION if not reasons
                   else PlanningStatus.WAITING_FOR_USER_INPUT)
         actions.append(replace(action, status=status, input_reasons=reasons))
     readiness = (PlanningStatus.READY_FOR_PATCH_EXECUTION
-                 if all(x.status == PlanningStatus.READY_FOR_PATCH_EXECUTION for x in actions)
+                 if all(x.status in (PlanningStatus.READY_FOR_PATCH_EXECUTION, PlanningStatus.SKIP_OUT_OF_SCOPE) for x in actions)
                  else PlanningStatus.WAITING_FOR_USER_INPUT)
     return PatchPlan(plan.run_id, tuple(actions), readiness)

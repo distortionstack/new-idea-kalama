@@ -140,6 +140,51 @@ def compute_metrics(dataset: Mapping[str, Any]) -> dict[str, Any]:
         scan, final = (item["remediation"]["after_scan_status"],
                        item["remediation"]["final_remediation_status"])
         if scan and final: cross[f"{scan}+{final}"] += 1
+    # Scoped remediation preserves global counts above and adds a separate
+    # scoped judgment. When records lack scoped evaluation (legacy datasets),
+    # scoped mirrors the absence rather than fabricating evidence.
+    scoped_counts = Counter()
+    scoped_validated = 0
+    scoped_residual = 0
+    scoped_elsewhere = 0
+    has_scoped = False
+    scoped_cross = Counter()
+    for item in records:
+        scoped = item.get("scoped_remediation")
+        if not isinstance(scoped, Mapping):
+            continue
+        has_scoped = True
+        final = scoped.get("scoped_final_status") or scoped.get("final_status")
+        if final:
+            scoped_counts[final] += 1
+        if scoped.get("remediation_validated") is True:
+            scoped_validated += 1
+        if scoped.get("residual_risk") is True:
+            scoped_residual += 1
+        if scoped.get("same_cve_found_elsewhere") is True:
+            scoped_elsewhere += 1
+        scan_scoped = scoped.get("scoped_status")
+        if scan_scoped and final:
+            scoped_cross[f"{scan_scoped}+{final}"] += 1
+    scoped_targets = sum(scoped_counts.values())
+    scoped_evaluable = scoped_counts["VERIFIED"] + scoped_counts["FAILED"]
+    scoped_rate = _metric(scoped_counts["VERIFIED"] / scoped_evaluable if scoped_evaluable else None,
+        reason=None if scoped_evaluable else "NO_EVALUABLE_SCOPED_REMEDIATION_TARGETS")
+    scoped_coverage = (scoped_evaluable / scoped_targets if scoped_targets else None)
+    scoped_remediation: dict[str, Any] = {
+        "targets": scoped_targets,
+        "verified": scoped_counts["VERIFIED"],
+        "failed": scoped_counts["FAILED"],
+        "inconclusive": scoped_counts["INCONCLUSIVE"],
+        "not_evaluated": scoped_counts["NOT_EVALUATED"],
+        "empirical_success_rate": scoped_rate,
+        "evaluation_coverage": scoped_coverage,
+        "scanner_empirical_cross_tab": dict(sorted(scoped_cross.items())),
+        "remediation_validated_total": scoped_validated,
+        "residual_risk_total": scoped_residual,
+        "same_cve_found_elsewhere_total": scoped_elsewhere,
+        "available": has_scoped,
+    }
     top_n = dataset["prediction"]
     if tp + fp != len(selected_eligible):
         raise ValueError("TP + FP does not equal eligible selected records")
@@ -168,4 +213,5 @@ def compute_metrics(dataset: Mapping[str, Any]) -> dict[str, Any]:
             "not_evaluated": remediation_counts["NOT_EVALUATED"],
             "empirical_success_rate": remediation_rate,
             "evaluation_coverage": remediation_coverage,
-            "scanner_empirical_cross_tab": dict(sorted(cross.items()))}}
+            "scanner_empirical_cross_tab": dict(sorted(cross.items()))},
+        "scoped_remediation": scoped_remediation}

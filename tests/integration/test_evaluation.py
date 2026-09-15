@@ -128,7 +128,8 @@ class EvaluationIntegrationTests(unittest.TestCase):
         self.assertEqual(dataset_value["evaluation_universe"]["scope"], "TOP_N_ONLY")
         self.assertEqual(compute_metrics(dataset_value), {
             key: metrics_value[key] for key in ("prioritization", "coverage", "exclusions",
-                                                 "metasploit_coverage", "remediation")})
+                                                 "metasploit_coverage", "remediation",
+                                                 "scoped_remediation")})
         self.assertEqual(metrics_value["prioritization"]["confusion_matrix"],
                          {"tp": 1, "fp": 0, "fn": None, "tn": None})
         self.assertIsNone(metrics_value["prioritization"]["recall"]["value"])

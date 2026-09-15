@@ -6,7 +6,7 @@ from dataclasses import replace
 from typing import Any, Mapping
 
 from .codec import validate_patch_plan
-from .models import FixType, PatchPlan, PatchStrategy, RemediationCandidate
+from .models import ActionDisposition, FixType, PatchPlan, PatchStrategy, RemediationCandidate
 
 
 class PatchSubmissionError(ValueError):
@@ -33,7 +33,7 @@ def apply_patch_confirmations(plan: PatchPlan, submitted: Mapping[str, Any]) -> 
     updated = []
     allowed = {"target_cves", "package", "input_reasons", "fix_type", "target_version",
                "artifact", "strategy", "command", "validation_command", "notes",
-               "major_version_approved", "execution_target"}
+               "major_version_approved", "execution_target", "disposition", "disposition_reason"}
     for action in plan.actions:
         raw = actions_raw.get(action.action_id)
         if raw is None:
@@ -54,6 +54,15 @@ def apply_patch_confirmations(plan: PatchPlan, submitted: Mapping[str, Any]) -> 
                 and tuple(raw["input_reasons"]) != tuple(x.value for x in action.input_reasons)):
             raise PatchSubmissionError("PATCH_FORM_TAMPERED", "input reasons changed")
         candidate = action.candidate or RemediationCandidate()
+        disposition = action.disposition
+        reason = action.disposition_reason
+        present, value = _confirmed(raw.get("disposition"))
+        if present:
+            disposition = ActionDisposition(value)
+        if raw.get("disposition_reason") is not None:
+            reason = raw["disposition_reason"]
+        if disposition == ActionDisposition.SKIP_OUT_OF_SCOPE and (not isinstance(reason, str) or not reason.strip()):
+            raise PatchSubmissionError("PATCH_SKIP_REASON_REQUIRED", "SKIP_OUT_OF_SCOPE requires a non-empty reason")
         projections = (
             ("fix_type", action.fix_type.value if action.fix_type else None, "suggested"),
             ("strategy", action.strategy.value if action.strategy else None, "suggested"),
@@ -93,6 +102,16 @@ def apply_patch_confirmations(plan: PatchPlan, submitted: Mapping[str, Any]) -> 
                                 trusted=True, source_authority="human_patch_form",
                                 source_type="human_confirmed")
             fields.add("artifact_source")
+        if isinstance(artifact, Mapping):
+            for key, field in (("source_identifier", "source_identifier"), ("build_system", "build_system"),
+                               ("image_reference", "replacement_target"), ("image_id", "checksum")):
+                value = artifact.get(key)
+                if value is not None:
+                    if not isinstance(value, str) or not value:
+                        raise PatchSubmissionError("PATCH_ARTIFACT_INVALID", key)
+                    candidate = replace(candidate, **{field: value}, trusted=True,
+                                        source_authority="human_patch_form")
+                    fields.add(key)
         checksum_present, checksum_value = _confirmed(
             artifact.get("checksum") if isinstance(artifact, Mapping) else None)
         if checksum_present:
@@ -115,5 +134,6 @@ def apply_patch_confirmations(plan: PatchPlan, submitted: Mapping[str, Any]) -> 
         if raw.get("major_version_approved") is True:
             fields.add("major_version_approved")
         updated.append(replace(action, fix_type=fix_type, strategy=strategy, candidate=candidate,
-                               execution=execution, human_confirmed_fields=tuple(sorted(fields))))
+                               execution=execution, human_confirmed_fields=tuple(sorted(fields)),
+                               disposition=disposition, disposition_reason=reason))
     return validate_patch_plan(PatchPlan(plan.run_id, tuple(updated), plan.readiness))

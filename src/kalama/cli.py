@@ -37,9 +37,9 @@ def build_parser() -> argparse.ArgumentParser:
     patch = sub.add_parser("submit-patch-form", help="submit a Patch Form snapshot")
     patch.add_argument("run_id")
     patch.add_argument("file", type=Path)
-    retry = sub.add_parser("retry", help="retry a failed Patch Execution attempt")
+    retry = sub.add_parser("retry", help="retry a supported failed pipeline attempt")
     retry.add_argument("run_id")
-    retry_mode = retry.add_mutually_exclusive_group(required=True)
+    retry_mode = retry.add_mutually_exclusive_group(required=False)
     retry_mode.add_argument("--edit-plan", action="store_true",
                             help="create the next editable Patch Form revision")
     retry_mode.add_argument("--same-plan", action="store_true",
@@ -83,7 +83,7 @@ def _next_action(stream: TextIO, state: RunState) -> None:
     if state.status == RunStatus.COMPLETED:
         print("  Run is complete.", file=stream)
     elif state.status == RunStatus.FAILED_FATAL:
-        if state.current_stage and state.current_stage.value == "STEP_5_PATCH_EXECUTION":
+        if state.current_stage and state.current_stage.value in {"STEP_5_PATCH_EXECUTION", "STEP_6_AFTER_SCAN"}:
             print(f"  python3 -m kalama retry {state.run_id} --edit-plan", file=stream)
             print(f"  python3 -m kalama retry {state.run_id} --same-plan", file=stream)
         else:
