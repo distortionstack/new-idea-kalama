@@ -230,13 +230,23 @@ class ResolverOrchestrator:
 
         guidance_path = None
         guidance_sha = None
-        if guidance_outcomes:
+        # Persist an explicit assist record even when the bounded field path
+        # made no provider call.  Previously an enabled Ollama service with
+        # no usable EvidencePack left no artifact at all, which made a run
+        # indistinguishable from "LLM was never configured".
+        if guidance_outcomes or self.guidance_service is not None:
             guidance_path = (self.store.output_root / "resolver" / "guidance" /
                              f"llm_guidance_{date_text}_{run_id}.json")
+            provider = getattr(self.guidance_service, "provider", None)
             guidance_artifact = {
                 "schema": LLM_GUIDANCE_SCHEMA,
                 "artifact": {"run_id": run_id, "phase": "before", "created_at": self._now(),
-                             "resolver_sha256": resolver_sha},
+                             "resolver_sha256": resolver_sha,
+                             "provider": getattr(provider, "name", None),
+                             "model": getattr(getattr(provider, "config", None), "model", None),
+                             "outcome_count": len(guidance_outcomes),
+                             "status": "OUTCOMES_RECORDED" if guidance_outcomes
+                                       else "NO_ELIGIBLE_EVIDENCE_OR_FIELDS"},
                 "cves": [x.to_dict() for x in guidance_outcomes]}
             try:
                 guidance_sha = write_llm_guidance(guidance_path, guidance_artifact)
