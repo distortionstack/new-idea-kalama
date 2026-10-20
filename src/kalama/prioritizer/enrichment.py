@@ -35,9 +35,25 @@ class EPSSHTTPError(OSError):
 
 
 def _bounded_call(operation: Callable[[], Mapping[str, Any]], timeout: float) -> Mapping[str, Any]:
-    """Apply a true wall-clock budget on Unix main threads, with socket timeout fallback."""
+    """Apply a true wall-clock budget without relying on platform signals."""
     if threading.current_thread() is not threading.main_thread() or not hasattr(signal, "setitimer"):
-        return operation()
+        result: dict[str, Any] = {}
+        failure: list[BaseException] = []
+
+        def run() -> None:
+            try:
+                result["value"] = operation()
+            except BaseException as exc:  # propagate provider failures to the caller
+                failure.append(exc)
+
+        worker = threading.Thread(target=run, name="epss-bounded-call", daemon=True)
+        worker.start()
+        worker.join(max(0.0, timeout))
+        if worker.is_alive():
+            raise TimeoutError(f"FIRST EPSS request exceeded {timeout:.3f}s wall-clock budget")
+        if failure:
+            raise failure[0]
+        return result["value"]
     previous_handler = signal.getsignal(signal.SIGALRM)
 
     def expired(_signum: int, _frame: Any) -> None:
