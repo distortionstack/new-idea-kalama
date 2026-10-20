@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import re
+import shlex
 from typing import Any, Callable, Mapping
 
 from kalama.resolver.config import validate_exploit_config
@@ -17,6 +19,48 @@ from .models import (
     SessionCollectionStatus, SessionEvidence,
 )
 from .oracle import classify_oracle
+
+
+_TOUCH_PROBE_RE = re.compile(r"(?:^|[;&|]\s*)touch\s+(?:--[^\s]+\s+)*(?P<path>/[^\s;&|]+)")
+
+
+def _filesystem_probe(plan) -> str | None:
+    """Return a safe read-only probe path for supported command payloads.
+
+    The probe is derived from the submitted command, never from a CVE id.  At
+    present the contract intentionally supports the portable ``touch /path``
+    lab oracle; unsupported commands remain INCONCLUSIVE.
+    """
+    for name, value in plan.payload_options:
+        if name.upper() == "CMD" and isinstance(value, str):
+            match = _TOUCH_PROBE_RE.search(value.strip())
+            if match:
+                return match.group("path")
+    return None
+
+
+def _probe_marker(lab_commands, path: str, *, timeout: float) -> tuple[OperationState, str]:
+    command = f"if [ -e {shlex.quote(path)} ]; then stat -c '%Y:%s:%i' {shlex.quote(path)}; else printf 'ABSENT'; fi"
+    evidence = lab_commands.execute("victim", command, timeout=timeout)
+    return evidence.state, evidence.stdout.strip()
+
+
+def _filesystem_impact(*, before: tuple[OperationState, str], after: tuple[OperationState, str],
+                       path: str) -> ImpactEvidence:
+    before_state, before_value = before
+    after_state, after_value = after
+    details = (("path", path), ("before", before_value), ("after", after_value))
+    if before_state != OperationState.EXECUTED or after_state != OperationState.EXECUTED:
+        return ImpactEvidence(ImpactEvidenceStatus.UNKNOWN, basis="FILESYSTEM_PROBE_UNAVAILABLE",
+                              details=details, error="filesystem probe did not execute")
+    if after_value == "ABSENT":
+        return ImpactEvidence(ImpactEvidenceStatus.COLLECTED, basis="FILESYSTEM_MARKER_ABSENT",
+                              complete_negative=True, details=details)
+    if before_value == "ABSENT" or before_value != after_value:
+        return ImpactEvidence(ImpactEvidenceStatus.COLLECTED, basis="FILESYSTEM_MARKER_CHANGED",
+                              confirmed=True, details=details)
+    return ImpactEvidence(ImpactEvidenceStatus.COLLECTED, basis="FILESYSTEM_MARKER_UNCHANGED",
+                          complete_negative=True, details=details)
 
 
 def _session_detail_map(evidence: SessionEvidence) -> dict[str, dict[str, Any]]:
@@ -94,6 +138,8 @@ def execute_attempt(*, run_id: str, phase: str, rank: int, config,
     exploit = not_run
     sessions = SessionEvidence(SessionCollectionStatus.UNKNOWN, error="not collected")
     impact = ImpactEvidence(status=ImpactEvidenceStatus.NOT_COLLECTED)
+    probe_path = None
+    probe_before = None
     preconditions, pre_attack = [], None
     prerequisites_ok = validation.ready and environment.valid
     issue, systemic = None, False
@@ -139,6 +185,10 @@ def execute_attempt(*, run_id: str, phase: str, rank: int, config,
                 if value.state != OperationState.EXECUTED:
                     prerequisites_ok, issue = False, "PRE_ATTACK_FAILED"
         baseline = None
+        if prerequisites_ok and plan.run_exploit:
+            probe_path = _filesystem_probe(plan)
+            if probe_path is not None:
+                probe_before = _probe_marker(lab_commands, probe_path, timeout=command_timeout)
         single = getattr(metasploit, "run_attempt", None)
         if prerequisites_ok and plan.run_exploit and callable(single):
             # Preferred path: one msfconsole invocation captures check,
@@ -171,6 +221,14 @@ def execute_attempt(*, run_id: str, phase: str, rank: int, config,
                 else:
                     sessions = SessionEvidence(SessionCollectionStatus.UNKNOWN,
                         error=(post.error or baseline.error if baseline is not None else post.error))
+
+        if prerequisites_ok and plan.run_exploit and probe_path is not None and probe_before is not None:
+            probe_after = _probe_marker(lab_commands, probe_path, timeout=command_timeout)
+            filesystem_impact = _filesystem_impact(before=probe_before, after=probe_after,
+                                                   path=probe_path)
+            if filesystem_impact.confirmed or filesystem_impact.complete_negative \
+                    or impact.status != ImpactEvidenceStatus.COLLECTED:
+                impact = filesystem_impact
 
     protocol = config.invariant.execution_protocol
     oracle = classify_oracle(config_ready=validation.ready, environment=environment,
