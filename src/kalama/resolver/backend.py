@@ -383,6 +383,11 @@ def find_candidates_via_msfconsole_search(cve_id, container,
         raise RuntimeError(
             f"docker exec msfconsole search timed out after {MSF_TIMEOUT_SECONDS:.1f}s "
             f"(container '{container}'; cleanup={cleanup}).") from exc
+    except KeyboardInterrupt as exc:
+        cleanup = _cleanup_msf_operation(container, f"search cve:{cve_id}")
+        raise RuntimeError(
+            f"docker exec msfconsole search interrupted "
+            f"(container '{container}'; cleanup={cleanup}).") from exc
 
     if proc.returncode != 0:
         raise RuntimeError(
@@ -661,6 +666,11 @@ def query_msfconsole_for_modules(fullnames, container,
             f"docker exec msfconsole timed out after {MSF_TIMEOUT_SECONDS:.1f}s "
             f"while extracting module data (container '{container}'; cleanup={cleanup})."
         ) from exc
+    except KeyboardInterrupt as exc:
+        cleanup = _cleanup_msf_operation(container, CONTAINER_SCRIPT_PATH)
+        raise RuntimeError(
+            f"docker exec msfconsole interrupted while extracting module data "
+            f"(container '{container}'; cleanup={cleanup}).") from exc
     finally:
         subprocess.run(
             ["docker", "exec", container, "rm", "-f", CONTAINER_SCRIPT_PATH],
