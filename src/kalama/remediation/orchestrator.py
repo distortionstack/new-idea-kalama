@@ -80,7 +80,7 @@ class PatchPlanningOrchestrator:
             raise PatchPlanningError("ACTIVE_RUN_CONFLICT",
                                      f"another run is active: {', '.join(sorted(active))}")
         if (state.status != RunStatus.PAUSED or state.current_stage != PipelineStage.STEP_5_PATCH
-                or state.waiting_reason != "PATCH_NOT_INTEGRATED"
+                or state.waiting_reason not in {"PATCH_NOT_INTEGRATED", "PATCH_PLAN_REQUIRED"}
                 or state.stage(PipelineStage.STEP_4_BEFORE_EXPLOIT).status != StageStatus.SUCCEEDED
                 or state.stage(PipelineStage.STEP_5_PATCH_PLAN).status != StageStatus.NOT_STARTED
                 or state.target is None):

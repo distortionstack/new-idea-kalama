@@ -223,8 +223,8 @@ class BeforeExploitOrchestrator:
         timestamp = self._now()
         state = self.store.load(run_id).with_stage(
             PipelineStage.STEP_4_BEFORE_EXPLOIT, StageStatus.SUCCEEDED, timestamp)
-        notice = RunNotice("PATCH_NOT_INTEGRATED", "Step 5 patching is not integrated yet", timestamp)
+        notice = RunNotice("PATCH_PLAN_REQUIRED", "Before exploit completed; Patch Planning requires human approval", timestamp)
         state = replace(state, status=RunStatus.PAUSED, current_stage=PipelineStage.STEP_5_PATCH,
-                        waiting_reason="PATCH_NOT_INTEGRATED",
+                        waiting_reason="PATCH_PLAN_REQUIRED",
                         warnings=state.warnings + (notice,), updated_at=timestamp)
         return self._save(state)

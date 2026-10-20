@@ -264,7 +264,7 @@ class CoreFailurePathTests(unittest.TestCase):
         self.pipeline.run_resolver()
         self.pipeline.submit_attack_confirmation()
         paused = self.pipeline.run_before_exploit()
-        self.assertEqual(paused.waiting_reason, "PATCH_NOT_INTEGRATED")
+        self.assertEqual(paused.waiting_reason, "PATCH_PLAN_REQUIRED")
         paused_hashes = {item.kind: item.sha256 for item in paused.artifacts}
 
         # Simulate a process restart: entirely new orchestrator instances over

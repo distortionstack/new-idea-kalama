@@ -329,7 +329,7 @@ class E2EPipeline:
     def run_patch_plan(self, provider=None):
         state, selected = self._dispatch_next()
         assert selected == "patch_plan", selected
-        assert state.waiting_reason == "PATCH_NOT_INTEGRATED"
+        assert state.waiting_reason == "PATCH_PLAN_REQUIRED"
         attack = json.loads(Path(state.artifact(
             ArtifactKind.ATTACK_BEFORE).path).read_bytes())
         assert any(entry.get("disposition") == "EXPLOIT_SUCCEEDED"
@@ -400,7 +400,7 @@ class E2EPipeline:
         assert state.status == RunStatus.WAITING_FOR_USER_INPUT
         self.submit_attack_confirmation()
         state = self.run_before_exploit()
-        assert state.waiting_reason == "PATCH_NOT_INTEGRATED"
+        assert state.waiting_reason == "PATCH_PLAN_REQUIRED"
         state = self.run_patch_plan()
         assert state.status == RunStatus.WAITING_FOR_USER_INPUT
         self.submit_patch_confirmation()
@@ -551,7 +551,7 @@ class CoreEndToEndTests(unittest.TestCase):
         seen.append(f"evaluation:{state.status.value}")
         self.assertEqual(seen, [
             "resolver:waiting-attack-form",
-            "before-exploit:PATCH_NOT_INTEGRATED",
+            "before-exploit:PATCH_PLAN_REQUIRED",
             "patch-plan:WAITING_FOR_USER_INPUT",
             "patch-execution:AFTER_SCAN_NOT_INTEGRATED",
             "after-scan:REEXPLOIT_NOT_INTEGRATED",
