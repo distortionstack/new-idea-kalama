@@ -1,0 +1,16 @@
+{
+  "captured_at": "2026-09-16T16:02:40.076798Z",
+  "command": [
+    "docker",
+    "exec",
+    "kalama-workbench-modern",
+    "trivy",
+    "--version"
+  ],
+  "exit_code": 0,
+  "purpose": "scanner identity and version",
+  "run_id": "UZBL5",
+  "schema": "kalama.local-command-evidence/v1",
+  "stderr": "",
+  "stdout": "Version: 0.74.0\nVulnerability DB:\n  Version: 2\n  UpdatedAt: 2026-09-15 19:05:31.056967387 +0000 UTC\n  NextUpdate: 2026-09-16 19:05:31.056966836 +0000 UTC\n  DownloadedAt: 2026-09-15 21:14:42.992265924 +0000 UTC\nJava DB:\n  Version: 1\n  UpdatedAt: 2026-09-14 01:12:36.219108101 +0000 UTC\n  NextUpdate: 2026-09-17 01:12:36.21910798 +0000 UTC\n  DownloadedAt: 2026-09-14 14:44:29.2411403 +0000 UTC\n"
+}

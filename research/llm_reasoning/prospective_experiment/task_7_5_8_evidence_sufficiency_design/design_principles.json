@@ -1,0 +1,41 @@
+{
+  "schema": "kalama.task-7.5.8-design-principles/v1",
+  "basis": ["task_7_5_5 PARTIAL_PROPOSAL (UZBL5 5/8 ready, 3/8 abstained)", "task_7_5_6 DESIGN_ACCEPTED_WITH_CHANGES", "task_7_5_6a REPLAY_SUPPORTS_DESIGN_WITH_GUARDRAILS", "task_7_5_7 ABLATION_DESIGN_READY"],
+  "principles": [
+    {
+      "id": "source_discovery_not_llm_generated",
+      "statement": "Source roots are derived deterministically from scanner/runtime evidence; the LLM never invents domains or URLs.",
+      "grounding": "7.5.5: S255 unanchored source rejected and unused; 7.5.6A: zero LLM-supplied URLs, all roots parented to structured coordinates."
+    },
+    {
+      "id": "evidence_before_reasoning",
+      "statement": "Deterministic retrieval builds a validated evidence pack first; LLM reasoning operates only over that pack.",
+      "grounding": "7.5.7: retrieval/validation deterministic (L0-L3 mechanics); LLM downstream interpretation/drafting only."
+    },
+    {
+      "id": "source_authority_separate_from_discoverability",
+      "statement": "That a source can be found does not make it authoritative; promotion requires deterministic confidence rules and corroboration.",
+      "grounding": "7.5.6: deps.dev corroboration-only, metadata links candidate-until-promoted; 7.5.6A: deps.dev R005/R010/R015 kept CANDIDATE_ONLY_NOT_PROMOTED."
+    },
+    {
+      "id": "fixed_version_not_executable_plan",
+      "statement": "A scanner FixedVersion is a version candidate, not artifact provenance, dependency closure, compatibility, procedure, or command.",
+      "grounding": "7.5.7 Q1/Q4: C2 minimum L1, executable plan requires L3+L4+L5."
+    },
+    {
+      "id": "validator_readiness_not_remediation_success",
+      "statement": "Passing production validation means the Patch Form is well-formed and evidence-linked; remediation success additionally requires AFTER scan, re-exploit, and evaluation.",
+      "grounding": "7.5.5 production_validation.json: 5 READY with STEP_5_PATCH..STEP_8 NOT_STARTED; validator covers syntax + HUMAN_COMMAND evidence linkage only."
+    },
+    {
+      "id": "safe_abstention_is_valid",
+      "statement": "Abstaining with typed missing-evidence codes is a correct, reportable outcome — safer than fabricating a patch.",
+      "grounding": "7.5.5: 3/8 PATCH_STRATEGY_UNRESOLVED with DEPENDENCY_ARTIFACT_UNREACHABLE / SOURCE_PATH_MISSING instead of using S255 guess."
+    },
+    {
+      "id": "command_requires_high_evidence_threshold",
+      "statement": "command/validation_command may be suggested only when L3 (provenance+integrity+closure) AND L4 (compatibility) AND L5 (runtime procedure) are jointly satisfied per action, plus human review.",
+      "grounding": "7.5.7 Q6/Q8: L3 tells what to install, L4 whether the jump is compatible, L5 how to install in this runtime; narrow reviewed donor-exception only."
+    }
+  ]
+}

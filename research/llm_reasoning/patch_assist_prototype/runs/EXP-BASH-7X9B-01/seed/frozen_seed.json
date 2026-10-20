@@ -1,0 +1,95 @@
+{
+  "schema": "kalama.patch-assist-prototype/frozen-seed/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "phase": "patch",
+  "case": {
+    "cve_primary": "CVE-2019-9924",
+    "cve_incidental": ["CVE-2016-9401"],
+    "package_name": "bash",
+    "ecosystem": "deb",
+    "distro": "debian-8.10",
+    "installed_version": "4.3-11+deb8u1",
+    "scanner_fixed_version": "4.3-11+deb8u2",
+    "purl": "pkg:deb/debian/bash@4.3-11+deb8u1?arch=amd64&distro=debian-8.10",
+    "severity_primary": "HIGH"
+  },
+  "scanner_finding": {
+    "tool": "trivy",
+    "tool_version": "0.74.0",
+    "schema_version": 2,
+    "scan_subject_note": "Raw artifact ArtifactName records the tar input path (/work/type-c-shellshock.tar); canonical identity is the image RepoDigest below.",
+    "scan_created_at": "2026-09-17T22:08:50.087513288Z",
+    "os_family": "debian",
+    "os_name": "8.10",
+    "os_eosl": true,
+    "trivy_warning": "OS version no longer supported by distribution; detection may be insufficient because security updates are not provided.",
+    "total_vulnerabilities_in_image": 258,
+    "primary_vulnerability": {
+      "vulnerability_id": "CVE-2019-9924",
+      "vendor_ids": ["DLA-1726-1"],
+      "pkg_id": "bash@4.3-11+deb8u1",
+      "installed_version": "4.3-11+deb8u1",
+      "fixed_version": "4.3-11+deb8u2",
+      "status": "fixed",
+      "severity": "HIGH",
+      "severity_source": "nvd",
+      "title": "bash: BASH_CMD is writable in restricted bash shells",
+      "description": "rbash in Bash before 4.4-beta2 did not prevent the shell user from modifying BASH_CMDS, thus allowing the user to execute any command with the permissions of the shell.",
+      "primary_url": "https://avd.aquasec.com/nvd/cve-2019-9924",
+      "data_source": {"id": "debian", "name": "Debian Security Tracker", "url": "https://salsa.debian.org/security-tracker-team/security-tracker"},
+      "references": [
+        "http://git.savannah.gnu.org/cgit/bash.git/tree/CHANGES?h=bash-4.4-testing#n65",
+        "http://lists.opensuse.org/opensuse-security-announce/2019-04/msg00049.html",
+        "https://access.redhat.com/security/cve/CVE-2019-9924",
+        "https://bugs.launchpad.net/ubuntu/+source/bash/+bug/1803441",
+        "https://linux.oracle.com/cve/CVE-2019-9924.html",
+        "https://linux.oracle.com/errata/ELSA-2020-1113.html",
+        "https://lists.debian.org/debian-lts-announce/2019/03/msg00028.html",
+        "https://lists.gnu.org/archive/html/bug-bash/2017-03/msg00077.html",
+        "https://nvd.nist.gov/vuln/detail/CVE-2019-9924",
+        "https://security.netapp.com/advisory/ntap-20190411-0001/",
+        "https://ubuntu.com/security/notices/USN-4058-1",
+        "https://ubuntu.com/security/notices/USN-4058-2",
+        "https://usn.ubuntu.com/4058-1/",
+        "https://usn.ubuntu.com/4058-2/",
+        "https://www.cve.org/CVERecord?id=CVE-2019-9924"
+      ],
+      "finding_fingerprint": "sha256:9f411cda8b478ce65123c9f05dfa26943bf880bef5aa574a3a7f52cc057648ff"
+    },
+    "incidental_vulnerability": {
+      "vulnerability_id": "CVE-2016-9401",
+      "vendor_ids": ["DLA-1726-1"],
+      "installed_version": "4.3-11+deb8u1",
+      "fixed_version": "4.3-11+deb8u2",
+      "severity": "MEDIUM",
+      "title": "bash: popd controlled free",
+      "primary_url": "https://avd.aquasec.com/nvd/cve-2016-9401",
+      "finding_fingerprint": "sha256:1723245aaff876f7058a8d531a11354ae770c6ac0e83d93f87c351281262fc80"
+    }
+  },
+  "image_identity": {
+    "requested_reference": "kalama-lab:type-c-shellshock",
+    "source_reference": "vulhub/bash:4.3.0-with-httpd",
+    "repo_digest": "sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332",
+    "trivy_image_id": "sha256:6bb66831a48e4b19a53ff44baf8426c23569625f7350b1a379bf6b74c74671e8",
+    "architecture": "amd64",
+    "image_created": "2018-08-29T09:48:40.794545635Z"
+  },
+  "runtime_evidence": {
+    "cmd": ["apache2ctl", "-DFOREGROUND"],
+    "env_path": "/usr/local/bash-4.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "observed_custom_bash_prefix": "/usr/local/bash-4.3.0",
+    "observed_custom_bash_note": "Image build history shows upstream bash-4.3.tar.gz configured with --prefix=/usr/local/bash-4.3.0. This prefix is NOT covered by the distro bash scanner finding and is out of scope for patch-001; recorded here as a scope boundary, not as a remediation target.",
+    "apache_cgi_note": "Image history installs apache2 with cgi/cgid modules and ExecCGI on /var/www/html (observed build steps, not a live probe).",
+    "exposed_ports": "not declared in image Config; lab documentation reports port 80",
+    "workdir": null
+  },
+  "provenance": {
+    "raw_scan_file": "seed/trivy_before_scan.json",
+    "image_config_file": "seed/image_config.json",
+    "acquisition_method": "docker pull vulhub/bash:4.3.0-with-httpd (digest recorded) + tag per docs/LAB_CASES.md; trivy 0.74.0 container scan of saved image tar; docker inspect (read-only). No container executed; no Kalama pipeline run."
+  },
+  "created_at": "2026-09-18T09:15:00Z"
+}

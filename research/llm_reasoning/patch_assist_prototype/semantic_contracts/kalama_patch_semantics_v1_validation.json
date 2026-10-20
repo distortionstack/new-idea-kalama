@@ -1,0 +1,17 @@
+{
+  "schema": "kalama.patch-assist-prototype/semantic-contract-validation/v1",
+  "contract_file": "semantic_contracts/kalama_patch_semantics_v1.json",
+  "contract_sha256": "51c96cafd129d09e429ebe392189781e8a5c0caff97915ba9ee76ebd0ab672f8",
+  "checks": {
+    "all_production_fix_types_covered": {"pass": true, "detail": "A, B, C present; no other values in remediation/models.py:10-13."},
+    "meanings_have_kalama_provenance": {"pass": true, "detail": "Every fix_types/strategies/compatibility/build_system/ownership statement cites file+line docs/code."},
+    "no_case_specific_remediation_data": {"pass": true, "detail": "No experiment-case CVE, version, artifact, hash, or dependency content; CVE-2014-6271 example removed from provenance note."},
+    "no_external_evidence": {"pass": true, "detail": "No URLs except none; no advisory/registry content."},
+    "no_unsupported_enum_invented": {"pass": true, "detail": "D explicitly marked non-existent; strategies exactly the 9 production values."},
+    "compatibility_rules_trace_to_production": {"pass": true, "detail": "7 invalid pairings + HUMAN_COMMAND rule from patch_proposal.py:85-97."},
+    "retired_values_marked": {"pass": true, "detail": "D documented as non-existent with unrelated-label explanation."},
+    "no_remediation_success_claim": {"pass": true, "detail": "usage_constraint forbids success claims and gate overrides."}
+  },
+  "overall": "PASS",
+  "created_at": "2026-09-18T13:10:00Z"
+}

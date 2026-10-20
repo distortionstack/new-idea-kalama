@@ -1,0 +1,12 @@
+{
+  "schema": "kalama.patch-reasoning-evidence/v1",
+  "run_id": "HdiiR",
+  "phase": "pre_patch_reasoning",
+  "evidence": [
+    {"id":"runtime.victim_identity","classification":"OBSERVED","topic":"victim identity","source":"docker inspect victim-HdiiR","component":"image","value":"sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db"},
+    {"id":"runtime.struts_core_2_3_20_1","classification":"OBSERVED","topic":"installed JAR","source":"victim WEB-INF/lib","component":"org.apache.struts:struts2-core","value":"2.3.20.1","sha256":"710280f1d6b781185d7ccdce38c2deb0cfef1bba343f67c32f06efdd62f0a28c"},
+    {"id":"kalama.patch_form","classification":"EXTRACTED","topic":"eight action constraints","source":"patch_form_HdiiR_r1.yaml","component":"multiple"},
+    {"id":"apache.s2_052","classification":"EXTRACTED","topic":"CVE-2017-9805 advisory","source":"https://struts.apache.org/docs/s2-052.html","component":"struts2-rest-plugin","value":"affected 2.1.6-2.3.33 and 2.5-2.5.12; advisory recommends 2.3.34 or 2.5.13"},
+    {"id":"unknown.replacement_image","classification":"UNKNOWN","topic":"trusted full-image replacement","source":"current discovery/runtime evidence","component":"image"}
+  ]
+}

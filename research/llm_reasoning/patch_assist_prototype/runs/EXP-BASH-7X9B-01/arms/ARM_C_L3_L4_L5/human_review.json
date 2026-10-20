@@ -1,0 +1,93 @@
+{
+  "schema": "kalama.patch-assist-prototype/human-review/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "proposal_sha256": "bcf4b87ad33b5bd4dd7598c0d61a0ac7c375c36036046f08525bd0bdb5f41c07",
+  "pack_sha256": "a780084f1983f6b2136a90617d359353df034546cd6f4c021e64ababcfc24707",
+  "reviewer_context": "ROLE B surrogate; isolated review of ARM_C_L3_L4_L5 only; pack plus frozen proposal plus production contract audit semantics; no web, no new retrieval, no sibling arms opened.",
+  "field_reviews": {
+    "fix_type": {
+      "original_value": null,
+      "final_value": null,
+      "review_class": "ABSTENTION_ACCEPTED",
+      "edit_reason": "Pack states no explicit FixType A/B/C value and production audit excerpt lists only enum names without a semantic mapping; field cannot be determined from pack plus system semantics without inference from general knowledge.",
+      "evidence_refs": [],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": false
+    },
+    "strategy": {
+      "original_value": "ARTIFACT_REPLACEMENT",
+      "final_value": "ARTIFACT_REPLACEMENT",
+      "review_class": "NO_EDIT",
+      "edit_reason": "Value is in the audited 9-value PatchStrategy vocabulary and is grounded in the security index stanza, retrieved artifact bytes with checksum match, tracker, and DLA record showing a same-family backport; consistent with complete dependency closure.",
+      "evidence_refs": ["S007", "S011", "S012", "S013"],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": false
+    },
+    "target_version": {
+      "original_value": "4.3-11+deb8u2",
+      "final_value": "4.3-11+deb8u2",
+      "review_class": "NO_EDIT",
+      "edit_reason": "Scanner fixed version corroborated by tracker jessie_fixed, security index stanza, and DLA record, with backport distinguished from unstable 4.4-1; no major-version move.",
+      "evidence_refs": ["SEED-01", "S004", "S007", "S011", "S013"],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": false
+    },
+    "artifact_source": {
+      "original_value": "http://archive.debian.org/debian-security/pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb",
+      "final_value": "http://archive.debian.org/debian-security/pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb",
+      "review_class": "NO_EDIT",
+      "edit_reason": "Exact retrieved artifact URL from the index-derived artifact path; downloaded bytes match the stanza SHA-256 and size exactly.",
+      "evidence_refs": ["S011", "S012"],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": false
+    },
+    "source_identifier": {
+      "original_value": "pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb",
+      "final_value": "pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb",
+      "review_class": "NO_EDIT",
+      "edit_reason": "Exact Filename field of the S011 bash 4.3-11+deb8u2 stanza.",
+      "evidence_refs": ["S011"],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": false
+    },
+    "build_system": {
+      "original_value": null,
+      "final_value": null,
+      "review_class": "NO_EDIT",
+      "edit_reason": "NOT_APPLICABLE is semantically correct: production build-system vocabulary is locked to maven and this is a Debian binary artifact.",
+      "evidence_refs": [],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": false
+    },
+    "command": {
+      "original_value": null,
+      "final_value": null,
+      "review_class": "ABSTENTION_ACCEPTED",
+      "edit_reason": "Deterministic gate evidence_sufficiency.command is INSUFFICIENT with L5 PROCEDURE_UNKNOWN; null must be preserved and no command text supplied.",
+      "evidence_refs": [],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": true
+    },
+    "validation_command": {
+      "original_value": null,
+      "final_value": null,
+      "review_class": "ABSTENTION_ACCEPTED",
+      "edit_reason": "Deterministic gate evidence_sufficiency.validation_command is INSUFFICIENT with L5 missing; null must be preserved and no validation text supplied.",
+      "evidence_refs": [],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": true
+    },
+    "notes": {
+      "original_value": "Scope is patch-001 bash Debian package 4.3-11+deb8u1 to 4.3-11+deb8u2 for CVE-2019-9924 only; source-built /usr/local/bash-4.3.0 in image history is out of scope. Fix is jessie backport, not unstable 4.4-1. Artifact integrity verified by stanza checksum match; dependency stanza lists Depends/Pre-Depends with no unresolved entries. Per-revision changelog prose and full DLA prose were unavailable; KEV checked negative for this CVE.",
+      "final_value": "Scope is patch-001 bash Debian package 4.3-11+deb8u1 to 4.3-11+deb8u2 for CVE-2019-9924 only; source-built /usr/local/bash-4.3.0 in image history is out of scope. Fix is jessie backport, not unstable 4.4-1. Artifact integrity verified by stanza checksum match; dependency stanza lists Depends/Pre-Depends with no unresolved entries. Per-revision changelog prose and full DLA prose were unavailable; KEV checked negative for this CVE.",
+      "review_class": "NO_EDIT",
+      "edit_reason": "Scope, version-family, integrity, closure, gaps, and KEV statements are each supported by the cited pack sections; no command leakage and no out-of-scope remediation claim.",
+      "evidence_refs": ["SEED-01", "S004", "S007", "S008", "S011", "S012", "S013"],
+      "unsupported_claim_detected": false,
+      "missing_evidence_detected": false
+    }
+  },
+  "created_at": "2026-09-18T12:00:00Z"
+}

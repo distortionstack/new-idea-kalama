@@ -5,14 +5,20 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kalama-mvp"
 version = "0.1.0"
-description = "State-driven vulnerability research pipeline for authorized labs"
+description = "VIPER — Vulnerability Inspection, Patching, and Exploit Retesting for Container Images"
 requires-python = ">=3.10"
 dependencies = [
   "PyYAML>=6.0",
 ]
 
+[project.optional-dependencies]
+test = [
+  "pytest>=8",
+]
+
 [project.scripts]
 kalama = "kalama.cli:main"
+viper = "kalama.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

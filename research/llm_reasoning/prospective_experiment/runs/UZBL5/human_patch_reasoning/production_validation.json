@@ -1,0 +1,73 @@
+{
+  "actions": [
+    {
+      "action_id": "patch-001",
+      "status": "READY_FOR_PATCH_EXECUTION",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.3.32",
+      "validation_reasons": []
+    },
+    {
+      "action_id": "patch-002",
+      "status": "READY_FOR_PATCH_EXECUTION",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.3.32",
+      "validation_reasons": []
+    },
+    {
+      "action_id": "patch-003",
+      "status": "READY_FOR_PATCH_EXECUTION",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.3.32",
+      "validation_reasons": []
+    },
+    {
+      "action_id": "patch-004",
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.3.34",
+      "validation_reasons": [
+        "PATCH_STRATEGY_UNRESOLVED"
+      ]
+    },
+    {
+      "action_id": "patch-005",
+      "status": "READY_FOR_PATCH_EXECUTION",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.3.32",
+      "validation_reasons": []
+    },
+    {
+      "action_id": "patch-006",
+      "status": "READY_FOR_PATCH_EXECUTION",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.3.32",
+      "validation_reasons": []
+    },
+    {
+      "action_id": "patch-007",
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.5.10.1",
+      "validation_reasons": [
+        "PATCH_STRATEGY_UNRESOLVED"
+      ]
+    },
+    {
+      "action_id": "patch-008",
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "HUMAN_COMMAND",
+      "target_version": "2.3.34",
+      "validation_reasons": [
+        "PATCH_STRATEGY_UNRESOLVED"
+      ]
+    }
+  ],
+  "canonical_state_mutated": false,
+  "overall_readiness": "WAITING_FOR_USER_INPUT",
+  "proposal_sha256": "8a8897233c3982e4f436b0e299819b184c030c4a856accda071fe995e934a457",
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.5-production-validation/v1",
+  "validated_at": "2026-09-16T16:29:35.411033Z",
+  "validator": "kalama.remediation.confirmation.apply_patch_confirmations + kalama.remediation.codec.validate_patch_plan"
+}

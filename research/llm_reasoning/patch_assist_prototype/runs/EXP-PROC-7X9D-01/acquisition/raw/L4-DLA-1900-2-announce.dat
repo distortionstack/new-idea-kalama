@@ -1,0 +1,150 @@
+<!-- MHonArc v2.6.19 -->
+<!--X-Subject: [SECURITY] [DLA 1900&#45;2] apache2 regression update -->
+<!--X-From-R13: [nexhf Ybfpunal &#60;ncbNqrovna.bet> -->
+<!--X-Date: Mon, 30 Sep 2019 20:41:25 +0000 (UTC) -->
+<!--X-Message-Id: ae8312cd&#45;a4b9&#45;d6d2&#45;50d7&#45;6dcafef01be7@debian.org -->
+<!--X-Content-Type: text/plain -->
+<!--X-Head-End-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>[SECURITY] [DLA 1900-2] apache2 regression update</title>
+<link rev="made" href="mailto:apo@debian.org">
+<link rel="index" href="maillist.html">
+<link rel="top" href="threads.html">
+<link rel="up" href="msg00034.html">
+<link rel="prev" href="msg00033.html">
+<link rel="next" href="msg00035.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+pre {
+  white-space: pre-wrap;
+}
+</style>
+</head>
+<body>
+<!--X-Body-Begin-->
+<!--X-User-Header-->
+<!--X-User-Header-End-->
+<!--X-TopPNI-->
+<hr>
+<form method="POST" action="/cgi-bin/spam-report.pl">
+<input type="hidden" name="listname" value="debian-lts-announce" />
+<input type="hidden" name="msg" value="msg00034.html" />
+<input type="hidden" name="date" value="2019/09" />
+<input type="submit" value="Report as spam" style="float: right"  />
+
+[<a href="msg00033.html">Date Prev</a>][<a href="msg00035.html">Date Next</a>]
+[<a href="msg00033.html">Thread Prev</a>][<a href="msg00035.html">Thread Next</a>]
+[<a href="maillist.html#00034">Date Index</a>]
+[<a href="threads.html#00034">Thread Index</a>]
+</form>
+
+
+<!--X-TopPNI-End-->
+<!--X-MsgBody-->
+<!--X-Subject-Header-Begin-->
+<h1>[SECURITY] [DLA 1900-2] apache2 regression update</h1>
+<hr>
+<!--X-Subject-Header-End-->
+<!--X-Head-of-Message-->
+<ul>
+<li><em>To</em>: <a href="mailto:debian-lts-announce%40lists.debian.org">debian-lts-announce@lists.debian.org</a></li>
+<li><em>Subject</em>: [SECURITY] [DLA 1900-2] apache2 regression update</li>
+<li><em>From</em>: Markus Koschany &lt;<a href="mailto:apo%40debian.org">apo@debian.org</a>&gt;</li>
+<li><em>Date</em>: Mon, 30 Sep 2019 22:41:09 +0200</li>
+<li><em>Message-id</em>: &lt;<A HREF="/msgid-search/ae8312cd-a4b9-d6d2-50d7-6dcafef01be7@debian.org">[&#128270;]</a>&nbsp;<a href="msg00034.html">ae8312cd-a4b9-d6d2-50d7-6dcafef01be7@debian.org</A>&gt;</li>
+<li><em>Mail-followup-to</em>: <a href="mailto:debian-lts%40lists.debian.org">debian-lts@lists.debian.org</a></li>
+<li><em>Reply-to</em>: <a href="mailto:debian-lts%40lists.debian.org">debian-lts@lists.debian.org</a></li>
+</ul>
+<!--X-Head-of-Message-End-->
+<!--X-Head-Body-Sep-Begin-->
+<hr>
+<!--X-Head-Body-Sep-End-->
+<!--X-Body-of-Message-->
+<pre>-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Package        : apache2
+Version        : 2.4.10-10+deb8u16
+CVE ID         : CVE-2019-10092
+Debian Bug     : 941202
+
+The update of apache2 released as DLA-1900-1 contained an incomplete
+fix for CVE-2019-10092, a limited cross-site scripting issue affecting
+the mod_proxy error page. The old patch rather introduced a new CSRF
+protection which also caused a regression, an inability to dynamically
+change the status of members in the balancer via the balancer-manager.
+This update reverts the change and provides the correct upstream patch
+to address CVE-2019-10092.
+
+For Debian 8 &quot;Jessie&quot;, this problem has been fixed in version
+2.4.10-10+deb8u16.
+
+We recommend that you upgrade your apache2 packages.
+
+Further information about Debian LTS security advisories, how to apply
+these updates to your system and frequently asked questions can be
+found at: <a  rel="nofollow" href="https://wiki.debian.org/LTS">https://wiki.debian.org/LTS</a>
+-----BEGIN PGP SIGNATURE-----
+
+iQKTBAEBCgB9FiEErPPQiO8y7e9qGoNf2a0UuVE7UeQFAl2SaGVfFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEFD
+RjNEMDg4RUYzMkVERUY2QTFBODM1RkQ5QUQxNEI5NTEzQjUxRTQACgkQ2a0UuVE7
+UeREiQ//dEH8CbZr2EDeFNu7PbUc/9OHPHdlzZ8MBkYVqSlF2NQAnfXgCowtFIbb
+U4Tf4lTQHBjDcJth5QXlPdeuBbZ4CT/N0FOm5N99L6I/7XbirjQSXQTxL2bKja+H
+LKId+lre05oe13du3y9MpkmTxI4Zkz5Qb2V3X/dD1IHLU28wVQqkryMv1iWHqqdC
+6T10RkZUOJJtmQvL9V0QAnVPOlMSZ1/4V5TxIYfXDOmebu8g1l4nbgX6BK2H/aCx
+g5vKEycVYuwWqKxiZ7uoi5KXXL13ocJSy49DlZMO2swbIwBwIkoDD5aNzW3lBnwI
+EVOUWSuFYywdwApnn3fUJRnneq2W8GID6qI2v+3rcq4gjd/C4ZeSnPOiLQilLZae
+9lRKRaLaYQMLv3IOM0+Ozc8W4dCu8Zi46nZ/C+CBke536yy7FwC0iUFIqDib2Pvm
+FRf1tfY0W41KqDeu2AIBKLGQ+MD4oLpPm9gzztg5RDumS8v9Ebo7vWSGgWqMrV79
+SskLp+pGQFM8djFbpjS7dM5N4oIhm5XFapgMItOy17/8UOZIG81fCEqhy521v1RT
+lfwumjFJ49AnaHbY5EqqDFcNraTE1wEbInpLnOaUVfIMfPF4xMfWCAyuNCR+3CXE
+9j6jbv8ZhOGdhFcb6VKvBz+J4AkE4MEKFmrX9NFVrmGxHl/OZ7M=
+=w7AO
+-----END PGP SIGNATURE-----
+
+</pre>
+<!--X-Body-of-Message-End-->
+<!--X-MsgBody-End-->
+<!--X-Follow-Ups-->
+<hr />
+<strong>Reply to:</strong>
+<ul>
+  <li><a href="mailto:debian-lts-announce&#64;lists.debian.org?in-reply-to=&lt;ae8312cd-a4b9-d6d2-50d7-6dcafef01be7@debian.org&gt;&amp;subject=Re:%20[SECURITY] [DLA 1900-2] apache2 regression update">debian-lts-announce&#64;lists.debian.org</a></li>
+  <li><a href="mailto:apo@debian.org?in-reply-to=&lt;ae8312cd-a4b9-d6d2-50d7-6dcafef01be7@debian.org&gt;&amp;subject=Re:%20[SECURITY] [DLA 1900-2] apache2 regression update&amp;cc=debian-lts-announce&#64;lists.debian.org">Markus Koschany (on-list)</a></li>
+  <li><a href="mailto:apo@debian.org?in-reply-to=&lt;ae8312cd-a4b9-d6d2-50d7-6dcafef01be7@debian.org&gt;&amp;subject=Re:%20[SECURITY] [DLA 1900-2] apache2 regression update">Markus Koschany (off-list)</a></li>
+</ul>
+<hr />
+<!--X-Follow-Ups-End-->
+<!--X-References-->
+<!--X-References-End-->
+<!--X-BotPNI-->
+<ul>
+<li>Prev by Date:
+<strong><a href="msg00033.html">[SECURITY] [DLA 1939-1] poppler security update</a></strong>
+</li>
+<li>Next by Date:
+<strong><a href="msg00035.html">[SECURITY] [DLA 1941-1] netty security update</a></strong>
+</li>
+<li>Previous by thread:
+<strong><a href="msg00033.html">[SECURITY] [DLA 1939-1] poppler security update</a></strong>
+</li>
+<li>Next by thread:
+<strong><a href="msg00035.html">[SECURITY] [DLA 1941-1] netty security update</a></strong>
+</li>
+<li>Index(es):
+<ul>
+<li><a href="maillist.html#00034"><strong>Date</strong></a></li>
+<li><a href="threads.html#00034"><strong>Thread</strong></a></li>
+</ul>
+</li>
+</ul>
+
+<!--X-BotPNI-End-->
+<!--X-User-Footer-->
+<!--X-User-Footer-End-->
+</body>
+</html>

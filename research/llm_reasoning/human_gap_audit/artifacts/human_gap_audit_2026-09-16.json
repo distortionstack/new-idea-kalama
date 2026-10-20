@@ -1,0 +1,10 @@
+{
+  "task": "7.5.2.2",
+  "mode": "read-only forensic analysis",
+  "runs": {
+    "lkW2d": "DIRECT state and form history found under output/2d8ru-struts2-fullpipeline",
+    "cOqnU": "NOT_RECORDED: no exact run-specific state, form, plan, result, manifest, review bundle, or provenance artifact found by repository content search"
+  },
+  "conclusion": "HISTORICAL_REASONING_GAP_FOUND",
+  "strongest_gap": "Evidence-grounded iterative patch procedure and validation drafting after runtime failures, with mandatory human review/approval."
+}

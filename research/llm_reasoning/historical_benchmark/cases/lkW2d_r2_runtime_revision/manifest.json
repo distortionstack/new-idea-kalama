@@ -1,0 +1,36 @@
+{
+  "case_id": "lkW2d_r2_runtime_revision",
+  "historical_run_id": "lkW2d",
+  "observation_time": "NOT_RECORDED",
+  "cutoff_revision": "r2",
+  "status": "REJECTED",
+  "admission": {
+    "A_provenance_sufficient": false,
+    "B_pre_revision_evidence": false,
+    "C_answer_not_directly_present": true,
+    "D_semantic_contributions": "NOT_DEMONSTRABLE_PRE_CUTOFF",
+    "E_not_trivially_deterministic": "NOT_EVALUABLE",
+    "F_truth_reconstructable": true,
+    "G_leakage_excludable": false
+  },
+  "rejected_decisions": [
+    {"id": "xstream", "after_reference": "xstream 1.4.10", "reason": "TypePermission observation exists only in retrospective session note, not a dated pre-r2 artifact."},
+    {"id": "ognl", "after_reference": "ognl 3.0.21", "reason": "isSequence observation exists only in retrospective session note, not a dated pre-r2 artifact."},
+    {"id": "asm", "after_reference": "asm/asm-commons 3.3", "reason": "EmptyVisitor observation exists only in retrospective session note, not a dated pre-r2 artifact."},
+    {"id": "freemarker", "after_reference": "freemarker 2.3.22", "reason": "VERSION_2_3_0 observation exists only in retrospective session note, not a dated pre-r2 artifact."},
+    {"id": "full_closure", "after_reference": "r2 dependency closure/procedure", "reason": "The r2 form is evaluator-only and no preserved r1 runtime log establishes the complete causal chain before that revision."}
+  ],
+  "allowed_pre_revision_evidence": [
+    "output/2d8ru-struts2-fullpipeline/patch/forms/patch_form_lkW2d_r1.yaml",
+    "output/2d8ru-struts2-fullpipeline/patch/results/patch_result_2026-09-08_lkW2d_attempt_1.json",
+    "output/2d8ru-struts2-fullpipeline/patch/discovery/discovery_2026-09-09_lkW2d.json"
+  ],
+  "forbidden_post_revision_evidence": [
+    "output/2d8ru-struts2-fullpipeline/patch/forms/patch_form_lkW2d_r2.yaml",
+    "output/2d8ru-struts2-fullpipeline/patch/forms/submissions/patch_form_submission_lkW2d_r2.yaml",
+    "output/2d8ru-struts2-fullpipeline/patch/results/patch_result_2026-09-08_lkW2d_attempt_2.json",
+    "docs/session-log-2026-09-09.md"
+  ],
+  "deterministic_baseline": "Could extract exception tokens if a dated log existed, but cannot justify component/version/procedure from the retained pre-r2 pack.",
+  "model_calls": 0
+}

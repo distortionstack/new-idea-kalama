@@ -1,0 +1,18 @@
+{
+  "run_id": "lkW2d",
+  "evidence_quality": "DIRECT",
+  "initial_plan": "eight actions, with patch-004 (struts2-core 2.3.20.1) and patch-008 (struts2-rest-plugin 2.3.20.1) scoped to S2-045/S2-052; six other actions are no-op scope guards.",
+  "revision_sequence": [
+    {"revision": 1, "result": "8/8 execution actions succeeded; post-patch smoke failure subsequently forced edit-plan retry", "quality": "DIRECT"},
+    {"revision": 2, "result": "form and command contain full 2.3.34 closure plus xstream 1.4.10, ognl 3.0.21, asm/asm-commons 3.3 and freemarker 2.3.22; result succeeded mechanically", "quality": "DIRECT"}
+  ],
+  "deltas": [
+    {"field": "fix_type", "before": "suggested B", "after": "confirmed B", "classification": "AUTO_CONFIRMED", "derivation": "COPY", "opportunity": "NOT_LLM"},
+    {"field": "target_version", "before": "scanner suggested 2.3.32 for 5638 and 2.3.34 for 9805", "after": "2.3.34 for in-scope 5638/9805 actions", "classification": "HUMAN_EDIT", "derivation": "CROSS_EVIDENCE_SYNTHESIS", "opportunity": "LLM_SYNTHESIS_CANDIDATE"},
+    {"field": "artifact source/checksum", "before": "suggested Maven Central URI and checksum", "after": "confirmed same values", "classification": "HUMAN_CONFIRM_ONLY", "derivation": "COPY", "opportunity": "EVIDENCE_EXTRACTION"},
+    {"field": "strategy", "before": "suggested HUMAN_COMMAND", "after": "confirmed HUMAN_COMMAND", "classification": "HUMAN_CONFIRM_ONLY", "derivation": "HUMAN_POLICY_DECISION", "opportunity": "HUMAN_ONLY"},
+    {"field": "command", "before": "no direct suggested procedure recorded", "after": "download, SHA-1 verify, replace only exploded WEB-INF/lib dependencies, preserve WARs", "classification": "HUMAN_GENERATED_PROCEDURE", "derivation": "CROSS_EVIDENCE_SYNTHESIS", "opportunity": "LLM_SYNTHESIS_CANDIDATE"},
+    {"field": "validation_command", "before": "null in r1; no direct suggestion", "after": "checks new files, removed files and unchanged WAR hashes", "classification": "HUMAN_GENERATED_PROCEDURE", "derivation": "CROSS_EVIDENCE_SYNTHESIS", "opportunity": "LLM_SYNTHESIS_CANDIDATE"},
+    {"field": "dependency closure", "before": "not recorded as an initial resolver suggestion", "after": "xstream, ognl, asm, asm-commons, freemarker adjusted in r2", "classification": "HUMAN_FILLED_GAP", "derivation": "RUNTIME_DIAGNOSIS", "opportunity": "LLM_RUNTIME_DIAGNOSIS_CANDIDATE"}
+  ]
+}

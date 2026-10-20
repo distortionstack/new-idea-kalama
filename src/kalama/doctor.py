@@ -1,4 +1,4 @@
-"""Read-only environment diagnostics for the production pipeline."""
+"""Read-only VIPER environment diagnostics for the production pipeline."""
 
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ from .dynamic_probe import (
 from .target.models import CommandResult
 from .target.victim_manager import CommandRunner, SubprocessCommandRunner
 from .infrastructure import WORKBENCH_NAME
+from .config import load_config
 
 
 class CheckStatus(str, Enum):
@@ -314,6 +315,15 @@ def run_doctor(output_root: Path, *, runner: CommandRunner | None = None,
                     "configured; network is exercised by the pipeline"),
         _storage_check(output_root.resolve()),
     ))
+    llm = load_config()
+    if not llm.enabled:
+        checks.append(CheckResult("LLM", "LLM", "LLM assistance", CheckStatus.OK, False, "DISABLED"))
+    elif llm.error() is not None:
+        checks.append(CheckResult("LLM", "LLM", "LLM assistance", CheckStatus.FAIL, False,
+                                  "CONFIG_ERROR: " + llm.error()))
+    else:
+        checks.append(CheckResult("LLM", "LLM", "LLM assistance", CheckStatus.OK, False,
+                                  f"READY provider={llm.provider} model={llm.model}"))
     if nuclei_config is not None:
         checks.extend(_nuclei_checks(nuclei_config, runner))
     return DoctorReport(tuple(checks))

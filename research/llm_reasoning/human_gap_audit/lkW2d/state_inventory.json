@@ -1,0 +1,34 @@
+{
+  "run_id": "lkW2d",
+  "evidence_quality": "DIRECT",
+  "source_image": "2d8ru/struts2:latest",
+  "source_image_id": "sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+  "after_image": "kalama/struts2:patched-lkw2d",
+  "after_image_id": "sha256:e15d5edfeba7429d40c528074a904155399c3e710ad28b54b50d40e62ab40bec",
+  "containers_recorded": {
+    "after": "3740910d31d7c587c0e1c4109ecf22132518f7a426999ddea5a167253b546fa6",
+    "patch_workspace_attempt_2": "bde762536db94dff1e7d236bfe829b3b5689b1e9e54a802271fe4cfa87228cd3"
+  },
+  "selected_cves_of_interest": ["CVE-2017-5638", "CVE-2017-9805"],
+  "stage_history": ["STEP_2_TARGET_SCAN", "STEP_3_PRIORITIZATION", "STEP_4_RESOLVER", "STEP_4_BEFORE_EXPLOIT", "STEP_5_PATCH_PLAN", "STEP_5_PATCH_EXECUTION", "STEP_6_AFTER_SCAN", "STEP_7_REEXPLOIT", "STEP_8_EVALUATION"],
+  "final_recorded_state": "STEP_8_EVALUATION; remediation_verified=false; after scan found both intended CVEs; after exploits failed for both selected targets",
+  "timestamps": {
+    "created_at": "2026-09-08T23:48:31Z",
+    "attack_form": "2026-09-08T23:53:05Z",
+    "attack_submission": "2026-09-08T23:54:53Z",
+    "before_attack": "2026-09-08T23:58:35Z",
+    "patch_r1_submission": "2026-09-09T00:41:13Z",
+    "patch_r2_form": "2026-09-09T02:59:53Z",
+    "patch_r2_submission": "2026-09-09T03:04:56Z",
+    "patch_r2_result": "2026-09-09T03:06:02Z"
+  },
+  "authoritative_paths": [
+    "output/2d8ru-struts2-fullpipeline/state/run_lkW2d.json",
+    "output/2d8ru-struts2-fullpipeline/resolver/forms/attack_form_lkW2d_r1.yaml",
+    "output/2d8ru-struts2-fullpipeline/resolver/forms/submissions/attack_form_submission_lkW2d_r1.yaml",
+    "output/2d8ru-struts2-fullpipeline/patch/forms/patch_form_lkW2d_r1.yaml",
+    "output/2d8ru-struts2-fullpipeline/patch/forms/patch_form_lkW2d_r2.yaml",
+    "output/2d8ru-struts2-fullpipeline/patch/results/patch_result_2026-09-08_lkW2d_attempt_1.json",
+    "output/2d8ru-struts2-fullpipeline/patch/results/patch_result_2026-09-08_lkW2d_attempt_2.json"
+  ]
+}

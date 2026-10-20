@@ -1,0 +1,28 @@
+{
+  "run_id": "HdiiR",
+  "phase": "PRE_PATCH_INCOMPLETE",
+  "created_at": "2026-09-15T21:13:57Z",
+  "target_identity": {
+    "requested": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "image_id": "sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "container": "victim-HdiiR",
+    "ip": "172.18.0.5",
+    "port": "8080/tcp",
+    "network": "kalama-net"
+  },
+  "pipeline_state": {
+    "current_stage": "STEP_4_RESOLVER",
+    "status": "RUNNING",
+    "updated_at": "2026-09-15T21:15:16Z",
+    "resolver_artifact_created": false,
+    "attack_form_created": false
+  },
+  "available_before_artifacts": [
+    {"kind": "TRIVY_BEFORE", "path": "output/2d8ru-struts2-prospective/trivy/before/scan_2026-09-15_HdiiR.json", "sha256": "3b2253a3078ad72170661200d86cf14c0f7b033975da7d95eac1a470fee66620"},
+    {"kind": "TOP30_BEFORE", "path": "output/2d8ru-struts2-prospective/scoring/before/top30_2026-09-15_HdiiR.json", "sha256": "fcfd355dc618cdad68212ca49ba74c185873272efe7442c3d1217d7a158a174a"},
+    {"kind": "RUN_STATE", "path": "output/2d8ru-struts2-prospective/state/run_HdiiR.json", "sha256": "8941d2a2ea5be823bbaba7a6b45c12d1250d78269dcec3a12d24e369cf9e9cf6"}
+  ],
+  "blocker": "Resolver stage remains RUNNING and has no resolver/form artifact after continue. Per task locks, state was not edited or reset.",
+  "llm_calls": 0,
+  "historical_lkW2d_quarantine": "ACTIVE"
+}

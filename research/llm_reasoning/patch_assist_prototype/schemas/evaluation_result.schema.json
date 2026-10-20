@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kalama.patch-assist-prototype/evaluation-result/v1",
+  "$title": "EvaluationResult",
+  "description": "Deterministic research metrics over one (pack, proposal, review) triple. No single subjective score; per-field results required.",
+  "type": "object",
+  "required": ["schema", "experiment_id", "run_id", "action_id", "arm", "counts", "rates", "validator", "durations", "per_field", "created_at"],
+  "properties": {
+    "schema": {"const": "kalama.patch-assist-prototype/evaluation-result/v1"},
+    "experiment_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "action_id": {"type": "string"},
+    "arm": {"type": "string", "enum": ["ARM_A_L1", "ARM_B_L3", "ARM_C_L3_L4_L5"]},
+    "counts": {
+      "type": "object",
+      "required": ["field_count", "no_edit_count", "minor_edit_count", "major_edit_count", "reject_count", "abstention_accepted_count", "unsupported_claim_count", "missing_citation_count", "invalid_evidence_reference_count", "semantic_critical_edit_count"],
+      "properties": {
+        "field_count": {"type": "integer"},
+        "no_edit_count": {"type": "integer"},
+        "minor_edit_count": {"type": "integer"},
+        "major_edit_count": {"type": "integer"},
+        "reject_count": {"type": "integer"},
+        "abstention_accepted_count": {"type": "integer"},
+        "unsupported_claim_count": {"type": "integer"},
+        "missing_citation_count": {"type": "integer"},
+        "invalid_evidence_reference_count": {"type": "integer"},
+        "semantic_critical_edit_count": {"type": "integer", "description": "MAJOR_EDIT + REJECT among critical fields (target_version, strategy, artifact/dependency set, command, validation_command)."}
+      }
+    },
+    "rates": {
+      "type": "object",
+      "required": ["agent_supported_field_rate", "human_refinement_rate", "major_refinement_rate", "unsupported_claim_rate", "citation_validity_rate", "abstention_correctness_rate"],
+      "properties": {
+        "agent_supported_field_rate": {"type": "number"},
+        "human_refinement_rate": {"type": "number"},
+        "major_refinement_rate": {"type": "number"},
+        "unsupported_claim_rate": {"type": "number"},
+        "citation_validity_rate": {"type": "number"},
+        "abstention_correctness_rate": {"type": ["number", "null"]}
+      }
+    },
+    "validator": {
+      "type": "object",
+      "required": ["validator_pass_before_review", "validator_pass_after_review"],
+      "properties": {
+        "validator_pass_before_review": {"type": "boolean"},
+        "validator_pass_after_review": {"type": "boolean"}
+      }
+    },
+    "durations": {
+      "type": "object",
+      "properties": {
+        "review_duration_seconds": {"type": ["number", "null"]},
+        "agent_duration_seconds": {"type": ["number", "null"]}
+      }
+    },
+    "per_field": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "required": ["review_class", "unsupported_claim", "citation_valid"],
+          "properties": {
+            "review_class": {"type": "string"},
+            "unsupported_claim": {"type": "boolean"},
+            "citation_valid": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "created_at": {"type": "string"}
+  }
+}

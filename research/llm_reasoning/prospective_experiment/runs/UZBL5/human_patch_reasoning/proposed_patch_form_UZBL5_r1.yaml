@@ -1,0 +1,1368 @@
+schema: kalama.patch-form/v1
+run_id: UZBL5
+phase: patch
+revision: 1
+base_patch_plan_sha256: 5a4e1ab6961869180ea5ad9a541fb01d4eb26d5af276996e7b773ddfe15b3d3b
+actions:
+  patch-001:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: 2.3.32
+    artifact:
+      suggested_source: null
+      confirmed_source: seed://UZBL5/runtime_evidence/webapp_artifact_sha256.json#/usr/local/tomcat/webapps/S2-048/WEB-INF/lib
+      checksum:
+        suggested: null
+        confirmed: sha256:74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0
+      source_identifier: PATCH_REASONING_SEED:S2-048 donor; SOURCE_GRAPH:S004,S013,S100-S103,S112-S114,S118-S147
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: 'set -eu
+
+        donor=''/usr/local/tomcat/webapps/S2-048/WEB-INF/lib''
+
+        printf ''%s  %s\n'' ''eeeae917917144a68a741d4c0dff66aa5c5c5fd85593ff217bced3fc8ca783b8''
+        "$donor/commons-collections-3.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$donor/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$donor/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''2c73b940c91250bc98346926270f13a6a10bb6e29d2c9316a70d134e382c873e''
+        "$donor/commons-lang-2.4.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$donor/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''70903f6fc82e9908c8da9f20443f61d90f0870a312642991fe8462a0b9391784''
+        "$donor/commons-logging-1.1.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$donor/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''21048e5b639a8401bcb08f8ff12899f3fcf779db63c4050537a5e72e33c7229e''
+        "$donor/jcl-over-slf4j-1.5.8.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1d31696445697720527091754369082a6651bd49781b6005deb94e56753406f9''
+        "$donor/log4j-1.2.17.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$donor/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''0aee9a77a4940d72932b0d0d9557793f872e66a03f598e473f45e7efecdccf99''
+        "$donor/slf4j-api-1.7.12.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''48bfae878380de1f358e5cfd835ffc51642ae6a1fa0d56b3c30bb52a13101023''
+        "$donor/struts2-config-browser-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''2954c42eae65cac5f18394b772d2d81ac3394980689261fa1738d66a81e6091f''
+        "$donor/struts2-convention-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$donor/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''b13915cdd2e776f7476167e1b5b88e6fdddcf491ac8a52ee3ba72ffe27193dfe''
+        "$donor/struts2-dojo-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''5f1d991605eb1dc354cdd3d48e16f0ac9d6b2e9a575f21b9a9df91a3342d2850''
+        "$donor/struts2-dwr-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''04ec363f436f6a4835a8c4f8ebec1ee1be38e96cfb9d6292def11cbaa5d417c8''
+        "$donor/struts2-jsf-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''87ddb8f623f801026eab32caac3c885876fc61e2e99258b284b65117728d0ad3''
+        "$donor/struts2-json-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''ecd761b0ab1558ba44537daaea70480352ead71d8a96d8dde83abdfafd258636''
+        "$donor/struts2-sitemesh-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''d7cb05a359e7e3fbf44d2e19a5df1649fd58be29881c169a28cc728efe2f7abc''
+        "$donor/struts2-spring-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''a08ccf1c54c020c74ace19f7e3fd0f3e83bcc4c79a7c9545f3133f8a99a91ed3''
+        "$donor/struts2-struts1-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''3133bf3ffc20467cc70d81bd0b281eb420d9b7152a0b07054a8a28080230fb63''
+        "$donor/struts2-tiles-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''c4c73247a4c719bf369382457a0b31dce131816aa175498f05c3dbce3c5a590b''
+        "$donor/tiles-api-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''bf885b7b53f5bca0fb603e66bb374750f3f7d21a4daae1ccef74938a82586814''
+        "$donor/tiles-core-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''39e120877ddc5138376db44112c6890c3db571ecc1135a7f4125fed1c5a705a9''
+        "$donor/tiles-el-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''ac6624845c435f5815b3eec0c1e4d1831be98ff930ab23043fedbfaaa72e45f3''
+        "$donor/tiles-freemarker-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''03af8c599862f50c61a4d90fed924823e3348fec0459b22d6644b80563dde49c''
+        "$donor/tiles-jsp-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''0743c554e940b60bdd261c1681c94de3dfb3c76060995920bac4d708d543534a''
+        "$donor/tiles-ognl-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''8f2a31d4ba0f4dfaab5c4c0da3d7791c74acb88276b59e5e828c840efa1263d8''
+        "$donor/tiles-servlet-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''eac21135b95d1e571643fd024c8bcb55648e2a72a5dbd62cb7f6c6cc97ec0fa6''
+        "$donor/tiles-template-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''fa0fdabd3d042b9c04293f86996d62f707ad3041281611b67b4b3eaa8a24cf59''
+        "$donor/velocity-1.6.4.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$donor/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        root=''/usr/local/tomcat/webapps/S2-009''
+
+        lib="$root/WEB-INF/lib"
+
+        backup=''/usr/local/tomcat/kalama-backup-UZBL5/S2-009''
+
+        test -d "$lib"
+
+        mkdir -p "$backup"
+
+        war="$root.war"
+
+        disabled="$root.war.kalama-UZBL5.disabled"
+
+        if [ -f "$war" ]; then test ! -e "$disabled"; mv "$war" "$disabled"; fi
+
+        if [ -f "$lib/commons-collections-3.1.jar" ]; then cp -p "$lib/commons-collections-3.1.jar"
+        "$backup/commons-collections-3.1.jar"; rm -f "$lib/commons-collections-3.1.jar";
+        fi
+
+        if [ -f "$lib/commons-fileupload-1.2.2.jar" ]; then cp -p "$lib/commons-fileupload-1.2.2.jar"
+        "$backup/commons-fileupload-1.2.2.jar"; rm -f "$lib/commons-fileupload-1.2.2.jar";
+        fi
+
+        if [ -f "$lib/commons-io-2.0.1.jar" ]; then cp -p "$lib/commons-io-2.0.1.jar"
+        "$backup/commons-io-2.0.1.jar"; rm -f "$lib/commons-io-2.0.1.jar"; fi
+
+        if [ -f "$lib/commons-lang-2.5.jar" ]; then cp -p "$lib/commons-lang-2.5.jar"
+        "$backup/commons-lang-2.5.jar"; rm -f "$lib/commons-lang-2.5.jar"; fi
+
+        if [ -f "$lib/commons-logging-1.1.1.jar" ]; then cp -p "$lib/commons-logging-1.1.1.jar"
+        "$backup/commons-logging-1.1.1.jar"; rm -f "$lib/commons-logging-1.1.1.jar";
+        fi
+
+        if [ -f "$lib/freemarker-2.3.18.jar" ]; then cp -p "$lib/freemarker-2.3.18.jar"
+        "$backup/freemarker-2.3.18.jar"; rm -f "$lib/freemarker-2.3.18.jar"; fi
+
+        if [ -f "$lib/log4j-1.2.9.jar" ]; then cp -p "$lib/log4j-1.2.9.jar" "$backup/log4j-1.2.9.jar";
+        rm -f "$lib/log4j-1.2.9.jar"; fi
+
+        if [ -f "$lib/ognl-3.0.3.jar" ]; then cp -p "$lib/ognl-3.0.3.jar" "$backup/ognl-3.0.3.jar";
+        rm -f "$lib/ognl-3.0.3.jar"; fi
+
+        if [ -f "$lib/struts2-config-browser-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-config-browser-plugin-2.3.1.jar"
+        "$backup/struts2-config-browser-plugin-2.3.1.jar"; rm -f "$lib/struts2-config-browser-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-convention-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-convention-plugin-2.3.1.jar"
+        "$backup/struts2-convention-plugin-2.3.1.jar"; rm -f "$lib/struts2-convention-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-core-2.3.1.jar" ]; then cp -p "$lib/struts2-core-2.3.1.jar"
+        "$backup/struts2-core-2.3.1.jar"; rm -f "$lib/struts2-core-2.3.1.jar"; fi
+
+        if [ -f "$lib/struts2-dojo-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-dojo-plugin-2.3.1.jar"
+        "$backup/struts2-dojo-plugin-2.3.1.jar"; rm -f "$lib/struts2-dojo-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-dwr-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-dwr-plugin-2.3.1.jar"
+        "$backup/struts2-dwr-plugin-2.3.1.jar"; rm -f "$lib/struts2-dwr-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-jsf-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-jsf-plugin-2.3.1.jar"
+        "$backup/struts2-jsf-plugin-2.3.1.jar"; rm -f "$lib/struts2-jsf-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-json-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-json-plugin-2.3.1.jar"
+        "$backup/struts2-json-plugin-2.3.1.jar"; rm -f "$lib/struts2-json-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-sitemesh-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-sitemesh-plugin-2.3.1.jar"
+        "$backup/struts2-sitemesh-plugin-2.3.1.jar"; rm -f "$lib/struts2-sitemesh-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-spring-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-spring-plugin-2.3.1.jar"
+        "$backup/struts2-spring-plugin-2.3.1.jar"; rm -f "$lib/struts2-spring-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-struts1-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-struts1-plugin-2.3.1.jar"
+        "$backup/struts2-struts1-plugin-2.3.1.jar"; rm -f "$lib/struts2-struts1-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/struts2-tiles-plugin-2.3.1.jar" ]; then cp -p "$lib/struts2-tiles-plugin-2.3.1.jar"
+        "$backup/struts2-tiles-plugin-2.3.1.jar"; rm -f "$lib/struts2-tiles-plugin-2.3.1.jar";
+        fi
+
+        if [ -f "$lib/tiles-api-2.0.6.jar" ]; then cp -p "$lib/tiles-api-2.0.6.jar"
+        "$backup/tiles-api-2.0.6.jar"; rm -f "$lib/tiles-api-2.0.6.jar"; fi
+
+        if [ -f "$lib/tiles-core-2.0.6.jar" ]; then cp -p "$lib/tiles-core-2.0.6.jar"
+        "$backup/tiles-core-2.0.6.jar"; rm -f "$lib/tiles-core-2.0.6.jar"; fi
+
+        if [ -f "$lib/tiles-jsp-2.0.6.jar" ]; then cp -p "$lib/tiles-jsp-2.0.6.jar"
+        "$backup/tiles-jsp-2.0.6.jar"; rm -f "$lib/tiles-jsp-2.0.6.jar"; fi
+
+        if [ -f "$lib/velocity-1.6.3.jar" ]; then cp -p "$lib/velocity-1.6.3.jar"
+        "$backup/velocity-1.6.3.jar"; rm -f "$lib/velocity-1.6.3.jar"; fi
+
+        if [ -f "$lib/xwork-core-2.3.1.jar" ]; then cp -p "$lib/xwork-core-2.3.1.jar"
+        "$backup/xwork-core-2.3.1.jar"; rm -f "$lib/xwork-core-2.3.1.jar"; fi
+
+        cp -p "$donor/commons-collections-3.2.2.jar" "$lib/commons-collections-3.2.2.jar"
+
+        cp -p "$donor/commons-fileupload-1.3.2.jar" "$lib/commons-fileupload-1.3.2.jar"
+
+        cp -p "$donor/commons-io-2.2.jar" "$lib/commons-io-2.2.jar"
+
+        cp -p "$donor/commons-lang-2.4.jar" "$lib/commons-lang-2.4.jar"
+
+        cp -p "$donor/commons-lang3-3.2.jar" "$lib/commons-lang3-3.2.jar"
+
+        cp -p "$donor/commons-logging-1.1.3.jar" "$lib/commons-logging-1.1.3.jar"
+
+        cp -p "$donor/freemarker-2.3.22.jar" "$lib/freemarker-2.3.22.jar"
+
+        cp -p "$donor/jcl-over-slf4j-1.5.8.jar" "$lib/jcl-over-slf4j-1.5.8.jar"
+
+        cp -p "$donor/log4j-1.2.17.jar" "$lib/log4j-1.2.17.jar"
+
+        cp -p "$donor/ognl-3.0.19.jar" "$lib/ognl-3.0.19.jar"
+
+        cp -p "$donor/slf4j-api-1.7.12.jar" "$lib/slf4j-api-1.7.12.jar"
+
+        cp -p "$donor/struts2-config-browser-plugin-2.3.32.jar" "$lib/struts2-config-browser-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-convention-plugin-2.3.32.jar" "$lib/struts2-convention-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-core-2.3.32.jar" "$lib/struts2-core-2.3.32.jar"
+
+        cp -p "$donor/struts2-dojo-plugin-2.3.32.jar" "$lib/struts2-dojo-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-dwr-plugin-2.3.32.jar" "$lib/struts2-dwr-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-jsf-plugin-2.3.32.jar" "$lib/struts2-jsf-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-json-plugin-2.3.32.jar" "$lib/struts2-json-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-sitemesh-plugin-2.3.32.jar" "$lib/struts2-sitemesh-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-spring-plugin-2.3.32.jar" "$lib/struts2-spring-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-struts1-plugin-2.3.32.jar" "$lib/struts2-struts1-plugin-2.3.32.jar"
+
+        cp -p "$donor/struts2-tiles-plugin-2.3.32.jar" "$lib/struts2-tiles-plugin-2.3.32.jar"
+
+        cp -p "$donor/tiles-api-2.2.2.jar" "$lib/tiles-api-2.2.2.jar"
+
+        cp -p "$donor/tiles-core-2.2.2.jar" "$lib/tiles-core-2.2.2.jar"
+
+        cp -p "$donor/tiles-el-2.2.2.jar" "$lib/tiles-el-2.2.2.jar"
+
+        cp -p "$donor/tiles-freemarker-2.2.2.jar" "$lib/tiles-freemarker-2.2.2.jar"
+
+        cp -p "$donor/tiles-jsp-2.2.2.jar" "$lib/tiles-jsp-2.2.2.jar"
+
+        cp -p "$donor/tiles-ognl-2.2.2.jar" "$lib/tiles-ognl-2.2.2.jar"
+
+        cp -p "$donor/tiles-servlet-2.2.2.jar" "$lib/tiles-servlet-2.2.2.jar"
+
+        cp -p "$donor/tiles-template-2.2.2.jar" "$lib/tiles-template-2.2.2.jar"
+
+        cp -p "$donor/velocity-1.6.4.jar" "$lib/velocity-1.6.4.jar"
+
+        cp -p "$donor/xwork-core-2.3.32.jar" "$lib/xwork-core-2.3.32.jar"'
+    validation_command:
+      confirmed: 'set -eu
+
+        root=''/usr/local/tomcat/webapps/S2-009''
+
+        lib="$root/WEB-INF/lib"
+
+        test -f "$root.war.kalama-UZBL5.disabled"
+
+        test ! -e "$root.war"
+
+        test ! -e "$lib/commons-collections-3.1.jar"
+
+        test ! -e "$lib/commons-fileupload-1.2.2.jar"
+
+        test ! -e "$lib/commons-io-2.0.1.jar"
+
+        test ! -e "$lib/commons-lang-2.5.jar"
+
+        test ! -e "$lib/commons-logging-1.1.1.jar"
+
+        test ! -e "$lib/freemarker-2.3.18.jar"
+
+        test ! -e "$lib/log4j-1.2.9.jar"
+
+        test ! -e "$lib/ognl-3.0.3.jar"
+
+        test ! -e "$lib/struts2-config-browser-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-convention-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-core-2.3.1.jar"
+
+        test ! -e "$lib/struts2-dojo-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-dwr-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-jsf-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-json-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-sitemesh-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-spring-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-struts1-plugin-2.3.1.jar"
+
+        test ! -e "$lib/struts2-tiles-plugin-2.3.1.jar"
+
+        test ! -e "$lib/tiles-api-2.0.6.jar"
+
+        test ! -e "$lib/tiles-core-2.0.6.jar"
+
+        test ! -e "$lib/tiles-jsp-2.0.6.jar"
+
+        test ! -e "$lib/velocity-1.6.3.jar"
+
+        test ! -e "$lib/xwork-core-2.3.1.jar"
+
+        printf ''%s  %s\n'' ''eeeae917917144a68a741d4c0dff66aa5c5c5fd85593ff217bced3fc8ca783b8''
+        "$lib/commons-collections-3.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$lib/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$lib/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''2c73b940c91250bc98346926270f13a6a10bb6e29d2c9316a70d134e382c873e''
+        "$lib/commons-lang-2.4.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$lib/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''70903f6fc82e9908c8da9f20443f61d90f0870a312642991fe8462a0b9391784''
+        "$lib/commons-logging-1.1.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$lib/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''21048e5b639a8401bcb08f8ff12899f3fcf779db63c4050537a5e72e33c7229e''
+        "$lib/jcl-over-slf4j-1.5.8.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1d31696445697720527091754369082a6651bd49781b6005deb94e56753406f9''
+        "$lib/log4j-1.2.17.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$lib/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''0aee9a77a4940d72932b0d0d9557793f872e66a03f598e473f45e7efecdccf99''
+        "$lib/slf4j-api-1.7.12.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''48bfae878380de1f358e5cfd835ffc51642ae6a1fa0d56b3c30bb52a13101023''
+        "$lib/struts2-config-browser-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''2954c42eae65cac5f18394b772d2d81ac3394980689261fa1738d66a81e6091f''
+        "$lib/struts2-convention-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$lib/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''b13915cdd2e776f7476167e1b5b88e6fdddcf491ac8a52ee3ba72ffe27193dfe''
+        "$lib/struts2-dojo-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''5f1d991605eb1dc354cdd3d48e16f0ac9d6b2e9a575f21b9a9df91a3342d2850''
+        "$lib/struts2-dwr-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''04ec363f436f6a4835a8c4f8ebec1ee1be38e96cfb9d6292def11cbaa5d417c8''
+        "$lib/struts2-jsf-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''87ddb8f623f801026eab32caac3c885876fc61e2e99258b284b65117728d0ad3''
+        "$lib/struts2-json-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''ecd761b0ab1558ba44537daaea70480352ead71d8a96d8dde83abdfafd258636''
+        "$lib/struts2-sitemesh-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''d7cb05a359e7e3fbf44d2e19a5df1649fd58be29881c169a28cc728efe2f7abc''
+        "$lib/struts2-spring-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''a08ccf1c54c020c74ace19f7e3fd0f3e83bcc4c79a7c9545f3133f8a99a91ed3''
+        "$lib/struts2-struts1-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''3133bf3ffc20467cc70d81bd0b281eb420d9b7152a0b07054a8a28080230fb63''
+        "$lib/struts2-tiles-plugin-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''c4c73247a4c719bf369382457a0b31dce131816aa175498f05c3dbce3c5a590b''
+        "$lib/tiles-api-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''bf885b7b53f5bca0fb603e66bb374750f3f7d21a4daae1ccef74938a82586814''
+        "$lib/tiles-core-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''39e120877ddc5138376db44112c6890c3db571ecc1135a7f4125fed1c5a705a9''
+        "$lib/tiles-el-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''ac6624845c435f5815b3eec0c1e4d1831be98ff930ab23043fedbfaaa72e45f3''
+        "$lib/tiles-freemarker-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''03af8c599862f50c61a4d90fed924823e3348fec0459b22d6644b80563dde49c''
+        "$lib/tiles-jsp-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''0743c554e940b60bdd261c1681c94de3dfb3c76060995920bac4d708d543534a''
+        "$lib/tiles-ognl-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''8f2a31d4ba0f4dfaab5c4c0da3d7791c74acb88276b59e5e828c840efa1263d8''
+        "$lib/tiles-servlet-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''eac21135b95d1e571643fd024c8bcb55648e2a72a5dbd62cb7f6c6cc97ec0fa6''
+        "$lib/tiles-template-2.2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''fa0fdabd3d042b9c04293f86996d62f707ad3041281611b67b4b3eaa8a24cf59''
+        "$lib/velocity-1.6.4.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$lib/xwork-core-2.3.32.jar" | sha256sum -c -'
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Evidence-anchored local artifact replacement. Preserve the original WAR
+      by renaming it, patch the exploded deployment while Tomcat is not running in
+      patch-workspace, and verify every donor JAR against frozen runtime SHA-256.
+      Tomcat 8.5.20 deployment semantics: SOURCE_GRAPH S014-S017. Upstream target/POM/repository:
+      S001/S004/S013/S100-S114; related module metadata/artifacts S118-S147.'
+  patch-002:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.14.2
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: 2.3.32
+    artifact:
+      suggested_source: null
+      confirmed_source: seed://UZBL5/runtime_evidence/webapp_artifact_sha256.json#/usr/local/tomcat/webapps/S2-048/WEB-INF/lib
+      checksum:
+        suggested: null
+        confirmed: sha256:74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0
+      source_identifier: PATCH_REASONING_SEED:S2-048 donor; SOURCE_GRAPH:S004,S013,S100-S103,S112-S114,S118-S147
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: 'set -eu
+
+        donor=''/usr/local/tomcat/webapps/S2-048/WEB-INF/lib''
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$donor/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$donor/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$donor/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$donor/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$donor/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$donor/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$donor/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$donor/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$donor/asm-commons-3.3.jar" | sha256sum -c -
+
+        root=''/usr/local/tomcat/webapps/S2-015''
+
+        lib="$root/WEB-INF/lib"
+
+        backup=''/usr/local/tomcat/kalama-backup-UZBL5/S2-015''
+
+        test -d "$lib"
+
+        mkdir -p "$backup"
+
+        war="$root.war"
+
+        disabled="$root.war.kalama-UZBL5.disabled"
+
+        if [ -f "$war" ]; then test ! -e "$disabled"; mv "$war" "$disabled"; fi
+
+        if [ -f "$lib/struts2-core-2.3.14.2.jar" ]; then cp -p "$lib/struts2-core-2.3.14.2.jar"
+        "$backup/struts2-core-2.3.14.2.jar"; rm -f "$lib/struts2-core-2.3.14.2.jar";
+        fi
+
+        if [ -f "$lib/xwork-core-2.3.14.2.jar" ]; then cp -p "$lib/xwork-core-2.3.14.2.jar"
+        "$backup/xwork-core-2.3.14.2.jar"; rm -f "$lib/xwork-core-2.3.14.2.jar"; fi
+
+        if [ -f "$lib/freemarker-2.3.19.jar" ]; then cp -p "$lib/freemarker-2.3.19.jar"
+        "$backup/freemarker-2.3.19.jar"; rm -f "$lib/freemarker-2.3.19.jar"; fi
+
+        if [ -f "$lib/ognl-3.0.6.jar" ]; then cp -p "$lib/ognl-3.0.6.jar" "$backup/ognl-3.0.6.jar";
+        rm -f "$lib/ognl-3.0.6.jar"; fi
+
+        if [ -f "$lib/commons-fileupload-1.2.2.jar" ]; then cp -p "$lib/commons-fileupload-1.2.2.jar"
+        "$backup/commons-fileupload-1.2.2.jar"; rm -f "$lib/commons-fileupload-1.2.2.jar";
+        fi
+
+        if [ -f "$lib/commons-io-2.0.1.jar" ]; then cp -p "$lib/commons-io-2.0.1.jar"
+        "$backup/commons-io-2.0.1.jar"; rm -f "$lib/commons-io-2.0.1.jar"; fi
+
+        if [ -f "$lib/commons-lang3-3.1.jar" ]; then cp -p "$lib/commons-lang3-3.1.jar"
+        "$backup/commons-lang3-3.1.jar"; rm -f "$lib/commons-lang3-3.1.jar"; fi
+
+        cp -p "$donor/struts2-core-2.3.32.jar" "$lib/struts2-core-2.3.32.jar"
+
+        cp -p "$donor/xwork-core-2.3.32.jar" "$lib/xwork-core-2.3.32.jar"
+
+        cp -p "$donor/freemarker-2.3.22.jar" "$lib/freemarker-2.3.22.jar"
+
+        cp -p "$donor/ognl-3.0.19.jar" "$lib/ognl-3.0.19.jar"
+
+        cp -p "$donor/commons-fileupload-1.3.2.jar" "$lib/commons-fileupload-1.3.2.jar"
+
+        cp -p "$donor/commons-io-2.2.jar" "$lib/commons-io-2.2.jar"
+
+        cp -p "$donor/commons-lang3-3.2.jar" "$lib/commons-lang3-3.2.jar"
+
+        cp -p "$donor/asm-3.3.jar" "$lib/asm-3.3.jar"
+
+        cp -p "$donor/asm-commons-3.3.jar" "$lib/asm-commons-3.3.jar"
+
+        root=''/usr/local/tomcat/webapps/S2-016''
+
+        lib="$root/WEB-INF/lib"
+
+        backup=''/usr/local/tomcat/kalama-backup-UZBL5/S2-016''
+
+        test -d "$lib"
+
+        mkdir -p "$backup"
+
+        war="$root.war"
+
+        disabled="$root.war.kalama-UZBL5.disabled"
+
+        if [ -f "$war" ]; then test ! -e "$disabled"; mv "$war" "$disabled"; fi
+
+        if [ -f "$lib/struts2-core-2.3.14.2.jar" ]; then cp -p "$lib/struts2-core-2.3.14.2.jar"
+        "$backup/struts2-core-2.3.14.2.jar"; rm -f "$lib/struts2-core-2.3.14.2.jar";
+        fi
+
+        if [ -f "$lib/xwork-core-2.3.14.2.jar" ]; then cp -p "$lib/xwork-core-2.3.14.2.jar"
+        "$backup/xwork-core-2.3.14.2.jar"; rm -f "$lib/xwork-core-2.3.14.2.jar"; fi
+
+        if [ -f "$lib/freemarker-2.3.19.jar" ]; then cp -p "$lib/freemarker-2.3.19.jar"
+        "$backup/freemarker-2.3.19.jar"; rm -f "$lib/freemarker-2.3.19.jar"; fi
+
+        if [ -f "$lib/ognl-3.0.6.jar" ]; then cp -p "$lib/ognl-3.0.6.jar" "$backup/ognl-3.0.6.jar";
+        rm -f "$lib/ognl-3.0.6.jar"; fi
+
+        if [ -f "$lib/commons-fileupload-1.2.2.jar" ]; then cp -p "$lib/commons-fileupload-1.2.2.jar"
+        "$backup/commons-fileupload-1.2.2.jar"; rm -f "$lib/commons-fileupload-1.2.2.jar";
+        fi
+
+        if [ -f "$lib/commons-io-2.0.1.jar" ]; then cp -p "$lib/commons-io-2.0.1.jar"
+        "$backup/commons-io-2.0.1.jar"; rm -f "$lib/commons-io-2.0.1.jar"; fi
+
+        if [ -f "$lib/commons-lang3-3.1.jar" ]; then cp -p "$lib/commons-lang3-3.1.jar"
+        "$backup/commons-lang3-3.1.jar"; rm -f "$lib/commons-lang3-3.1.jar"; fi
+
+        cp -p "$donor/struts2-core-2.3.32.jar" "$lib/struts2-core-2.3.32.jar"
+
+        cp -p "$donor/xwork-core-2.3.32.jar" "$lib/xwork-core-2.3.32.jar"
+
+        cp -p "$donor/freemarker-2.3.22.jar" "$lib/freemarker-2.3.22.jar"
+
+        cp -p "$donor/ognl-3.0.19.jar" "$lib/ognl-3.0.19.jar"
+
+        cp -p "$donor/commons-fileupload-1.3.2.jar" "$lib/commons-fileupload-1.3.2.jar"
+
+        cp -p "$donor/commons-io-2.2.jar" "$lib/commons-io-2.2.jar"
+
+        cp -p "$donor/commons-lang3-3.2.jar" "$lib/commons-lang3-3.2.jar"
+
+        cp -p "$donor/asm-3.3.jar" "$lib/asm-3.3.jar"
+
+        cp -p "$donor/asm-commons-3.3.jar" "$lib/asm-commons-3.3.jar"'
+    validation_command:
+      confirmed: 'set -eu
+
+        root=''/usr/local/tomcat/webapps/S2-015''
+
+        lib="$root/WEB-INF/lib"
+
+        test -f "$root.war.kalama-UZBL5.disabled"
+
+        test ! -e "$root.war"
+
+        test ! -e "$lib/struts2-core-2.3.14.2.jar"
+
+        test ! -e "$lib/xwork-core-2.3.14.2.jar"
+
+        test ! -e "$lib/freemarker-2.3.19.jar"
+
+        test ! -e "$lib/ognl-3.0.6.jar"
+
+        test ! -e "$lib/commons-fileupload-1.2.2.jar"
+
+        test ! -e "$lib/commons-io-2.0.1.jar"
+
+        test ! -e "$lib/commons-lang3-3.1.jar"
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$lib/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$lib/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$lib/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$lib/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$lib/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$lib/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$lib/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$lib/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$lib/asm-commons-3.3.jar" | sha256sum -c -
+
+        root=''/usr/local/tomcat/webapps/S2-016''
+
+        lib="$root/WEB-INF/lib"
+
+        test -f "$root.war.kalama-UZBL5.disabled"
+
+        test ! -e "$root.war"
+
+        test ! -e "$lib/struts2-core-2.3.14.2.jar"
+
+        test ! -e "$lib/xwork-core-2.3.14.2.jar"
+
+        test ! -e "$lib/freemarker-2.3.19.jar"
+
+        test ! -e "$lib/ognl-3.0.6.jar"
+
+        test ! -e "$lib/commons-fileupload-1.2.2.jar"
+
+        test ! -e "$lib/commons-io-2.0.1.jar"
+
+        test ! -e "$lib/commons-lang3-3.1.jar"
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$lib/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$lib/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$lib/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$lib/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$lib/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$lib/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$lib/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$lib/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$lib/asm-commons-3.3.jar" | sha256sum -c -'
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Evidence-anchored local artifact replacement. Preserve the original WAR
+      by renaming it, patch the exploded deployment while Tomcat is not running in
+      patch-workspace, and verify every donor JAR against frozen runtime SHA-256.
+      Tomcat 8.5.20 deployment semantics: SOURCE_GRAPH S014-S017. Upstream target/POM/repository:
+      S001/S004/S013/S100-S114; related module metadata/artifacts S118-S147.'
+  patch-003:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.15.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: 2.3.32
+    artifact:
+      suggested_source: null
+      confirmed_source: seed://UZBL5/runtime_evidence/webapp_artifact_sha256.json#/usr/local/tomcat/webapps/S2-048/WEB-INF/lib
+      checksum:
+        suggested: null
+        confirmed: sha256:74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0
+      source_identifier: PATCH_REASONING_SEED:S2-048 donor; SOURCE_GRAPH:S004,S013,S100-S103,S112-S114,S118-S147
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: 'set -eu
+
+        donor=''/usr/local/tomcat/webapps/S2-048/WEB-INF/lib''
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$donor/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$donor/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$donor/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$donor/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$donor/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$donor/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$donor/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$donor/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$donor/asm-commons-3.3.jar" | sha256sum -c -
+
+        root=''/usr/local/tomcat/webapps/S2-019''
+
+        lib="$root/WEB-INF/lib"
+
+        backup=''/usr/local/tomcat/kalama-backup-UZBL5/S2-019''
+
+        test -d "$lib"
+
+        mkdir -p "$backup"
+
+        war="$root.war"
+
+        disabled="$root.war.kalama-UZBL5.disabled"
+
+        if [ -f "$war" ]; then test ! -e "$disabled"; mv "$war" "$disabled"; fi
+
+        if [ -f "$lib/struts2-core-2.3.15.1.jar" ]; then cp -p "$lib/struts2-core-2.3.15.1.jar"
+        "$backup/struts2-core-2.3.15.1.jar"; rm -f "$lib/struts2-core-2.3.15.1.jar";
+        fi
+
+        if [ -f "$lib/xwork-core-2.3.15.1.jar" ]; then cp -p "$lib/xwork-core-2.3.15.1.jar"
+        "$backup/xwork-core-2.3.15.1.jar"; rm -f "$lib/xwork-core-2.3.15.1.jar"; fi
+
+        if [ -f "$lib/freemarker-2.3.19.jar" ]; then cp -p "$lib/freemarker-2.3.19.jar"
+        "$backup/freemarker-2.3.19.jar"; rm -f "$lib/freemarker-2.3.19.jar"; fi
+
+        if [ -f "$lib/ognl-3.0.6.jar" ]; then cp -p "$lib/ognl-3.0.6.jar" "$backup/ognl-3.0.6.jar";
+        rm -f "$lib/ognl-3.0.6.jar"; fi
+
+        if [ -f "$lib/commons-fileupload-1.3.jar" ]; then cp -p "$lib/commons-fileupload-1.3.jar"
+        "$backup/commons-fileupload-1.3.jar"; rm -f "$lib/commons-fileupload-1.3.jar";
+        fi
+
+        if [ -f "$lib/commons-io-2.0.1.jar" ]; then cp -p "$lib/commons-io-2.0.1.jar"
+        "$backup/commons-io-2.0.1.jar"; rm -f "$lib/commons-io-2.0.1.jar"; fi
+
+        if [ -f "$lib/commons-lang3-3.1.jar" ]; then cp -p "$lib/commons-lang3-3.1.jar"
+        "$backup/commons-lang3-3.1.jar"; rm -f "$lib/commons-lang3-3.1.jar"; fi
+
+        cp -p "$donor/struts2-core-2.3.32.jar" "$lib/struts2-core-2.3.32.jar"
+
+        cp -p "$donor/xwork-core-2.3.32.jar" "$lib/xwork-core-2.3.32.jar"
+
+        cp -p "$donor/freemarker-2.3.22.jar" "$lib/freemarker-2.3.22.jar"
+
+        cp -p "$donor/ognl-3.0.19.jar" "$lib/ognl-3.0.19.jar"
+
+        cp -p "$donor/commons-fileupload-1.3.2.jar" "$lib/commons-fileupload-1.3.2.jar"
+
+        cp -p "$donor/commons-io-2.2.jar" "$lib/commons-io-2.2.jar"
+
+        cp -p "$donor/commons-lang3-3.2.jar" "$lib/commons-lang3-3.2.jar"
+
+        cp -p "$donor/asm-3.3.jar" "$lib/asm-3.3.jar"
+
+        cp -p "$donor/asm-commons-3.3.jar" "$lib/asm-commons-3.3.jar"'
+    validation_command:
+      confirmed: 'set -eu
+
+        root=''/usr/local/tomcat/webapps/S2-019''
+
+        lib="$root/WEB-INF/lib"
+
+        test -f "$root.war.kalama-UZBL5.disabled"
+
+        test ! -e "$root.war"
+
+        test ! -e "$lib/struts2-core-2.3.15.1.jar"
+
+        test ! -e "$lib/xwork-core-2.3.15.1.jar"
+
+        test ! -e "$lib/freemarker-2.3.19.jar"
+
+        test ! -e "$lib/ognl-3.0.6.jar"
+
+        test ! -e "$lib/commons-fileupload-1.3.jar"
+
+        test ! -e "$lib/commons-io-2.0.1.jar"
+
+        test ! -e "$lib/commons-lang3-3.1.jar"
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$lib/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$lib/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$lib/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$lib/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$lib/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$lib/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$lib/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$lib/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$lib/asm-commons-3.3.jar" | sha256sum -c -'
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Evidence-anchored local artifact replacement. Preserve the original WAR
+      by renaming it, patch the exploded deployment while Tomcat is not running in
+      patch-workspace, and verify every donor JAR against frozen runtime SHA-256.
+      Tomcat 8.5.20 deployment semantics: SOURCE_GRAPH S014-S017. Upstream target/POM/repository:
+      S001/S004/S013/S100-S114; related module metadata/artifacts S118-S147.'
+  patch-004:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.20.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: 2.3.34
+    artifact:
+      suggested_source: null
+      confirmed_source: https://repository.apache.org/content/groups/staging/org/apache/struts/struts2-core/2.3.34/struts2-core-2.3.34.jar
+      checksum:
+        suggested: null
+        confirmed: sha256:a988978e84c119becc5ee868b4a7eb76448cc38f0e4752a33c4df91e9a66d9a5
+      source_identifier: SOURCE_GRAPH:S002,S006,S013,S104-S107,S115-S117,S148-S156;
+        missing S208-S210,S241-S243
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Target 2.3.34 is selected to keep overlapping core and REST-plugin deployments
+      aligned, but no command is proposed: required OGNL 3.0.21 and XStream 1.4.10
+      artifacts were not retrievable through the authorized Apache staging source
+      (S208-S210, S241-S243 = HTTP 404).'
+  patch-005:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.24.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: 2.3.32
+    artifact:
+      suggested_source: null
+      confirmed_source: seed://UZBL5/runtime_evidence/webapp_artifact_sha256.json#/usr/local/tomcat/webapps/S2-048/WEB-INF/lib
+      checksum:
+        suggested: null
+        confirmed: sha256:74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0
+      source_identifier: PATCH_REASONING_SEED:S2-048 donor; SOURCE_GRAPH:S004,S013,S100-S103,S112-S114,S118-S147
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: 'set -eu
+
+        donor=''/usr/local/tomcat/webapps/S2-048/WEB-INF/lib''
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$donor/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$donor/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$donor/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$donor/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$donor/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$donor/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$donor/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$donor/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$donor/asm-commons-3.3.jar" | sha256sum -c -
+
+        root=''/usr/local/tomcat/webapps/S2-029''
+
+        lib="$root/WEB-INF/lib"
+
+        backup=''/usr/local/tomcat/kalama-backup-UZBL5/S2-029''
+
+        test -d "$lib"
+
+        mkdir -p "$backup"
+
+        war="$root.war"
+
+        disabled="$root.war.kalama-UZBL5.disabled"
+
+        if [ -f "$war" ]; then test ! -e "$disabled"; mv "$war" "$disabled"; fi
+
+        if [ -f "$lib/struts2-core-2.3.24.1.jar" ]; then cp -p "$lib/struts2-core-2.3.24.1.jar"
+        "$backup/struts2-core-2.3.24.1.jar"; rm -f "$lib/struts2-core-2.3.24.1.jar";
+        fi
+
+        if [ -f "$lib/xwork-core-2.3.24.1.jar" ]; then cp -p "$lib/xwork-core-2.3.24.1.jar"
+        "$backup/xwork-core-2.3.24.1.jar"; rm -f "$lib/xwork-core-2.3.24.1.jar"; fi
+
+        if [ -f "$lib/ognl-3.0.6.jar" ]; then cp -p "$lib/ognl-3.0.6.jar" "$backup/ognl-3.0.6.jar";
+        rm -f "$lib/ognl-3.0.6.jar"; fi
+
+        if [ -f "$lib/commons-fileupload-1.3.1.jar" ]; then cp -p "$lib/commons-fileupload-1.3.1.jar"
+        "$backup/commons-fileupload-1.3.1.jar"; rm -f "$lib/commons-fileupload-1.3.1.jar";
+        fi
+
+        cp -p "$donor/struts2-core-2.3.32.jar" "$lib/struts2-core-2.3.32.jar"
+
+        cp -p "$donor/xwork-core-2.3.32.jar" "$lib/xwork-core-2.3.32.jar"
+
+        cp -p "$donor/freemarker-2.3.22.jar" "$lib/freemarker-2.3.22.jar"
+
+        cp -p "$donor/ognl-3.0.19.jar" "$lib/ognl-3.0.19.jar"
+
+        cp -p "$donor/commons-fileupload-1.3.2.jar" "$lib/commons-fileupload-1.3.2.jar"
+
+        cp -p "$donor/commons-io-2.2.jar" "$lib/commons-io-2.2.jar"
+
+        cp -p "$donor/commons-lang3-3.2.jar" "$lib/commons-lang3-3.2.jar"
+
+        cp -p "$donor/asm-3.3.jar" "$lib/asm-3.3.jar"
+
+        cp -p "$donor/asm-commons-3.3.jar" "$lib/asm-commons-3.3.jar"'
+    validation_command:
+      confirmed: 'set -eu
+
+        root=''/usr/local/tomcat/webapps/S2-029''
+
+        lib="$root/WEB-INF/lib"
+
+        test -f "$root.war.kalama-UZBL5.disabled"
+
+        test ! -e "$root.war"
+
+        test ! -e "$lib/struts2-core-2.3.24.1.jar"
+
+        test ! -e "$lib/xwork-core-2.3.24.1.jar"
+
+        test ! -e "$lib/ognl-3.0.6.jar"
+
+        test ! -e "$lib/commons-fileupload-1.3.1.jar"
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$lib/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$lib/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$lib/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$lib/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$lib/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$lib/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$lib/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$lib/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$lib/asm-commons-3.3.jar" | sha256sum -c -'
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Evidence-anchored local artifact replacement. Preserve the original WAR
+      by renaming it, patch the exploded deployment while Tomcat is not running in
+      patch-workspace, and verify every donor JAR against frozen runtime SHA-256.
+      Tomcat 8.5.20 deployment semantics: SOURCE_GRAPH S014-S017. Upstream target/POM/repository:
+      S001/S004/S013/S100-S114; related module metadata/artifacts S118-S147.'
+  patch-006:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.30
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: 2.3.32
+    artifact:
+      suggested_source: null
+      confirmed_source: seed://UZBL5/runtime_evidence/webapp_artifact_sha256.json#/usr/local/tomcat/webapps/S2-048/WEB-INF/lib
+      checksum:
+        suggested: null
+        confirmed: sha256:74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0
+      source_identifier: PATCH_REASONING_SEED:S2-048 donor; SOURCE_GRAPH:S004,S013,S100-S103,S112-S114,S118-S147
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: 'set -eu
+
+        donor=''/usr/local/tomcat/webapps/S2-048/WEB-INF/lib''
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$donor/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$donor/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$donor/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$donor/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$donor/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$donor/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$donor/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$donor/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$donor/asm-commons-3.3.jar" | sha256sum -c -
+
+        root=''/usr/local/tomcat/webapps/S2-046''
+
+        lib="$root/WEB-INF/lib"
+
+        backup=''/usr/local/tomcat/kalama-backup-UZBL5/S2-046''
+
+        test -d "$lib"
+
+        mkdir -p "$backup"
+
+        war="$root.war"
+
+        disabled="$root.war.kalama-UZBL5.disabled"
+
+        if [ -f "$war" ]; then test ! -e "$disabled"; mv "$war" "$disabled"; fi
+
+        if [ -f "$lib/struts2-core-2.3.30.jar" ]; then cp -p "$lib/struts2-core-2.3.30.jar"
+        "$backup/struts2-core-2.3.30.jar"; rm -f "$lib/struts2-core-2.3.30.jar"; fi
+
+        if [ -f "$lib/xwork-core-2.3.30.jar" ]; then cp -p "$lib/xwork-core-2.3.30.jar"
+        "$backup/xwork-core-2.3.30.jar"; rm -f "$lib/xwork-core-2.3.30.jar"; fi
+
+        cp -p "$donor/struts2-core-2.3.32.jar" "$lib/struts2-core-2.3.32.jar"
+
+        cp -p "$donor/xwork-core-2.3.32.jar" "$lib/xwork-core-2.3.32.jar"
+
+        cp -p "$donor/freemarker-2.3.22.jar" "$lib/freemarker-2.3.22.jar"
+
+        cp -p "$donor/ognl-3.0.19.jar" "$lib/ognl-3.0.19.jar"
+
+        cp -p "$donor/commons-fileupload-1.3.2.jar" "$lib/commons-fileupload-1.3.2.jar"
+
+        cp -p "$donor/commons-io-2.2.jar" "$lib/commons-io-2.2.jar"
+
+        cp -p "$donor/commons-lang3-3.2.jar" "$lib/commons-lang3-3.2.jar"
+
+        cp -p "$donor/asm-3.3.jar" "$lib/asm-3.3.jar"
+
+        cp -p "$donor/asm-commons-3.3.jar" "$lib/asm-commons-3.3.jar"'
+    validation_command:
+      confirmed: 'set -eu
+
+        root=''/usr/local/tomcat/webapps/S2-046''
+
+        lib="$root/WEB-INF/lib"
+
+        test -f "$root.war.kalama-UZBL5.disabled"
+
+        test ! -e "$root.war"
+
+        test ! -e "$lib/struts2-core-2.3.30.jar"
+
+        test ! -e "$lib/xwork-core-2.3.30.jar"
+
+        printf ''%s  %s\n'' ''74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0''
+        "$lib/struts2-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01''
+        "$lib/xwork-core-2.3.32.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''58502c0e47066cfde399d52aa5d81f83f990bbb43b044414969119c25c1a9c6f''
+        "$lib/freemarker-2.3.22.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''7aa3897a57727a74519878862827cc6ff55bb1f19bd582c9c69f0e0e7887cb0d''
+        "$lib/ognl-3.0.19.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5''
+        "$lib/commons-fileupload-1.3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87''
+        "$lib/commons-io-2.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c''
+        "$lib/commons-lang3-3.2.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''07e685c385c652a3d2c4a08312004f653ba508e325d70ff3d9e8687d1ac6a8da''
+        "$lib/asm-3.3.jar" | sha256sum -c -
+
+        printf ''%s  %s\n'' ''1cc6e5bcfab550397289875ac133d86562d4ec2f3875afa7c5c033d1f0ee96af''
+        "$lib/asm-commons-3.3.jar" | sha256sum -c -'
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Evidence-anchored local artifact replacement. Preserve the original WAR
+      by renaming it, patch the exploded deployment while Tomcat is not running in
+      patch-workspace, and verify every donor JAR against frozen runtime SHA-256.
+      Tomcat 8.5.20 deployment semantics: SOURCE_GRAPH S014-S017. Upstream target/POM/repository:
+      S001/S004/S013/S100-S114; related module metadata/artifacts S118-S147.'
+  patch-007:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.5.10
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.5.10.1
+      confirmed: 2.5.10.1
+    artifact:
+      suggested_source: null
+      confirmed_source: https://repository.apache.org/content/groups/staging/org/apache/struts/struts2-core/2.5.10.1/struts2-core-2.5.10.1.jar
+      checksum:
+        suggested: null
+        confirmed: sha256:62501827eb34caa7a9b418eaf95d661af76677ad5b1394c02e77a02474bcadcb
+      source_identifier: SOURCE_GRAPH:S001,S005,S013,S108-S111; missing S226-S228
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Target 2.5.10.1 is supported by S001/S005/S108-S111, but no command is
+      proposed: its required Freemarker 2.3.23 artifact was not retrievable through
+      the authorized Apache staging source (S226-S228 = HTTP 404), and it is absent
+      from the frozen runtime inventory.'
+  patch-008:
+    target_cves:
+    - CVE-2017-9805
+    package:
+      name: org.apache.struts:struts2-rest-plugin
+      ecosystem: jar
+      before_versions:
+      - 2.3.20.1
+      scanner_fixed_versions:
+      - 2.3.34
+      - 2.5.13
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 2.3.34
+      - 2.5.13
+      suggested: 2.3.34
+      confirmed: 2.3.34
+    artifact:
+      suggested_source: null
+      confirmed_source: https://repository.apache.org/content/groups/staging/org/apache/struts/struts2-rest-plugin/2.3.34/struts2-rest-plugin-2.3.34.jar
+      checksum:
+        suggested: null
+        confirmed: sha256:9b36cd0b67161d7a89e22c703682506df8f6c048d532a921787db915ea68e1f1
+      source_identifier: SOURCE_GRAPH:S002,S006,S013,S104-S107,S115-S117,S148-S156;
+        missing S208-S210,S241-S243
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: 'Target 2.3.34 is selected to keep overlapping core and REST-plugin deployments
+      aligned, but no command is proposed: required OGNL 3.0.21 and XStream 1.4.10
+      artifacts were not retrievable through the authorized Apache staging source
+      (S208-S210, S241-S243 = HTTP 404).'

@@ -1,0 +1,106 @@
+{
+  "schema": "kalama.patch-assist-prototype/agent-proposal/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "proposal_revision": 1,
+  "candidate_binding": {
+    "run_id": "B9X4K",
+    "action_id": "patch-001",
+    "pack_sha256": "a780084f1983f6b2136a90617d359353df034546cd6f4c021e64ababcfc24707"
+  },
+  "fields": {
+    "fix_type": {
+      "value": null,
+      "status": "ABSTAINED",
+      "evidence_refs": [],
+      "confidence": "LOW",
+      "reason_summary": "Pack states no explicit FixType A/B/C value; no derivation from general knowledge permitted."
+    },
+    "strategy": {
+      "value": "ARTIFACT_REPLACEMENT",
+      "status": "PROPOSED",
+      "evidence_refs": ["S007", "S011", "S012", "S013"],
+      "confidence": "MEDIUM",
+      "reason_summary": "Jessie security index provides fixed .deb stanza with complete dependencies and retrieved bytes match checksum; DLA record supports same-family backport update without major-version move."
+    },
+    "target_version": {
+      "value": "4.3-11+deb8u2",
+      "status": "PROPOSED",
+      "evidence_refs": ["SEED-01", "S004", "S007", "S011", "S013"],
+      "confidence": "HIGH",
+      "reason_summary": "Scanner fixed version corroborated by Debian tracker jessie_fixed, security index stanza, and DLA record; distinguished from unstable 4.4-1 as same-family backport."
+    },
+    "artifact_source": {
+      "value": "http://archive.debian.org/debian-security/pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb",
+      "status": "PROPOSED",
+      "evidence_refs": ["S011", "S012"],
+      "confidence": "HIGH",
+      "reason_summary": "Filename from security index stanza; retrieved artifact bytes match stanza SHA-256 and size exactly."
+    },
+    "source_identifier": {
+      "value": "pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb",
+      "status": "PROPOSED",
+      "evidence_refs": ["S011"],
+      "confidence": "HIGH",
+      "reason_summary": "Exact Filename field of the S011 bash 4.3-11+deb8u2 stanza in the jessie security index."
+    },
+    "build_system": {
+      "value": null,
+      "status": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "confidence": "HIGH",
+      "reason_summary": "Debian binary artifact has no maven build; production build-system vocabulary is locked to maven so no value applies."
+    },
+    "command": {
+      "value": null,
+      "status": "ABSTAINED",
+      "evidence_refs": [],
+      "confidence": "HIGH",
+      "reason_summary": "Gated INSUFFICIENT by deterministic evidence sufficiency; L5 deployment procedure missing so no command proposed."
+    },
+    "validation_command": {
+      "value": null,
+      "status": "ABSTAINED",
+      "evidence_refs": [],
+      "confidence": "HIGH",
+      "reason_summary": "Gated INSUFFICIENT by deterministic evidence sufficiency; L5 missing so no validation proposed."
+    },
+    "notes": {
+      "value": "Scope is patch-001 bash Debian package 4.3-11+deb8u1 to 4.3-11+deb8u2 for CVE-2019-9924 only; source-built /usr/local/bash-4.3.0 in image history is out of scope. Fix is jessie backport, not unstable 4.4-1. Artifact integrity verified by stanza checksum match; dependency stanza lists Depends/Pre-Depends with no unresolved entries. Per-revision changelog prose and full DLA prose were unavailable; KEV checked negative for this CVE.",
+      "status": "PROPOSED",
+      "evidence_refs": ["SEED-01", "S004", "S007", "S008", "S011", "S012", "S013"],
+      "confidence": "MEDIUM",
+      "reason_summary": "Scope, version-family, integrity, closure, and evidence gaps are each directly stated in the pack sections cited."
+    }
+  },
+  "abstentions": [
+    {
+      "field": "command",
+      "reason_code": "COMMAND_GATE_INSUFFICIENT",
+      "detail": "evidence_sufficiency.command is INSUFFICIENT with L5 missing and PROCEDURE_UNKNOWN; value left null per hard gate."
+    },
+    {
+      "field": "validation_command",
+      "reason_code": "VALIDATION_GATE_INSUFFICIENT",
+      "detail": "evidence_sufficiency.validation_command is INSUFFICIENT with L5 missing; value left null per hard gate."
+    },
+    {
+      "field": "fix_type",
+      "reason_code": "FIX_TYPE_UNDETERMINED_FROM_PACK",
+      "detail": "Pack provides no explicit FixType A/B/C assignment; abstained rather than inferring from general knowledge."
+    }
+  ],
+  "assumptions": [
+    "Target architecture amd64 per PURL and Packages index stanza used for artifact selection.",
+    "Jessie revision 4.3-11+deb8u2 interpreted as the applicable fix for the debian-8.10 target per tracker and security index, without asserting installed runtime state."
+  ],
+  "warnings": [
+    "Debian 8.10 is EOSL; artifact is from the archived security source.",
+    "Custom source-built /usr/local/bash-4.3.0 observed in image history is out of scope for patch-001 and not addressed by this proposal.",
+    "Per-revision changelog prose and full DLA prose were unavailable; compatibility basis is tracker plus upstream CHANGES plus DLA record.",
+    "Dependency closure reflects index metadata only with no live-container verification; deployment procedure absent per L5 gap."
+  ],
+  "proposal_sha256": "bcf4b87ad33b5bd4dd7598c0d61a0ac7c375c36036046f08525bd0bdb5f41c07",
+  "created_at": "2026-09-18T11:30:00Z"
+}

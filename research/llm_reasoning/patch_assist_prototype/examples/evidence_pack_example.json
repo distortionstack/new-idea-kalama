@@ -1,0 +1,83 @@
+{
+  "schema": "kalama.patch-assist-prototype/evidence-pack/v1",
+  "experiment_id": "EXP-DEMO-001",
+  "run_id": "RUN-DEMO",
+  "action_id": "patch-001",
+  "candidate_identity": {
+    "run_id": "RUN-DEMO",
+    "action_id": "patch-001",
+    "cve_id": "CVE-2099-0001",
+    "package_name": "org.example:example-package",
+    "component": "example-webapp",
+    "ecosystem": "maven",
+    "installed_version": "1.4.0",
+    "image_identity": "sha256:demoimage000000000000000000000000000000000000000000000000000001",
+    "target_identity": "demo-target-01",
+    "container_identity": "demo-container-01",
+    "phase": "patch"
+  },
+  "evidence_level": {
+    "satisfied_levels": ["L0", "L1", "L2", "L3"],
+    "missing_levels": ["L4", "L5"]
+  },
+  "evidence_sufficiency": {
+    "version_recommendation": "SUPPORTED",
+    "artifact_provenance": "SUPPORTED",
+    "artifact_integrity": "SUPPORTED",
+    "dependency_closure": "SUPPORTED",
+    "patch_strategy": "SUPPORTED",
+    "command": "INSUFFICIENT",
+    "validation_command": "INSUFFICIENT"
+  },
+  "scanner_evidence": {
+    "cve_id": "CVE-2099-0001",
+    "package": "org.example:example-package",
+    "installed_version": "1.4.0",
+    "fixed_versions": ["1.4.7"],
+    "path": "/opt/demo/webapps/example-webapp/WEB-INF/lib/example-package-1.4.0.jar",
+    "references": ["https://example.org/security/adv-2099-0001"]
+  },
+  "runtime_evidence": {
+    "image": "sha256:demoimage000000000000000000000000000000000000000000000000000001",
+    "deployment_path": "/opt/demo/webapps/example-webapp",
+    "local_hashes": {"example-package-1.4.0.jar": "sha256:aaaa0000demo0000hash00000000000000000000000000000000000001"}
+  },
+  "advisory_evidence": {
+    "sources": ["NVD", "OSV"],
+    "fixed_version_confirmed": "1.4.7"
+  },
+  "package_registry_evidence": {
+    "registry_root": "https://repo.demo.invalid/maven2/org/example/example-package/1.4.7/",
+    "pom_reachable": true,
+    "artifact_reachable": true
+  },
+  "upstream_documentation": null,
+  "runtime_documentation": null,
+  "artifact_evidence": {
+    "artifact": "example-package-1.4.7.jar",
+    "checksum_sidecar": "example-package-1.4.7.jar.sha1",
+    "checksum_match": true
+  },
+  "dependency_evidence": {
+    "closure_complete": true,
+    "unresolved": []
+  },
+  "source_graph_summary": {
+    "source_count": 9,
+    "retrieved_count": 8,
+    "fetch_failed_count": 1,
+    "rejected_count": 0,
+    "valid": true
+  },
+  "source_references": [
+    {"source_id": "S001", "url": "https://example.org/security/adv-2099-0001", "source_type": "advisory_record", "authority_class": "ADVISORY_AUTHORITY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": null, "parent_evidence": "PACK:scanner_evidence.references[0]", "retrieved_at": "2099-01-02T00:00:00Z", "content_sha256": "sha256:demo00000000000000000000000000000000000000000000000000000001", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": [], "used_for_fields": ["target_version", "strategy"]},
+    {"source_id": "R001", "url": "https://repo.demo.invalid/maven2/org/example/example-package/1.4.7/example-package-1.4.7.pom", "source_type": "native_registry_pom", "authority_class": "DERIVED_PACKAGE_AUTHORITY", "discovery_method": "PURL_DERIVED_MAVEN_PATH", "parent_source_id": "S001", "parent_evidence": "PACK:scanner_evidence.package@1.4.7", "retrieved_at": "2099-01-02T01:00:00Z", "content_sha256": "sha256:demo00000000000000000000000000000000000000000000000000000002", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["metadata", "pom", "artifact", "checksum"], "used_for_fields": ["artifact_source", "source_identifier"]},
+    {"source_id": "R002", "url": "https://repo.demo.invalid/maven2/org/example/example-package/1.4.7/example-package-1.4.7.jar", "source_type": "native_registry_artifact", "authority_class": "DERIVED_PACKAGE_AUTHORITY", "discovery_method": "PURL_DERIVED_MAVEN_PATH", "parent_source_id": "R001", "parent_evidence": "PACK:package_registry_evidence.pom", "retrieved_at": "2099-01-02T01:05:00Z", "content_sha256": "sha256:demo00000000000000000000000000000000000000000000000000000003", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["artifact"], "used_for_fields": ["artifact_source"]}
+  ],
+  "missing_evidence": [
+    {"code": "COMPATIBILITY_UNKNOWN", "missing": ["release notes for 1.4.7"], "evidence": ["L4 not satisfied"], "impact": "Command drafting not permitted; compatibility rationale unavailable."},
+    {"code": "PROCEDURE_UNKNOWN", "missing": ["runtime deploy procedure"], "evidence": ["L5 not satisfied"], "impact": "Command and validation_command must remain null."}
+  ],
+  "pack_sha256": "demo-pack-sha256-00000000000000000000000000000000000000000000000001",
+  "created_at": "2099-01-02T02:00:00Z"
+}

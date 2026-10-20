@@ -1,0 +1,106 @@
+{
+  "created_at": "2026-09-16T16:29:35.322842Z",
+  "decisions": [
+    {
+      "classification": "EXTRACTED",
+      "conclusion": "Limit patch reasoning to the eight production Patch Actions for those two exploitation-confirmed CVEs.",
+      "confidence": "HIGH",
+      "evidence_used": "Fresh BEFORE exploitation succeeded for CVE-2017-5638 and CVE-2017-9805; 14 other candidates were skipped because fresh endpoint/module binding was absent.",
+      "question": "Which CVEs are remediation targets?",
+      "source_ids": [
+        "PATCH_REASONING_SEED:ATTACK_BEFORE",
+        "PATCH_REASONING_SEED:ATTACK_FORM"
+      ],
+      "unresolved_assumptions": []
+    },
+    {
+      "classification": "COMBINED_EVIDENCE",
+      "conclusion": "Use 2.3.32 for actions 001/002/003/005/006. Use 2.3.34 for action 004 because it overlaps four REST deployments that action 008 must move to 2.3.34.",
+      "confidence": "HIGH",
+      "evidence_used": "S2-045 names 2.3.32 as the fixed 2.3 release. S2-052 names 2.3.34 for REST. POMs keep all modules on project.version.",
+      "question": "What versions should the 2.3.x core actions use?",
+      "source_ids": [
+        "S001",
+        "S002",
+        "S004",
+        "S006",
+        "S100",
+        "S104",
+        "S154"
+      ],
+      "unresolved_assumptions": []
+    },
+    {
+      "classification": "COMBINED_EVIDENCE",
+      "conclusion": "Select 2.5.10.1 for action 007, but do not draft execution without Freemarker 2.3.23.",
+      "confidence": "HIGH",
+      "evidence_used": "S2-045 and its 2.5.10.1 release notes identify 2.5.10.1; scanner reports the same fixed version.",
+      "question": "What version should the 2.5.10 core action use?",
+      "source_ids": [
+        "S001",
+        "S005",
+        "S108",
+        "S109"
+      ],
+      "unresolved_assumptions": []
+    },
+    {
+      "classification": "OPERATOR_DECISION",
+      "conclusion": "Use S2-048 as a current-runtime donor for actions 001/002/003/005/006; preserve and verify every copied file.",
+      "confidence": "HIGH",
+      "evidence_used": "Frozen runtime contains S2-048 with a 2.3.32 module/dependency set and SHA-256 for every JAR. Retrieved upstream core/xwork JAR hashes match the frozen donor copies.",
+      "question": "Can 2.3.32 artifacts be obtained without an unanchored source?",
+      "source_ids": [
+        "PATCH_REASONING_SEED:webapp_layout",
+        "PATCH_REASONING_SEED:webapp_artifact_sha256",
+        "S102",
+        "S113"
+      ],
+      "unresolved_assumptions": [
+        "Application-specific smoke behavior is intentionally deferred to AFTER/re-exploit and is not claimed here."
+      ]
+    },
+    {
+      "classification": "OPERATOR_INFERENCE",
+      "conclusion": "In the non-running patch workspace, rename the original WAR to a preserved non-.war filename, patch the exploded directory, and validate both states before finalization.",
+      "confidence": "MEDIUM_HIGH",
+      "evidence_used": "Frozen layout shows each affected WAR and exploded directory. Tomcat 8.5.20 docs say exploded apps in appBase are deployed and a newer associated WAR may delete/re-expand the exploded directory.",
+      "question": "How should WAR and exploded deployments be handled?",
+      "source_ids": [
+        "PATCH_REASONING_SEED:webapp_layout",
+        "S014",
+        "S015",
+        "S016",
+        "S017"
+      ],
+      "unresolved_assumptions": [
+        "The final endpoint smoke test remains a downstream check and is not performed in Task 7.5.5."
+      ]
+    },
+    {
+      "classification": "OPERATOR_DECISION",
+      "conclusion": "Leave command and validation_command unset for actions 004/007/008 rather than use Maven Central from model knowledge.",
+      "confidence": "HIGH",
+      "evidence_used": "Target POMs require OGNL 3.0.21, XStream 1.4.10, or Freemarker 2.3.23. Authorized Apache staging paths returned 404 and frozen runtime has none of those versions.",
+      "question": "Should commands be drafted for actions 004/007/008?",
+      "source_ids": [
+        "S104",
+        "S108",
+        "S154",
+        "S208",
+        "S209",
+        "S210",
+        "S226",
+        "S227",
+        "S228",
+        "S241",
+        "S242",
+        "S243",
+        "PATCH_REASONING_SEED:webapp_layout"
+      ],
+      "unresolved_assumptions": []
+    }
+  ],
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.5-decision-log/v1"
+}

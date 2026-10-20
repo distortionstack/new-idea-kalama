@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kalama.patch-assist-prototype/agent-proposal/v1",
+  "$title": "AgentProposal",
+  "description": "Field-level, evidence-grounded proposal from ROLE A. No hidden chain-of-thought. Gate rule: if pack evidence_sufficiency.command is INSUFFICIENT, command field must be ABSTAINED with a typed reason; same for validation_command.",
+  "type": "object",
+  "required": ["schema", "experiment_id", "run_id", "action_id", "proposal_revision", "candidate_binding", "fields", "abstentions", "assumptions", "warnings", "proposal_sha256", "created_at"],
+  "properties": {
+    "schema": {"const": "kalama.patch-assist-prototype/agent-proposal/v1"},
+    "experiment_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "action_id": {"type": "string"},
+    "proposal_revision": {"type": "integer"},
+    "candidate_binding": {
+      "type": "object",
+      "required": ["run_id", "action_id", "pack_sha256"],
+      "properties": {
+        "run_id": {"type": "string"},
+        "action_id": {"type": "string"},
+        "pack_sha256": {"type": "string"}
+      }
+    },
+    "fields": {
+      "type": "object",
+      "description": "Keys: fix_type, strategy, target_version, artifact_source, source_identifier, build_system, command, validation_command, notes. Each field carries value/status/evidence_refs/confidence/reason_summary.",
+      "patternProperties": {
+        "^(fix_type|strategy|target_version|artifact_source|source_identifier|build_system|command|validation_command|notes)$": {
+          "type": "object",
+          "required": ["value", "status", "evidence_refs", "confidence", "reason_summary"],
+          "properties": {
+            "value": {"description": "Proposed value; must be null when status is ABSTAINED."},
+            "status": {"type": "string", "enum": ["PROPOSED", "ABSTAINED", "NOT_APPLICABLE"]},
+            "evidence_refs": {"type": "array", "items": {"type": "string"}, "description": "source_id values from the pack; non-empty for every PROPOSED factual field."},
+            "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]},
+            "reason_summary": {"type": "string", "description": "Concise, auditable, evidence-oriented; no hidden reasoning."}
+          }
+        }
+      }
+    },
+    "abstentions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "reason_code", "detail"],
+        "properties": {
+          "field": {"type": "string"},
+          "reason_code": {"type": "string", "description": "Typed code, e.g. COMMAND_GATE_INSUFFICIENT, ARTIFACT_SOURCE_UNRESOLVED, DEPENDENCY_ARTIFACT_UNREACHABLE."},
+          "detail": {"type": "string"}
+        }
+      }
+    },
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "proposal_sha256": {"type": "string"},
+    "created_at": {"type": "string"}
+  }
+}

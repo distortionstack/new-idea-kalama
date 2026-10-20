@@ -89,6 +89,20 @@ class AttackFormSubmissionTests(unittest.TestCase):
         self.assertEqual(result.errors[-1].code, "ATTACK_FORM_RUN_MISMATCH")
         self.assertEqual(result.stage(result.current_stage).status, StageStatus.WAITING)
 
+    def test_in_place_edit_of_canonical_form_is_rejected_by_immutable_digest(self):
+        state = self.waiting_run()
+        canonical = Path(state.artifact(ArtifactKind.ATTACK_FORM).path)
+        original_sha = state.artifact(ArtifactKind.ATTACK_FORM).sha256
+        form = yaml.safe_load(canonical.read_bytes())
+        form["cves"]["CVE-2099-0001"]["targeturi"]["confirmed"] = "/edited-in-place"
+        canonical.write_text(yaml.safe_dump(form, sort_keys=False), encoding="utf-8")
+
+        rejected = self.apply(canonical)
+        self.assertEqual(rejected.status, RunStatus.FAILED_FATAL)
+        self.assertEqual(rejected.errors[-1].code, "CONFIG_BASE_INTEGRITY_ERROR")
+        self.assertEqual(original_sha, state.artifact(ArtifactKind.ATTACK_FORM).sha256)
+        self.assertIsNone(rejected.artifact(ArtifactKind.EXPLOIT_CONFIG_BEFORE))
+
     def test_partial_cve_then_second_revision_preserves_lineage_and_is_idempotent(self):
         state = self.waiting_run(("CVE-2099-0001", "CVE-2099-0002"))
 

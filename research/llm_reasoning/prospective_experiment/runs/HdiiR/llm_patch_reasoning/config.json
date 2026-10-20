@@ -1,0 +1,16 @@
+{
+  "model": "qwen3:8b",
+  "model_digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+  "think": false,
+  "temperature": 0,
+  "timeout_seconds": 300,
+  "num_predict": 4096,
+  "num_ctx": 40960,
+  "repetitions": 3,
+  "endpoint": "http://127.0.0.1:11434/api/generate",
+  "model_visible_files": [
+    "frozen_evidence/evidence_inventory.json",
+    "frozen_evidence/task_7_5_4d.md",
+    "frozen_evidence/patch_form_HdiiR_r1.yaml"
+  ]
+}

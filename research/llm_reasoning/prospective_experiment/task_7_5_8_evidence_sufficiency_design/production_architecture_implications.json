@@ -1,0 +1,19 @@
+{
+  "schema": "kalama.task-7.5.8-production-architecture-implications/v1",
+  "minimal_production_components": ["Scanner/Runtime Evidence Freeze", "Source Root Derivation (Upstream Source Resolver)", "Remediation Evidence Retriever", "Evidence Pack Builder + Source Graph Validator", "LLM Patch Assistant (downstream only)", "Human Gate", "Production Validator", "Patch Execution (post-approval)", "EVVP Evaluation (AFTER scan + re-exploit + classification)"],
+  "evidence_thresholds": {
+    "version_suggestion_minimum": "L1",
+    "artifact_provenance_minimum": "L3",
+    "dependency_closure_minimum": "L3",
+    "command_minimum": "L3 + L4 + L5 jointly per action (narrow reviewed donor-exception only)",
+    "validation_command_minimum": "L3 + L5, plus L4 where compatibility/version behavior affects validation",
+    "abstain_when": ["missing artifact", "missing checksum", "incomplete dependency closure", "unclear deployment semantics", "major-version compatibility uncertainty", "unanchored source requirement"]
+  },
+  "allowed_root_classes": ["scanner References[]", "scanner PrimaryURL/DataSource (typed as scanner-vendor evidence)", "PURL-derived native registry root (DERIVED_PACKAGE_AUTHORITY, typed ops only)", "dependency-coordinate-derived native registry root (only when parsed from anchored metadata)", "deps.dev package/version record (discovery/corroboration only)", "OSV/GHSA/NVD/KEV advisory records (typed advisory roots)", "runtime-derived URLs from image/container evidence (e.g. TOMCAT_TGZ_FALLBACK_URL)", "promoted upstream docs/release-note/security roots (via deterministic promotion rules)", "runtime-vendor docs parented to runtime identity"],
+  "forbidden_root_classes": ["arbitrary LLM-suggested domains", "unanchored search-engine results", "metadata homepage/scm/bugs/docs links as auto-authority (candidate-only until corroborated)", "deps.dev links as final artifact authority", "third-party mirrors/blogs/forums with no package-authority path"],
+  "llm_allowed_roles": ["interpret advisory and release-note meaning", "reason about upgrade/closure tradeoffs within the pack", "draft Patch Form suggestions from retrieved evidence", "propose command/validation_command only at L3+L4+L5 threshold", "explain abstentions and evidence gaps", "propose human-review notes for risky compatibility moves"],
+  "llm_forbidden_roles": ["create source roots or invent domains", "promote source authority", "treat candidate-only sources as authority", "emit commands below the evidence threshold", "mark remediation verified (no AFTER scan / re-exploit / evaluation claims)"],
+  "human_gate_responsibilities": ["review per-action suggestions and evidence citations", "approve, edit, or reject; own final confirmation", "approve major-version moves explicitly", "submit Patch Form"],
+  "validator_responsibilities": ["check Patch Form structure", "check per-field evidence linkage (uncited non-UNKNOWN field = fail)", "check command/validation_command presence rules (null when blocked)", "never assert remediation success"],
+  "evaluation_responsibilities": ["AFTER scan", "re-exploit", "final remediation classification (remediation success vs failure)", "behavior-regression observation downstream"]
+}

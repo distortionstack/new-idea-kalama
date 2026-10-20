@@ -1,0 +1,76 @@
+{
+  "diagnostic_id": "aopts-after-isolated-20260908-192245",
+  "bundle": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\aopts-after-isolated-20260908-192245",
+  "post_sessions_jobs_command": "cd /usr/src/metasploit-framework && ./msfconsole -q -n -x \"sessions -l -v; jobs -l; exit -y\"",
+  "post_sessions_jobs": "\nActive sessions\n===============\n\nNo active sessions.\n\n\nJobs\n====\n\nNo active jobs.\n",
+  "diagnostic_network_container_names": [
+    "msf-resolver-host",
+    "victim-after-diag-aopts-192245"
+  ],
+  "target_current_ip": "172.19.0.2",
+  "target_count_after_attempt": {
+    "count": 1,
+    "_shards": {
+      "total": 5,
+      "successful": 5,
+      "failed": 0
+    }
+  },
+  "artifact_hashes": [
+    {
+      "name": "check.rc",
+      "sha256": "a7045f2990e96e297fceaf98a830416640340d98803b22ef57a62b3bef94cdc2",
+      "bytes": 288
+    },
+    {
+      "name": "exploit_once.rc",
+      "sha256": "ceeff169fee66d84c91c5aa6e2d77fff6d3519dd34880362830aaa235b16ddd8",
+      "bytes": 305
+    },
+    {
+      "name": "msf_attempt.json",
+      "sha256": "f69739da46080f758a73f0f824536fac9f69a616c5de584e12846d4fd2278adf",
+      "bytes": 3661
+    },
+    {
+      "name": "msf_baseline.json",
+      "sha256": "76b8d43316bb04697ed2d1bbb82b283646287070d65807a0e06772d2e32a443f",
+      "bytes": 579
+    },
+    {
+      "name": "msf_check_stdout_stderr.txt",
+      "sha256": "5b6c1c9a92d13ff310188962395ef80eb6e5ce70fb42a33b678dc638df7c1166",
+      "bytes": 1426
+    },
+    {
+      "name": "msf_exploit_stdout_stderr.txt",
+      "sha256": "fa609347bc21b9c45605d983225c8d0719a09c5e906e51a507700f7fd63a52a4",
+      "bytes": 1733
+    },
+    {
+      "name": "msf_post_sessions_jobs.txt",
+      "sha256": "49409e251f7c150afed9cd652604c4c5d92f55b422d01372e88b96bfbf38821d",
+      "bytes": 96
+    },
+    {
+      "name": "network_create.txt",
+      "sha256": "7282c824f028dd0ac77daf8880e3c1e61161fa67ab801e03400e4f9afa755878",
+      "bytes": 66
+    },
+    {
+      "name": "preflight.json",
+      "sha256": "113d7cf24608852876b5079e07e43ddc8fb6788705f86bc881238efbaf6d76a4",
+      "bytes": 3865
+    },
+    {
+      "name": "target_create.txt",
+      "sha256": "9a594d3fd8d8abbeb61fd31487ea31303a18d9b146cd389de838f9a641d66c30",
+      "bytes": 66
+    },
+    {
+      "name": "target_environment.json",
+      "sha256": "13cb005da239f058ebd131417e3d8260110e03892b5c5a2927a5429d64b3a577",
+      "bytes": 2341
+    }
+  ]
+}

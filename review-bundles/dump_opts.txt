@@ -1,0 +1,60 @@
+======================================================================
+CVE-2017-5638
+  DOMAIN: suggested='WORKSTATION' default='WORKSTATION' required=True type=string
+  HTTP::Auth: suggested='auto' default='auto' required=True type=enum
+  HTTP::KrbOfferedEncryptionTypes: suggested='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' default='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' required=True type=string
+  KrbCacheMode: suggested='read-write' default='read-write' required=True type=enum
+  KrbClockSkew: suggested='0s' default='0s' required=True type=timedelta
+  SSLVersion: suggested='Auto' default='Auto' required=True type=enum
+  HTTPMethod: suggested='GET' default='GET' required=True type=string
+======================================================================
+CVE-2020-17530
+  SRVPORT: suggested=8080 default=8080 required=True type=port
+  SSLVersion: suggested='Auto' default='Auto' required=True type=enum
+  KrbCacheMode: suggested='read-write' default='read-write' required=True type=enum
+  HTTP::Auth: suggested='auto' default='auto' required=True type=enum
+  KrbClockSkew: suggested='0s' default='0s' required=True type=timedelta
+  HTTP::KrbOfferedEncryptionTypes: suggested='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' default='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' required=True type=string
+  DOMAIN: suggested='WORKSTATION' default='WORKSTATION' required=True type=string
+  HTTP::server_name: suggested='Apache' default='Apache' required=True type=string
+  NAME: suggested='id' default='id' required=True type=string
+  CVE: suggested='CVE-2020-17530' default='CVE-2020-17530' required=True type=enum
+  CMDSTAGER::DELAY: suggested=0.5 default=0.5 required=True type=float
+======================================================================
+CVE-2018-11776
+  KrbCacheMode: suggested='read-write' default='read-write' required=True type=enum
+  HTTP::Auth: suggested='auto' default='auto' required=True type=enum
+  KrbClockSkew: suggested='0s' default='0s' required=True type=timedelta
+  HTTP::KrbOfferedEncryptionTypes: suggested='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' default='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' required=True type=string
+  SSLVersion: suggested='Auto' default='Auto' required=True type=enum
+  DOMAIN: suggested='WORKSTATION' default='WORKSTATION' required=True type=string
+  ACTION: suggested='showcase.action' default='showcase.action' required=True type=string
+  ENABLE_STATIC: suggested=True default=True required=True type=bool
+  HTTPMethod: suggested='GET' default='GET' required=True type=string
+  HEADER: suggested='X-Upqn' default='X-Upqn' required=True type=string
+  TEMPFILE: suggested='mZQYkcSO' default='mZQYkcSO' required=True type=string
+======================================================================
+CVE-2019-0230
+  SRVPORT: suggested=8080 default=8080 required=True type=port
+  SSLVersion: suggested='Auto' default='Auto' required=True type=enum
+  KrbCacheMode: suggested='read-write' default='read-write' required=True type=enum
+  HTTP::Auth: suggested='auto' default='auto' required=True type=enum
+  KrbClockSkew: suggested='0s' default='0s' required=True type=timedelta
+  HTTP::KrbOfferedEncryptionTypes: suggested='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' default='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' required=True type=string
+  DOMAIN: suggested='WORKSTATION' default='WORKSTATION' required=True type=string
+  HTTP::server_name: suggested='Apache' default='Apache' required=True type=string
+  NAME: suggested='id' default='id' required=True type=string
+  CVE: suggested='CVE-2020-17530' default='CVE-2020-17530' required=True type=enum
+  CMDSTAGER::DELAY: suggested=0.5 default=0.5 required=True type=float
+======================================================================
+CVE-2014-0112
+  SRVPORT: suggested=445 default=445 required=True type=port
+  SMBDomain: suggested='WORKGROUP' default='WORKGROUP' required=True type=string
+  KrbCacheMode: suggested='read-write' default='read-write' required=True type=enum
+  HTTP::Auth: suggested='auto' default='auto' required=True type=enum
+  KrbClockSkew: suggested='0s' default='0s' required=True type=timedelta
+  HTTP::KrbOfferedEncryptionTypes: suggested='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' default='AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1' required=True type=string
+  SSLVersion: suggested='Auto' default='Auto' required=True type=enum
+  DOMAIN: suggested='WORKSTATION' default='WORKSTATION' required=True type=string
+  STRUTS_VERSION: suggested='2.x' default='2.x' required=True type=enum
+  SMB_DELAY: suggested=10 default=10 required=True type=integer

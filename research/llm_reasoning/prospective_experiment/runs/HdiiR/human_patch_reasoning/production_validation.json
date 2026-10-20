@@ -1,0 +1,31 @@
+{
+  "schema": "kalama.task-7.5.4f-validation/v1",
+  "run_id": "HdiiR",
+  "proposal": "proposed_patch_form_HdiiR_r1.yaml",
+  "proposal_sha256": "27729857cb7ed4e28402092d67e78e320e1c541d9d5f5d8758eda3cf43dfb702",
+  "base_patch_plan_sha256": "9988f974cd7bd6729b91a382b00fde0df83d1c8be3f1f61e0b68dab938acf7c0",
+  "validator": [
+    "kalama.remediation.confirmation.apply_patch_confirmations",
+    "kalama.remediation.codec.validate_patch_plan"
+  ],
+  "mode": "pure_non_mutating",
+  "submitted": false,
+  "executed": false,
+  "result": "ACCEPTED",
+  "readiness": "READY_FOR_PATCH_EXECUTION",
+  "actions": {
+    "patch-001": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.3.32", "strategy": "HUMAN_COMMAND"},
+    "patch-002": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.3.32", "strategy": "HUMAN_COMMAND"},
+    "patch-003": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.3.32", "strategy": "HUMAN_COMMAND"},
+    "patch-004": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.3.34", "strategy": "HUMAN_COMMAND"},
+    "patch-005": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.3.32", "strategy": "HUMAN_COMMAND"},
+    "patch-006": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.3.32", "strategy": "HUMAN_COMMAND"},
+    "patch-007": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.5.10.1", "strategy": "HUMAN_COMMAND"},
+    "patch-008": {"status": "READY_FOR_PATCH_EXECUTION", "target_version": "2.3.34", "strategy": "HUMAN_COMMAND"}
+  },
+  "notes": [
+    "The canonical Patch Form and run state were not modified.",
+    "The production submission command was deliberately not invoked.",
+    "This validates the form contract and readiness only; the proposed shell commands were not executed."
+  ]
+}

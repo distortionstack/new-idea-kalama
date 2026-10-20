@@ -1,0 +1,372 @@
+{
+  "checkpoint": "PATCH_REASONING_SEED",
+  "container_binding": {
+    "container_id": "5bc24c690593cc0d1a1a662af63f089ea33ad8e8ac745120954f6cd803f90f27",
+    "container_name": "victim-UZBL5",
+    "ip_address": "172.18.0.4"
+  },
+  "created_at": "2026-09-16T16:02:43.134940Z",
+  "entries": [
+    {
+      "path": "frozen_evidence/ATTACK_BEFORE__attack_res_2026-09-16_UZBL5.json",
+      "provenance": {
+        "kind": "ATTACK_BEFORE",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\msf\\before\\attack_res_2026-09-16_UZBL5.json"
+      },
+      "sha256": "1b6886609b953374cdd1ae010923efdf54c83e72143bfc5814a73c5079446c68",
+      "size": 27969
+    },
+    {
+      "path": "frozen_evidence/ATTACK_FORM__attack_form_UZBL5_r2.yaml",
+      "provenance": {
+        "kind": "ATTACK_FORM",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\resolver\\forms\\attack_form_UZBL5_r2.yaml"
+      },
+      "sha256": "3b5dc98784fc57c70024fa0d54663f8c5cf5845d741a70fefa79d8f65280706c",
+      "size": 167597
+    },
+    {
+      "path": "frozen_evidence/ATTACK_FORM_SUBMISSION__attack_form_submission_UZBL5_r2.yaml",
+      "provenance": {
+        "kind": "ATTACK_FORM_SUBMISSION",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\resolver\\forms\\submissions\\attack_form_submission_UZBL5_r2.yaml"
+      },
+      "sha256": "c86aa78104eefe67c5589eb73b34fc9f8fcefe83b34af2c5a9a512ea03355f1a",
+      "size": 171909
+    },
+    {
+      "path": "frozen_evidence/EXPLOIT_CONFIG_BEFORE__exploit_config_before_UZBL5_r2.json",
+      "provenance": {
+        "kind": "EXPLOIT_CONFIG_BEFORE",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\resolver\\config\\exploit_config_before_UZBL5_r2.json"
+      },
+      "sha256": "0d5816d316933fc407234aedc21d78e6ef5c1749443a60068fca157c2f9b8a41",
+      "size": 7062533
+    },
+    {
+      "path": "frozen_evidence/PATCH_FORM__patch_form_UZBL5_r1.yaml",
+      "provenance": {
+        "kind": "PATCH_FORM",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\patch\\forms\\patch_form_UZBL5_r1.yaml"
+      },
+      "sha256": "d544bd611b6526d29eabe26b7a999cf116be1147f950a9251af24c6c08385810",
+      "size": 6916
+    },
+    {
+      "path": "frozen_evidence/PATCH_PLAN__patch_plan_2026-09-16_UZBL5.json",
+      "provenance": {
+        "kind": "PATCH_PLAN",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\patch\\plan\\patch_plan_2026-09-16_UZBL5.json"
+      },
+      "sha256": "5a4e1ab6961869180ea5ad9a541fb01d4eb26d5af276996e7b773ddfe15b3d3b",
+      "size": 81470
+    },
+    {
+      "path": "frozen_evidence/RESOLVER_BEFORE__resolver_2026-09-16_UZBL5.json",
+      "provenance": {
+        "kind": "RESOLVER_BEFORE",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\resolver\\resolver_2026-09-16_UZBL5.json"
+      },
+      "sha256": "59e31b25e6e7bbb73402f1f474c2f1a978dae269a7f8671e2dbd5108cf428dfb",
+      "size": 7048553
+    },
+    {
+      "path": "frozen_evidence/REVISION_TRAIL__attack_form_submission_UZBL5_r1.yaml",
+      "provenance": {
+        "kind": "ATTACK_REVISION_TRAIL",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\resolver\\forms\\submissions\\attack_form_submission_UZBL5_r1.yaml"
+      },
+      "sha256": "a66c23c1540076bfbd2a0dc2b7cd3d47d739ea993106fb54a9dd71f2bf33746b",
+      "size": 737194
+    },
+    {
+      "path": "frozen_evidence/REVISION_TRAIL__attack_form_UZBL5_r1.yaml",
+      "provenance": {
+        "kind": "ATTACK_REVISION_TRAIL",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\resolver\\forms\\attack_form_UZBL5_r1.yaml"
+      },
+      "sha256": "42dce5e850f713330bacfa6c0ed0f6afdba9bc1db3788e235ba2c6fdf6de4a67",
+      "size": 714399
+    },
+    {
+      "path": "frozen_evidence/REVISION_TRAIL__exploit_config_before_UZBL5_r1.json",
+      "provenance": {
+        "kind": "ATTACK_REVISION_TRAIL",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\resolver\\config\\exploit_config_before_UZBL5_r1.json"
+      },
+      "sha256": "52b476f9a6e00c50310a211666a10c92e8ac4ea7d9cf98fc79187b8920f69a14",
+      "size": 7065367
+    },
+    {
+      "path": "frozen_evidence/run_UZBL5.json",
+      "provenance": {
+        "kind": "CANONICAL_RUN_STATE",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\state\\run_UZBL5.json"
+      },
+      "sha256": "fa288b1e642aa90a3dd3ebe44dfc82abad845de5ca8e5e243152b862e5aa4a62",
+      "size": 20227
+    },
+    {
+      "path": "frozen_evidence/scanner_source_roots.json",
+      "provenance": {
+        "fields": [
+          "PrimaryURL",
+          "DataSource",
+          "References"
+        ],
+        "method": "DERIVED_FROM_FROZEN_SCANNER",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\trivy\\before\\scan_2026-09-16_UZBL5.json"
+      },
+      "sha256": "fcab14d9c6bc6a2bd81781b263153df1065160cf9423ed7412909cc07b53c9f7",
+      "size": 140412
+    },
+    {
+      "path": "frozen_evidence/TOP30_BEFORE__top30_2026-09-16_UZBL5.json",
+      "provenance": {
+        "kind": "TOP30_BEFORE",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\scoring\\before\\top30_2026-09-16_UZBL5.json"
+      },
+      "sha256": "7134de488d73e29f94be6c103baf1541837910ebf4fa2f9a84a83199c08c7bdb",
+      "size": 571816
+    },
+    {
+      "path": "frozen_evidence/TRIVY_BEFORE__scan_2026-09-16_UZBL5.json",
+      "provenance": {
+        "kind": "TRIVY_BEFORE",
+        "method": "COPY",
+        "source": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\trivy\\before\\scan_2026-09-16_UZBL5.json"
+      },
+      "sha256": "ee4317422be2c644718f64b08edfbfe9c275939c658aebebc70b243b2e2f7321",
+      "size": 17855929
+    },
+    {
+      "path": "runtime_evidence/docker_container_inspect.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "inspect",
+          "victim-UZBL5"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "container identity, configuration, mounts, networking, and state"
+      },
+      "sha256": "e5bf627d5e667ddc292640015f8ab740969e92fcaf4954cb1cf87bf3a72e05e5",
+      "size": 9980
+    },
+    {
+      "path": "runtime_evidence/docker_image_inspect.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "image",
+          "inspect",
+          "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "image identity and immutable digest binding"
+      },
+      "sha256": "a319f83bec406b88edc30231798eabacb9c2d15bef014ad3336d30b1b246a13e",
+      "size": 5200
+    },
+    {
+      "path": "runtime_evidence/docker_version.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "version",
+          "--format",
+          "{{json .}}"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "Docker client/server identity"
+      },
+      "sha256": "d82a528f375e03bd385c6e8d819077e6183afd59f21ca859d073a14d9a18f725",
+      "size": 1639
+    },
+    {
+      "path": "runtime_evidence/endpoint_observations.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "sh",
+          "-lc",
+          "curl -sS -o /dev/null -w 'S2-045 %{http_code}\\n' http://127.0.0.1:8080/S2-045/; curl -sS -o /dev/null -w 'S2-052 %{http_code}\\n' http://127.0.0.1:8080/S2-052/orders/3"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "fresh reachable endpoints used by the reviewed Attack Form"
+      },
+      "sha256": "a54ffa9d34f7120de1adfe011f6b62e28df63a18ef0c5893f980d0dfc2be6153",
+      "size": 602
+    },
+    {
+      "path": "runtime_evidence/installed_packages.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "sh",
+          "-lc",
+          "dpkg-query -W -f='${Package}\\t${Version}\\n' | LC_ALL=C sort"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "installed OS package inventory"
+      },
+      "sha256": "c7636749576f57d6620baedc407843a5a27a995b27759be49f66ebf8eb22d397",
+      "size": 7558
+    },
+    {
+      "path": "runtime_evidence/local_tool_inventory.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "sh",
+          "-lc",
+          "for t in curl wget unzip zip jar mvn gradle sha256sum; do printf '%s\\t' \"$t\"; command -v \"$t\" || true; done"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "locally available remediation and verification tools"
+      },
+      "sha256": "4c9b66d7608365052400b0cc66198204454b4a680b8896616f3bae0bbc59f3c4",
+      "size": 635
+    },
+    {
+      "path": "runtime_evidence/mounts.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "cat",
+          "/proc/mounts"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "runtime mount observations"
+      },
+      "sha256": "4a6da1262dc9592ab4bf878d377501a4d22ed01d7c53150fa4106e7ea48d612e",
+      "size": 3489
+    },
+    {
+      "path": "runtime_evidence/os_java_tomcat.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "sh",
+          "-lc",
+          "uname -a; cat /etc/os-release; java -version; /usr/local/tomcat/bin/version.sh"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "operating system, Java, and Tomcat runtime versions"
+      },
+      "sha256": "4a9efb46c4077bccbb2515602573afbec1d38245aa672b572a3088533f5459ad",
+      "size": 1308
+    },
+    {
+      "path": "runtime_evidence/relevant_configuration_sha256.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "sh",
+          "-lc",
+          "find /usr/local/tomcat -type f \\( -name 'server.xml' -o -name 'context.xml' -o -name 'web.xml' -o -name 'struts.xml' -o -name '*.properties' \\) -exec sha256sum {} + | LC_ALL=C sort"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "relevant local configuration paths and hashes"
+      },
+      "sha256": "3818c3a382ad89de6adc3a71718ea13279ce71a33b9598eaa4338af336cd7712",
+      "size": 29189
+    },
+    {
+      "path": "runtime_evidence/trivy_version.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "kalama-workbench-modern",
+          "trivy",
+          "--version"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "scanner identity and version"
+      },
+      "sha256": "871385f9e791e28a8b61010de6b85fd1fb5ac41f2b59f248ece6f2fe31132631",
+      "size": 740
+    },
+    {
+      "path": "runtime_evidence/webapp_artifact_sha256.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "sh",
+          "-lc",
+          "find /usr/local/tomcat/webapps -type f \\( -name '*.jar' -o -name '*.war' \\) -exec sha256sum {} + | LC_ALL=C sort"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "installed WAR/JAR paths and locally computed SHA-256 values"
+      },
+      "sha256": "e9da3d65b20a587e489fe6be69b17e2306d3c1b81a9aed4cfac6e7f2114b1e72",
+      "size": 55360
+    },
+    {
+      "path": "runtime_evidence/webapp_layout.json",
+      "provenance": {
+        "command": [
+          "docker",
+          "exec",
+          "victim-UZBL5",
+          "sh",
+          "-lc",
+          "find /usr/local/tomcat/webapps -maxdepth 4 -type d -o -type f | LC_ALL=C sort"
+        ],
+        "method": "LOCAL_COMMAND",
+        "purpose": "WAR and exploded deployment layout"
+      },
+      "sha256": "9c174062fa087ca400183592b6c1214acfc38f39fa8bb0ebfeff90bf87449317",
+      "size": 110556
+    }
+  ],
+  "image_binding": {
+    "canonical_identity": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "image_id": "sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "platform": "linux/amd64",
+    "repo_digests": [
+      "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db"
+    ],
+    "repo_tags": [
+      "2d8ru/struts2:latest"
+    ],
+    "requested_reference": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "selected_digest": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "source_kind": "LOCAL_EXISTING"
+  },
+  "immutable_after_creation": true,
+  "pipeline_boundary": {
+    "current_stage": "STEP_5_PATCH_PLAN",
+    "status": "WAITING_FOR_USER_INPUT",
+    "waiting_reason": "PATCH_FORM"
+  },
+  "run_id": "UZBL5",
+  "schema": "kalama.patch-reasoning-seed-manifest/v1"
+}

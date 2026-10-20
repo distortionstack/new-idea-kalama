@@ -10,6 +10,8 @@ from kalama.evaluation.metrics import (
 )
 from kalama.evaluation.orchestrator import EvaluationOrchestrator
 from kalama.state.models import ArtifactKind, PipelineStage, RunStatus, StageStatus
+from kalama.knowledge import KnowledgeStore
+from kalama.remediation.knowledge import KnowledgeRemediationProvider
 
 
 NOW = task7.NOW
@@ -139,6 +141,36 @@ class EvaluationIntegrationTests(unittest.TestCase):
         self.assertIn("EVALUATION_METRICS", summary["artifact_index"])
         for kind, digest in self.upstream.items():
             self.assertEqual(state.artifact(kind).sha256, digest)
+
+    def test_verified_evaluation_writes_remediation_knowledge_for_fresh_provider(self):
+        state = EvaluationOrchestrator(self.store, clock=lambda: NOW).run("aB3x9")
+        store = KnowledgeStore(self.store.output_root)
+        # A new store/provider simulates a later process and run.
+        class EmptyProvider:
+            def candidate(self, **kwargs): return None
+        occurrence = {"canonical_cve_id": "CVE-2099-0001", "package_name": "openssl",
+                      "package_purl": None, "result_type": "debian", "installed_version": "1.0"}
+        result = KnowledgeRemediationProvider(EmptyProvider(), store).candidate(
+            package_name="openssl", ecosystem="debian", installed_versions=("1.0",),
+            scanner_fixed_versions=("1.1",), occurrences=(occurrence,))
+        self.assertIsNotNone(result)
+        self.assertEqual("1.1", result.target_version)
+        evidence = result.evidence[-1]["evidence"]
+        self.assertEqual("patch-001", evidence["patch_action_id"])
+        self.assertEqual(state.artifact(ArtifactKind.PATCH_PLAN).sha256,
+                         evidence["patch_plan"]["sha256"])
+        mismatch = KnowledgeRemediationProvider(EmptyProvider(), KnowledgeStore(self.store.output_root)).candidate(
+            package_name="openssl", ecosystem="debian", installed_versions=("9.9",),
+            scanner_fixed_versions=(), occurrences=({**occurrence, "installed_version": "9.9"},))
+        self.assertIsNone(mismatch)
+
+    def test_knowledge_feedback_failure_is_warning_not_evaluation_failure(self):
+        with patch.object(EvaluationOrchestrator, "_write_validated_knowledge",
+                          side_effect=RuntimeError("test feedback failure")):
+            state = EvaluationOrchestrator(self.store, clock=lambda: NOW).run("aB3x9")
+        self.assertEqual(RunStatus.COMPLETED, state.status)
+        notice = next(x for x in state.warnings if x.code == "KNOWLEDGE_FEEDBACK_FAILED")
+        self.assertIn("RuntimeError", notice.message)
 
     def test_metrics_failure_preserves_dataset_and_prevents_completion(self):
         with patch("kalama.evaluation.orchestrator.write_evaluation_metrics",

@@ -1,0 +1,72 @@
+schema: kalama.patch-form/v1
+run_id: AoFTs
+phase: patch
+revision: 1
+base_patch_plan_sha256: 9855d559b495a6f7e9b2ecb9ff8347e2a3c10280268e556aacfc86e97d5d32bc
+actions:
+  patch-001:
+    target_cves:
+    - CVE-2015-1427
+    package:
+      name: org.elasticsearch:elasticsearch
+      ecosystem: jar
+      before_versions:
+      - 1.4.2
+      scanner_fixed_versions:
+      - 1.3.8
+      - 1.4.3
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: B
+    target_version:
+      scanner_candidates:
+      - 1.3.8
+      - 1.4.3
+      suggested: 1.4.3
+      confirmed: 1.4.3
+    artifact:
+      suggested_source: null
+      confirmed_source: https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.4.3.tar.gz
+      checksum:
+        suggested: null
+        confirmed: sha1:d26828bef335a164175f5af14a2a7fc44cb063f2
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: HUMAN_COMMAND
+    command:
+      confirmed: "set -eu\nES_VERSION='1.4.3'\nARCHIVE=\"elasticsearch-${ES_VERSION}.tar.gz\"\
+        \nARCHIVE_URL=\"https://download.elastic.co/elasticsearch/elasticsearch/${ARCHIVE}\"\
+        \nARCHIVE_SHA1='d26828bef335a164175f5af14a2a7fc44cb063f2'\nWORKDIR='/tmp/kalama-es-1.4.3-remediation'\n\
+        rm -rf \"$WORKDIR\"\nmkdir -p \"$WORKDIR\"\nfor tool in sha1sum tar java;\
+        \ do\n  command -v \"$tool\" >/dev/null 2>&1 || { echo \"missing required\
+        \ tool: $tool\" >&2; exit 20; }\ndone\nif command -v wget >/dev/null 2>&1;\
+        \ then\n  wget -O \"$WORKDIR/$ARCHIVE\" \"$ARCHIVE_URL\"\nelif command -v\
+        \ curl >/dev/null 2>&1; then\n  curl -fL -o \"$WORKDIR/$ARCHIVE\" \"$ARCHIVE_URL\"\
+        \nelse\n  echo 'missing required downloader: wget or curl' >&2\n  exit 20\n\
+        fi\nprintf '%s  %s\\n' \"$ARCHIVE_SHA1\" \"$WORKDIR/$ARCHIVE\" | sha1sum -c\
+        \ -\ntar -xzf \"$WORKDIR/$ARCHIVE\" -C \"$WORKDIR\"\ntest -x \"$WORKDIR/elasticsearch-${ES_VERSION}/bin/elasticsearch\"\
+        \ntest -d /usr/share/elasticsearch\ntest -d /usr/share/elasticsearch/config\n\
+        cp -a /usr/share/elasticsearch/config \"$WORKDIR/config.before\"\nrm -rf /usr/share/elasticsearch\n\
+        mkdir -p /usr/share\nmv \"$WORKDIR/elasticsearch-${ES_VERSION}\" /usr/share/elasticsearch\n\
+        rm -rf /usr/share/elasticsearch/config\ncp -a \"$WORKDIR/config.before\" /usr/share/elasticsearch/config\n\
+        chown -R root:root /usr/share/elasticsearch\nrm -rf \"$WORKDIR\"\n/usr/share/elasticsearch/bin/elasticsearch\
+        \ -v\n"
+    validation_command:
+      confirmed: 'set -eu
+
+        test -x /usr/share/elasticsearch/bin/elasticsearch
+
+        test -f /usr/share/elasticsearch/lib/elasticsearch-1.4.3.jar
+
+        test ! -f /usr/share/elasticsearch/lib/elasticsearch-1.4.2.jar
+
+        /usr/share/elasticsearch/bin/elasticsearch -v 2>&1 | grep ''Version: 1.4.3''
+
+        java -version >/dev/null 2>&1
+
+        '
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null

@@ -1,0 +1,1 @@
+{"id":"E_LOCAL_BUILD","source_class":"local_dockerfile","provenance":"remediation_review_rvcdv/Dockerfile lines 1-16; read-only existing review candidate","content":{"build_stage":"maven source build","artifact":"struts2-rest-showcase.war","deployment":"COPY into S2-045.war"}}

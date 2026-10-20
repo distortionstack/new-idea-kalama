@@ -1,0 +1,25 @@
+{
+  "schema": "kalama.patch-assist-prototype/pack-validation/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "arm": "ARM_B_L3",
+  "pack_file": "arms/ARM_B_L3/evidence_pack.json",
+  "pack_sha256": "35ee44588ee913590b71e241695e299ebfdece631c8cc23b939511b64479fa5a",
+  "hash_procedure": "pack_sha256 = SHA-256 over the no-BOM UTF-8 file bytes with the pack_sha256 value blanked to empty string. Recompute: replace the 64-hex value with empty, hash, compare.",
+  "checks": {
+    "schema_required_keys_present": true,
+    "candidate_identity_consistent": true,
+    "same_case_as_other_arms": true,
+    "seed_binding": "seed/frozen_seed.json (sha256:abe066fb808ab7c3c2d69a21ce7354f1508be43fb3c4532e3a99dd0611e9e2ac)",
+    "all_source_refs_resolve": true,
+    "no_orphan_parents": true,
+    "retrieved_sources_have_hashes": true,
+    "failed_sources_retained_not_cited": true,
+    "gates_internally_consistent": true,
+    "missing_evidence_recorded": true,
+    "no_proposal_reviewer_content": true,
+    "arm_isolation": "Superset of ARM A refs only plus L2/L3 material (S005-S012, S016-failed). No L4 promoted docs (S004 stays CANDIDATE_ONLY here; S013/S014 absent), no L5."
+  },
+  "gate_summary": {"version_recommendation": "SUPPORTED", "artifact_provenance": "SUPPORTED", "artifact_integrity": "SUPPORTED", "dependency_closure": "SUPPORTED", "patch_strategy": "SUPPORTED", "command": "INSUFFICIENT", "validation_command": "INSUFFICIENT"},
+  "artifact_integrity_proof": "S012 .deb SHA-256 9ef1f539... == S011 stanza SHA-256; size 1173300 both.",
+  "created_at": "2026-09-18T10:10:00Z"
+}

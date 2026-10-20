@@ -1,0 +1,15 @@
+{
+  "schema": "kalama.patch-assist-prototype/semantic-contract-binding/v1",
+  "experiment_id": "EXP-BASH-7X9C-SEM-01",
+  "evidence_pack_sha256": "a780084f1983f6b2136a90617d359353df034546cd6f4c021e64ababcfc24707",
+  "evidence_pack_source": "EXP-BASH-7X9B-01/arms/ARM_C_L3_L4_L5/evidence_pack.json (byte-identical copy, verified)",
+  "semantic_contract_file": "semantic_contracts/kalama_patch_semantics_v1.json",
+  "semantic_contract_sha256": "51c96cafd129d09e429ebe392189781e8a5c0caff97915ba9ee76ebd0ab672f8",
+  "semantic_contract_version": "v1",
+  "base_experiment": "EXP-BASH-7X9B-01",
+  "base_arm": "ARM_C_L3_L4_L5",
+  "changed_variable": "KALAMA_SEMANTIC_CONTRACT_EXPOSURE",
+  "remediation_evidence_changed": false,
+  "semantic_contract_changed": true,
+  "created_at": "2026-09-18T13:15:00Z"
+}

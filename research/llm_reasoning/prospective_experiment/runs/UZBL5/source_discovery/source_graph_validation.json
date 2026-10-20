@@ -1,0 +1,12 @@
+{
+  "content_hash_mismatches": [],
+  "fetch_failed_count": 34,
+  "missing_parents": [],
+  "retrieved_count": 97,
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.5-source-graph-validation/v1",
+  "source_count": 136,
+  "unanchored_rejected_count": 1,
+  "valid": true,
+  "validated_at": "2026-09-16T16:31:34.876498Z"
+}

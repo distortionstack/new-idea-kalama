@@ -315,10 +315,19 @@ class AfterScanOrchestrator:
             intended = {cve for action in plan.actions for cve in action.target_cves}
             incidental = {cve for action in plan.actions for cve in action.incidental_cves}
             action_results = {}
+            action_effects = {}
             for action in patch_result.get("actions") or ():
                 if isinstance(action, Mapping):
                     for cve in action.get("target_cves") or ():
-                        action_results[str(cve)] = str(action.get("result"))
+                        key = str(cve)
+                        action_results[key] = str(action.get("result"))
+                        action_effects.setdefault(key, []).append(str(action.get("remediation_effect") or "UNKNOWN"))
+            # A command can succeed while explicitly proving that it made no
+            # change. Preserve that distinction in the scanner evidence and
+            # downstream state; it must never count as remediation success.
+            for key, effects in action_effects.items():
+                if effects and all(effect == "NO_OP" for effect in effects):
+                    action_results[key] = "NO_OP"
             comparison = compare_remediation_targets(
                 intended, incidental, parsed_before, parse_after,
                 action_results=action_results)
@@ -345,7 +354,12 @@ class AfterScanOrchestrator:
                                           "after_created_at": parse_after.created_at or scan.created_at,
                                           "before_db_metadata": before_db,
                                           "after_db_metadata": after_db},
-                      **comparison, "warnings": warnings,
+                      **comparison, "patch_coverage": {
+                          "action_results": action_results,
+                          "action_effects": action_effects,
+                          "no_op_cves": sorted(key for key, value in action_results.items()
+                                               if value == "NO_OP")},
+                      "warnings": warnings,
                       "empirical_remediation_verified": False}
             verification_path = (self.store.output_root / "trivy" / "after" /
                                  f"verification_{state.created_at[:10]}_{run_id}.json")

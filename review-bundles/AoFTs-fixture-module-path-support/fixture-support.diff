@@ -1,0 +1,807 @@
+diff --git a/src/kalama/execution/executor.py b/src/kalama/execution/executor.py
+index c305678..b9d9374 100644
+--- a/src/kalama/execution/executor.py
++++ b/src/kalama/execution/executor.py
+@@ -6,6 +6,11 @@ import json
+ import re
+ from typing import Any, Mapping, Protocol
+ 
++from kalama.metasploit_fixtures import (
++    ApprovedFixtureRegistry,
++    FixtureConfigurationError,
++    registry_from_env,
++)
+ from kalama.resolver.config_models import ExploitConfig
+ 
+ from ..target.victim_manager import CommandRunner
+@@ -40,6 +45,11 @@ def build_execution_plan(config: ExploitConfig, rank: int) -> ExecutionPlan:
+     if environment.rport.confirmed: options["RPORT"] = environment.rport.value
+     if invariant.targeturi.confirmed: options["TARGETURI"] = invariant.targeturi.value
+     payload_options = {x.name: x.field.value for x in invariant.payload.options if x.field.confirmed}
++    selected_candidate = next(
++        (item.candidate for item in invariant.module_selection.ranking.ranked_candidates
++         if item.candidate.module_path == invariant.module_selection.module.value),
++        None,
++    )
+     return ExecutionPlan(
+         config.cve_id, rank, invariant.module_selection.module.value,
+         invariant.target_selection.target_index.value,
+@@ -50,7 +60,14 @@ def build_execution_plan(config: ExploitConfig, rank: int) -> ExecutionPlan:
+         invariant.execution_protocol.session_confirmation_expected,
+         invariant.preconditions.commands, invariant.preconditions.execution_target,
+         invariant.preconditions.required, invariant.pre_attack.command,
+-        invariant.pre_attack.execution_target)
++        invariant.pre_attack.execution_target,
++        getattr(selected_candidate, "module_source", "stock"),
++        getattr(selected_candidate, "fixture_source_path", None),
++        getattr(selected_candidate, "fixture_sha256", None),
++        getattr(selected_candidate, "fixture_manifest", None),
++        getattr(selected_candidate, "fixture_modules_root", None),
++        getattr(selected_candidate, "fixture_namespace", None),
++        getattr(selected_candidate, "loaded_module_path", None))
+ 
+ 
+ def normalize_check(stdout: str, stderr: str, state: OperationState) -> CheckVerdict:
+@@ -154,8 +171,10 @@ class DockerMetasploitExecutor:
+     SENSITIVE_RE = re.compile(r"(PASS|PASSWORD|TOKEN|SECRET|API_KEY)", re.IGNORECASE)
+ 
+     def __init__(self, runner: CommandRunner, *, container: str = "msf-resolver-host",
+-                 msfconsole_path: str = "/usr/src/metasploit-framework/msfconsole"):
++                 msfconsole_path: str = "/usr/src/metasploit-framework/msfconsole",
++                 fixture_registry: ApprovedFixtureRegistry | None = None):
+         self.runner, self.container, self.msfconsole_path = runner, container, msfconsole_path
++        self.fixture_registry = registry_from_env() if fixture_registry is None else fixture_registry
+ 
+     def backend_available(self) -> bool:
+         result = self.runner.run(("docker", "inspect", "-f", "{{.State.Running}}",
+@@ -169,8 +188,22 @@ class DockerMetasploitExecutor:
+             raise ValueError("Metasploit values may not contain command separators")
+         return text
+ 
++    def _fixture_loadpath_commands(self, plan: ExecutionPlan) -> list[str]:
++        if plan.module_source != "lab_fixture":
++            return []
++        module = self.fixture_registry.require_module(plan.module, plan.fixture_sha256)
++        if plan.fixture_source_path and str(module.source_path) != str(plan.fixture_source_path):
++            raise FixtureConfigurationError(
++                f"fixture module {plan.module!r} source path mismatch: expected artifact "
++                f"{plan.fixture_source_path}, approved path has {module.source_path}"
++            )
++        self.fixture_registry.ensure_container_roots_runner(
++            self.runner, self.container, timeout=15)
++        return [f"loadpath {self._safe(module.container_modules_root)}"]
++
+     def _commands(self, plan: ExecutionPlan, operation: str) -> tuple[str, list[tuple[str, str]]]:
+-        commands = [f"use {self._safe(plan.module)}"]
++        commands = self._fixture_loadpath_commands(plan)
++        commands.append(f"use {self._safe(plan.module)}")
+         secrets = []
+         if plan.target_index is not None:
+             commands.append(f"set TARGET {plan.target_index}")
+@@ -196,7 +229,7 @@ class DockerMetasploitExecutor:
+     def _run(self, plan: ExecutionPlan, operation: str, timeout: float) -> CommandEvidence:
+         try:
+             resource, secrets = self._commands(plan, operation)
+-        except ValueError as exc:
++        except (ValueError, FixtureConfigurationError) as exc:
+             return CommandEvidence(OperationState.EXECUTION_ERROR, stderr=str(exc))
+         result = self.runner.run(("docker", "exec", self.container, self.msfconsole_path,
+                                   "-q", "-n", "-x", resource), timeout=timeout)
+diff --git a/src/kalama/execution/models.py b/src/kalama/execution/models.py
+index a17e3ea..39ab386 100644
+--- a/src/kalama/execution/models.py
++++ b/src/kalama/execution/models.py
+@@ -75,6 +75,13 @@ class ExecutionPlan:
+     precondition_required: bool
+     pre_attack_command: str | None
+     pre_attack_target: str | None
++    module_source: str = "stock"
++    fixture_source_path: str | None = None
++    fixture_sha256: str | None = None
++    fixture_manifest: dict[str, Any] | None = None
++    fixture_modules_root: str | None = None
++    fixture_namespace: str | None = None
++    loaded_module_path: str | None = None
+ 
+ 
+ @dataclass(frozen=True)
+diff --git a/src/kalama/resolution/artifacts.py b/src/kalama/resolution/artifacts.py
+index fe85131..b506182 100644
+--- a/src/kalama/resolution/artifacts.py
++++ b/src/kalama/resolution/artifacts.py
+@@ -65,9 +65,20 @@ def _form_cve(item: ResolverCVEResult, guidance: Mapping[str, Any] | None = None
+     selection = invariant.module_selection
+     candidates = []
+     for ranked in selection.ranking.ranked_candidates:
+-        candidates.append({"rank_position": ranked.rank_position, "score": ranked.score,
+-                           "module_path": ranked.candidate.module_path,
+-                           "evidence": [x.to_dict() for x in ranked.evidence]})
++        candidate = {"rank_position": ranked.rank_position, "score": ranked.score,
++                     "module_path": ranked.candidate.module_path,
++                     "evidence": [x.to_dict() for x in ranked.evidence],
++                     "module_source": ranked.candidate.module_source}
++        if ranked.candidate.module_source == "lab_fixture":
++            candidate.update({
++                "fixture_source_path": ranked.candidate.fixture_source_path,
++                "fixture_sha256": ranked.candidate.fixture_sha256,
++                "fixture_manifest": ranked.candidate.fixture_manifest,
++                "fixture_modules_root": ranked.candidate.fixture_modules_root,
++                "fixture_namespace": ranked.candidate.fixture_namespace,
++                "loaded_module_path": ranked.candidate.loaded_module_path,
++            })
++        candidates.append(candidate)
+     module_options = {}
+     for option in sorted(invariant.module_options, key=lambda x: (x.name.casefold(), x.name)):
+         if option.name.upper() in {"RHOSTS", "RPORT", "LHOST", "TARGETURI"}:
+diff --git a/src/kalama/resolution/config_codec.py b/src/kalama/resolution/config_codec.py
+index df77cc5..be363b7 100644
+--- a/src/kalama/resolution/config_codec.py
++++ b/src/kalama/resolution/config_codec.py
+@@ -50,7 +50,15 @@ def _candidate(raw: Any) -> ModuleCandidate:
+         bool(value.get("check_supported")), tuple(value.get("references") or ()), options,
+         value.get("discovery_source"), tuple(value.get("metadata_source") or ()),
+         targets, value.get("default_target_index"),
+-        PayloadDiscoveryStatus(value.get("payload_discovery_status", "UNAVAILABLE")), payloads)
++        PayloadDiscoveryStatus(value.get("payload_discovery_status", "UNAVAILABLE")), payloads,
++        str(value.get("module_source") or "stock"),
++        None if value.get("fixture_source_path") is None else str(value.get("fixture_source_path")),
++        None if value.get("fixture_sha256") is None else str(value.get("fixture_sha256")),
++        (dict(value["fixture_manifest"]) if isinstance(value.get("fixture_manifest"), Mapping)
++         else None),
++        None if value.get("fixture_modules_root") is None else str(value.get("fixture_modules_root")),
++        None if value.get("fixture_namespace") is None else str(value.get("fixture_namespace")),
++        None if value.get("loaded_module_path") is None else str(value.get("loaded_module_path")))
+ 
+ 
+ def _ranking(raw: Any) -> CandidateRankingResult:
+diff --git a/src/kalama/resolver/backend.py b/src/kalama/resolver/backend.py
+index a184d97..c4de8a1 100644
+--- a/src/kalama/resolver/backend.py
++++ b/src/kalama/resolver/backend.py
+@@ -26,6 +26,10 @@ import sys
+ 
+ import yaml  # batch/review file I/O and ground-truth reads (draft_config.py)
+ 
++from kalama.metasploit_fixtures import (
++    ApprovedFixtureRegistry,
++    registry_from_env,
++)
+ from kalama.resolver.core import DiscoveryBackend, discover_cve
+ from kalama.resolver.models import DiscoveryStatus
+ 
+@@ -136,11 +140,16 @@ def load_json_cache(path=MSF_METADATA_CACHE):
+     if not os.path.isfile(path):
+         return None
+     try:
+-        with open(path, "r") as f:
++        with open(path, "r", encoding="utf-8") as f:
+             return json.load(f)
+-    except (OSError, json.JSONDecodeError) as e:
+-        eprint(f"[resolver] warning: could not parse {path}: {e}")
+-        return None
++    except UnicodeDecodeError as e:
++        raise RuntimeError(
++            f"metadata cache decode failed for {path}: expected UTF-8 JSON: {e}"
++        ) from e
++    except json.JSONDecodeError as e:
++        raise RuntimeError(f"metadata cache JSON parse failed for {path}: {e}") from e
++    except OSError as e:
++        raise RuntimeError(f"metadata cache read failed for {path}: {e}") from e
+ 
+ 
+ def references_as_list(raw_refs):
+@@ -220,6 +229,8 @@ def find_candidates_from_cache(cache, cve_id):
+             "targets": targets,
+             "check_supported": check_supported,
+             "references": refs,
++            "cache_module_path": entry.get("path"),
++            "cache_is_install_path": entry.get("is_install_path"),
+         }
+     return found
+ 
+@@ -308,12 +319,27 @@ def get_msfconsole_binary(container):
+ # Fallback: msfconsole text search (only when the JSON cache is unavailable)
+ # --------------------------------------------------------------------------
+ 
+-def find_candidates_via_msfconsole_search(cve_id, container):
++def _fixture_loadpath_commands(container, fixture_registry: ApprovedFixtureRegistry | None):
++    if fixture_registry is None or not fixture_registry.enabled:
++        return []
++    return [
++        f"loadpath {root}"
++        for root in fixture_registry.ensure_container_roots_subprocess(
++            container, timeout=DOCKER_TIMEOUT_SECONDS)
++    ]
++
++
++def find_candidates_via_msfconsole_search(cve_id, container,
++                                          fixture_registry: ApprovedFixtureRegistry | None = None):
+     ensure_container_running(container)
+     msfconsole_bin = get_msfconsole_binary(container)
++    prefix = "; ".join(_fixture_loadpath_commands(container, fixture_registry))
++    search_command = f"search cve:{cve_id}; exit"
++    if prefix:
++        search_command = f"{prefix}; {search_command}"
+     cmd = [
+         "docker", "exec", "-i", container,
+-        msfconsole_bin, "-q", "-n", "-x", f"search cve:{cve_id}; exit",
++        msfconsole_bin, "-q", "-n", "-x", search_command,
+     ]
+     try:
+         proc = subprocess.run(
+@@ -343,6 +369,28 @@ def find_candidates_via_msfconsole_search(cve_id, container):
+     return fullnames
+ 
+ 
++def find_fixture_candidates_via_msfconsole_search(
++    cve_id,
++    container,
++    fixture_registry: ApprovedFixtureRegistry,
++):
++    if not fixture_registry.enabled:
++        return {}
++    fullnames = find_candidates_via_msfconsole_search(
++        cve_id, container, fixture_registry=fixture_registry)
++    candidates = {}
++    for fullname in fullnames:
++        module = fixture_registry.module(fullname)
++        if module is None:
++            continue
++        candidates[fullname] = {
++            **module.provenance(),
++            "discovery_source": "lab_fixture_search",
++            "metadata_source": ["lab_fixture"],
++        }
++    return candidates
++
++
+ # --------------------------------------------------------------------------
+ # Step 2 (fallback metadata) + Step 3 (options): always via msfconsole,
+ # batched into a single invocation using the module object model directly
+@@ -515,7 +563,8 @@ exit -y
+ """
+ 
+ 
+-def query_msfconsole_for_modules(fullnames, container):
++def query_msfconsole_for_modules(fullnames, container,
++                                 fixture_registry: ApprovedFixtureRegistry | None = None):
+     """Runs one batched msfconsole resource script for all fullnames, inside
+     the persistent Docker container.
+ 
+@@ -535,12 +584,15 @@ def query_msfconsole_for_modules(fullnames, container):
+     if not fullnames:
+         return {}
+ 
++    loadpaths = "\n".join(_fixture_loadpath_commands(container, fixture_registry))
+     script_body = (
+         RUBY_TEMPLATE
+         .replace("__FULLNAMES_JSON__", json.dumps(fullnames))
+         .replace("__START__", JSON_SENTINEL_START)
+         .replace("__END__", JSON_SENTINEL_END)
+     )
++    if loadpaths:
++        script_body = f"{loadpaths}\n{script_body}"
+ 
+     ensure_container_running(container)
+     msfconsole_bin = get_msfconsole_binary(container)
+@@ -603,15 +655,19 @@ def query_msfconsole_for_modules(fullnames, container):
+     return json.loads(blob.strip())
+ 
+ 
+-def introspect_msf_payload(module_name, payload_name, container):
++def introspect_msf_payload(module_name, payload_name, container,
++                           fixture_registry: ApprovedFixtureRegistry | None = None):
+     """Load one compatible payload schema after allowlist validation."""
+     if not MODULE_PATH_RE.match(module_name) or not payload_name or payload_name.startswith("payload/"):
+         raise ValueError("invalid module or payload identity")
++    loadpaths = "\n".join(_fixture_loadpath_commands(container, fixture_registry))
+     script_body = (PAYLOAD_RUBY_TEMPLATE
+                    .replace("__MODULE_JSON__", json.dumps(module_name))
+                    .replace("__PAYLOAD_JSON__", json.dumps(payload_name))
+                    .replace("__START__", JSON_SENTINEL_START)
+                    .replace("__END__", JSON_SENTINEL_END))
++    if loadpaths:
++        script_body = f"{loadpaths}\n{script_body}"
+     ensure_container_running(container)
+     msfconsole_bin = get_msfconsole_binary(container)
+     try:
+@@ -703,14 +759,19 @@ def emit_result_yaml(result):
+ 
+ def resolver_backend():
+     """Bind the preserved MSF transport functions to the structured core."""
++    fixture_registry = registry_from_env()
+     return DiscoveryBackend(
+         load_cache=load_json_cache,
+         find_from_cache=find_candidates_from_cache,
+         search_live=find_candidates_via_msfconsole_search,
+-        query_modules=query_msfconsole_for_modules,
++        query_modules=lambda fullnames, container: query_msfconsole_for_modules(
++            fullnames, container, fixture_registry),
+         cache_description=MSF_METADATA_CACHE,
+         resolve_msf_ip=resolve_msf_container_ip,
+-        introspect_payload=introspect_msf_payload,
++        introspect_payload=lambda module, payload, container: introspect_msf_payload(
++            module, payload, container, fixture_registry),
++        search_fixtures=lambda cve, container: find_fixture_candidates_via_msfconsole_search(
++            cve, container, fixture_registry),
+     )
+ 
+ 
+@@ -750,6 +811,13 @@ def discovery_result_to_legacy(result):
+             "check_supported": candidate.check_supported,
+             "references": list(candidate.references),
+             "options": [option.to_dict() for option in candidate.options],
++            "module_source": candidate.module_source,
++            "fixture_source_path": candidate.fixture_source_path,
++            "fixture_sha256": candidate.fixture_sha256,
++            "fixture_manifest": candidate.fixture_manifest,
++            "fixture_modules_root": candidate.fixture_modules_root,
++            "fixture_namespace": candidate.fixture_namespace,
++            "loaded_module_path": candidate.loaded_module_path,
+         } for candidate in result.candidates],
+     }
+ 
+diff --git a/src/kalama/resolver/core.py b/src/kalama/resolver/core.py
+index 567e3fc..b8d4a0b 100644
+--- a/src/kalama/resolver/core.py
++++ b/src/kalama/resolver/core.py
+@@ -7,7 +7,7 @@ does not inspect pipeline directories or read/write a run state file.
+ from __future__ import annotations
+ 
+ from dataclasses import dataclass
+-from typing import Any, Callable
++from typing import Any, Callable, Mapping
+ 
+ from kalama.resolver.models import (
+     CandidateAmbiguityStatus,
+@@ -62,6 +62,7 @@ class DiscoveryBackend:
+     query_payloads: Callable[[list[str], str], dict[str, dict[str, Any]]] | None = None
+     resolve_msf_ip: Callable[[str, str], str | None] | None = None
+     introspect_payload: Callable[[str, str, str], PayloadEvidence] | None = None
++    search_fixtures: Callable[[str, str], dict[str, dict[str, Any]]] | None = None
+ 
+ 
+ def _option_from_raw(raw: dict[str, Any]) -> ModuleOption:
+@@ -82,15 +83,38 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) ->
+     try:
+         cache = backend.load_cache()
+         cache_candidates = backend.find_from_cache(cache, cve_id)
++        fixture_candidates = (backend.search_fixtures(cve_id, msf_container)
++                              if backend.search_fixtures is not None else {})
+ 
+         if cache_candidates:
+-            fullnames = list(cache_candidates)
+-            discovery_source = "metadata_cache"
++            source_candidates: dict[str, dict[str, Any]] = dict(cache_candidates)
++            discovery_sources = {fullname: "metadata_cache" for fullname in source_candidates}
+         elif cache is None:
+-            fullnames = backend.search_live(cve_id, msf_container)
+-            discovery_source = "msfconsole_search"
++            source_candidates = {fullname: {} for fullname in backend.search_live(cve_id, msf_container)}
++            discovery_sources = {fullname: "msfconsole_search" for fullname in source_candidates}
+         else:
+-            return DiscoveryResult(cve_id, DiscoveryStatus.NO_MSF_MODULE)
++            source_candidates = {}
++            discovery_sources = {}
++
++        collisions = sorted(set(source_candidates).intersection(fixture_candidates))
++        stale_non_stock_collisions = [
++            fullname for fullname in collisions
++            if _is_explicit_non_stock_cache_entry(source_candidates[fullname])
++        ]
++        for fullname in stale_non_stock_collisions:
++            source_candidates.pop(fullname, None)
++            discovery_sources.pop(fullname, None)
++        collisions = sorted(set(source_candidates).intersection(fixture_candidates))
++        if collisions:
++            raise RuntimeError(
++                "approved fixture module fullname collides with stock discovery; "
++                f"refusing silent substitution: {', '.join(collisions)}"
++            )
++        for fullname, metadata in fixture_candidates.items():
++            source_candidates[fullname] = dict(metadata)
++            discovery_sources[fullname] = "lab_fixture"
++
++        fullnames = list(source_candidates)
+ 
+         if not fullnames:
+             return DiscoveryResult(cve_id, DiscoveryStatus.NO_MSF_MODULE)
+@@ -109,14 +133,16 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) ->
+     errors: list[str] = []
+     for fullname in fullnames:
+         live_entry = live_data.get(fullname, {})
+-        base = cache_candidates.get(fullname, {})
++        base = source_candidates.get(fullname, {})
+         if "error" in live_entry:
+             errors.append(f"{fullname}: {live_entry['error']}")
+             if not base:
+                 continue
+ 
+         metadata_sources = []
+-        if base:
++        if str(base.get("module_source") or "stock") == "lab_fixture":
++            metadata_sources.append("lab_fixture")
++        elif base:
+             metadata_sources.append(backend.cache_description)
+         if live_entry and "error" not in live_entry:
+             metadata_sources.append("live_msfconsole")
+@@ -161,12 +187,19 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) ->
+             check_supported=bool(base.get("check_supported", live_entry.get("check_supported", False))),
+             references=tuple(base.get("references") or live_entry.get("references") or ()),
+             options=tuple(_option_from_raw(option) for option in live_entry.get("options", ())),
+-            discovery_source=discovery_source,
++            discovery_source=discovery_sources.get(fullname),
+             metadata_source=tuple(metadata_sources),
+             target_details=target_details,
+             default_target_index=default_target_index,
+             payload_discovery_status=payload_status,
+             payloads=tuple(payloads),
++            module_source=str(base.get("module_source") or live_entry.get("module_source") or "stock"),
++            fixture_source_path=_optional_str(base, live_entry, "fixture_source_path"),
++            fixture_sha256=_optional_str(base, live_entry, "fixture_sha256"),
++            fixture_manifest=_optional_mapping(base, live_entry, "fixture_manifest"),
++            fixture_modules_root=_optional_str(base, live_entry, "fixture_modules_root"),
++            fixture_namespace=_optional_str(base, live_entry, "fixture_namespace"),
++            loaded_module_path=_optional_str(base, live_entry, "loaded_module_path"),
+         ))
+ 
+     if not candidates:
+@@ -184,6 +217,31 @@ def discover_cve(cve_id: str, msf_container: str, backend: DiscoveryBackend) ->
+     )
+ 
+ 
++def _optional_str(base: Mapping[str, Any], live: Mapping[str, Any], key: str) -> str | None:
++    value = base.get(key)
++    if value is None:
++        value = live.get(key)
++    return str(value) if value is not None else None
++
++
++def _optional_mapping(base: Mapping[str, Any], live: Mapping[str, Any],
++                      key: str) -> dict[str, Any] | None:
++    value = base.get(key)
++    if value is None:
++        value = live.get(key)
++    return dict(value) if isinstance(value, Mapping) else None
++
++
++def _is_explicit_non_stock_cache_entry(value: Mapping[str, Any]) -> bool:
++    if value.get("cache_is_install_path") is False:
++        return True
++    path = value.get("cache_module_path")
++    if not isinstance(path, str) or not path:
++        return False
++    normalized = path.replace("\\", "/")
++    return not normalized.startswith("/modules/")
++
++
+ def _normalize_msf_rank(raw_rank: str | None) -> tuple[str, int, bool]:
+     raw = "" if raw_rank is None else str(raw_rank).strip().lower()
+     normalized = MSF_NUMERIC_RANKS.get(raw, raw)
+diff --git a/src/kalama/resolver/models.py b/src/kalama/resolver/models.py
+index 3659483..4f8da15 100644
+--- a/src/kalama/resolver/models.py
++++ b/src/kalama/resolver/models.py
+@@ -149,6 +149,13 @@ class ModuleCandidate:
+     default_target_index: int | None = None
+     payload_discovery_status: PayloadDiscoveryStatus = PayloadDiscoveryStatus.UNAVAILABLE
+     payloads: tuple[PayloadEvidence, ...] = ()
++    module_source: str = "stock"
++    fixture_source_path: str | None = None
++    fixture_sha256: str | None = None
++    fixture_manifest: dict[str, Any] | None = None
++    fixture_modules_root: str | None = None
++    fixture_namespace: str | None = None
++    loaded_module_path: str | None = None
+ 
+     def to_dict(self) -> dict[str, Any]:
+         return {
+@@ -166,6 +173,13 @@ class ModuleCandidate:
+             "default_target_index": self.default_target_index,
+             "payload_discovery_status": self.payload_discovery_status.value,
+             "payloads": [payload.to_dict() for payload in self.payloads],
++            "module_source": self.module_source,
++            "fixture_source_path": self.fixture_source_path,
++            "fixture_sha256": self.fixture_sha256,
++            "fixture_manifest": self.fixture_manifest,
++            "fixture_modules_root": self.fixture_modules_root,
++            "fixture_namespace": self.fixture_namespace,
++            "loaded_module_path": self.loaded_module_path,
+         }
+ 
+ 
+diff --git a/src/kalama/runtime.py b/src/kalama/runtime.py
+index 1a3628e..4c119c5 100644
+--- a/src/kalama/runtime.py
++++ b/src/kalama/runtime.py
+@@ -6,6 +6,7 @@ from pathlib import Path
+ import os
+ from typing import Mapping, Sequence, Any
+ 
++from kalama.metasploit_fixtures import registry_from_env
+ from kalama.resolver.backend import resolver_backend
+ 
+ from .dispatcher import dispatch_stage
+@@ -94,9 +95,10 @@ class ProductionRuntime:
+             "kalama-workbench": WORKBENCH_NAME,
+             "msf-resolver-host": "msf-resolver-host",
+         }
++        fixture_registry = registry_from_env()
+         common = (
+             DockerEnvironmentValidator(self.runner),
+-            DockerMetasploitExecutor(self.runner),
++            DockerMetasploitExecutor(self.runner, fixture_registry=fixture_registry),
+         )
+         stages = {
+             "resolver": lambda: ResolverOrchestrator(
+diff --git a/tests/integration/test_attack_form_submission.py b/tests/integration/test_attack_form_submission.py
+index ea2d115..31f49f6 100644
+--- a/tests/integration/test_attack_form_submission.py
++++ b/tests/integration/test_attack_form_submission.py
+@@ -12,6 +12,7 @@ from kalama.resolver.models import ModuleOption, PayloadEvidence
+ from kalama.resolution.confirmation_orchestrator import AttackFormOrchestrator
+ from kalama.resolution.config_codec import exploit_config_from_dict
+ from kalama.resolution.orchestrator import ResolverOrchestrator, production_step4_processor
++from kalama.execution.executor import build_execution_plan
+ from kalama.state.models import ArtifactKind, RunStatus, StageStatus
+ from kalama.state.store import StateStore
+ from tests.integration import test_step4_orchestrator as step4_helpers
+@@ -34,10 +35,13 @@ class AttackFormSubmissionTests(unittest.TestCase):
+         self.temp.cleanup()
+ 
+     def waiting_run(self, cves=("CVE-2099-0001",), *, options=(), payloads=(),
+-                    payload_status="UNAVAILABLE", check_supported=True):
++                    payload_status="UNAVAILABLE", check_supported=True,
++                    candidate_overrides=None):
+         self.helper.prepare(cves)
+         candidates = {"exploit/a": {"rank": "excellent", "check_supported": check_supported},
+                       "exploit/b": {"rank": "good", "check_supported": check_supported}}
++        if candidate_overrides:
++            candidates.update(candidate_overrides)
+         live_options = [{"name": name, "type": kind, "required": required, "default": default}
+                         for name, kind, required, default in options]
+         live = {"exploit/a": {"options": live_options, "status": payload_status,
+@@ -230,6 +234,43 @@ class AttackFormSubmissionTests(unittest.TestCase):
+         self.assertIn("invariant", serialized)
+         self.assertIn("environment", serialized)
+ 
++    def test_fixture_module_selection_preserves_provenance_in_execution_plan(self):
++        state = self.waiting_run(candidate_overrides={
++            "exploit/fixture/example_compat": {
++                "rank": "excellent",
++                "check_supported": True,
++                "module_source": "lab_fixture",
++                "fixture_source_path": r"C:\fixtures\modules\exploits\fixture\example_compat.rb",
++                "fixture_sha256": "f" * 64,
++                "fixture_manifest": {"id": "compat-fixture"},
++                "fixture_modules_root": r"C:\fixtures\modules",
++                "fixture_namespace": "abc123",
++                "loaded_module_path": "/tmp/kalama-msf-lab-fixtures/abc123/modules/exploits/fixture/example_compat.rb",
++            }
++        })
++
++        form = yaml.safe_load(Path(state.artifact(ArtifactKind.ATTACK_FORM).path).read_bytes())
++        form_candidate = next(item for item in form["cves"]["CVE-2099-0001"]["module"]["candidates"]
++                              if item["module_path"] == "exploit/fixture/example_compat")
++        self.assertEqual(form_candidate["module_source"], "lab_fixture")
++        self.assertEqual(form_candidate["fixture_sha256"], "f" * 64)
++
++        def complete(form):
++            cve = form["cves"]["CVE-2099-0001"]
++            cve["module"]["confirmed"] = "exploit/fixture/example_compat"
++            cve["execution_protocol"]["confirmed"] = True
++
++        final = self.apply(self.submission(state, complete, "fixture-module.yaml"))
++        artifact = json.loads(Path(final.artifact(
++            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
++        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
++        plan = build_execution_plan(config, 1)
++
++        self.assertEqual(plan.module, "exploit/fixture/example_compat")
++        self.assertEqual(plan.module_source, "lab_fixture")
++        self.assertEqual(plan.fixture_sha256, "f" * 64)
++        self.assertEqual(plan.fixture_manifest, {"id": "compat-fixture"})
++
+     def test_check_then_exploit_protocol_is_human_selectable(self):
+         payloads = ({"name": "cmd/unix/generic", "options": []},)
+         state = self.waiting_run(payloads=payloads, payload_status="FOUND")
+@@ -249,6 +290,76 @@ class AttackFormSubmissionTests(unittest.TestCase):
+         self.assertTrue(config.invariant.execution_protocol.run_check)
+         self.assertTrue(config.invariant.execution_protocol.run_exploit)
+ 
++    def test_precondition_required_flag_commands_and_check_only_protocol_are_preserved(self):
++        state = self.waiting_run()
++
++        def complete(form):
++            cve = form["cves"]["CVE-2099-0001"]
++            cve["module"]["confirmed"] = "exploit/a"
++            cve["execution_protocol"]["confirmed"] = True
++            cve["preconditions"] = {
++                "description": "prepare target data",
++                "commands": ["first command", "second command"],
++                "execution_target": "kalama-workbench",
++                "required": True,
++                "confirmation_status": "HUMAN_CONFIRMED",
++            }
++
++        final = self.apply(self.submission(state, complete, "precondition-required.yaml"))
++        artifact = json.loads(Path(final.artifact(
++            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
++        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
++        plan = build_execution_plan(config, 1)
++
++        self.assertTrue(config.invariant.preconditions.required)
++        self.assertTrue(plan.precondition_required)
++        self.assertEqual(plan.precondition_commands, ("first command", "second command"))
++        self.assertEqual(plan.precondition_target, "kalama-workbench")
++        self.assertTrue(plan.run_check)
++        self.assertFalse(plan.run_exploit)
++        self.assertIsNone(plan.payload)
++
++    def test_precondition_required_false_is_preserved(self):
++        state = self.waiting_run()
++
++        def optional(form):
++            cve = form["cves"]["CVE-2099-0001"]
++            cve["module"]["confirmed"] = "exploit/a"
++            cve["execution_protocol"]["confirmed"] = True
++            cve["preconditions"] = {
++                "description": "optional preparation",
++                "commands": ["optional command"],
++                "execution_target": "kalama-workbench",
++                "required": False,
++                "confirmation_status": "HUMAN_CONFIRMED",
++            }
++
++        final = self.apply(self.submission(state, optional, "precondition-optional.yaml"))
++        artifact = json.loads(Path(final.artifact(
++            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
++        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
++        self.assertFalse(build_execution_plan(config, 1).precondition_required)
++
++    def test_precondition_required_omitted_preserves_existing_behavior(self):
++        state = self.waiting_run()
++
++        def omitted(form):
++            cve = form["cves"]["CVE-2099-0001"]
++            cve["module"]["confirmed"] = "exploit/a"
++            cve["execution_protocol"]["confirmed"] = True
++            cve["preconditions"] = {
++                "description": "legacy preparation",
++                "commands": ["legacy command"],
++                "execution_target": "kalama-workbench",
++                "confirmation_status": "HUMAN_CONFIRMED",
++            }
++
++        final = self.apply(self.submission(state, omitted, "precondition-omitted.yaml"))
++        artifact = json.loads(Path(final.artifact(
++            ArtifactKind.EXPLOIT_CONFIG_BEFORE).path).read_bytes())
++        config = exploit_config_from_dict(artifact["cves"][0]["exploit_config"])
++        self.assertFalse(build_execution_plan(config, 1).precondition_required)
++
+     def test_snapshot_or_config_write_failure_does_not_commit_confirmations(self):
+         state = self.waiting_run()
+         path = self.submission(state, lambda form: form["cves"]["CVE-2099-0001"]
+diff --git a/tests/unit/test_resolver_core.py b/tests/unit/test_resolver_core.py
+index 0494fe7..8d86bc1 100644
+--- a/tests/unit/test_resolver_core.py
++++ b/tests/unit/test_resolver_core.py
+@@ -12,7 +12,7 @@ from kalama.resolver.models import (
+ 
+ 
+ def make_backend(*, cache, cached_candidates=None, live_names=None, live_data=None,
+-                 search_error=None, query_error=None):
++                 search_error=None, query_error=None, fixture_candidates=None):
+     def load_cache():
+         return cache
+ 
+@@ -29,12 +29,16 @@ def make_backend(*, cache, cached_candidates=None, live_names=None, live_data=No
+             raise RuntimeError(query_error)
+         return live_data or {}
+ 
++    def search_fixtures(_cve_id, _container):
++        return fixture_candidates or {}
++
+     return DiscoveryBackend(
+         load_cache=load_cache,
+         find_from_cache=find_from_cache,
+         search_live=search_live,
+         query_modules=query_modules,
+         cache_description="test-cache.json",
++        search_fixtures=search_fixtures,
+     )
+ 
+ 
+@@ -128,6 +132,92 @@ class ResolverCoreContractTests(unittest.TestCase):
+         self.assertEqual([item.module_path for item in result.candidates], ["exploit/a", "exploit/b"])
+         self.assertNotIn("selected_module", result.to_dict())
+ 
++    def test_fixture_candidate_is_added_without_replacing_stock_cache_candidate(self):
++        fixture = {
++            "exploit/test/example_compat": {
++                "module_source": "lab_fixture",
++                "fixture_source_path": r"C:\fixtures\modules\exploits\test\example_compat.rb",
++                "fixture_sha256": "f" * 64,
++                "fixture_manifest": {"id": "compat-fixture"},
++                "fixture_modules_root": r"C:\fixtures\modules",
++                "fixture_namespace": "abc123",
++                "loaded_module_path": "/tmp/kalama-msf-lab-fixtures/abc123/modules/exploits/test/example_compat.rb",
++            }
++        }
++        live = {
++            "exploit/test/example": {"options": []},
++            "exploit/test/example_compat": {
++                "rank": "excellent",
++                "check_supported": True,
++                "references": ["CVE-2099-0001"],
++                "options": [],
++            },
++        }
++        result = discover_cve(
++            "CVE-2099-0001", "msf", make_backend(
++                cache={"present": True},
++                cached_candidates={"exploit/test/example": {"rank": "good"}},
++                live_data=live,
++                fixture_candidates=fixture,
++            ),
++        )
++
++        self.assertEqual(result.status, DiscoveryStatus.FOUND)
++        self.assertEqual(
++            [item.module_path for item in result.candidates],
++            ["exploit/test/example", "exploit/test/example_compat"],
++        )
++        candidate = result.candidates[1]
++        self.assertEqual(candidate.module_source, "lab_fixture")
++        self.assertEqual(candidate.fixture_sha256, "f" * 64)
++        self.assertEqual(candidate.fixture_manifest, {"id": "compat-fixture"})
++        self.assertEqual(candidate.metadata_source, ("lab_fixture", "live_msfconsole"))
++
++    def test_fixture_fullname_collision_is_environment_error(self):
++        result = discover_cve(
++            "CVE-2099-0001", "msf", make_backend(
++                cache={"present": True},
++                cached_candidates={"exploit/test/example": {"rank": "good"}},
++                live_data={"exploit/test/example": {"options": []}},
++                fixture_candidates={"exploit/test/example": {
++                    "module_source": "lab_fixture",
++                    "fixture_sha256": "f" * 64,
++                }},
++            ),
++        )
++
++        self.assertEqual(result.status, DiscoveryStatus.ENVIRONMENT_ERROR)
++        self.assertIn("collides with stock discovery", result.errors[0])
++
++    def test_stale_non_stock_cache_entry_does_not_block_approved_fixture(self):
++        fixture = {
++            "exploit/test/example_compat": {
++                "module_source": "lab_fixture",
++                "fixture_source_path": r"C:\fixtures\modules\exploits\test\example_compat.rb",
++                "fixture_sha256": "f" * 64,
++                "fixture_modules_root": r"C:\fixtures\modules",
++                "fixture_namespace": "abc123",
++                "loaded_module_path": "/tmp/kalama-msf-lab-fixtures/abc123/modules/exploits/test/example_compat.rb",
++            }
++        }
++        result = discover_cve(
++            "CVE-2099-0001", "msf", make_backend(
++                cache={"present": True},
++                cached_candidates={"exploit/test/example_compat": {
++                    "rank": "excellent",
++                    "cache_module_path": "/tmp/old-fixture/modules/exploits/test/example_compat.rb",
++                    "cache_is_install_path": False,
++                }},
++                live_data={"exploit/test/example_compat": {"options": []}},
++                fixture_candidates=fixture,
++            ),
++        )
++
++        self.assertEqual(result.status, DiscoveryStatus.FOUND)
++        self.assertEqual(len(result.candidates), 1)
++        self.assertEqual(result.candidates[0].module_source, "lab_fixture")
++        self.assertEqual(result.candidates[0].fixture_sha256, "f" * 64)
++
+     def test_genuine_no_module_is_distinct(self):
+         result = discover_cve(
+             "CVE-2099-0002", "msf", make_backend(cache={"present": True}),

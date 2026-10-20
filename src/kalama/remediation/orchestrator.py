@@ -14,7 +14,7 @@ import yaml
 
 from ..resolution.artifacts import (
     ATTACK_RESULT_SCHEMA, PATCH_FORM_SCHEMA, PATCH_PLAN_SCHEMA, ArtifactWriteError,
-    write_patch_form_immutable, write_patch_plan,
+    write_patch_form_immutable, write_patch_llm_guidance, write_patch_plan,
 )
 from ..state.models import (
     ArtifactKind, ArtifactReference, IntegrationFailureCode, PipelineStage,
@@ -43,8 +43,17 @@ def _patched_image(reference: str, run_id: str) -> str:
 
 class PatchPlanningOrchestrator:
     def __init__(self, store: StateStore, provider: RemediationProvider, *,
-                 clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc)):
+                 clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
+                 guidance_service=None, guidance_collector=None,
+                 knowledge_store=None, evidence_config=None):
         self.store, self.provider, self.clock = store, provider, clock
+        # Task 6 Patch LLM hook.  All defaults are None (manual Patch Form
+        # path, zero behavior change).  The service may only prefill
+        # SUGGESTED/display values; it never confirms, submits, or executes.
+        self.guidance_service = guidance_service
+        self.guidance_collector = guidance_collector
+        self.knowledge_store = knowledge_store
+        self.evidence_config = evidence_config
 
     def _now(self) -> str:
         return utc_text(self.clock())
@@ -225,6 +234,26 @@ class PatchPlanningOrchestrator:
         state = self._save(state)
         if plan.readiness == PlanningStatus.WAITING_FOR_USER_INPUT:
             form = self._form(plan, run_id, plan_sha)
+            # Task 6 (nonfatal, prefill-only): suggest unresolved eligible
+            # Patch fields.  Any failure keeps the deterministic manual form.
+            guidance_artifact = None
+            if self.guidance_service is not None:
+                try:
+                    from .patch_llm import project_patch_guidance, schedule_patch_guidance
+                    outcomes = schedule_patch_guidance(
+                        run_id, plan.actions,
+                        target_facts=dict(state.target.facts) if state.target.facts else {},
+                        knowledge_store=self.knowledge_store,
+                        guidance_service=self.guidance_service,
+                        collector_or_factory=self.guidance_collector,
+                        plan_revision=None,
+                        base_patch_plan_sha256=plan_sha,
+                        evidence_config=self.evidence_config,
+                        output_root=self.store.output_root)
+                    if outcomes:
+                        form, guidance_artifact = project_patch_guidance(form, outcomes)
+                except Exception:
+                    guidance_artifact = None
             form_path = self.store.output_root / "patch" / "forms" / f"patch_form_{run_id}_r1.yaml"
             try:
                 form_sha = write_patch_form_immutable(form_path, form)
@@ -232,6 +261,13 @@ class PatchPlanningOrchestrator:
                     raise ArtifactWriteError("Patch Form verification failed")
             except (OSError, yaml.YAMLError, ArtifactWriteError) as exc:
                 return self._fail(run_id, "PATCH_FORM_WRITE_FAILED", str(exc))
+            if guidance_artifact is not None:
+                try:
+                    guidance_path = (self.store.output_root / "patch" / "guidance"
+                                     / f"patch_llm_guidance_{run_id}_r1.json")
+                    write_patch_llm_guidance(guidance_path, guidance_artifact)
+                except (OSError, ArtifactWriteError):
+                    pass  # Nonfatal: the manual Patch Form stays authoritative.
             timestamp = self._now()
             state = self.store.load(run_id).with_artifact(ArtifactReference(
                 ArtifactKind.PATCH_FORM, str(form_path.resolve()), form_sha, PATCH_FORM_SCHEMA,

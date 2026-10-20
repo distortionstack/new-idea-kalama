@@ -1,0 +1,85 @@
+{
+  "schema": "kalama.patch-assist-prototype/evaluation-result/v1",
+  "experiment_id": "EXP-PROC-7X9D-01",
+  "run_id": "6WUM1",
+  "action_id": "patch-001",
+  "arm": "ARM_C_L3_L4_L5",
+  "counts": {
+    "field_count": 9,
+    "no_edit_count": 9,
+    "minor_edit_count": 0,
+    "major_edit_count": 0,
+    "reject_count": 0,
+    "abstention_accepted_count": 0,
+    "unsupported_claim_count": 0,
+    "missing_citation_count": 0,
+    "invalid_evidence_reference_count": 0,
+    "semantic_critical_edit_count": 0
+  },
+  "rates": {
+    "agent_supported_field_rate": 1.0,
+    "human_refinement_rate": 0.0,
+    "major_refinement_rate": 0.0,
+    "unsupported_claim_rate": 0.0,
+    "citation_validity_rate": 1.0,
+    "abstention_correctness_rate": null
+  },
+  "validator": {
+    "validator_pass_before_review": true,
+    "validator_pass_after_review": true
+  },
+  "durations": {
+    "review_duration_seconds": null,
+    "agent_duration_seconds": null
+  },
+  "per_field": {
+    "fix_type": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "strategy": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "target_version": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "artifact_source": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "source_identifier": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "build_system": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "command": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "validation_command": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    },
+    "notes": {
+      "review_class": "NO_EDIT",
+      "unsupported_claim": false,
+      "citation_valid": true
+    }
+  },
+  "derivation": "Mechanical from frozen agent_proposal.json (file sha fa2de79e..., pack-bound 403dce78...) + human_review.json: 8 PROPOSED fields (incl. command: apt-get update && apt-get install -y apache2=2.4.10-10+deb8u16 + pinned siblings && apache2ctl configtest && apache2ctl graceful; validation_command: apache2ctl configtest), all NO_EDIT; 1 NOT_APPLICABLE (NO_EDIT); 0 abstentions; unsupported=false on all 9; refs resolve. agent_supported=8/8; refinement=0/8; abstention_correctness null (no abstentions to judge). Durations null.",
+  "schema_note": "Research-only deviation: schema arm enum predates this experiment (ARM_A_L1/ARM_B_L3/ARM_C_L3_L4_L5); arm carries the Phase-1 arm name. Shared prototype schema file left unmodified.",
+  "created_at": "2026-10-12T13:00:00Z"
+}

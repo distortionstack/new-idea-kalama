@@ -1,0 +1,590 @@
+{
+  "created_at": "2026-09-16T16:31:34.874497Z",
+  "entries": [
+    {
+      "path": "source_discovery/retrieved_sources/S001.html",
+      "sha256": "e8435731f5e6b55617c1b592f4e2a66f235163337017699d7adcf1a68cbcea57",
+      "size_bytes": 53423,
+      "source_id": "S001"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S002.html",
+      "sha256": "616948a5995445ad5ab7468e329c536827aa6975c2472c4bf312c493b6bd0123",
+      "size_bytes": 53493,
+      "source_id": "S002"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S003.html",
+      "sha256": "66fe5f2ca0e8cb56da0ecd31f712d0520edd65ddb766e0eb115a571f5c341985",
+      "size_bytes": 339285,
+      "source_id": "S003"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S004.html",
+      "sha256": "bbd466585750fe14d5ee5c7b173c1f936b9edbf915a3858e4977e5cb13d8ec47",
+      "size_bytes": 54125,
+      "source_id": "S004"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S005.html",
+      "sha256": "acbe83a3bf83ca900655cfbfb8a7acd0ee7698a878034e9c9bd7df8cd19e370c",
+      "size_bytes": 54325,
+      "source_id": "S005"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S006.html",
+      "sha256": "dd4939d689e8983bf13d8331303b7923f28b662779d7b7eec38e7fa432cc958b",
+      "size_bytes": 56541,
+      "source_id": "S006"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S007.html",
+      "sha256": "67852b72fa86b999fbd75f65fb831251eddd63113c95a5f8a06ae4ff5cd14f35",
+      "size_bytes": 59686,
+      "source_id": "S007"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S008.html",
+      "sha256": "83a945404d39160ebccc1040244eac45e26898cd5d4c36b04eb604f61f2ab51a",
+      "size_bytes": 245256,
+      "source_id": "S008"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S009.html",
+      "sha256": "b7dfddb4d7d4a4efa290c4c9b58cf4b30e87065bd5c796095cb88c904fa4df39",
+      "size_bytes": 260323,
+      "source_id": "S009"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S010.html",
+      "sha256": "aab58f94511aaa125d829f8aba4c2d51fff3ec4c1dff2d4be2be3cfbf843493a",
+      "size_bytes": 260314,
+      "source_id": "S010"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S011.html",
+      "sha256": "07e3c53d9777239eebe24d242a55e77beefbbb7354ec1947a6d7da6a9b3989dd",
+      "size_bytes": 282203,
+      "source_id": "S011"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S012.html",
+      "sha256": "f153d8e90e9ff57eacf29e2e9c9ff0e1f7f691279de362988fd5af8c8ea16c8d",
+      "size_bytes": 282087,
+      "source_id": "S012"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S013.html",
+      "sha256": "6a1176d847d967d2bb4133e0509350b561659655e769d96b1bce7f64de162a6a",
+      "size_bytes": 10749,
+      "source_id": "S013"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S014.tar.gz",
+      "sha256": "0a5db37147b4874e378417628514662d16f23f1f79659297b3526ba57e7facd0",
+      "size_bytes": 9433364,
+      "source_id": "S014"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S100.pom",
+      "sha256": "a687024c2c62b0a3fd3a70a921f54e948117aa172952348419dc64c594c85814",
+      "size_bytes": 39184,
+      "source_id": "S100"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S101.pom",
+      "sha256": "f471f38dc11312c13b5c4c5e47b2c00789f9b65e0046283eb6a3173289a8d8cf",
+      "size_bytes": 11151,
+      "source_id": "S101"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S102.jar",
+      "sha256": "74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0",
+      "size_bytes": 874354,
+      "source_id": "S102"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S103.jar.sha1",
+      "sha256": "45bd1f3f00d531e496c3ff768732174ac1e91c6f21817cb83bede3455d240e2f",
+      "size_bytes": 40,
+      "source_id": "S103"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S104.pom",
+      "sha256": "753d0380218773cc7e14863a1d85fc5e2b146ac98443fe4ebd6783cb254298f7",
+      "size_bytes": 39186,
+      "source_id": "S104"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S105.pom",
+      "sha256": "17e532db31f3b629bfd172cfc5df3c850cee3dc598f492899dbe5e94c821f9b9",
+      "size_bytes": 11151,
+      "source_id": "S105"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S106.jar",
+      "sha256": "a988978e84c119becc5ee868b4a7eb76448cc38f0e4752a33c4df91e9a66d9a5",
+      "size_bytes": 884825,
+      "source_id": "S106"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S107.jar.sha1",
+      "sha256": "949957c1c82d6011648ec34ddd0d0f997a15be25bfc9d6bd64bc43853b1e981d",
+      "size_bytes": 40,
+      "source_id": "S107"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S108.pom",
+      "sha256": "489b71f6fd98d1a8e0f6982e805e8d42b589f25c3cc821c0e79fb4fcddf2122f",
+      "size_bytes": 37255,
+      "source_id": "S108"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S109.pom",
+      "sha256": "dcee943e4041241ac8c04d37b8451d45618964b6906c77f94c805e0e77e6a8e2",
+      "size_bytes": 16547,
+      "source_id": "S109"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S110.jar",
+      "sha256": "62501827eb34caa7a9b418eaf95d661af76677ad5b1394c02e77a02474bcadcb",
+      "size_bytes": 1594932,
+      "source_id": "S110"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S111.jar.sha1",
+      "sha256": "5e4123052cd293022bcbda564320ea0e14a5c477294f02634b6debf4c22b9b9a",
+      "size_bytes": 40,
+      "source_id": "S111"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S112.pom",
+      "sha256": "103d09aab09da35deb262bcf575a88e4965174b054721c11d713a3699d0575f7",
+      "size_bytes": 8565,
+      "source_id": "S112"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S113.jar",
+      "sha256": "1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01",
+      "size_bytes": 678710,
+      "source_id": "S113"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S114.jar.sha1",
+      "sha256": "261d845fe8f0b4cd93cec32bf822292e23a060251e8cf86645bb3900b84f4ff4",
+      "size_bytes": 40,
+      "source_id": "S114"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S115.pom",
+      "sha256": "bfa69b7f22b7f726c5de85deedf828e04dabddaf625e3f79f268e215d26808ef",
+      "size_bytes": 8565,
+      "source_id": "S115"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S116.jar",
+      "sha256": "0812f06f11e2ae7106ff13a28587648c30f51a9600b658e69956da7f7efe8356",
+      "size_bytes": 689229,
+      "source_id": "S116"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S117.jar.sha1",
+      "sha256": "03b10f04440579df4a1c790aac682dd617df98fda1acc5d9c34f433b0a1de137",
+      "size_bytes": 40,
+      "source_id": "S117"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S118.pom",
+      "sha256": "98c2681352aa5714c30404832a1ae9ba069c4f9028e6102d7d155a520b8d31c8",
+      "size_bytes": 1527,
+      "source_id": "S118"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S119.jar",
+      "sha256": "48bfae878380de1f358e5cfd835ffc51642ae6a1fa0d56b3c30bb52a13101023",
+      "size_bytes": 44503,
+      "source_id": "S119"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S120.jar.sha1",
+      "sha256": "cfb37b999e5563dcb7f6144282740184ccc52294a65948a45728db147c3be357",
+      "size_bytes": 40,
+      "source_id": "S120"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S121.pom",
+      "sha256": "e4fa60764592386f3c02c340067a03c59f59beef9321a467915c0d2f7a1d5f79",
+      "size_bytes": 1916,
+      "source_id": "S121"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S122.jar",
+      "sha256": "2954c42eae65cac5f18394b772d2d81ac3394980689261fa1738d66a81e6091f",
+      "size_bytes": 67851,
+      "source_id": "S122"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S123.jar.sha1",
+      "sha256": "a3c6d6ccc421d0a5acd605cd6df104a71119942d697a5a2ac83d8888a9eaa4d7",
+      "size_bytes": 40,
+      "source_id": "S123"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S124.pom",
+      "sha256": "4198c3960617513b3cdf77760e6c51506e1d0099eaaff998cc4685edc1a0f57f",
+      "size_bytes": 9186,
+      "source_id": "S124"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S125.jar",
+      "sha256": "b13915cdd2e776f7476167e1b5b88e6fdddcf491ac8a52ee3ba72ffe27193dfe",
+      "size_bytes": 1731721,
+      "source_id": "S125"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S126.jar.sha1",
+      "sha256": "f1ce1db248a0f72f30a32f832f2921baf5133c4acfb919dc7181666a3cec2e54",
+      "size_bytes": 40,
+      "source_id": "S126"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S127.pom",
+      "sha256": "6ddd4b24c5c58d2da61bd523db1e9d6e7a67a1bd171909ddd9d626c17f7b5550",
+      "size_bytes": 1669,
+      "source_id": "S127"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S128.jar",
+      "sha256": "5f1d991605eb1dc354cdd3d48e16f0ac9d6b2e9a575f21b9a9df91a3342d2850",
+      "size_bytes": 10862,
+      "source_id": "S128"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S129.jar.sha1",
+      "sha256": "2294164bb111d367c5de49e221f4d133cb62837be83dfa5a5cd9620c26ead523",
+      "size_bytes": 40,
+      "source_id": "S129"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S130.pom",
+      "sha256": "4d512084be49e71ac46007638c5275c367914ff8019384877020633316261a4b",
+      "size_bytes": 1919,
+      "source_id": "S130"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S131.jar",
+      "sha256": "04ec363f436f6a4835a8c4f8ebec1ee1be38e96cfb9d6292def11cbaa5d417c8",
+      "size_bytes": 33485,
+      "source_id": "S131"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S132.jar.sha1",
+      "sha256": "d0f252d94ab71b6557ef00defb6d96fea402aff5f0142b3182845874dbcdc794",
+      "size_bytes": 40,
+      "source_id": "S132"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S133.pom",
+      "sha256": "bbc1be75185fa3eeb38e9d9eebf5059be6e3f2eefc348ef1144b7992d4376628",
+      "size_bytes": 3479,
+      "source_id": "S133"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S134.jar",
+      "sha256": "87ddb8f623f801026eab32caac3c885876fc61e2e99258b284b65117728d0ad3",
+      "size_bytes": 72746,
+      "source_id": "S134"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S135.jar.sha1",
+      "sha256": "898fd75f8f6412ceebf26489e0f49b096664205bdf9caf6043deca2178faa17d",
+      "size_bytes": 40,
+      "source_id": "S135"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S136.pom",
+      "sha256": "e5f6f2c20344b9bab06ad8f82fb9ff0c7e1e070cc2b90979c699d36787bb1723",
+      "size_bytes": 2069,
+      "source_id": "S136"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S137.jar",
+      "sha256": "ecd761b0ab1558ba44537daaea70480352ead71d8a96d8dde83abdfafd258636",
+      "size_bytes": 36113,
+      "source_id": "S137"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S138.jar.sha1",
+      "sha256": "30c7da79468feb6fa110f20e8a0332eb4eb9bc6c21b81ce38737a215ff75286f",
+      "size_bytes": 40,
+      "source_id": "S138"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S139.pom",
+      "sha256": "9d8737baf87d20b298147583f37f27502b6ca4e1b0c3568b94316308333cc8b5",
+      "size_bytes": 2789,
+      "source_id": "S139"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S140.jar",
+      "sha256": "d7cb05a359e7e3fbf44d2e19a5df1649fd58be29881c169a28cc728efe2f7abc",
+      "size_bytes": 21697,
+      "source_id": "S140"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S141.jar.sha1",
+      "sha256": "261ec43b70119d36b3dab294cd449ce430f9e139a0b97ae4dfdff729a80aafd1",
+      "size_bytes": 40,
+      "source_id": "S141"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S142.pom",
+      "sha256": "ed74eecb5b82b66676403a9d23d27b7820bb4a0861daeb28a066f519493e91ed",
+      "size_bytes": 2656,
+      "source_id": "S142"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S143.jar",
+      "sha256": "a08ccf1c54c020c74ace19f7e3fd0f3e83bcc4c79a7c9545f3133f8a99a91ed3",
+      "size_bytes": 32793,
+      "source_id": "S143"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S144.jar.sha1",
+      "sha256": "b0a6be5937a2d3b53410f560a1780c5d134a5559678599a07ad183802f3420dd",
+      "size_bytes": 40,
+      "source_id": "S144"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S145.pom",
+      "sha256": "681fdb35c5c048d2948c054a8862a5a5c31670271120fc99a947d3b7e9a6ee0e",
+      "size_bytes": 2588,
+      "source_id": "S145"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S146.jar",
+      "sha256": "3133bf3ffc20467cc70d81bd0b281eb420d9b7152a0b07054a8a28080230fb63",
+      "size_bytes": 36841,
+      "source_id": "S146"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S147.jar.sha1",
+      "sha256": "7263e4b99771317e2c5e004b3243afd821c63b1e2d0207c84cc5ff6be32b6872",
+      "size_bytes": 40,
+      "source_id": "S147"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S148.pom",
+      "sha256": "16ed077893334d9e9337d414eabeff718c9594eb24292b39724970d8eaabb65a",
+      "size_bytes": 1527,
+      "source_id": "S148"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S149.jar",
+      "sha256": "327ce7547ec2a39193f8536831cfb65ab8b02aa6ea99259eeb4172021cda4c26",
+      "size_bytes": 45057,
+      "source_id": "S149"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S150.jar.sha1",
+      "sha256": "e235ad2a91f5f036a1ea26891c08c8c79ebfa1848adf31d848aae02c6489511b",
+      "size_bytes": 40,
+      "source_id": "S150"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S151.pom",
+      "sha256": "5c110fef1942909a13b05015b76efe41e2d7e60ab7fd62d272db073af4abfd70",
+      "size_bytes": 1916,
+      "source_id": "S151"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S152.jar",
+      "sha256": "2cc10761eca757b3da27598d6fc228115cd3764c7b3d00bffd63d6fa7b757523",
+      "size_bytes": 68613,
+      "source_id": "S152"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S153.jar.sha1",
+      "sha256": "86aecbb1a552f5b3b782ac733961b8aa25ec0486b81a0a5bb162d1cebba6fa97",
+      "size_bytes": 40,
+      "source_id": "S153"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S154.pom",
+      "sha256": "8e1a82b4a8c105e6f3ffed65fd43d1fecf786eaed8db4592322b5d3444152816",
+      "size_bytes": 2857,
+      "source_id": "S154"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S155.jar",
+      "sha256": "9b36cd0b67161d7a89e22c703682506df8f6c048d532a921787db915ea68e1f1",
+      "size_bytes": 47595,
+      "source_id": "S155"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S156.jar.sha1",
+      "sha256": "97e1f216a5b33200d052586f8475c3bb7d2eabd67fc54807f45cce7d64455bfa",
+      "size_bytes": 40,
+      "source_id": "S156"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S015.html",
+      "sha256": "162dbf2e54bf8b0f17eec583a171605dc2ec18a2e392b031e9b9881bb6f633af",
+      "size_bytes": 22687,
+      "source_id": "S015"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S016.html",
+      "sha256": "448bcf126dad5f3e6ca5a72474a4474517f503a2d0167a4b215df723b13cef48",
+      "size_bytes": 38270,
+      "source_id": "S016"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S017.html",
+      "sha256": "32128d43391c6b38ea36ff16bdb7067da5bb1d5158fe8fa63f4e88c43866e8bf",
+      "size_bytes": 72862,
+      "source_id": "S017"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S018.txt",
+      "sha256": "97e79a0a0a20d25a8bab819e6a95772a42caafbb928b63a41e734fd0098d4a0c",
+      "size_bytes": 15946,
+      "source_id": "S018"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S200.pom",
+      "sha256": "265367199de49bf1d91961dc0b6d56f334b7203bd8b56571adef79975705a49f",
+      "size_bytes": 3040,
+      "source_id": "S200"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S201.pom",
+      "sha256": "6eae4f2553020619a21632311aefb9464c3433c56ca86efcbd2d785142b5a5a5",
+      "size_bytes": 3040,
+      "source_id": "S201"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S211.pom",
+      "sha256": "9683914ea3f51df45650a3bbc84e53dbfd6673854551633af88a6167c60c50cb",
+      "size_bytes": 10618,
+      "source_id": "S211"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S212.jar",
+      "sha256": "287d0b5ba8ac6437ee5d7f5567cb68327b6c52957c1d8292e25ecd25e04b25f5",
+      "size_bytes": 70282,
+      "source_id": "S212"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S213.jar.sha1",
+      "sha256": "84f5387e1dd4764dc0ff64467a0c8528561f6a5f6d9b3b6b050e9ddd11aac435",
+      "size_bytes": 40,
+      "source_id": "S213"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S214.pom",
+      "sha256": "6c221dc2dca94331a92a9cb19b3943631f7cb7c0302255fb5cd0450654e812c7",
+      "size_bytes": 11034,
+      "source_id": "S214"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S215.jar",
+      "sha256": "675f60bd11a82d481736591fe4054c66471fa5463d45616652fd71585792ba87",
+      "size_bytes": 173587,
+      "source_id": "S215"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S216.jar.sha1",
+      "sha256": "9da25c54008f815956cbb84d9344acec7d288a233dcc48cc1f644f4ac63ccbf1",
+      "size_bytes": 40,
+      "source_id": "S216"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S217.pom",
+      "sha256": "7897585e2c22be33b39b5fa346ff5a08d6bf084354ee0ad548facfd5a92b8e98",
+      "size_bytes": 20100,
+      "source_id": "S217"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S218.jar",
+      "sha256": "925cf36bc919d21ebc91a9bc3899327082fb14d5aa7584a3835995f60b44c72c",
+      "size_bytes": 384767,
+      "source_id": "S218"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S219.jar.sha1",
+      "sha256": "caf4f83590bdf1668b0b21dfc2c780c67d37d2c6cf27126f20e6d77cddc64f06",
+      "size_bytes": 40,
+      "source_id": "S219"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S232.pom",
+      "sha256": "b2b5dd46cf998fa626eb6f8a1c114f6167c8d392694164e62533e5898e9b31f2",
+      "size_bytes": 10166,
+      "source_id": "S232"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S233.jar",
+      "sha256": "cc6a41dc3eaacc9e440a6bd0d2890b20d36b4ee408fe2d67122f328bb6e01581",
+      "size_bytes": 185140,
+      "source_id": "S233"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S234.jar.sha1",
+      "sha256": "98b455cf1a4fac14c7635555694d3c9874fe5f37cf54a5cea576ee14b3f28bf6",
+      "size_bytes": 63,
+      "source_id": "S234"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S235.pom",
+      "sha256": "686e75b561a13c1031d43a7647a364e2ed3e456467050eac4527b94b06d73fd1",
+      "size_bytes": 22183,
+      "source_id": "S235"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S236.jar",
+      "sha256": "734c8356420cc8e30c795d64fd1fcd5d44ea9d90342a2cc3262c5158fbc6d98b",
+      "size_bytes": 434678,
+      "source_id": "S236"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S237.jar.sha1",
+      "sha256": "4ec07a1a14cb1cd0124adfc5e21e3330d892b6ca463b0cfd7eb76d1f8737260c",
+      "size_bytes": 40,
+      "source_id": "S237"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S238.pom",
+      "sha256": "6a143d9240b48552629d92849057820605ff71510d776f096b638a3a2396770f",
+      "size_bytes": 8671,
+      "source_id": "S238"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S239.jar",
+      "sha256": "2119221bfc18bc8b13f807a1eaa9bc12324efd0c6fb2a993a0a2445d4b47c263",
+      "size_bytes": 219001,
+      "source_id": "S239"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S240.jar.sha1",
+      "sha256": "e5a7ad93d9d66b2d6c5f18911e12f24878120f434b091735d33a917439f75f33",
+      "size_bytes": 40,
+      "source_id": "S240"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S253.html",
+      "sha256": "520cd66e7ff25cb52fe05f27dc8b0a1c7d8697bc801ccc6940d5270719cf093d",
+      "size_bytes": 53423,
+      "source_id": "S253"
+    },
+    {
+      "path": "source_discovery/retrieved_sources/S254.html",
+      "sha256": "5b7b116f1c8c924d6afd4f9a1064a38cee7d93a840cf2aa8b9907a3f11327da8",
+      "size_bytes": 53493,
+      "source_id": "S254"
+    }
+  ],
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.5-retrieved-source-manifest/v1",
+  "source_graph_sha256": "82af3843d8d5980c2f50458b4a964d3c9d6b9d5b528097da7e21ca3d1c2d49b2"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "kalama.patch-assist-prototype/agent-proposal/v1",
+  "experiment_id": "EXP-DEMO-001",
+  "run_id": "RUN-DEMO",
+  "action_id": "patch-001",
+  "proposal_revision": 1,
+  "candidate_binding": {"run_id": "RUN-DEMO", "action_id": "patch-001", "pack_sha256": "demo-pack-sha256-00000000000000000000000000000000000000000000000001"},
+  "fields": {
+    "fix_type": {"value": "B", "status": "PROPOSED", "evidence_refs": ["S001"], "confidence": "HIGH", "reason_summary": "Advisory confirms a fixed release exists; prebuilt artifact replacement fits fix type B."},
+    "strategy": {"value": "ARTIFACT_REPLACEMENT", "status": "PROPOSED", "evidence_refs": ["S001"], "confidence": "MEDIUM", "reason_summary": "Advisory + registry artifact support replacing the vulnerable JAR with the fixed release."},
+    "target_version": {"value": "1.4.7", "status": "PROPOSED", "evidence_refs": ["S001"], "confidence": "HIGH", "reason_summary": "Scanner fixed version corroborated by advisory record S001."},
+    "artifact_source": {"value": "https://repo.demo.invalid/maven2/org/example/example-package/1.4.7/example-package-1.4.7.jar", "status": "PROPOSED", "evidence_refs": ["R001", "R002"], "confidence": "HIGH", "reason_summary": "Deterministic registry artifact path retrieved with checksum match."},
+    "source_identifier": {"value": "R002", "status": "PROPOSED", "evidence_refs": ["R001", "R002"], "confidence": "HIGH", "reason_summary": "Artifact authority R002 parented to POM record R001."},
+    "build_system": {"value": null, "status": "NOT_APPLICABLE", "evidence_refs": [], "confidence": "LOW", "reason_summary": "No source build involved; fix type B uses prebuilt artifact."},
+    "command": {"value": null, "status": "ABSTAINED", "evidence_refs": [], "confidence": "LOW", "reason_summary": "Pack gate command=INSUFFICIENT (L4/L5 missing); no command drafted."},
+    "validation_command": {"value": null, "status": "ABSTAINED", "evidence_refs": [], "confidence": "LOW", "reason_summary": "Pack gate validation_command=INSUFFICIENT (L5 missing); no validation drafted."},
+    "notes": {"value": "Release notes and runtime deploy procedure unavailable; command deferred pending L4/L5.", "status": "PROPOSED", "evidence_refs": ["S001"], "confidence": "MEDIUM", "reason_summary": "Display-only summary of the abstention; creates no new authority."}
+  },
+  "abstentions": [
+    {"field": "command", "reason_code": "COMMAND_GATE_INSUFFICIENT", "detail": "evidence_sufficiency.command=INSUFFICIENT; missing L4 compatibility and L5 procedure."},
+    {"field": "validation_command", "reason_code": "COMMAND_GATE_INSUFFICIENT", "detail": "evidence_sufficiency.validation_command=INSUFFICIENT; missing L5 procedure."}
+  ],
+  "assumptions": ["Target runtime layout matches the frozen runtime evidence paths."],
+  "warnings": ["Do not execute: this is a research proposal example, not an authorized patch."],
+  "proposal_sha256": "demo-proposal-sha256-000000000000000000000000000000000000000000000001",
+  "created_at": "2099-01-03T00:00:00Z"
+}

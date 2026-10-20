@@ -1,0 +1,1318 @@
+schema: kalama.attack-form/v1
+run_id: qS8x5
+phase: before
+revision: 3
+base_resolver_sha256: a052520814e5b789333b5b4df847a6aef9634e3780b858bfea2a287e4bb8f196
+base_config_sha256: 328045839f7dbb6e56e0a890af5925e1d1f50bad1d1fb81cb196f21ea4efb381
+cves:
+  CVE-2022-22965:
+    rank: 2
+    input_reasons:
+    - ENVIRONMENT_RPORT_REQUIRED
+    - EXECUTION_PROTOCOL_REQUIRED
+    - MODULE_OPTION_REQUIRED
+    - TARGETURI_REQUIRED
+    - TARGET_REQUIRED
+    module:
+      default: null
+      suggested: exploit/multi/http/spring_framework_rce_spring4shell
+      confirmed: exploit/multi/http/spring_framework_rce_spring4shell
+      source: SINGLE_CANDIDATE
+      confirmation_status: AUTO_CONFIRMED
+      required: true
+      candidates:
+      - rank_position: 1
+        score: 3
+        module_path: exploit/multi/http/spring_framework_rce_spring4shell
+        evidence:
+        - reason: metasploit_rank
+          weight: 0
+          matched: true
+          detail: manual
+        - reason: check_supported
+          weight: 2
+          matched: true
+          detail: module advertises check() support
+        - reason: rport_target_match
+          weight: 0
+          matched: false
+          detail: module default 8080; target ports 21,22,80,445,631,3000,3306,3500,6697,8181,33017
+        - reason: live_introspection
+          weight: 1
+          matched: true
+          detail: live module metadata available
+        module_source: stock
+    decision:
+      confirmed: skip
+      reason: Spring4Shell mapping is not applicable; installed Spring is 2.5.6, Jetty
+        8, no Spring MVC/Tomcat condition.
+    target:
+      required: true
+      index:
+        default: 0
+        suggested: 0
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+      name:
+        default: Java
+        suggested: Java
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+    targeturi:
+      default: /app/example/HelloWorld.action
+      suggested: /app/example/HelloWorld.action
+      confirmed: null
+      source: MODULE_DEFAULT
+      confirmation_status: SUGGESTED
+      required: true
+    module_options:
+      AllowNoCleanup:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      AutoCheck:
+        default: true
+        suggested: true
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      CertificateTrace:
+        default: 'off'
+        suggested: 'off'
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      CertificateTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      ContextInformationFile:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      DigestAuthIIS:
+        default: true
+        suggested: true
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      DisablePayloadHandler:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      DOMAIN:
+        default: WORKSTATION
+        suggested: WORKSTATION
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+      DomainControllerRhost:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: address
+      EnableContextEncoding:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      EXE::Custom:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      EXE::EICAR:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      EXE::FallBack:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      EXE::Inject:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      EXE::Path:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      EXE::Template:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      FileDropperDelay:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: integer
+      FingerprintCheck:
+        default: true
+        suggested: true
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      ForceExploit:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::Auth:
+        default: auto
+        suggested: auto
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      HTTP::header_folding:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::Krb5Ccname:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: kerberos_credential_cache
+      HTTP::KrbOfferedEncryptionTypes:
+        default: AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+        suggested: AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+      HTTP::method_random_case:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::method_random_invalid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::method_random_valid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_fake_headers:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_fake_headers_count:
+        default: 0
+        suggested: 0
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_get_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_get_params_count:
+        default: 16
+        suggested: 16
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_method_uri_count:
+        default: 1
+        suggested: 1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_method_uri_type:
+        default: space
+        suggested: space
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::pad_post_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_post_params_count:
+        default: 16
+        suggested: 16
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_uri_version_count:
+        default: 1
+        suggested: 1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_uri_version_type:
+        default: space
+        suggested: space
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::Rhostname:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      HTTP::shuffle_get_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::shuffle_post_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_dir_fake_relative:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_dir_self_reference:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_encode_mode:
+        default: hex-normal
+        suggested: hex-normal
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::uri_fake_end:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_fake_params_start:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_full_url:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_use_backslashes:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::version_random_invalid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::version_random_valid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP_METHOD:
+        default: Automatic
+        suggested: Automatic
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HttpClientTimeout:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: float
+      HttpPassword:
+        default: ''
+        suggested: ''
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      HttpRawHeaders:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      HttpTrace:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      HttpTraceHeadersOnly:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpUsername:
+        default: ''
+        suggested: ''
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      KerberosTicketTrace:
+        default: 'off'
+        suggested: 'off'
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      KerberosTicketTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      KrbCacheMode:
+        default: read-write
+        suggested: read-write
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      KrbClockSkew:
+        default: 0s
+        suggested: 0s
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: timedelta
+      MSI::Custom:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      MSI::EICAR:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      MSI::Path:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      MSI::Template:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      MSI::UAC:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      PAYLOAD_PATH:
+        default: webapps/ROOT
+        suggested: webapps/ROOT
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+      Proxies:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: proxies
+      SSL:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      SSLKeyLogFile:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      SSLServerNameIndication:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      SSLVersion:
+        default: Auto
+        suggested: Auto
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      UserAgent:
+        default: Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/605.1.15
+          (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15
+        suggested: Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/605.1.15
+          (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      VERBOSE:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      VHOST:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      WfsDelay:
+        default: 2
+        suggested: 2
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      WORKSPACE:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      WritableDir:
+        default: /tmp
+        suggested: /tmp
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+    payload:
+      default: null
+      suggested: null
+      confirmed: null
+      source: UNSET
+      confirmation_status: UNRESOLVED
+      required: false
+      compatible:
+      - generic/custom
+      - generic/shell_bind_aws_ssm
+      - generic/shell_bind_tcp
+      - generic/shell_reverse_tcp
+      - generic/ssh/interact
+      - java/jsp_shell_bind_tcp
+      - java/jsp_shell_reverse_tcp
+      compatibility_evidence:
+      - live_msfconsole
+      discovery_status: FOUND
+    payload_options: {}
+    preconditions:
+      description: null
+      commands: []
+      execution_target: null
+      required: false
+      confirmation_status: UNRESOLVED
+    pre_attack:
+      command: null
+      execution_target: null
+      confirmation_status: UNRESOLVED
+      required: false
+    execution_protocol:
+      check_supported: true
+      run_check: true
+      run_exploit: false
+      session_confirmation_expected: false
+      confirmation_status: SUGGESTED
+      mode: check-only
+      confirmed: null
+    environment:
+      rhosts:
+        default: null
+        suggested: 172.18.0.13
+        confirmed: 172.18.0.13
+        source: TARGET_FACT
+        confirmation_status: AUTO_CONFIRMED
+        required: true
+      rport:
+        default: null
+        suggested: 8080
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+      lhost:
+        default: null
+        suggested: 172.18.0.3
+        confirmed: null
+        source: TARGET_FACT
+        confirmation_status: SUGGESTED
+        required: false
+      binding_source: module_default
+  CVE-2014-0050:
+    rank: 27
+    input_reasons:
+    - ENVIRONMENT_RPORT_REQUIRED
+    - EXECUTION_PROTOCOL_REQUIRED
+    - MODULE_OPTION_REQUIRED
+    - TARGETURI_REQUIRED
+    module:
+      default: null
+      suggested: auxiliary/dos/http/apache_commons_fileupload_dos
+      confirmed: auxiliary/dos/http/apache_commons_fileupload_dos
+      source: SINGLE_CANDIDATE
+      confirmation_status: AUTO_CONFIRMED
+      required: true
+      candidates:
+      - rank_position: 1
+        score: 4
+        module_path: auxiliary/dos/http/apache_commons_fileupload_dos
+        evidence:
+        - reason: metasploit_rank
+          weight: 3
+          matched: true
+          detail: normal
+        - reason: check_supported
+          weight: 0
+          matched: false
+          detail: check() support not advertised
+        - reason: rport_target_match
+          weight: 0
+          matched: false
+          detail: module default 8080; target ports 21,22,80,445,631,3000,3306,3500,6697,8181,33017
+        - reason: live_introspection
+          weight: 1
+          matched: true
+          detail: live module metadata available
+        module_source: stock
+    decision:
+      confirmed: skip
+      reason: Available module is DoS-only and requires separate explicit opt-in;
+        not part of current RCE validation batch.
+    target:
+      required: false
+      index:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+      name:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+    targeturi:
+      default: /
+      suggested: /
+      confirmed: null
+      source: MODULE_DEFAULT
+      confirmation_status: SUGGESTED
+      required: true
+    module_options:
+      CertificateTrace:
+        default: 'off'
+        suggested: 'off'
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      CertificateTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      DigestAuthIIS:
+        default: true
+        suggested: true
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      DOMAIN:
+        default: WORKSTATION
+        suggested: WORKSTATION
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+      DomainControllerRhost:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: address
+      FingerprintCheck:
+        default: true
+        suggested: true
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::Auth:
+        default: auto
+        suggested: auto
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      HTTP::header_folding:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::Krb5Ccname:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: kerberos_credential_cache
+      HTTP::KrbOfferedEncryptionTypes:
+        default: AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+        suggested: AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+      HTTP::method_random_case:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::method_random_invalid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::method_random_valid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_fake_headers:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_fake_headers_count:
+        default: 0
+        suggested: 0
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_get_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_get_params_count:
+        default: 16
+        suggested: 16
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_method_uri_count:
+        default: 1
+        suggested: 1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_method_uri_type:
+        default: space
+        suggested: space
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::pad_post_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_post_params_count:
+        default: 16
+        suggested: 16
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_uri_version_count:
+        default: 1
+        suggested: 1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_uri_version_type:
+        default: space
+        suggested: space
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::Rhostname:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      HTTP::shuffle_get_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::shuffle_post_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_dir_fake_relative:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_dir_self_reference:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_encode_mode:
+        default: hex-normal
+        suggested: hex-normal
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::uri_fake_end:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_fake_params_start:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_full_url:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_use_backslashes:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::version_random_invalid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::version_random_valid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpClientTimeout:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: float
+      HttpPassword:
+        default: ''
+        suggested: ''
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      HttpRawHeaders:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      HttpTrace:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      HttpTraceHeadersOnly:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpUsername:
+        default: ''
+        suggested: ''
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      KerberosTicketTrace:
+        default: 'off'
+        suggested: 'off'
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      KerberosTicketTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      KrbCacheMode:
+        default: read-write
+        suggested: read-write
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      KrbClockSkew:
+        default: 0s
+        suggested: 0s
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: timedelta
+      Proxies:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: proxies
+      RLIMIT:
+        default: 50
+        suggested: 50
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: integer
+      SSL:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      SSLKeyLogFile:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      SSLServerNameIndication:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      SSLVersion:
+        default: Auto
+        suggested: Auto
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      UserAgent:
+        default: Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/605.1.15
+          (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15
+        suggested: Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/605.1.15
+          (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      VERBOSE:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      VHOST:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      WORKSPACE:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+    payload:
+      default: null
+      suggested: null
+      confirmed: null
+      source: UNSET
+      confirmation_status: UNRESOLVED
+      required: true
+      compatible: []
+      compatibility_evidence: []
+      discovery_status: ERROR
+    payload_options: {}
+    preconditions:
+      description: null
+      commands: []
+      execution_target: null
+      required: false
+      confirmation_status: UNRESOLVED
+    pre_attack:
+      command: null
+      execution_target: null
+      confirmation_status: UNRESOLVED
+      required: false
+    execution_protocol:
+      check_supported: false
+      run_check: false
+      run_exploit: true
+      session_confirmation_expected: false
+      confirmation_status: SUGGESTED
+      mode: exploit-only
+      confirmed: null
+    environment:
+      rhosts:
+        default: null
+        suggested: 172.18.0.13
+        confirmed: 172.18.0.13
+        source: TARGET_FACT
+        confirmation_status: AUTO_CONFIRMED
+        required: true
+      rport:
+        default: null
+        suggested: 8080
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+      lhost:
+        default: null
+        suggested: 172.18.0.3
+        confirmed: null
+        source: TARGET_FACT
+        confirmation_status: SUGGESTED
+        required: false
+      binding_source: module_default

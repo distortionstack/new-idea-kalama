@@ -1,0 +1,14 @@
+﻿[
+    {
+        "file":  "seed/frozen_seed.json",
+        "sha256":  "abe066fb808ab7c3c2d69a21ce7354f1508be43fb3c4532e3a99dd0611e9e2ac"
+    },
+    {
+        "file":  "seed/trivy_before_scan.json",
+        "sha256":  "e0ebf0d0f23d9973719474fd750a32ce3b89243c03d0476954937afdf7e8a5e7"
+    },
+    {
+        "file":  "seed/image_config.json",
+        "sha256":  "e9af0ebf5cb097de9ffbb5ee55d3fd78088bf49d4d9e0f9429e9b066c3bb00fe"
+    }
+]

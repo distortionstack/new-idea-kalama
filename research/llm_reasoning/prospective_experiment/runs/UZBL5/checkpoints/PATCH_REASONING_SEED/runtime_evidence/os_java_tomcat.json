@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-09-16T16:02:40.468884Z",
+  "command": [
+    "docker",
+    "exec",
+    "victim-UZBL5",
+    "sh",
+    "-lc",
+    "uname -a; cat /etc/os-release; java -version; /usr/local/tomcat/bin/version.sh"
+  ],
+  "exit_code": 0,
+  "purpose": "operating system, Java, and Tomcat runtime versions",
+  "run_id": "UZBL5",
+  "schema": "kalama.local-command-evidence/v1",
+  "stderr": "mesg: ttyname failed: Inappropriate ioctl for device\nopenjdk version \"1.8.0_141\"\nOpenJDK Runtime Environment (build 1.8.0_141-8u141-b15-1~deb9u1-b15)\nOpenJDK 64-Bit Server VM (build 25.141-b15, mixed mode)\n",
+  "stdout": "Linux 5bc24c690593 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 GNU/Linux\nPRETTY_NAME=\"Debian GNU/Linux 9 (stretch)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"9\"\nVERSION=\"9 (stretch)\"\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\nServer version: Apache Tomcat/8.5.20\nServer built:   Aug 2 2017 21:35:49 UTC\nServer number:  8.5.20.0\nOS Name:        Linux\nOS Version:     6.18.33.2-microsoft-standard-WSL2\nArchitecture:   amd64\nJVM Version:    1.8.0_141-8u141-b15-1~deb9u1-b15\nJVM Vendor:     Oracle Corporation\n"
+}

@@ -1,0 +1,14 @@
+{
+  "benchmark_version": "task-7.5.3/v1",
+  "timestamp": "2026-09-16",
+  "historical_run_id": "lkW2d",
+  "repository_commit": "NOT_CAPTURED",
+  "dirty_state_note": "Worktree was already dirty before this research-only benchmark; only this directory was added.",
+  "considered_cases": 5,
+  "admitted_cases": [],
+  "rejected_case_manifest": "cases/lkW2d_r2_runtime_revision/manifest.json",
+  "model_config": {"model": "qwen3:8b", "think": false, "temperature": 0, "num_predict": 256, "calls": 0},
+  "leakage_audit": {"status": "PASS", "model_visible_evidence_files": 0, "post_revision_material_excluded": true, "ground_truth_read_by_runner": false},
+  "result": "INSUFFICIENT_VALID_CASES",
+  "limitation": "No dated pre-r2 runtime error artifact survives. Retrospective notes cannot be model-visible evidence."
+}

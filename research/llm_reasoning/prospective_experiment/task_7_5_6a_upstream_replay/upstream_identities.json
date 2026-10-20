@@ -1,0 +1,168 @@
+{
+  "created_at": "2026-09-16T23:50:03.973267Z",
+  "identities": [
+    {
+      "candidates": [
+        {
+          "confidence": "LOW",
+          "kind": "SOURCE_REPO",
+          "source": "R005",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "http://github.com/x-stream/xstream"
+        },
+        {
+          "confidence": "LOW",
+          "kind": "ISSUE_TRACKER",
+          "source": "R005",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "https://github.com/x-stream/xstream/issues/"
+        },
+        {
+          "confidence": "LOW",
+          "kind": "HOMEPAGE",
+          "source": "R005",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "http://x-stream.github.io"
+        }
+      ],
+      "package_identity": {
+        "ecosystem": "maven",
+        "name": "com.thoughtworks.xstream:xstream",
+        "normalized_name": "com.thoughtworks.xstream:xstream",
+        "purl": "pkg:maven/com.thoughtworks.xstream/xstream@1.4.10",
+        "version": "1.4.10"
+      },
+      "roots": [
+        {
+          "allowed_operations": [
+            "metadata",
+            "pom",
+            "artifact",
+            "checksum"
+          ],
+          "authority_class": "DERIVED_PACKAGE_AUTHORITY",
+          "confidence": "HIGH",
+          "content_hash": null,
+          "derivation": "DEPENDENCY_COORDINATE_DERIVED_MAVEN_PATH",
+          "final_url": null,
+          "http_status": null,
+          "kind": "native_registry",
+          "parent_evidence": "baseline_source_graph:S241,S242,S243; parent_poms:S104",
+          "redirect_chain": [],
+          "retrieved_at": null,
+          "root_id": "RROOT-001",
+          "url": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/"
+        }
+      ],
+      "schema": "kalama.upstream-identity.replay/v1",
+      "warnings": []
+    },
+    {
+      "candidates": [
+        {
+          "confidence": "LOW",
+          "kind": "SOURCE_REPO",
+          "source": "R010",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "git@github.com:jkuhnert/ognl.git"
+        },
+        {
+          "confidence": "LOW",
+          "kind": "ISSUE_TRACKER",
+          "source": "R010",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "http://jira.opensymphony.com/browse/OGNL"
+        },
+        {
+          "confidence": "LOW",
+          "kind": "HOMEPAGE",
+          "source": "R010",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "http://ognl.org"
+        }
+      ],
+      "package_identity": {
+        "ecosystem": "maven",
+        "name": "ognl:ognl",
+        "normalized_name": "ognl:ognl",
+        "purl": "pkg:maven/ognl/ognl@3.0.21",
+        "version": "3.0.21"
+      },
+      "roots": [
+        {
+          "allowed_operations": [
+            "metadata",
+            "pom",
+            "artifact",
+            "checksum"
+          ],
+          "authority_class": "DERIVED_PACKAGE_AUTHORITY",
+          "confidence": "HIGH",
+          "content_hash": null,
+          "derivation": "DEPENDENCY_COORDINATE_DERIVED_MAVEN_PATH",
+          "final_url": null,
+          "http_status": null,
+          "kind": "native_registry",
+          "parent_evidence": "baseline_source_graph:S208,S209,S210; parent_poms:S104",
+          "redirect_chain": [],
+          "retrieved_at": null,
+          "root_id": "RROOT-006",
+          "url": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/"
+        }
+      ],
+      "schema": "kalama.upstream-identity.replay/v1",
+      "warnings": []
+    },
+    {
+      "candidates": [
+        {
+          "confidence": "LOW",
+          "kind": "SOURCE_REPO",
+          "source": "R015",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "git@github.com:freemarker/freemarker.git"
+        },
+        {
+          "confidence": "LOW",
+          "kind": "HOMEPAGE",
+          "source": "R015",
+          "status": "CANDIDATE_ONLY_NOT_PROMOTED",
+          "url": "http://freemarker.org/"
+        }
+      ],
+      "package_identity": {
+        "ecosystem": "maven",
+        "name": "org.freemarker:freemarker",
+        "normalized_name": "org.freemarker:freemarker",
+        "purl": "pkg:maven/org.freemarker/freemarker@2.3.23",
+        "version": "2.3.23"
+      },
+      "roots": [
+        {
+          "allowed_operations": [
+            "metadata",
+            "pom",
+            "artifact",
+            "checksum"
+          ],
+          "authority_class": "DERIVED_PACKAGE_AUTHORITY",
+          "confidence": "HIGH",
+          "content_hash": null,
+          "derivation": "DEPENDENCY_COORDINATE_DERIVED_MAVEN_PATH",
+          "final_url": null,
+          "http_status": null,
+          "kind": "native_registry",
+          "parent_evidence": "baseline_source_graph:S226,S227,S228; parent_poms:S108",
+          "redirect_chain": [],
+          "retrieved_at": null,
+          "root_id": "RROOT-011",
+          "url": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/"
+        }
+      ],
+      "schema": "kalama.upstream-identity.replay/v1",
+      "warnings": []
+    }
+  ],
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.6a-upstream-identities/v1"
+}

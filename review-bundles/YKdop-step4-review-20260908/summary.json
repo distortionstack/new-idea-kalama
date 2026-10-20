@@ -1,0 +1,236 @@
+{
+  "artifacts": {
+    "ATTACK_FORM": {
+      "created_at": "2026-09-08T03:56:11Z",
+      "kind": "ATTACK_FORM",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixed\\resolver\\forms\\attack_form_YKdop_r1.yaml",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.attack-form/v1",
+      "sha256": "4f73360d931f5164e01b2ae085c0969d37619ebe053249a1eab2ea809a113483",
+      "summary": {
+        "base_config_sha256": null,
+        "base_resolver_sha256": "eac304ffe4b81adfabea4a64ae2cab390fd8afac797ecbd2ef2c873744caa5d3",
+        "cve_count": 1,
+        "revision": 1
+      }
+    },
+    "RESOLVER_BEFORE": {
+      "created_at": "2026-09-08T03:56:11Z",
+      "kind": "RESOLVER_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixed\\resolver\\resolver_2026-09-07_YKdop.json",
+      "producer_stage": "STEP_4_RESOLVER",
+      "schema": "kalama.resolver/v1",
+      "sha256": "eac304ffe4b81adfabea4a64ae2cab390fd8afac797ecbd2ef2c873744caa5d3",
+      "summary": {
+        "environment_error": 29,
+        "no_msf_module": 0,
+        "ready_to_execute": 0,
+        "selected_count": 30,
+        "unresolved_config": 0,
+        "waiting_for_user_input": 1
+      }
+    },
+    "TOP30_BEFORE": {
+      "created_at": "2026-09-07T13:49:01Z",
+      "kind": "TOP30_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixed\\scoring\\before\\top30_2026-09-07_YKdop.json",
+      "producer_stage": "STEP_3_PRIORITIZATION",
+      "schema": "kalama.prioritization/v1",
+      "sha256": "17939540a12951211d27aa3425993c18abe095d9d8f0acc31fc87c2c536067b0",
+      "summary": {
+        "score_model": "kalama-priority-v1",
+        "top_n_requested": 30,
+        "top_n_returned": 30
+      }
+    },
+    "TRIVY_BEFORE": {
+      "created_at": "2026-09-07T13:49:00.593722346Z",
+      "kind": "TRIVY_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixed\\trivy\\before\\scan_2026-09-07_YKdop.json",
+      "producer_stage": "STEP_2_TARGET_SCAN",
+      "schema": 2,
+      "sha256": "0f3e2dc1e9309a0c0b707fff00b194f583cad86ef273f461ff182d066c103a1f",
+      "summary": {
+        "scan_subject": "vulhub/elasticsearch@sha256:df18e56d6ca11e2f1f81a66f1c4e1b3ff50fe9ede7fcc461be652f06ec7486fa",
+        "scanner": "trivy"
+      }
+    }
+  },
+  "cve_2015_1427": {
+    "compatible_payloads": [
+      "cmd/unix/bind_aws_instance_connect",
+      "generic/custom",
+      "generic/shell_bind_aws_ssm",
+      "generic/shell_bind_tcp",
+      "generic/shell_reverse_tcp",
+      "generic/ssh/interact",
+      "java/jsp_shell_bind_tcp",
+      "java/jsp_shell_reverse_tcp",
+      "java/meterpreter/bind_tcp",
+      "java/meterpreter/reverse_http",
+      "java/meterpreter/reverse_https",
+      "java/meterpreter/reverse_tcp",
+      "java/meterpreter_bind_tcp",
+      "java/meterpreter_reverse_http",
+      "java/meterpreter_reverse_https",
+      "java/meterpreter_reverse_tcp",
+      "java/shell/bind_tcp",
+      "java/shell/reverse_tcp",
+      "java/shell_reverse_tcp",
+      "multi/meterpreter/reverse_http",
+      "multi/meterpreter/reverse_https"
+    ],
+    "execution_protocol": {
+      "check_supported": true,
+      "confirmation_status": "SUGGESTED",
+      "run_check": true,
+      "run_exploit": false,
+      "session_confirmation_expected": false
+    },
+    "form_input_reasons": [
+      "ENVIRONMENT_RPORT_REQUIRED",
+      "EXECUTION_PROTOCOL_REQUIRED",
+      "MODULE_OPTION_REQUIRED",
+      "TARGETURI_REQUIRED",
+      "TARGET_REQUIRED"
+    ],
+    "lhost_suggested": "172.18.0.3",
+    "module": "exploit/multi/elasticsearch/search_groovy_script",
+    "module_confirmation": "AUTO_CONFIRMED",
+    "payload_options": [],
+    "payload_required": false,
+    "payload_suggested": null,
+    "rank": 1,
+    "rhosts": "172.18.0.5",
+    "rport_confirmed": null,
+    "rport_suggested": 9200,
+    "status": "WAITING_FOR_USER_INPUT",
+    "target_index_suggested": 0,
+    "target_ip": "172.18.0.5",
+    "target_name_suggested": "ElasticSearch 1.4.2",
+    "targeturi_suggested": "/",
+    "validation": {
+      "issues": [
+        {
+          "field": "invariant.target_selection",
+          "message": "Metasploit TARGET has not been confirmed",
+          "reason": "TARGET_REQUIRED"
+        },
+        {
+          "field": "invariant.targeturi",
+          "message": "TARGETURI requires confirmation",
+          "reason": "TARGETURI_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.KrbCacheMode",
+          "message": "required module option KrbCacheMode is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.HTTP::Auth",
+          "message": "required module option HTTP::Auth is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.KrbClockSkew",
+          "message": "required module option KrbClockSkew is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.HTTP::KrbOfferedEncryptionTypes",
+          "message": "required module option HTTP::KrbOfferedEncryptionTypes is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.SSLVersion",
+          "message": "required module option SSLVersion is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "invariant.module_options.DOMAIN",
+          "message": "required module option DOMAIN is unresolved",
+          "reason": "MODULE_OPTION_REQUIRED"
+        },
+        {
+          "field": "environment.rport",
+          "message": "required RPORT environment binding is unresolved",
+          "reason": "ENVIRONMENT_RPORT_REQUIRED"
+        },
+        {
+          "field": "invariant.execution_protocol",
+          "message": "execution/check protocol has not been confirmed",
+          "reason": "EXECUTION_PROTOCOL_REQUIRED"
+        }
+      ],
+      "readiness": "READY_FOR_CONFIRMATION",
+      "ready": false
+    }
+  },
+  "environment_error_sample": [
+    {
+      "cve_id": "CVE-2020-15999",
+      "errors": [],
+      "rank": 2
+    },
+    {
+      "cve_id": "CVE-2019-17571",
+      "errors": [],
+      "rank": 3
+    },
+    {
+      "cve_id": "CVE-2022-23305",
+      "errors": [],
+      "rank": 4
+    },
+    {
+      "cve_id": "CVE-2022-29155",
+      "errors": [],
+      "rank": 5
+    },
+    {
+      "cve_id": "CVE-2019-8457",
+      "errors": [],
+      "rank": 6
+    },
+    {
+      "cve_id": "CVE-2015-3253",
+      "errors": [],
+      "rank": 7
+    },
+    {
+      "cve_id": "CVE-2022-25236",
+      "errors": [],
+      "rank": 8
+    },
+    {
+      "cve_id": "CVE-2022-23302",
+      "errors": [],
+      "rank": 9
+    },
+    {
+      "cve_id": "CVE-2022-23307",
+      "errors": [],
+      "rank": 10
+    },
+    {
+      "cve_id": "CVE-2019-5482",
+      "errors": [],
+      "rank": 11
+    }
+  ],
+  "resolver_summary": {
+    "environment_error": 29,
+    "no_msf_module": 0,
+    "ready_to_execute": 0,
+    "selected_count": 30,
+    "unresolved_config": 0,
+    "waiting_for_user_input": 1
+  },
+  "state": {
+    "current_stage": "STEP_4_RESOLVER",
+    "status": "WAITING_FOR_USER_INPUT",
+    "step4_resolver_status": "WAITING",
+    "updated_at": "2026-09-08T03:56:11Z",
+    "waiting_reason": "ATTACK_FORM"
+  }
+}

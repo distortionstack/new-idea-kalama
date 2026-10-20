@@ -1,0 +1,8 @@
+{
+  "schema": "kalama.task-7.5.4f-shell-syntax-check/v1",
+  "run_id": "HdiiR",
+  "mode": "syntax_only",
+  "result": "NOT_RUN",
+  "reason": "CHECKER_ENVIRONMENT_UNAVAILABLE",
+  "detail": "Windows bash.exe delegated to WSL, where /bin/bash was absent. No proposed command was parsed or executed, so this is not a command syntax failure."
+}

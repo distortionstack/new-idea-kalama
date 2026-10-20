@@ -1,0 +1,81 @@
+{
+  "schema": "kalama.patch-assist-prototype/evidence-pack/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "candidate_identity": {
+    "run_id": "B9X4K",
+    "action_id": "patch-001",
+    "cve_id": "CVE-2019-9924",
+    "package_name": "bash",
+    "component": "bash (debian OS package)",
+    "ecosystem": "deb",
+    "installed_version": "4.3-11+deb8u1",
+    "image_identity": "kalama-lab:type-c-shellshock@sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332",
+    "target_identity": "kalama-lab:type-c-shellshock (image-only evidence; no live container executed)",
+    "container_identity": null,
+    "phase": "patch"
+  },
+  "evidence_level": {
+    "satisfied_levels": ["L0", "L1"],
+    "missing_levels": ["L2", "L3", "L4", "L5"]
+  },
+  "evidence_sufficiency": {
+    "version_recommendation": "SUPPORTED",
+    "artifact_provenance": "INSUFFICIENT",
+    "artifact_integrity": "INSUFFICIENT",
+    "dependency_closure": "INSUFFICIENT",
+    "patch_strategy": "PARTIAL",
+    "command": "INSUFFICIENT",
+    "validation_command": "INSUFFICIENT"
+  },
+  "scanner_evidence": {
+    "cve_id": "CVE-2019-9924",
+    "incidental_cves": ["CVE-2016-9401"],
+    "package": "bash",
+    "installed_version": "4.3-11+deb8u1",
+    "fixed_version": "4.3-11+deb8u2",
+    "vendor_ids": ["DLA-1726-1"],
+    "purl": "pkg:deb/debian/bash@4.3-11+deb8u1?arch=amd64&distro=debian-8.10",
+    "severity": "HIGH",
+    "primary_url": "https://avd.aquasec.com/nvd/cve-2019-9924",
+    "data_source": {"id": "debian", "name": "Debian Security Tracker", "url": "https://salsa.debian.org/security-tracker-team/security-tracker"},
+    "seed_file": "seed/frozen_seed.json"
+  },
+  "runtime_evidence": {
+    "image": "kalama-lab:type-c-shellshock@sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332",
+    "os": "debian 8.10 (EOSL)",
+    "cmd": ["apache2ctl", "-DFOREGROUND"],
+    "env_path": "/usr/local/bash-4.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "custom_bash_prefix_note": "Source-built /usr/local/bash-4.3.0 observed in image history; out of scope for patch-001 (not covered by scanner finding).",
+    "seed_file": "seed/frozen_seed.json"
+  },
+  "advisory_evidence": null,
+  "package_registry_evidence": null,
+  "upstream_documentation": null,
+  "runtime_documentation": null,
+  "artifact_evidence": null,
+  "dependency_evidence": null,
+  "source_graph_summary": {
+    "source_count": 5,
+    "retrieved_count": 3,
+    "fetch_failed_count": 2,
+    "rejected_count": 0,
+    "valid": true
+  },
+  "source_references": [
+    {"source_id": "SEED-01", "url": null, "source_type": "scanner_record", "authority_class": "SEED", "discovery_method": "FROZEN_SEED", "parent_source_id": null, "parent_evidence": "seed/frozen_seed.json#scanner_finding", "retrieved_at": "2026-09-18T09:15:00Z", "content_sha256": "sha256:abe066fb808ab7c3c2d69a21ce7354f1508be43fb3c4532e3a99dd0611e9e2ac", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["derive-references", "derive-package-identity", "derive-datasource"], "used_for_fields": ["target_version"]},
+    {"source_id": "S001", "url": "https://lists.debian.org/debian-lts-announce/2019/03/msg00028.html", "source_type": "advisory_record", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:30:00Z", "content_sha256": "sha256:d19b9ef1e716a61d30480e8e528a47d9975876c11febe9c4921a04110df10439", "status": "FETCH_FAILED", "confidence": "NEEDS_REVIEW", "allowed_operations": [], "used_for_fields": []},
+    {"source_id": "S002", "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9924", "source_type": "advisory_record", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:30:00Z", "content_sha256": "sha256:952581b5e1f0428eddee689d6c27f7fa9ee32e4c8e259f0db861c7e8b091d944", "status": "FETCH_FAILED", "confidence": "NEEDS_REVIEW", "allowed_operations": [], "used_for_fields": []},
+    {"source_id": "S003", "url": "https://lists.gnu.org/archive/html/bug-bash/2017-03/msg00077.html", "source_type": "upstream_documentation", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:30:00Z", "content_sha256": "sha256:f041f1f3702d0810a674532574c9ef928b6caf317c169d0c7e1db129aae65fc9", "status": "RETRIEVED", "confidence": "LOW", "allowed_operations": [], "used_for_fields": ["notes"]},
+    {"source_id": "S004", "url": "https://git.savannah.gnu.org/cgit/bash.git/tree/CHANGES?h=bash-4.4-testing", "source_type": "upstream_documentation", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:40:00Z", "content_sha256": "sha256:baf247c499cdc78a4beb2c1236bfa4ba9f633c08dbc306f51a97221bd20f8585", "status": "RETRIEVED", "confidence": "MEDIUM", "allowed_operations": [], "used_for_fields": ["target_version", "notes"]}
+  ],
+  "missing_evidence": [
+    {"code": "ARTIFACT_SOURCE_UNRESOLVED", "missing": ["fixed .deb location, availability, hashes"], "evidence": ["L3 not satisfied"], "impact": "No artifact provenance; strategy/command blocked."},
+    {"code": "DEPENDENCY_ARTIFACT_UNREACHABLE", "missing": ["bash dependency metadata for the fixed revision"], "evidence": ["L3 not satisfied"], "impact": "No dependency closure."},
+    {"code": "PROCEDURE_UNKNOWN", "missing": ["runtime deployment procedure documentation"], "evidence": ["L5 not satisfied"], "impact": "Command and validation_command must remain null."},
+    {"code": "ADVISORY_TEXT_UNREACHABLE", "missing": ["full DLA-1726-1 announcement text"], "evidence": ["S001"], "impact": "DLA prose unavailable at L1; version recommendation rests on scanner FixedVersion + upstream fix entry."}
+  ],
+  "pack_sha256": "c7d22143166595953bc28f757903945855eff1e040a18cfaa888d1f8f79e25f2",
+  "created_at": "2026-09-18T10:00:00Z"
+}

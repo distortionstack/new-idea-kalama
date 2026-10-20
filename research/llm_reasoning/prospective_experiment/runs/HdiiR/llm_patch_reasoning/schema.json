@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["remediation_scope", "target_version", "strategy", "artifacts", "dependency_changes", "patch_procedure", "validation_procedure", "unknowns"],
+  "properties": {
+    "remediation_scope": {"$ref": "#/$defs/proposal"},
+    "target_version": {"$ref": "#/$defs/proposal"},
+    "strategy": {"$ref": "#/$defs/proposal"},
+    "artifacts": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["component", "current_version", "proposed_version", "source_identifier", "checksum", "evidence_refs", "rationale"], "properties": {"component": {"type": ["string", "null"]}, "current_version": {"type": ["string", "null"]}, "proposed_version": {"type": ["string", "null"]}, "source_identifier": {"type": ["string", "null"]}, "checksum": {"type": ["string", "null"]}, "evidence_refs": {"type": "array", "items": {"type": "string"}}, "rationale": {"type": "string"}}}},
+    "dependency_changes": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["component", "current", "proposed", "evidence_refs", "rationale"], "properties": {"component": {"type": ["string", "null"]}, "current": {"type": ["string", "null"]}, "proposed": {"type": ["string", "null"]}, "evidence_refs": {"type": "array", "items": {"type": "string"}}, "rationale": {"type": "string"}}}},
+    "patch_procedure": {"$ref": "#/$defs/proposal"},
+    "validation_procedure": {"$ref": "#/$defs/proposal"},
+    "unknowns": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["item", "reason", "evidence_refs"], "properties": {"item": {"type": "string"}, "reason": {"type": "string"}, "evidence_refs": {"type": "array", "items": {"type": "string"}}}}}
+  },
+  "$defs": {
+    "proposal": {"type": "object", "additionalProperties": false, "required": ["value", "evidence_refs", "rationale", "basis"], "properties": {"value": {"type": ["string", "array", "object", "null"]}, "evidence_refs": {"type": "array", "items": {"type": "string"}}, "rationale": {"type": "string"}, "basis": {"type": "string", "enum": ["DIRECT", "COMBINED", "ASSUMPTION", "UNKNOWN"]}}}
+  }
+}

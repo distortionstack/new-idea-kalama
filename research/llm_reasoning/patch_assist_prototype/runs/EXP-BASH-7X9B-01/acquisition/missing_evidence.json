@@ -1,0 +1,10 @@
+{
+  "schema": "kalama.patch-assist-prototype/missing-evidence/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "items": [
+    {"code": "ADVISORY_TEXT_UNREACHABLE", "applies_to_arms": ["ARM_A_L1", "ARM_B_L3", "ARM_C_L3_L4_L5"], "missing": ["Full DLA-1726-1 announcement text"], "evidence": ["S001", "S014"], "impact": "Full LTS announcement prose unavailable (proof-of-work walls); DLA facts carried instead by the tracker record S013 and OSV ADVISORY typing."},
+    {"code": "DEBIAN_CHANGELOG_UNREACHABLE", "applies_to_arms": ["ARM_C_L3_L4_L5"], "missing": ["Debian changelog entry for bash 4.3-11+deb8u2"], "evidence": ["S015"], "impact": "No per-revision Debian changelog prose; upstream fix entry (S004) and DLA record (S013) cover the compatibility basis instead."},
+    {"code": "PROCEDURE_UNKNOWN", "applies_to_arms": ["ARM_A_L1", "ARM_B_L3", "ARM_C_L3_L4_L5"], "missing": ["External runtime-vendor deployment procedure documentation retrievable under source policy"], "evidence": ["SEED-03"], "impact": "No vendor procedure docs reachable: runtime evidence contains no URLs, and inventing documentation URLs is forbidden. Frozen runtime deployment facts (apache2ctl foreground CMD, PATH with /usr/local prefix, cgi build steps) are present. Runtime-doc-vs-runtime-evidence determination: (B) frozen runtime deployment evidence only; vendor documentation: (D) neither. Command/validation gates remain INSUFFICIENT in all arms; whether (B) alone could ever suffice is an open analysis question, not a Phase 1 finding."}
+  ],
+  "created_at": "2026-09-18T09:55:00Z"
+}

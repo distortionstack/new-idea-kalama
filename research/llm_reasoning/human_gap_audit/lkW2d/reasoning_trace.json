@@ -1,0 +1,12 @@
+{
+  "run_id": "lkW2d",
+  "evidence_quality": "STRONG",
+  "trace": [
+    {"event": "target inspection", "evidence": "session log records exploded S2-045/S2-052 plus matching WARs, Tomcat 8.5.20, unpackWARs/autoDeploy, Java 8 and baseline endpoints", "classification": "EVIDENCE_EXTRACTION"},
+    {"event": "fixed version choice", "evidence": "scanner fixed versions and session log's locally retained parent-POM closure note support 2.3.34 as common 2.3.x choice", "classification": "CROSS_EVIDENCE_SYNTHESIS"},
+    {"event": "first patch", "evidence": "r1/r1 result are retained; execution succeeded, but later smoke failure caused r2", "classification": "HUMAN_GENERATED_PROCEDURE"},
+    {"event": "runtime-driven revision", "evidence": "session log names sequential TypePermission, isSequence, EmptyVisitor and VERSION_2_3_0 blockers; r2 command directly contains the corresponding dependency versions", "classification": "RUNTIME_DIAGNOSIS"},
+    {"event": "scope protection", "evidence": "r2 validation confirms unchanged WAR SHA-256 and actions explicitly target exploded WEB-INF/lib", "classification": "HUMAN_POLICY_DECISION"}
+  ],
+  "limits": "The error logs and intermediate neZfP/M58zM/GyxMo form artifacts are not preserved under run lkW2d itself. The chronology is strong but the precise causal rationale for each dependency is not direct in lkW2d state."
+}

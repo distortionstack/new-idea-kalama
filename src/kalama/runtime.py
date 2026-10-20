@@ -32,6 +32,9 @@ from .remediation import (
 from .remediation.discovery import AutomaticRemediationProvider, RemediationDiscoveryService
 from .resolution import AttackFormOrchestrator, ResolverOrchestrator, production_step4_processor
 from .guidance import GuidanceService, OllamaConfig, OllamaProvider
+from .config import load_config, load_evidence_config
+from .knowledge import KnowledgeStore
+from .remediation.knowledge import KnowledgeRemediationProvider
 from .state import RunState, RunStatus, StateStore
 from .target import SubprocessCommandRunner, WorkbenchToolRunner, execute_step2
 from .verification import (
@@ -139,6 +142,9 @@ class ProductionRuntime:
                 self.store,
                 production_step4_processor(resolver_backend(), msf_container="msf-resolver-host"),
                 guidance_service=self._guidance_service(),
+                knowledge_store=KnowledgeStore(self.store.output_root),
+                evidence_collector_factory=self._evidence_collector_factory(),
+                evidence_config=load_evidence_config(),
             ).run(run_id),
             "before_exploit": lambda: BeforeExploitOrchestrator(
                 self.store, common[0], common[1], DockerLabCommandExecutor(self.runner, targets),
@@ -170,21 +176,51 @@ class ProductionRuntime:
         provider = AutomaticRemediationProvider(
             service, output_root=self.store.output_root, container_name=container_name,
             source_root=source_root)
-        return PatchPlanningOrchestrator(self.store, provider)
+        return PatchPlanningOrchestrator(self.store, KnowledgeRemediationProvider(
+            provider, KnowledgeStore(self.store.output_root)))
 
     @staticmethod
     def _guidance_service() -> GuidanceService | None:
-        enabled = os.environ.get("KALAMA_GUIDANCE_ENABLED", "").strip().casefold()
-        if enabled not in {"1", "true", "yes", "on"}:
+        config = load_config()
+        if not config.enabled:
             return None
-        config = OllamaConfig(
-            base_url=os.environ.get("KALAMA_OLLAMA_URL", "http://127.0.0.1:11434"),
-            model=os.environ.get("KALAMA_OLLAMA_MODEL", "llama3.2:3b"),
-            timeout=float(os.environ.get("KALAMA_OLLAMA_TIMEOUT", "45")))
+        # A bad optional LLM configuration degrades to the existing review
+        # workflow; it must never make a normal run unusable.
+        if config.error() is not None or config.provider != "ollama":
+            return None
+        provider_config = OllamaConfig(base_url=config.base_url, model=config.model,
+                                       timeout=float(os.environ.get("KALAMA_OLLAMA_TIMEOUT", "45")))
         selected = os.environ.get("KALAMA_GUIDANCE_CVES", "").strip()
         cve_ids = (frozenset(x.strip().upper() for x in selected.split(",") if x.strip())
                    if selected else None)
-        return GuidanceService(OllamaProvider(config), cve_ids=cve_ids)
+        return GuidanceService(OllamaProvider(provider_config), cve_ids=cve_ids)
+
+    def _evidence_collector_factory(self):
+        """Factory building the Task 2/3 EvidenceCollector post-analysis.
+
+        The orchestrator supplies target facts, occurrences and selected MSF
+        candidates once analysis exists; this factory only binds the shared
+        production inputs (knowledge store, output root, source switches).
+        """
+        from .resolution.llm_fields import build_production_collector
+
+        knowledge_store = KnowledgeStore(self.store.output_root)
+        output_root = self.store.output_root
+        evidence_config = load_evidence_config()
+        bound_store = knowledge_store
+
+        def factory(*, knowledge_store=None, target_facts=None,
+                    occurrences=(), candidates_by_cve=None, **_ignored):
+            return build_production_collector(
+                knowledge_store=knowledge_store if knowledge_store is not None else bound_store,
+                target_facts=target_facts,
+                occurrences=occurrences,
+                candidates_by_cve=candidates_by_cve,
+                output_root=output_root,
+                evidence_config=evidence_config,
+            )
+
+        return factory
 
 
 def build_runtime(output_root: Path | str = Path("output")) -> ProductionRuntime:

@@ -19,8 +19,8 @@ from ..state.models import (
 )
 from ..state.store import StateStore, StateStoreError, utc_text
 from .artifacts import (
-    ATTACK_FORM_SCHEMA, LLM_GUIDANCE_SCHEMA, RESOLVER_SCHEMA, ArtifactWriteError, attack_form,
-    resolver_artifact, write_attack_form, write_llm_guidance, write_resolver_artifact,
+    ATTACK_FORM_SCHEMA, LLM_GUIDANCE_SCHEMA, KNOWLEDGE_HITS_SCHEMA, RESOLVER_SCHEMA, ArtifactWriteError, attack_form,
+    resolver_artifact, write_attack_form, write_knowledge_hits, write_llm_guidance, write_resolver_artifact,
 )
 from .models import RankedCVEInput, ResolverCVEStatus, Step4Analysis
 from .resolver_stage import analyze_cves, parse_ranked_inputs, target_facts_from_state
@@ -53,9 +53,39 @@ def _sha256(path: Path) -> str:
 class ResolverOrchestrator:
     def __init__(self, store: StateStore, processor: Step4Processor, *,
                  clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
-                 guidance_service=None):
+                 guidance_service=None, knowledge_store=None,
+                 evidence_collector=None, evidence_collector_factory=None,
+                 evidence_config=None):
         self.store, self.processor, self.clock = store, processor, clock
         self.guidance_service = guidance_service
+        self.knowledge_store = knowledge_store
+        self.evidence_collector = evidence_collector
+        self.evidence_collector_factory = evidence_collector_factory
+        self.evidence_config = evidence_config
+
+    def _knowledge(self, inputs, target):
+        if self.knowledge_store is None:
+            return (), {}
+        from ..knowledge import retrieve_compatible
+        hits, projected = [], {}
+        for item in inputs:
+            for occurrence in item.occurrences:
+                component = occurrence.get("package_purl") or occurrence.get("package_name")
+                if not component:
+                    continue
+                context = {"package_purl": occurrence.get("package_purl"), "package_name": occurrence.get("package_name"),
+                           "ecosystem": occurrence.get("result_type"), "installed_version": occurrence.get("installed_version"),
+                           "image_family": target.get("requested_image_reference")}
+                for record in retrieve_compatible(self.knowledge_store, cve_id=item.cve_id, component=str(component), kind="attack_config", context=context):
+                    fields = {k: v for k, v in record.fields.items() if k in {"targeturi", "rport", "payload"}}
+                    if not fields:
+                        continue
+                    hits.append({"cve_id": item.cve_id, "record_id": record.record_id, "component": component,
+                                 "fields": fields, "origin_run_id": record.run_id, "evidence": dict(record.evidence), "compatibility": "MATCH"})
+                    item_projection = projected.setdefault(item.cve_id, {"provider_status": "KNOWLEDGE_HIT", "validation_state": "VALIDATED", "accepted_suggestions": {}})
+                    for key, value in fields.items():
+                        item_projection["accepted_suggestions"].setdefault(key, {"value": value, "evidence_refs": [f"knowledge.record.{record.record_id}"], "reason": "validated compatible knowledge"})
+        return tuple(hits), projected
 
     def _now(self) -> str:
         return utc_text(self.clock())
@@ -149,11 +179,40 @@ class ResolverOrchestrator:
             return self._fail(run_id, "STEP_RESULT_INVALID",
                               "Resolver result does not correspond exactly to ranked Top 30 inputs")
 
+        knowledge_hits, knowledge_guidance = self._knowledge(inputs, state.target.facts)
         guidance_outcomes = ()
         if self.guidance_service is not None:
-            guidance_outcomes = self.guidance_service.guide(
-                run_id, analysis, state.target.facts)
-        guidance_by_cve = {x.cve_id: x.to_dict() for x in guidance_outcomes}
+            # Task 4B field-level path: deterministic facts + compatible
+            # VALIDATED Knowledge -> unresolved eligible fields ->
+            # CandidateContext -> FieldRequest -> EvidenceCollector ->
+            # EvidencePack -> GuidanceService (exact pack consumed).
+            try:
+                from .llm_fields import schedule_field_guidance
+                collector = self.evidence_collector
+                if collector is None and self.evidence_collector_factory is not None:
+                    collector = self.evidence_collector_factory
+                guidance_outcomes = schedule_field_guidance(
+                    run_id, analysis, state.target.facts, knowledge_guidance,
+                    self.guidance_service, collector,
+                    evidence_config=self.evidence_config,
+                    knowledge_store=self.knowledge_store,
+                    output_root=self.store.output_root,
+                )
+            except Exception:
+                # Nonfatal: fall through to the deterministic/Knowledge manual form.
+                guidance_outcomes = ()
+        filtered_outcomes = []
+        for outcome in guidance_outcomes:
+            protected = set(knowledge_guidance.get(outcome.cve_id, {}).get("accepted_suggestions", {}))
+            accepted = {key: value for key, value in outcome.accepted.items() if key not in protected}
+            if len(accepted) != len(outcome.accepted):
+                from dataclasses import replace as dc_replace
+                removed = sorted(set(outcome.accepted) - set(accepted))
+                outcome = dc_replace(outcome, accepted=accepted,
+                    issues=outcome.issues + tuple(f"{key}: compatible validated knowledge takes precedence" for key in removed))
+            filtered_outcomes.append(outcome)
+        guidance_outcomes = tuple(filtered_outcomes)
+        guidance_by_cve = {**knowledge_guidance, **{x.cve_id: x.to_dict() for x in guidance_outcomes}}
 
         date_text = state.created_at[:10]
         resolver_path = (self.store.output_root / "resolver" /
@@ -186,6 +245,14 @@ class ResolverOrchestrator:
                 guidance_path = guidance_sha = None
                 guidance_by_cve = {}
 
+        knowledge_path = knowledge_sha = None
+        if knowledge_hits:
+            knowledge_path = self.store.output_root / "resolver" / "knowledge" / f"knowledge_hits_{date_text}_{run_id}.json"
+            try:
+                knowledge_sha = write_knowledge_hits(knowledge_path, {"schema": KNOWLEDGE_HITS_SCHEMA, "run_id": run_id, "created_at": self._now(), "hits": list(knowledge_hits)})
+            except (ArtifactWriteError, OSError):
+                knowledge_path = knowledge_sha = None
+
         timestamp = self._now()
         state = self.store.load(run_id)
         state = state.with_artifact(ArtifactReference(
@@ -198,6 +265,10 @@ class ResolverOrchestrator:
                 LLM_GUIDANCE_SCHEMA, timestamp, PipelineStage.STEP_4_RESOLVER,
                 (("cve_count", len(guidance_outcomes)),
                  ("accepted_count", sum(bool(x.accepted) for x in guidance_outcomes)))), timestamp)
+        if knowledge_path is not None and knowledge_sha is not None:
+            state = state.with_artifact(ArtifactReference(ArtifactKind.KNOWLEDGE_HITS,
+                str(knowledge_path.resolve()), knowledge_sha, KNOWLEDGE_HITS_SCHEMA, timestamp,
+                PipelineStage.STEP_4_RESOLVER, (("hit_count", len(knowledge_hits)),)), timestamp)
         state = replace(state, cves=tuple(CVEStateSummary(
             x.input.cve_id, x.input.rank, x.status.value) for x in analysis.cves),
             updated_at=timestamp)

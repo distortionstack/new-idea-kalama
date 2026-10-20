@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-09-16T16:02:42.752309Z",
+  "command": [
+    "docker",
+    "exec",
+    "victim-UZBL5",
+    "sh",
+    "-lc",
+    "for t in curl wget unzip zip jar mvn gradle sha256sum; do printf '%s\\t' \"$t\"; command -v \"$t\" || true; done"
+  ],
+  "exit_code": 0,
+  "purpose": "locally available remediation and verification tools",
+  "run_id": "UZBL5",
+  "schema": "kalama.local-command-evidence/v1",
+  "stderr": "mesg: ttyname failed: Inappropriate ioctl for device\n",
+  "stdout": "curl\t/usr/bin/curl\nwget\t/usr/bin/wget\nunzip\t/usr/bin/unzip\nzip\tjar\tmvn\tgradle\tsha256sum\t/usr/bin/sha256sum\n"
+}

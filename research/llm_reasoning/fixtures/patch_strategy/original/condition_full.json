@@ -1,0 +1,1 @@
+{"condition":"O_FULL","evidence_ids":["E_LOCAL_BUILD","E_REMEDIATION_CONTEXT"],"future_expected":"evaluator_only: non-null gold only if fixture were qualified"}

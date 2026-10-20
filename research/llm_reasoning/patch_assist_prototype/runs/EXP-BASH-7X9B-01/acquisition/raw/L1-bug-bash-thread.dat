@@ -1,0 +1,193 @@
+<!-- MHonArc v2.6.19+ -->
+<!--X-Subject: Re: rbash escape security vulnerability -->
+<!--X-From-R13: hc201407890Nnyhabf.qpp.sp.hc.cg -->
+<!--X-Date: Fri, 10 Mar 2017 08:02:20 &#45;0500 -->
+<!--X-Message-Id: 20170310140157.70303tkbqc4fva2o@webmail.alunos.dcc.fc.up.pt -->
+<!--X-Content-Type: text/plain -->
+<!--X-Reference: 58C1A5F0.1080509@fsf.org -->
+<!--X-Head-End-->
+<!doctype html public "-//W3C//DTD HTML//EN">
+<html>
+<head>
+<title>Re: rbash escape security vulnerability</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<center>
+<table border=0 cellspacing=2 cellpadding=0 bgcolor="#000000">
+<tr><td><table border=0 bgcolor="#FFFFCC">
+<tr><td><big><b>bug-bash</b></big></td></tr></table></tr></table>
+<div class="nowrap">
+<small>[<a href="../"
+>Top</a>][<a href="/archive/html">All Lists</a>]</small>
+</div>
+<form method="get" action="/archive/cgi-bin/namazu.cgi">
+<input type="text" name="query" size="30">
+<input type="submit" name="submit" value="Search">
+<input type="hidden" name="idxname" value="bug-bash">
+<a href="/archive/cgi-bin/namazu.cgi?idxname=bug-bash">Advanced</a>
+</form>
+
+</center>
+<!--X-Body-Begin-->
+<!--X-User-Header-->
+<!--X-User-Header-End-->
+<!--X-TopPNI-->
+<hr>
+[<a href="msg00076.html">Date Prev</a>][<a href="msg00078.html">Date Next</a>][<a href="msg00076.html">Thread Prev</a>][<a href="msg00078.html">Thread Next</a>][<a
+href="index.html#00077">Date Index</a>][<a
+href="threads.html#00077">Thread Index</a>]
+
+<!--X-TopPNI-End-->
+<!--X-MsgBody-->
+<!--X-Subject-Header-Begin-->
+<h2>Re: rbash escape security vulnerability</h2>
+<hr>
+<table border=0>
+<tbody>
+<tr>
+<td align="right" valign="top">
+<b>From</b>: </td>
+<td align="left">
+up201407890</td>
+</tr>
+<!--X-Subject-Header-End-->
+<!--X-Head-of-Message-->
+
+<tr>
+<td align="right" valign="top">
+<b>Subject</b>: </td>
+<td align="left">
+Re: rbash escape security vulnerability</td>
+</tr>
+
+<tr>
+<td align="right" valign="top">
+<b>Date</b>: </td>
+<td align="left">
+Fri, 10 Mar 2017 14:01:57 +0100</td>
+</tr>
+
+<tr>
+<td align="right" valign="top">
+<b>User-agent</b>: </td>
+<td align="left">
+Internet Messaging Program (IMP) H3 (4.2)</td>
+</tr>
+
+</tbody>
+</table>
+<!--X-Head-of-Message-End-->
+<!--X-Head-Body-Sep-Begin-->
+<hr>
+<!--X-Head-Body-Sep-End-->
+<!--X-Body-of-Message-->
+<pre style="margin: 0em;">
+Quoting &quot;Ruben Rodriguez&quot; &lt;ruben@fsf.org&gt;:
+
+This has been fixed in bash 4.4.
+
+</pre><blockquote style="border-left: #5555EE solid 0.2em; margin: 0em; padding-left: 0.85em"><pre style="margin: 0em;">
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Reported through rt.gnu.org:
+
+</pre><blockquote style="border-left: #5555EE solid 0.2em; margin: 0em; padding-left: 0.85em"><pre style="margin: 0em;">
+I'd like to report a security bug in rbash. the BASH_CMDS env
+variable is writable from within rbash. so something like this
+BASH_CMDS[poop]=/bin/bash;poop will escape the restricted rbash
+shell.
+</pre></blockquote><pre style="margin: 0em;">
+
+Regards,
+- --
+Ruben Rodriguez | Senior Systems Administrator, Free Software Foundation
+GPG Key: 05EF 1D2F FE61 747D 1FC8  27C3 7FAC 7D26 472F 4409
+<a  rel="nofollow" href="https://fsf.org">https://fsf.org</a> | <a  rel="nofollow" href="https://gnu.org">https://gnu.org</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJYwaXvAAoJEH+sfSZHL0QJTKUQAISM7t/hTfp4HOApE2xFF+At
+/cWCYSEZq3ZhNnh8BlSLrNx0AjYYN98nJ3c1xJKMcI87veZ0kT4QRxZEoXF7TLgM
+ck/zkXF97uZKwTolj9Opa2OXJTIj8hlWHYTrlkZZjLAywlYMuMHtWf85gs6KJ15x
+RguGJylbWYvIreg4ikzCDpaGdjM+K8xnnO/OvD9dxAzC3G2YSlVOy6JuOoWH3KWV
+Bw8tHYR+X98koOgu1kugiUk4ngqjOcnO8G02JjXbEsA831mdUbetEMf63mekrSCP
+AZDwvt8jA1TTzkY1LT0MpdbVScFeuFd4vINdfjH6V2fHN1i9UYLA8pOWX6gXLu4T
+vBZKStRJk+HyXJnqSG5b7BxguQo8JCVHsGfgab4hKkIiE3mZzBX+pRLPLG/krJaW
+LPmGhIuJa/ujMFgA9nbAPjcOlH0x5NIea/jCpCLr3DwIPmRSsbIZvPkxhPiFqtyF
+cGCtOdOhBkHNNfoF9tO/1ak4j6IBVVwr/4EPkBlRn1OnHMBNvOshFJj5zDrdr9VX
+HKK8iOCpccpRqpwI6zdaLNxgvOthGEorGsXQwlQbLicsmPDZIpIseyH/T9C6eL50
+BZghPtCXpD2tGZ1RxqWUt1IwA84tKSaKr+RQAy1Yoio0IxOXd7U0ljb4yIh+hhHt
+YJQciA6MygBLFCsoe7u4
+=IjX0
+-----END PGP SIGNATURE-----
+
+
+</pre></blockquote><pre style="margin: 0em;">
+
+
+
+----------------------------------------------------------------
+This message was sent using IMP, the Internet Messaging Program.
+
+
+
+</pre>
+<!--X-Body-of-Message-End-->
+<!--X-MsgBody-End-->
+<!--X-Follow-Ups-->
+<hr>
+<form method="post" action="/mp/yyz.py" enctype="multipart/form-data">
+<input type="hidden" name="a" value="up201407890">
+<input type="hidden" name="b" value="Re: rbash escape security vulnerability">
+<input type="hidden" name="d" value="20170310140157.70303tkbqc4fva2o@webmail.alunos.dcc.fc.up.pt">
+<input type="hidden" name="c" value="alunos.dcc.fc.up.pt">
+<center>reply via email to<br><input type="submit" value=" up201407890 "></center>
+</form>
+<hr>
+<table width="100%">
+<tr><td align="left">[<a href="msg00076.html">Prev in Thread</a>]</td>
+<td align="center"><b>Current Thread</b></td>
+<td align="right">[Next in Thread]</td></tr></table>
+<ul>
+<li><b><a name="00076" href="msg00076.html">rbash escape security vulnerability</a></b>, <i>Ruben Rodriguez</i>, <tt>2017/03/09</tt>
+<ul>
+<li><font color="#666666"><strong>Re: rbash escape security vulnerability</strong>,
+<em>up201407890</em></font>&nbsp;<b>&lt;=</b>
+</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+<!--X-Follow-Ups-End-->
+<!--X-References-->
+<!--X-References-End-->
+<!--X-BotPNI-->
+<ul>
+<li>Prev by Date:
+<strong><a href="msg00076.html">rbash escape security vulnerability</a></strong>
+</li>
+<li>Next by Date:
+<strong><a href="msg00078.html">&quot;Neagtive overflow&quot; &amp; other flaws in binary operations.</a></strong>
+</li>
+<li>Previous by thread:
+<strong><a href="msg00076.html">rbash escape security vulnerability</a></strong>
+</li>
+<li>Next by thread:
+<strong><a href="msg00078.html">&quot;Neagtive overflow&quot; &amp; other flaws in binary operations.</a></strong>
+</li>
+<li>Index(es):
+<ul>
+<li><a href="index.html#00077"><strong>Date</strong></a></li>
+<li><a href="threads.html#00077"><strong>Thread</strong></a></li>
+</ul>
+</li>
+</ul>
+
+<!--X-BotPNI-End-->
+<!--X-User-Footer-->
+<!--X-User-Footer-End-->
+</body>
+</html>

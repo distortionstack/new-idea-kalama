@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>apt-get(8) — apt — Debian jessie — Debian Manpages</title>
+<style type="text/css">
+@font-face {
+  font-family: 'Inconsolata';
+  src: local('Inconsolata'), url(/Inconsolata.woff2) format('woff2'), url(/Inconsolata.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto Regular'), local('Roboto-Regular'), url(/Roboto-Regular.woff2) format('woff2'), url(/Roboto-Regular.woff) format('woff');
+}
+
+body {
+	background-image: linear-gradient(to bottom, #d7d9e2, #fff 70px);
+	background-position: 0 0;
+	background-repeat: repeat-x;
+	font-family: sans-serif;
+	font-size: 100%;
+	line-height: 1.2;
+	letter-spacing: 0.15px;
+	margin: 0;
+	padding: 0;
+}
+
+#header {
+	padding: 0 10px 0 52px;
+}
+
+#logo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	width: 50px;
+	height: 5.07em;
+	min-height: 65px;
+}
+
+#logo a {
+	display: block;
+	height: 100%;
+}
+
+#logo img {
+	margin-top: 5px;
+	position: absolute;
+	bottom: 0.3em;
+	overflow: auto;
+	border: 0;
+}
+
+p.section {
+	margin: 0;
+	padding: 0 5px 0 5px;
+	font-size: 13px;
+	line-height: 16px;
+	color: white;
+	letter-spacing: 0.08em;
+	position: absolute;
+	top: 0px;
+	left: 52px;
+	background-color: #c70036;
+}
+
+p.section a {
+	color: white;
+	text-decoration: none;
+}
+
+.hidecss {
+	display: none;
+}
+
+#searchbox {
+	text-align:left;
+	line-height: 1;
+	margin: 0 10px 0 0.5em;
+	padding: 1px 0 1px 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .75em;
+}
+
+#navbar {
+	border-bottom: 1px solid #c70036;
+}
+
+#navbar ul {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#navbar li {
+	list-style: none;
+	float: left;
+}
+
+#navbar a {
+	display: block;
+	padding: 1.75em .5em .25em .5em;
+	color: #0035c7;
+	text-decoration: none;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+}
+
+#navbar a:hover
+, #navbar a:visited:hover {
+	background-color: #f5f6f7;
+	border-left: 1px solid  #d2d3d7;
+	border-right: 1px solid #d2d3d7;
+	text-decoration: underline;
+}
+
+a:link {
+	color: #0035c7;
+}
+
+a:visited {
+	color: #54638c;
+}
+
+#breadcrumbs {
+	line-height: 2;
+	min-height: 20px;
+	margin: 0;
+	padding: 0;
+	font-size: 0.75em;
+	background-color: #f5f6f7;
+	border-bottom: 1px solid #d2d3d7;
+}
+
+#breadcrumbs:before {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+#content {
+    margin: 0 10px 0 52px;
+    display: flex;
+    flex-direction: row;
+}
+
+.paneljump {
+    background-color: #d70751;
+    padding: 0.5em;
+    border-radius: 3px;
+    margin-right: .5em;
+    display: none;
+}
+
+.paneljump a,
+.paneljump a:visited,
+.paneljump a:hover,
+.paneljump a:focus {
+    color: white;
+}
+
+@media all and (max-width: 800px) {
+    #content {
+	flex-direction: column;
+	margin: 0.5em;
+    }
+    .paneljump {
+	display: block;
+    }
+}
+
+.panels {
+    display: block;
+    order: 2;
+}
+
+.maincontent {
+    width: 100%;
+    max-width: 80ch;
+    order: 1;
+}
+
+.mandoc {
+    font-family: monospace;
+    font-size: 1.04rem;
+}
+
+.mandoc pre {
+    white-space: pre-wrap;
+}
+
+#footer {
+	border: 1px solid #dfdfe0;
+	border-left: 0;
+	border-right: 0;
+	background-color: #f5f6f7;
+	padding: 1em;
+	margin: 1em 10px 0 52px;
+	font-size: 0.75em;
+	line-height: 1.5em;
+}
+
+hr {
+	border-top: 1px solid #d2d3d7;
+	border-bottom: 1px solid white;
+	border-left: 0;
+	border-right: 0;
+	margin: 1.4375em 0 1.5em 0;
+	height: 0;
+	background-color: #bbb;
+}
+
+#content p {
+    padding-left: 1em;
+}
+
+ 
+
+a, a:hover, a:focus, a:visited {
+    color: #0530D7;
+    text-decoration: none;
+}
+
+ 
+.panel {
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.panel-heading, .panel details {
+  margin: -15px -15px 0px;
+  background-color: #d70751;
+  border-bottom: 1px solid #dddddd;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+.panel-heading, .panel summary {
+  padding: 5px 5px;
+  font-size: 17.5px;
+  font-weight: 500;
+  color: #ffffff;
+  outline-style: none;
+}
+
+.panel summary {
+    padding-left: 7px;
+}
+
+summary, details {
+    display: block;
+}
+
+.panel details ul {
+  margin: 0;
+}
+
+.panel-footer {
+  padding: 5px 5px;
+  margin: 15px -15px -15px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #dddddd;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.panel-info {
+  border-color: #bce8f1;
+}
+
+.panel-info .panel-heading {
+  color: #3a87ad;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+
+.list-group {
+  padding-left: 0;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 5px 5px 5px 5px;
+  margin-bottom: -1px;
+  border: 1px solid #dddddd;
+}
+
+.list-group-item > .list-item-key {
+  min-width: 27%;
+  display: inline-block;
+}
+.list-group-item > .list-item-key.versions-repository {
+  min-width: 40%;
+}
+.list-group-item > .list-item-key.versioned-links-version {
+  min-width: 40%
+}
+
+
+.versioned-links-icon {
+  margin-right: 2px;
+}
+.versioned-links-icon a {
+  color: black;
+}
+.versioned-links-icon a:hover {
+  color: blue;
+}
+.versioned-links-icon-inactive {
+  opacity: 0.5;
+}
+
+.list-group-item:first-child {
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.list-group-item:last-child {
+  margin-bottom: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.list-group-item-heading {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.list-group-item-text {
+  margin-bottom: 0;
+  line-height: 1.3;
+}
+
+.list-group-item:hover {
+  background-color: #f5f5f5;
+}
+
+.list-group-item.active a {
+  z-index: 2;
+}
+
+.list-group-item.active {
+  background-color: #efefef;
+}
+
+.list-group-flush {
+  margin: 15px -15px -15px;
+}
+.panel .list-group-flush {
+  margin-top: -1px;
+}
+
+.list-group-flush .list-group-item {
+  border-width: 1px 0;
+}
+
+.list-group-flush .list-group-item:first-child {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.list-group-flush .list-group-item:last-child {
+  border-bottom: 0;
+}
+
+ 
+
+.panel {
+float: right;
+clear: right;
+min-width: 200px;
+}
+
+.toc {
+     
+    width: 200px;
+}
+
+.toc li {
+    font-size: 98%;
+    letter-spacing: 0.02em;
+    display: flex;
+}
+
+.otherversions {
+     
+    width: 200px;
+}
+
+.otherversions li,
+.otherlangs li {
+    display: flex;
+}
+
+.otherversions a,
+.otherlangs a {
+    flex-shrink: 0;
+}
+
+.pkgversion,
+.pkgname,
+.toc a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.pkgversion,
+.pkgname {
+    margin-left: auto;
+    padding-left: 1em;
+}
+
+ 
+
+.mandoc {
+     
+    overflow: hidden;
+    margin-top: .5em;
+    margin-right: 45px;
+}
+table.head, table.foot {
+    width: 100%;
+}
+.head-vol {
+    text-align: center;
+}
+.head-rtitle {
+    text-align: right;
+}
+
+ 
+.spacer, .Pp {
+    min-height: 1em;
+}
+
+pre {
+    margin-left: 2em;
+}
+
+.anchor {
+    margin-left: .25em;
+    visibility: hidden;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+    visibility: visible;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: .07em;
+    margin-top: 1.5em;
+    margin-bottom: .35em;
+}
+
+h1 {
+    font-size: 150%;
+}
+
+h2 {
+    font-size: 125%;
+}
+
+@media print {
+    #header, #footer, .panel, .anchor, .paneljump {
+	display: none;
+    }
+    #content {
+	margin: 0;
+    }
+    .mandoc {
+	margin: 0;
+    }
+}
+
+ 
+ 
+
+.Bd { }
+.Bd-indent {	margin-left: 3.8em; }
+
+.Bl-bullet {	list-style-type: disc;
+		padding-left: 1em; }
+.Bl-bullet > li { }
+.Bl-dash {	list-style-type: none;
+		padding-left: 0em; }
+.Bl-dash > li:before {
+		content: "\2014  "; }
+.Bl-item {	list-style-type: none;
+		padding-left: 0em; }
+.Bl-item > li { }
+.Bl-compact > li {
+		margin-top: 0em; }
+
+.Bl-enum {	padding-left: 2em; }
+.Bl-enum > li { }
+.Bl-compact > li {
+		margin-top: 0em; }
+
+.Bl-diag { }
+.Bl-diag > dt {
+		font-style: normal;
+		font-weight: bold; }
+.Bl-diag > dd {
+		margin-left: 0em; }
+.Bl-hang { }
+.Bl-hang > dt { }
+.Bl-hang > dd {
+		margin-left: 5.5em; }
+.Bl-inset { }
+.Bl-inset > dt { }
+.Bl-inset > dd {
+		margin-left: 0em; }
+.Bl-ohang { }
+.Bl-ohang > dt { }
+.Bl-ohang > dd {
+		margin-left: 0em; }
+.Bl-tag {	margin-left: 5.5em; }
+.Bl-tag > dt {
+		float: left;
+		margin-top: 0em;
+		margin-left: -5.5em;
+		padding-right: 1.2em;
+		vertical-align: top; }
+.Bl-tag > dd {
+		clear: right;
+		width: 100%;
+		margin-top: 0em;
+		margin-left: 0em;
+		vertical-align: top;
+		overflow: auto; }
+.Bl-compact > dt {
+		margin-top: 0em; }
+
+.Bl-column { }
+.Bl-column > tbody > tr { }
+.Bl-column > tbody > tr > td {
+		margin-top: 1em; }
+.Bl-compact > tbody > tr > td {
+		margin-top: 0em; }
+
+.Rs {		font-style: normal;
+		font-weight: normal; }
+.RsA { }
+.RsB {		font-style: italic;
+		font-weight: normal; }
+.RsC { }
+.RsD { }
+.RsI {		font-style: italic;
+		font-weight: normal; }
+.RsJ {		font-style: italic;
+		font-weight: normal; }
+.RsN { }
+.RsO { }
+.RsP { }
+.RsQ { }
+.RsR { }
+.RsT {		text-decoration: underline; }
+.RsU { }
+.RsV { }
+
+.eqn { }
+.tbl { }
+
+.HP {		margin-left: 3.8em;
+		text-indent: -3.8em; }
+
+ 
+
+table.Nm { }
+code.Nm {	font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+.Fl {		font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+.Cm {		font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+.Ar {		font-style: italic;
+		font-weight: normal; }
+.Op {		display: inline; }
+.Ic {		font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+.Ev {		font-style: normal;
+		font-weight: normal;
+		font-family: monospace; }
+.Pa {		font-style: italic;
+		font-weight: normal; }
+
+ 
+
+.Lb { }
+code.In {	font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+a.In { }
+.Fd {		font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+.Ft {		font-style: italic;
+		font-weight: normal; }
+.Fn {		font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+.Fa {		font-style: italic;
+		font-weight: normal; }
+.Vt {		font-style: italic;
+		font-weight: normal; }
+.Va {		font-style: italic;
+		font-weight: normal; }
+.Dv {		font-style: normal;
+		font-weight: normal;
+		font-family: monospace; }
+.Er {		font-style: normal;
+		font-weight: normal;
+		font-family: monospace; }
+
+ 
+
+.An { }
+.Lk { }
+.Mt { }
+.Cd {		font-style: normal;
+		font-weight: bold;
+		font-family: inherit; }
+.Ad {		font-style: italic;
+		font-weight: normal; }
+.Ms {		font-style: normal;
+		font-weight: bold; }
+.St { }
+.Ux { }
+
+ 
+
+.Bf {		display: inline; }
+.No {		font-style: normal;
+		font-weight: normal; }
+.Em {		font-style: italic;
+		font-weight: normal; }
+.Sy {		font-style: normal;
+		font-weight: bold; }
+.Li {		font-style: normal;
+		font-weight: normal;
+		font-family: monospace; }
+
+</style>
+<script type="text/javascript">
+if (!!document['fonts']) {
+        var r = "body{font-family:'Roboto',sans-serif;}";
+        var i = ".mandoc,.mandoc pre,.mandoc code,p.section{font-family:'Inconsolata',monospace;}";
+        var l = function(m) {
+                if (!document.body) {
+                        document.write("<style>"+m+"</style>");
+                } else {
+                        document.body.innerHTML+="<style>"+m+"</style>";
+                }
+        };
+         
+        new FontFace('Roboto', "local('Roboto'), local('Roboto Regular'), local('Roboto-Regular'), url(/Roboto-Regular.woff2) format('woff2'), url(/Roboto-Regular.woff) format('woff')")
+                .load().then(function() { l(r); });
+        new FontFace('Inconsolata', "local('Inconsolata'), url(/Inconsolata.woff2) format('woff2'), url(/Inconsolata.woff) format('woff')")
+                .load().then(function() { l(i); });
+} else {
+        var l = document.createElement('link');
+        l.rel = 'preload';
+        l.href = '/fonts-woff.css';
+        l.as = 'style';
+        l.onload = function() { this.rel = 'stylesheet'; };
+        document.head.appendChild(l);
+}
+</script>
+<link rel="search" title="Debian manpages" type="application/opensearchdescription+xml" href="/opensearch.xml">
+<noscript>
+  <style type="text/css">
+    body { font-family: 'Roboto', sans-serif; }
+    .mandoc, .mandoc pre, .mandoc code, p.section { font-family: 'Inconsolata', monospace; }
+  </style>
+</noscript>
+<link rel="alternate" href="/jessie/apt/apt-get.8.de.html" hreflang="de">
+<link rel="alternate" href="/jessie/apt/apt-get.8.en.html" hreflang="en">
+<link rel="alternate" href="/jessie/apt/apt-get.8.es.html" hreflang="es">
+<link rel="alternate" href="/jessie/apt/apt-get.8.fr.html" hreflang="fr">
+<link rel="alternate" href="/jessie/apt/apt-get.8.it.html" hreflang="it">
+<link rel="alternate" href="/jessie/apt/apt-get.8.ja.html" hreflang="ja">
+<link rel="alternate" href="/jessie/apt/apt-get.8.pl.html" hreflang="pl">
+<link rel="alternate" href="/jessie/apt/apt-get.8.pt.html" hreflang="pt">
+</head>
+<body>
+<div id="header">
+   <div id="upperheader">
+   <div id="logo">
+  <a href="https://www.debian.org/" title="Debian Home"><img src="/openlogo-50.svg" alt="Debian" width="50" height="61"></a>
+  </div>
+  <p class="section"><a href="/">MANPAGES</a></p>
+  <div id="searchbox">
+    <form action="https://dyn.manpages.debian.org/jump" method="get">
+      <input type="hidden" name="suite" value="jessie">
+      <input type="hidden" name="binarypkg" value="apt">
+      <input type="hidden" name="section" value="8">
+      <input type="hidden" name="language" value="en">
+      <input type="text" name="q" placeholder="manpage name" required>
+      <input type="submit" value="Jump">
+    </form>
+  </div>
+ </div>
+<div id="navbar">
+<p class="hidecss"><a href="#content">Skip Quicknav</a></p>
+<ul>
+   <li><a href="/">Index</a></li>
+   <li><a href="/about.html">About Manpages</a></li>
+   <li><a href="/faq.html">FAQ</a></li>
+   <li><a href="https://wiki.debian.org/manpages.debian.org">Service Information</a></li>
+</ul>
+</div>
+   <p id="breadcrumbs">&nbsp;
+     
+     &#x2F; <a href="/contents-jessie.html">jessie</a>
+     
+     
+     
+     &#x2F; <a href="/jessie/apt/index.html">apt</a>
+     
+     
+     
+     &#x2F; apt-get(8)
+     
+     </p>
+</div>
+<div id="content">
+
+
+<div class="panels" id="panels">
+<div class="panel" role="complementary">
+<div class="panel-heading" role="heading">
+links
+</div>
+<div class="panel-body">
+<ul class="list-group list-group-flush">
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8">language-indep link</a>
+</li>
+<li class="list-group-item">
+<a href="https://tracker.debian.org/pkg/apt">package tracker</a>
+</li>
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.en.gz">raw man page</a>
+</li>
+</ul>
+</div>
+</div>
+
+<div class="panel toc" role="complementary" style="padding-bottom: 0">
+<details>
+<summary>
+table of contents
+</summary>
+<div class="panel-body">
+<ul class="list-group list-group-flush">
+
+<li class="list-group-item">
+  <a class="toclink" href="#NAME" title="NAME">NAME</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#SYNOPSIS" title="SYNOPSIS">SYNOPSIS</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#DESCRIPTION" title="DESCRIPTION">DESCRIPTION</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#OPTIONS" title="OPTIONS">OPTIONS</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#FILES" title="FILES">FILES</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#SEE_ALSO" title="SEE ALSO">SEE ALSO</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#DIAGNOSTICS" title="DIAGNOSTICS">DIAGNOSTICS</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#BUGS" title="BUGS">BUGS</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#AUTHORS" title="AUTHORS">AUTHORS</a>
+</li>
+
+<li class="list-group-item">
+  <a class="toclink" href="#NOTES" title="NOTES">NOTES</a>
+</li>
+
+</ul>
+</div>
+</details>
+</div>
+
+<div class="panel otherversions" role="complementary">
+<div class="panel-heading" role="heading">
+other versions
+</div>
+<div class="panel-body">
+<ul class="list-group list-group-flush">
+
+<li class="list-group-item active">
+<a href="/jessie/apt/apt-get.8.en.html">jessie</a> <span class="pkgversion" title="1.0.9.8.4">1.0.9.8.4</span>
+</li>
+
+<li class="list-group-item">
+<a href="/stretch/apt/apt-get.8.en.html">stretch</a> <span class="pkgversion" title="1.4.9">1.4.9</span>
+</li>
+
+<li class="list-group-item">
+<a href="/testing/apt/apt-get.8.en.html">testing</a> <span class="pkgversion" title="1.8.0~rc4">1.8.0~rc4</span>
+</li>
+
+<li class="list-group-item">
+<a href="/unstable/apt/apt-get.8.en.html">unstable</a> <span class="pkgversion" title="1.8.0">1.8.0</span>
+</li>
+
+</ul>
+</div>
+</div>
+
+
+<div class="panel otherlangs" role="complementary">
+<div class="panel-heading" role="heading">
+other languages
+</div>
+<div class="panel-body">
+<ul class="list-group list-group-flush">
+
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.de.html" title="German (de)">Deutsch</a>
+
+</li>
+
+<li class="list-group-item active">
+<a href="/jessie/apt/apt-get.8.en.html" title="English (en)">English</a>
+
+</li>
+
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.es.html" title="Spanish (es)">español</a>
+
+</li>
+
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.fr.html" title="French (fr)">français</a>
+
+</li>
+
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.it.html" title="Italian (it)">italiano</a>
+
+</li>
+
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.ja.html" title="Japanese (ja)">日本語</a>
+
+</li>
+
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.pl.html" title="Polish (pl)">polski</a>
+
+</li>
+
+<li class="list-group-item">
+<a href="/jessie/apt/apt-get.8.pt.html" title="Portuguese (pt)">português (pt)</a>
+
+</li>
+
+</ul>
+</div>
+</div>
+
+
+
+
+
+</div>
+
+<div class="maincontent">
+<p class="paneljump"><a href="#panels">Scroll to navigation</a></p>
+<div class="mandoc">
+<table class="head">
+  <tbody><tr>
+    <td class="head-ltitle">APT-GET(8)</td>
+    <td class="head-vol">APT</td>
+    <td class="head-rtitle">APT-GET(8)</td>
+  </tr>
+</tbody></table>
+<div class="manual-text">
+<h1 class="Sh" id="NAME">NAME<a class="anchor" href="#NAME">¶</a></h1>
+apt-get - APT package handling utility -- command-line interface
+<h1 class="Sh" id="SYNOPSIS">SYNOPSIS<a class="anchor" href="#SYNOPSIS">¶</a></h1>
+<div class="HP"><b>apt-get</b> [<b>-asqdyfmubV</b>]
+  [<b>-o=</b><b></b><i>config_string</i>] [ <b>-c=</b><b></b><i>config_file</i>]
+  [ <b>-t=</b><b></b><i>target_release</i>]
+  [<b>-a=</b><b></b><i>architecture</i>] {update | upgrade | dselect-upgrade |
+  dist-upgrade | install 
+  <i>pkg</i> [{=<i>pkg_version_number</i> | /
+  <i>target_release</i>}]... | remove  <i>pkg</i>... |
+  purge <i>pkg</i>... | source 
+  <i>pkg</i> [{=<i>pkg_version_number</i> | /
+  <i>target_release</i>}]... | build-dep 
+  <i>pkg</i> [{=<i>pkg_version_number</i> | /
+  <i>target_release</i>}]... | download 
+  <i>pkg</i> [{=<i>pkg_version_number</i> | /
+  <i>target_release</i>}]... | check | clean | autoclean | autoremove |
+  {-v | --version} | {-h | --help}}</div>
+<h1 class="Sh" id="DESCRIPTION">DESCRIPTION<a class="anchor" href="#DESCRIPTION">¶</a></h1>
+<b>apt-get</b> is the command-line tool for handling packages, and may be
+  considered the user&#39;s &#34;back-end&#34; to other tools using the APT
+  library. Several &#34;front-end&#34; interfaces exist, such as
+  <b>aptitude</b>(8), <a href="/jessie/synaptic/synaptic.8.en.html">synaptic(8)</a> and <a href="/jessie/wajig/wajig.1.en.html">wajig(1)</a>.
+<div class="Pp"></div>
+Unless the <b>-h</b>, or <b>--help</b> option is given, one of the commands
+  below must be present.
+<div class="Pp"></div>
+<b>update</b>
+<div class="Bd-indent">update is used to resynchronize the package index files
+  from their sources. The indexes of available packages are fetched from the
+  location(s) specified in /etc/apt/sources.list. For example, when using a
+  Debian archive, this command retrieves and scans the Packages.gz files, so
+  that information about new and updated packages is available. An update should
+  always be performed before an upgrade or dist-upgrade. Please be aware that
+  the overall progress meter will be incorrect as the size of the package files
+  cannot be known in advance.</div>
+<div class="Pp"></div>
+<b>upgrade</b>
+<div class="Bd-indent">upgrade is used to install the newest versions of all
+  packages currently installed on the system from the sources enumerated in
+  /etc/apt/sources.list. Packages currently installed with new versions
+  available are retrieved and upgraded; under no circumstances are currently
+  installed packages removed, or packages not already installed retrieved and
+  installed. New versions of currently installed packages that cannot be
+  upgraded without changing the install status of another package will be left
+  at their current version. An update must be performed first so that
+  <b>apt-get</b> knows that new versions of packages are available.</div>
+<div class="Pp"></div>
+<b>dist-upgrade</b>
+<div class="Bd-indent">dist-upgrade in addition to performing the function of
+  upgrade, also intelligently handles changing dependencies with new versions of
+  packages; <b>apt-get</b> has a &#34;smart&#34; conflict resolution system,
+  and it will attempt to upgrade the most important packages at the expense of
+  less important ones if necessary. The dist-upgrade command may therefore
+  remove some packages. The /etc/apt/sources.list file contains a list of
+  locations from which to retrieve desired package files. See also
+  <a href="/jessie/apt/apt_preferences.5.en.html">apt_preferences(5)</a> for a mechanism for overriding the general settings
+  for individual packages.</div>
+<div class="Pp"></div>
+<b>dselect-upgrade</b>
+<div class="Bd-indent">dselect-upgrade is used in conjunction with the
+  traditional Debian packaging front-end, <a href="/jessie/dselect/dselect.1.en.html">dselect(1)</a>. dselect-upgrade
+  follows the changes made by <a href="/jessie/dselect/dselect.1.en.html">dselect(1)</a> to the Status field of available
+  packages, and performs the actions necessary to realize that state (for
+  instance, the removal of old and the installation of new packages).</div>
+<div class="Pp"></div>
+<b>install</b>
+<div class="Bd-indent">install is followed by one or more packages desired for
+  installation or upgrading. Each package is a package name, not a fully
+  qualified filename (for instance, in a Debian system, apt-utils would be the
+  argument provided, not apt-utils_1.0.9.8.4_amd64.deb). All packages required
+  by the package(s) specified for installation will also be retrieved and
+  installed. The /etc/apt/sources.list file is used to locate the desired
+  packages. If a hyphen is appended to the package name (with no intervening
+  space), the identified package will be removed if it is installed. Similarly a
+  plus sign can be used to designate a package to install. These latter features
+  may be used to override decisions made by apt-get&#39;s conflict resolution
+  system.
+<div class="Pp"></div>
+A specific version of a package can be selected for installation by following
+  the package name with an equals and the version of the package to select. This
+  will cause that version to be located and selected for install. Alternatively
+  a specific distribution can be selected by following the package name with a
+  slash and the version of the distribution or the Archive name (stable,
+  testing, unstable).
+<div class="Pp"></div>
+Both of the version selection mechanisms can downgrade packages and must be used
+  with care.
+<div class="Pp"></div>
+This is also the target to use if you want to upgrade one or more
+  already-installed packages without upgrading every package you have on your
+  system. Unlike the &#34;upgrade&#34; target, which installs the newest
+  version of all currently installed packages, &#34;install&#34; will install
+  the newest version of only the package(s) specified. Simply provide the name
+  of the package(s) you wish to upgrade, and if a newer version is available, it
+  (and its dependencies, as described above) will be downloaded and installed.
+<div class="Pp"></div>
+Finally, the <a href="/jessie/apt/apt_preferences.5.en.html">apt_preferences(5)</a> mechanism allows you to create an
+  alternative installation policy for individual packages.
+<div class="Pp"></div>
+If no package matches the given expression and the expression contains one of
+  &#39;.&#39;, &#39;?&#39; or &#39;*&#39; then it is assumed to be a POSIX regular expression, and it is
+  applied to all package names in the database. Any matches are then installed
+  (or removed). Note that matching is done by substring so &#39;lo.*&#39; matches
+  &#39;how-lo&#39; and &#39;lowest&#39;. If this is undesired, anchor the regular expression
+  with a &#39;^&#39; or &#39;$&#39; character, or create a more specific regular
+  expression.</div>
+<div class="Pp"></div>
+<b>remove</b>
+<div class="Bd-indent">remove is identical to install except that packages are
+  removed instead of installed. Note that removing a package leaves its
+  configuration files on the system. If a plus sign is appended to the package
+  name (with no intervening space), the identified package will be installed
+  instead of removed.</div>
+<div class="Pp"></div>
+<b>purge</b>
+<div class="Bd-indent">purge is identical to remove except that packages are
+  removed and purged (any configuration files are deleted too).</div>
+<div class="Pp"></div>
+<b>source</b>
+<div class="Bd-indent">source causes <b>apt-get</b> to fetch source packages.
+  APT will examine the available packages to decide which source package to
+  fetch. It will then find and download into the current directory the newest
+  available version of that source package while respecting the default release,
+  set with the option APT::Default-Release, the <b>-t</b> option or per package
+  with the pkg/release syntax, if possible.
+<div class="Pp"></div>
+Source packages are tracked separately from binary packages via deb-src lines in
+  the <a href="/jessie/apt/sources.list.5.en.html">sources.list(5)</a> file. This means that you will need to add such a
+  line for each repository you want to get sources from; otherwise you will
+  probably get either the wrong (too old/too new) source versions or none at
+  all.
+<div class="Pp"></div>
+If the <b>--compile</b> option is specified then the package will be compiled to
+  a binary .deb using <b>dpkg-buildpackage</b> for the architecture as defined
+  by the <b>--host-architecture</b> option. If <b>--download-only</b> is
+  specified then the source package will not be unpacked.
+<div class="Pp"></div>
+A specific source version can be retrieved by postfixing the source name with an
+  equals and then the version to fetch, similar to the mechanism used for the
+  package files. This enables exact matching of the source package name and
+  version, implicitly enabling the APT::Get::Only-Source option.
+<div class="Pp"></div>
+Note that source packages are not installed and tracked in the <b>dpkg</b>
+  database like binary packages; they are simply downloaded to the current
+  directory, like source tarballs.</div>
+<div class="Pp"></div>
+<b>build-dep</b>
+<div class="Bd-indent">build-dep causes apt-get to install/remove packages in an
+  attempt to satisfy the build dependencies for a source package. By default the
+  dependencies are satisfied to build the package natively. If desired a
+  host-architecture can be specified with the <b>--host-architecture</b> option
+  instead.</div>
+<div class="Pp"></div>
+<b>check</b>
+<div class="Bd-indent">check is a diagnostic tool; it updates the package cache
+  and checks for broken dependencies.</div>
+<div class="Pp"></div>
+<b>download</b>
+<div class="Bd-indent">download will download the given binary package into the
+  current directory.</div>
+<div class="Pp"></div>
+<b>clean</b>
+<div class="Bd-indent">clean clears out the local repository of retrieved
+  package files. It removes everything but the lock file from
+  /var/cache/apt/archives/ and /var/cache/apt/archives/partial/.</div>
+<div class="Pp"></div>
+<b>autoclean</b>
+<div class="Bd-indent">Like clean, autoclean clears out the local repository of
+  retrieved package files. The difference is that it only removes package files
+  that can no longer be downloaded, and are largely useless. This allows a cache
+  to be maintained over a long period without it growing out of control. The
+  configuration option APT::Clean-Installed will prevent installed packages from
+  being erased if it is set to off.</div>
+<div class="Pp"></div>
+<b>autoremove</b>
+<div class="Bd-indent">autoremove is used to remove packages that were
+  automatically installed to satisfy dependencies for other packages and are now
+  no longer needed.</div>
+<div class="Pp"></div>
+<b>changelog</b>
+<div class="Bd-indent">changelog downloads a package changelog and displays it
+  through <b>sensible-pager</b>. The server name and base directory is defined
+  in the APT::Changelogs::Server variable (e.g.
+  <b>packages.debian.org/changelogs</b>[1] for Debian or
+  <b>changelogs.ubuntu.com/changelogs</b>[2] for Ubuntu). By default it displays
+  the changelog for the version that is installed. However, you can specify the
+  same options as for the <b>install</b> command.</div>
+<h1 class="Sh" id="OPTIONS">OPTIONS<a class="anchor" href="#OPTIONS">¶</a></h1>
+All command line options may be set using the configuration file, the
+  descriptions indicate the configuration option to set. For boolean options you
+  can override the config file by using something like <b>-f-</b>,<b>--no-f</b>,
+  <b>-f=no</b> or several other variations.
+<div class="Pp"></div>
+<b>--no-install-recommends</b>
+<div class="Bd-indent">Do not consider recommended packages as a dependency for
+  installing. Configuration Item: APT::Install-Recommends.</div>
+<div class="Pp"></div>
+<b>--install-suggests</b>
+<div class="Bd-indent">Consider suggested packages as a dependency for
+  installing. Configuration Item: APT::Install-Suggests.</div>
+<div class="Pp"></div>
+<b>-d</b>, <b>--download-only</b>
+<div class="Bd-indent">Download only; package files are only retrieved, not
+  unpacked or installed. Configuration Item: APT::Get::Download-Only.</div>
+<div class="Pp"></div>
+<b>-f</b>, <b>--fix-broken</b>
+<div class="Bd-indent">Fix; attempt to correct a system with broken dependencies
+  in place. This option, when used with install/remove, can omit any packages to
+  permit APT to deduce a likely solution. If packages are specified, these have
+  to completely correct the problem. The option is sometimes necessary when
+  running APT for the first time; APT itself does not allow broken package
+  dependencies to exist on a system. It is possible that a system&#39;s dependency
+  structure can be so corrupt as to require manual intervention (which usually
+  means using <b>dpkg --remove</b> to eliminate some of the offending packages).
+  Use of this option together with <b>-m</b> may produce an error in some
+  situations. Configuration Item: APT::Get::Fix-Broken.</div>
+<div class="Pp"></div>
+<b>-m</b>, <b>--ignore-missing</b>, <b>--fix-missing</b>
+<div class="Bd-indent">Ignore missing packages; if packages cannot be retrieved
+  or fail the integrity check after retrieval (corrupted package files), hold
+  back those packages and handle the result. Use of this option together with
+  <b>-f</b> may produce an error in some situations. If a package is selected
+  for installation (particularly if it is mentioned on the command line) and it
+  could not be downloaded then it will be silently held back. Configuration
+  Item: APT::Get::Fix-Missing.</div>
+<div class="Pp"></div>
+<b>--no-download</b>
+<div class="Bd-indent">Disables downloading of packages. This is best used with
+  <b>--ignore-missing</b> to force APT to use only the .debs it has already
+  downloaded. Configuration Item: APT::Get::Download.</div>
+<div class="Pp"></div>
+<b>-q</b>, <b>--quiet</b>
+<div class="Bd-indent">Quiet; produces output suitable for logging, omitting
+  progress indicators. More q&#39;s will produce more quiet up to a maximum of 2.
+  You can also use <b>-q=#</b> to set the quiet level, overriding the
+  configuration file. Note that quiet level 2 implies <b>-y</b>; you should
+  never use -qq without a no-action modifier such as -d, --print-uris or -s as
+  APT may decide to do something you did not expect. Configuration Item:
+  quiet.</div>
+<div class="Pp"></div>
+<b>-s</b>, <b>--simulate</b>, <b>--just-print</b>, <b>--dry-run</b>,
+  <b>--recon</b>, <b>--no-act</b>
+<div class="Bd-indent">No action; perform a simulation of events that would
+  occur but do not actually change the system. Configuration Item:
+  APT::Get::Simulate.
+<div class="Pp"></div>
+Simulated runs performed as a user will automatically deactivate locking
+  (Debug::NoLocking), and if the option APT::Get::Show-User-Simulation-Note is
+  set (as it is by default) a notice will also be displayed indicating that this
+  is only a simulation. Runs performed as root do not trigger either NoLocking
+  or the notice - superusers should know what they are doing without further
+  warnings from apt-get.
+<div class="Pp"></div>
+Simulated runs print out a series of lines, each representing a <b>dpkg</b>
+  operation: configure (Conf), remove (Remv) or unpack (Inst). Square brackets
+  indicate broken packages, and empty square brackets indicate breaks that are
+  of no consequence (rare).</div>
+<div class="Pp"></div>
+<b>-y</b>, <b>--yes</b>, <b>--assume-yes</b>
+<div class="Bd-indent">Automatic yes to prompts; assume &#34;yes&#34; as
+  answer to all prompts and run non-interactively. If an undesirable situation,
+  such as changing a held package, trying to install a unauthenticated package
+  or removing an essential package occurs then apt-get will abort. Configuration
+  Item: APT::Get::Assume-Yes.</div>
+<div class="Pp"></div>
+<b>--assume-no</b>
+<div class="Bd-indent">Automatic &#34;no&#34; to all prompts. Configuration
+  Item: APT::Get::Assume-No.</div>
+<div class="Pp"></div>
+<b>-u</b>, <b>--show-upgraded</b>
+<div class="Bd-indent">Show upgraded packages; print out a list of all packages
+  that are to be upgraded. Configuration Item: APT::Get::Show-Upgraded.</div>
+<div class="Pp"></div>
+<b>-V</b>, <b>--verbose-versions</b>
+<div class="Bd-indent">Show full versions for upgraded and installed packages.
+  Configuration Item: APT::Get::Show-Versions.</div>
+<div class="Pp"></div>
+<b>-a</b>, <b>--host-architecture</b>
+<div class="Bd-indent">This option controls the architecture packages are built
+  for by <b>apt-get source --compile</b> and how cross-builddependencies are
+  satisfied. By default is it not set which means that the host architecture is
+  the same as the build architecture (which is defined by APT::Architecture).
+  Configuration Item: APT::Get::Host-Architecture.</div>
+<div class="Pp"></div>
+<b>-P</b>, <b>--build-profiles</b>
+<div class="Bd-indent">This option controls the activated build profiles for
+  which a source package is built by <b>apt-get source --compile</b> and how
+  build dependencies are satisfied. By default no build profile is active. More
+  than one build profile can be activated at a time by concatenating them with a
+  comma. Configuration Item: APT::Build-Profiles.</div>
+<div class="Pp"></div>
+<b>-b</b>, <b>--compile</b>, <b>--build</b>
+<div class="Bd-indent">Compile source packages after downloading them.
+  Configuration Item: APT::Get::Compile.</div>
+<div class="Pp"></div>
+<b>--ignore-hold</b>
+<div class="Bd-indent">Ignore package holds; this causes <b>apt-get</b> to
+  ignore a hold placed on a package. This may be useful in conjunction with
+  dist-upgrade to override a large number of undesired holds. Configuration
+  Item: APT::Ignore-Hold.</div>
+<div class="Pp"></div>
+<b>--with-new-pkgs</b>
+<div class="Bd-indent">Allow installing new packages when used in conjunction
+  with upgrade. This is useful if the update of a installed package requires new
+  dependencies to be installed. Instead of holding the package back upgrade will
+  upgrade the package and install the new dependencies. Note that upgrade with
+  this option will never remove packages, only allow adding new ones.
+  Configuration Item: APT::Get::Upgrade-Allow-New.</div>
+<div class="Pp"></div>
+<b>--no-upgrade</b>
+<div class="Bd-indent">Do not upgrade packages; when used in conjunction with
+  install, no-upgrade will prevent packages on the command line from being
+  upgraded if they are already installed. Configuration Item:
+  APT::Get::Upgrade.</div>
+<div class="Pp"></div>
+<b>--only-upgrade</b>
+<div class="Bd-indent">Do not install new packages; when used in conjunction
+  with install, only-upgrade will install upgrades for already installed
+  packages only and ignore requests to install new packages. Configuration Item:
+  APT::Get::Only-Upgrade.</div>
+<div class="Pp"></div>
+<b>--force-yes</b>
+<div class="Bd-indent">Force yes; this is a dangerous option that will cause apt
+  to continue without prompting if it is doing something potentially harmful. It
+  should not be used except in very special situations. Using force-yes can
+  potentially destroy your system! Configuration Item:
+  APT::Get::force-yes.</div>
+<div class="Pp"></div>
+<b>--print-uris</b>
+<div class="Bd-indent">Instead of fetching the files to install their URIs are
+  printed. Each URI will have the path, the destination file name, the size and
+  the expected MD5 hash. Note that the file name to write to will not always
+  match the file name on the remote site! This also works with the source and
+  update commands. When used with the update command the MD5 and size are not
+  included, and it is up to the user to decompress any compressed files.
+  Configuration Item: APT::Get::Print-URIs.</div>
+<div class="Pp"></div>
+<b>--purge</b>
+<div class="Bd-indent">Use purge instead of remove for anything that would be
+  removed. An asterisk (&#34;*&#34;) will be displayed next to packages which
+  are scheduled to be purged. <b>remove --purge</b> is equivalent to the
+  <b>purge</b> command. Configuration Item: APT::Get::Purge.</div>
+<div class="Pp"></div>
+<b>--reinstall</b>
+<div class="Bd-indent">Re-install packages that are already installed and at the
+  newest version. Configuration Item: APT::Get::ReInstall.</div>
+<div class="Pp"></div>
+<b>--list-cleanup</b>
+<div class="Bd-indent">This option is on by default; use --no-list-cleanup to
+  turn it off. When it is on, <b>apt-get</b> will automatically manage the
+  contents of /var/lib/apt/lists to ensure that obsolete files are erased. The
+  only reason to turn it off is if you frequently change your sources list.
+  Configuration Item: APT::Get::List-Cleanup.</div>
+<div class="Pp"></div>
+<b>-t</b>, <b>--target-release</b>, <b>--default-release</b>
+<div class="Bd-indent">This option controls the default input to the policy
+  engine; it creates a default pin at priority 990 using the specified release
+  string. This overrides the general settings in /etc/apt/preferences.
+  Specifically pinned packages are not affected by the value of this option. In
+  short, this option lets you have simple control over which distribution
+  packages will be retrieved from. Some common examples might be <b>-t
+  &#39;2.1*&#39;</b>, <b>-t unstable</b> or <b>-t sid</b>. Configuration Item:
+  APT::Default-Release; see also the <a href="/jessie/apt/apt_preferences.5.en.html">apt_preferences(5)</a> manual
+  page.</div>
+<div class="Pp"></div>
+<b>--trivial-only</b>
+<div class="Bd-indent">Only perform operations that are &#39;trivial&#39;. Logically
+  this can be considered related to <b>--assume-yes</b>; where
+  <b>--assume-yes</b> will answer yes to any prompt, <b>--trivial-only</b> will
+  answer no. Configuration Item: APT::Get::Trivial-Only.</div>
+<div class="Pp"></div>
+<b>--no-remove</b>
+<div class="Bd-indent">If any packages are to be removed apt-get immediately
+  aborts without prompting. Configuration Item: APT::Get::Remove.</div>
+<div class="Pp"></div>
+<b>--auto-remove</b>
+<div class="Bd-indent">If the command is either install or remove, then this
+  option acts like running the autoremove command, removing unused dependency
+  packages. Configuration Item: APT::Get::AutomaticRemove.</div>
+<div class="Pp"></div>
+<b>--only-source</b>
+<div class="Bd-indent">Only has meaning for the source and build-dep commands.
+  Indicates that the given source names are not to be mapped through the binary
+  table. This means that if this option is specified, these commands will only
+  accept source package names as arguments, rather than accepting binary package
+  names and looking up the corresponding source package. Configuration Item:
+  APT::Get::Only-Source.</div>
+<div class="Pp"></div>
+<b>--diff-only</b>, <b>--dsc-only</b>, <b>--tar-only</b>
+<div class="Bd-indent">Download only the diff, dsc, or tar file of a source
+  archive. Configuration Item: APT::Get::Diff-Only, APT::Get::Dsc-Only, and
+  APT::Get::Tar-Only.</div>
+<div class="Pp"></div>
+<b>--arch-only</b>
+<div class="Bd-indent">Only process architecture-dependent build-dependencies.
+  Configuration Item: APT::Get::Arch-Only.</div>
+<div class="Pp"></div>
+<b>--allow-unauthenticated</b>
+<div class="Bd-indent">Ignore if packages can&#39;t be authenticated and don&#39;t
+  prompt about it. This is useful for tools like pbuilder. Configuration Item:
+  APT::Get::AllowUnauthenticated.</div>
+<div class="Pp"></div>
+<b>--show-progress</b>
+<div class="Bd-indent">Show user friendly progress information in the terminal
+  window when packages are installed, upgraded or removed. For a machine
+  parsable version of this data see README.progress-reporting in the apt doc
+  directory. Configuration Item: Dpkg::Progress and Dpkg::Progress-Fancy.</div>
+<div class="Pp"></div>
+<b>-h</b>, <b>--help</b>
+<div class="Bd-indent">Show a short usage summary.</div>
+<div class="Pp"></div>
+<b>-v</b>, <b>--version</b>
+<div class="Bd-indent">Show the program version.</div>
+<div class="Pp"></div>
+<b>-c</b>, <b>--config-file</b>
+<div class="Bd-indent">Configuration File; Specify a configuration file to use.
+  The program will read the default configuration file and then this
+  configuration file. If configuration settings need to be set before the
+  default configuration files are parsed specify a file with the
+  <b>APT_CONFIG</b> environment variable. See <a href="/jessie/apt/apt.conf.5.en.html">apt.conf(5)</a> for syntax
+  information.</div>
+<div class="Pp"></div>
+<b>-o</b>, <b>--option</b>
+<div class="Bd-indent">Set a Configuration Option; This will set an arbitrary
+  configuration option. The syntax is <b>-o Foo::Bar=bar</b>. <b>-o</b> and
+  <b>--option</b> can be used multiple times to set different options.</div>
+<h1 class="Sh" id="FILES">FILES<a class="anchor" href="#FILES">¶</a></h1>
+/etc/apt/sources.list
+<div class="Bd-indent">Locations to fetch packages from. Configuration Item:
+  Dir::Etc::SourceList.</div>
+<div class="Pp"></div>
+/etc/apt/sources.list.d/
+<div class="Bd-indent">File fragments for locations to fetch packages from.
+  Configuration Item: Dir::Etc::SourceParts.</div>
+<div class="Pp"></div>
+/etc/apt/apt.conf
+<div class="Bd-indent">APT configuration file. Configuration Item:
+  Dir::Etc::Main.</div>
+<div class="Pp"></div>
+/etc/apt/apt.conf.d/
+<div class="Bd-indent">APT configuration file fragments. Configuration Item:
+  Dir::Etc::Parts.</div>
+<div class="Pp"></div>
+/etc/apt/preferences
+<div class="Bd-indent">Version preferences file. This is where you would specify
+  &#34;pinning&#34;, i.e. a preference to get certain packages from a separate
+  source or from a different version of a distribution. Configuration Item:
+  Dir::Etc::Preferences.</div>
+<div class="Pp"></div>
+/etc/apt/preferences.d/
+<div class="Bd-indent">File fragments for the version preferences. Configuration
+  Item: Dir::Etc::PreferencesParts.</div>
+<div class="Pp"></div>
+/var/cache/apt/archives/
+<div class="Bd-indent">Storage area for retrieved package files. Configuration
+  Item: Dir::Cache::Archives.</div>
+<div class="Pp"></div>
+/var/cache/apt/archives/partial/
+<div class="Bd-indent">Storage area for package files in transit. Configuration
+  Item: Dir::Cache::Archives (partial will be implicitly appended)</div>
+<div class="Pp"></div>
+/var/lib/apt/lists/
+<div class="Bd-indent">Storage area for state information for each package
+  resource specified in <a href="/jessie/apt/sources.list.5.en.html">sources.list(5)</a> Configuration Item:
+  Dir::State::Lists.</div>
+<div class="Pp"></div>
+/var/lib/apt/lists/partial/
+<div class="Bd-indent">Storage area for state information in transit.
+  Configuration Item: Dir::State::Lists (partial will be implicitly
+  appended)</div>
+<h1 class="Sh" id="SEE_ALSO">SEE ALSO<a class="anchor" href="#SEE_ALSO">¶</a></h1>
+<a href="/jessie/apt/apt-cache.8.en.html">apt-cache(8)</a>, <a href="/jessie/apt/apt-cdrom.8.en.html">apt-cdrom(8)</a>, <a href="/jessie/dpkg/dpkg.1.en.html">dpkg(1)</a>,
+  <a href="/jessie/apt/sources.list.5.en.html">sources.list(5)</a>, <a href="/jessie/apt/apt.conf.5.en.html">apt.conf(5)</a>, <a href="/jessie/apt/apt-config.8.en.html">apt-config(8)</a>,
+  <a href="/jessie/apt/apt-secure.8.en.html">apt-secure(8)</a>, The APT User&#39;s guide in /usr/share/doc/apt-doc/,
+  <a href="/jessie/apt/apt_preferences.5.en.html">apt_preferences(5)</a>, the APT Howto.
+<h1 class="Sh" id="DIAGNOSTICS">DIAGNOSTICS<a class="anchor" href="#DIAGNOSTICS">¶</a></h1>
+<b>apt-get</b> returns zero on normal operation, decimal 100 on error.
+<h1 class="Sh" id="BUGS">BUGS<a class="anchor" href="#BUGS">¶</a></h1>
+<b>APT bug page</b>[3]. If you wish to report a bug in APT, please see
+  /usr/share/doc/debian/bug-reporting.txt or the <a href="/jessie/reportbug/reportbug.1.en.html">reportbug(1)</a> command.
+<h1 class="Sh" id="AUTHORS">AUTHORS<a class="anchor" href="#AUTHORS">¶</a></h1>
+<b>Jason Gunthorpe</b>
+<div class="Bd-indent"></div>
+<div class="Pp"></div>
+<b>APT team</b>
+<div class="Bd-indent"></div>
+<h1 class="Sh" id="NOTES">NOTES<a class="anchor" href="#NOTES">¶</a></h1>
+<dl class="Bl-tag">
+  <dt> 1.</dt>
+  <dd>packages.debian.org/changelogs</dd>
+</dl>
+<div class="Bd-indent"><a href="http://packages.debian.org/changelogs">http://packages.debian.org/changelogs</a></div>
+<dl class="Bl-tag">
+  <dt> 2.</dt>
+  <dd>changelogs.ubuntu.com/changelogs</dd>
+</dl>
+<div class="Bd-indent"><a href="http://changelogs.ubuntu.com/changelogs">http://changelogs.ubuntu.com/changelogs</a></div>
+<dl class="Bl-tag">
+  <dt> 3.</dt>
+  <dd>APT bug page</dd>
+</dl>
+<div class="Bd-indent"><a href="http://bugs.debian.org/src:apt">http://bugs.debian.org/src:apt</a></div>
+</div>
+<table class="foot">
+  <tbody><tr>
+    <td class="foot-date">09 June 2012</td>
+    <td class="foot-os">APT 1.0.9.8.4</td>
+  </tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div id="footer">
+
+<p><table>
+<tr>
+<td>
+Source file:
+</td>
+<td>
+apt-get.8.en.gz (from <a href="http://snapshot.debian.org/package/apt/1.0.9.8.4/">apt 1.0.9.8.4</a>)
+</td>
+</tr>
+
+<tr>
+<td>
+Source last updated:
+</td>
+<td>
+2016-12-11T09:49:43Z
+</td>
+</tr>
+
+<tr>
+<td>
+Converted to HTML:
+</td>
+<td>
+2019-03-08T16:10:10Z
+</td>
+</tr>
+</table></p>
+
+<hr>
+<div id="fineprint">
+<p>debiman HEAD, see <a
+href="https://github.com/Debian/debiman/">github.com/Debian/debiman</a>.
+Found a problem? See the <a href="/faq.html">FAQ</a>.</p>
+</div>
+</div>
+<script type="text/javascript">
+(function(a){"use strict";var b=function(b,c,d){var e=a.document;var f=e.createElement("link");var g;if(c)g=c;else{var h=(e.body||e.getElementsByTagName("head")[0]).childNodes;g=h[h.length-1];}var i=e.styleSheets;f.rel="stylesheet";f.href=b;f.media="only x";function j(a){if(e.body)return a();setTimeout(function(){j(a);});}j(function(){g.parentNode.insertBefore(f,(c?g:g.nextSibling));});var k=function(a){var b=f.href;var c=i.length;while(c--)if(i[c].href===b)return a();setTimeout(function(){k(a);});};function l(){if(f.addEventListener)f.removeEventListener("load",l);f.media=d||"all";}if(f.addEventListener)f.addEventListener("load",l);f.onloadcssdefined=k;k(l);return f;};if(typeof exports!=="undefined")exports.loadCSS=b;else a.loadCSS=b;}(typeof global!=="undefined"?global:this));
+(function(a){if(!a.loadCSS)return;var b=loadCSS.relpreload={};b.support=function(){try{return a.document.createElement("link").relList.supports("preload");}catch(b){return false;}};b.poly=function(){var b=a.document.getElementsByTagName("link");for(var c=0;c<b.length;c++){var d=b[c];if(d.rel==="preload"&&d.getAttribute("as")==="style"){a.loadCSS(d.href,d);d.rel=null;}}};if(!b.support()){b.poly();var c=a.setInterval(b.poly,300);if(a.addEventListener)a.addEventListener("load",function(){a.clearInterval(c);});if(a.attachEvent)a.attachEvent("onload",function(){a.clearInterval(c);});}}(this));
+</script>
+
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Thing","@id":"/contents-jessie.html","name":"jessie"}},{"@type":"ListItem","position":2,"item":{"@type":"Thing","@id":"/jessie/apt/index.html","name":"apt"}},{"@type":"ListItem","position":3,"item":{"@type":"Thing","@id":"","name":"apt-get(8)"}}]}
+</script>

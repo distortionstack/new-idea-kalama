@@ -10,13 +10,13 @@ from pathlib import Path
 from typing import Any, Callable, Mapping
 
 from ..resolution.artifacts import (
-    ATTACK_RESULT_SCHEMA, EVALUATION_DATASET_SCHEMA, EVALUATION_METRICS_SCHEMA,
+    ATTACK_RESULT_SCHEMA, EXPLOIT_CONFIG_SET_SCHEMA, EVALUATION_DATASET_SCHEMA, EVALUATION_METRICS_SCHEMA,
     PATCH_PLAN_SCHEMA, REMEDIATION_RESULT_SCHEMA,
     REMEDIATION_SCAN_RESULT_SCHEMA, RUN_SUMMARY_SCHEMA, ArtifactWriteError,
     write_evaluation_dataset, write_evaluation_metrics, write_run_summary,
 )
 from ..state.models import (
-    ArtifactKind, ArtifactReference, PipelineStage, RunError, RunState, RunStatus,
+    ArtifactKind, ArtifactReference, PipelineStage, RunError, RunNotice, RunState, RunStatus,
     StageStatus,
 )
 from ..state.store import StateStore, utc_text
@@ -156,6 +156,66 @@ class EvaluationOrchestrator:
         self.store.save(state)
         return self.store.load(state.run_id)
 
+    def _write_validated_knowledge(self, state: RunState, top: Mapping[str, Any], attack: Mapping[str, Any],
+                                   config: Mapping[str, Any], remediation: Mapping[str, Any],
+                                   patch_plan: Mapping[str, Any], patch_ref: ArtifactReference) -> int:
+        """Persist only attributable successful BEFORE evidence after final evaluation.
+
+        The final remediation artifact has already passed lineage checks when this
+        is called.  No LLM proposal or transient network/container identity is
+        written as reusable knowledge.
+        """
+        from ..knowledge import KnowledgeStore
+        from ..knowledge.writer import validated_attack_record
+        from ..knowledge.writer import validated_remediation_record
+        attacks = {str(x.get("cve_id")): x for x in attack.get("cves") or () if isinstance(x, Mapping)}
+        configs = {str(x.get("cve_id")): x for x in config.get("cves") or () if isinstance(x, Mapping)}
+        count = 0
+        store = KnowledgeStore(self.store.output_root)
+        for ranked in top.get("ranked_cves") or ():
+            if not isinstance(ranked, Mapping):
+                continue
+            cve = str(ranked.get("cve_id"))
+            if attacks.get(cve, {}).get("disposition") != "EXPLOIT_SUCCEEDED":
+                continue
+            raw = configs.get(cve, {}).get("exploit_config")
+            if isinstance(raw, Mapping):
+                invariant, environment = raw.get("invariant") or {}, raw.get("environment") or {}
+                fields = {"module": ((invariant.get("module_selection") or {}).get("module") or {}).get("value"),
+                          "targeturi": (invariant.get("targeturi") or {}).get("value"),
+                          "payload": ((invariant.get("payload") or {}).get("payload") or {}).get("value"),
+                          "rport": (environment.get("rport") or {}).get("value")}
+                for occurrence in ranked.get("occurrences") or ():
+                    if isinstance(occurrence, Mapping):
+                        record = validated_attack_record(cve_id=cve, occurrence=occurrence, config=fields,
+                            run_id=state.run_id, evidence={"attack_before": state.artifact(ArtifactKind.ATTACK_BEFORE).to_dict(),
+                            "remediation_result": state.artifact(ArtifactKind.REMEDIATION_RESULT).to_dict()})
+                        if record:
+                            store.upsert(record); count += 1
+            # Remediation is reusable only after the final classifier says it
+            # was verified; scanner success alone is intentionally insufficient.
+            final = next((x for x in remediation.get("cves") or ()
+                          if isinstance(x, Mapping) and x.get("cve_id") == cve), {})
+            status = ((final.get("final") or {}).get("status") if isinstance(final, Mapping) else None)
+            if status != "VERIFIED":
+                continue
+            # The committed Patch Plan is authoritative.  The final result only
+            # references it, so never mine duplicate fields from downstream data.
+            for action in patch_plan.get("actions") or ():
+                if not isinstance(action, Mapping) or cve not in (action.get("target_cves") or ()):
+                    continue
+                for occurrence in ranked.get("occurrences") or ():
+                    if not isinstance(occurrence, Mapping):
+                        continue
+                    patch_record = validated_remediation_record(cve_id=cve, occurrence=occurrence,
+                        action=action, run_id=state.run_id, evidence={
+                            "patch_plan": patch_ref.to_dict(), "patch_action_id": action.get("action_id"),
+                            "remediation_result": state.artifact(ArtifactKind.REMEDIATION_RESULT).to_dict(),
+                            "attack_before": state.artifact(ArtifactKind.ATTACK_BEFORE).to_dict()})
+                    if patch_record:
+                        store.upsert(patch_record); count += 1
+        return count
+
     def _fail(self, run_id: str, code: str, message: str) -> RunState:
         state, now = self.store.load(run_id), self._now()
         state = state.with_stage(PipelineStage.STEP_8_EVALUATION, StageStatus.FAILED, now)
@@ -220,6 +280,8 @@ class EvaluationOrchestrator:
             records = build_evaluation_records(top, attack, remediation)
             records = enrich_records_with_scoped_evidence(
                 records, remediation, scan_result, patch_plan)
+            config_ref, config = self._load(state, ArtifactKind.EXPLOIT_CONFIG_BEFORE,
+                                             EXPLOIT_CONFIG_SET_SCHEMA)
         except EvaluationError as exc:
             return self._fail(run_id, exc.code, str(exc))
         except Exception as exc:
@@ -328,6 +390,17 @@ class EvaluationOrchestrator:
             summary_sha, RUN_SUMMARY_SCHEMA, completed_at, PipelineStage.STEP_8_EVALUATION,
             (("completed_at", completed_at), ("warnings", len(summary["warnings"]))))
         state = self._save(self.store.load(run_id).with_artifact(summary_ref, now))
+        # Feedback is intentionally after every result artifact is committed.
+        # Failure here is non-fatal: a completed run remains an auditable run.
+        try:
+            self._write_validated_knowledge(state, top, attack, config, remediation,
+                                            patch_plan, plan_ref)
+        except Exception as exc:
+            feedback_now = self._now()
+            state = replace(state, warnings=state.warnings + (RunNotice(
+                "KNOWLEDGE_FEEDBACK_FAILED",
+                f"knowledge feedback failed for run {run_id}: {type(exc).__name__}: {str(exc)[:500]}",
+                feedback_now),), updated_at=feedback_now)
         state = state.with_stage(PipelineStage.STEP_8_EVALUATION, StageStatus.SUCCEEDED, now)
         return self._save(replace(state, status=RunStatus.COMPLETED,
                                   current_stage=PipelineStage.STEP_8_EVALUATION,

@@ -136,7 +136,10 @@ class PatchExecutionOrchestrator:
                     if ok:patched=dict(evidence["image_identity"])
                 else:
                     evidence=dict(self.backend.execute_action(action,{"workspace":workspace,"source_image":source,"planned_after":artifact["planned_after"]},timeout=self.action_timeout));ok=bool(evidence.get("success"))
-                records.append({"action_id":action.action_id,"target_cves":list(action.target_cves),"incidental_cves":list(action.incidental_cves),"strategy":action.strategy.value,"attempt_number":attempt,"source_image":source,"workspace":workspace,"started_at":start,"ended_at":self._now(),"result":"SUCCEEDED" if ok else "FAILED","command_evidence":evidence,"evidence":evidence})
+                stdout = str(evidence.get("stdout") or "")
+                effect = ("NO_OP" if "SCOPE_EXCLUDED_NOOP" in stdout or
+                          "_UNCHANGED_OK" in stdout else "COMMAND_SUCCEEDED") if ok else "COMMAND_FAILED"
+                records.append({"action_id":action.action_id,"target_cves":list(action.target_cves),"incidental_cves":list(action.incidental_cves),"strategy":action.strategy.value,"attempt_number":attempt,"source_image":source,"workspace":workspace,"started_at":start,"ended_at":self._now(),"result":"SUCCEEDED" if ok else "FAILED","remediation_effect":effect,"command_evidence":evidence,"evidence":evidence})
                 failed=not ok
             if failed:
                 state=self._publish(s,plan_ref,artifact,records,source,errors=("PATCH_ACTION_FAILED",),attempt=attempt,lineage=lineage,failed_at="COMMAND")

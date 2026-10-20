@@ -1,0 +1,109 @@
+{
+  "schema": "kalama.patch-assist-prototype/evidence-pack/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "candidate_identity": {
+    "run_id": "B9X4K",
+    "action_id": "patch-001",
+    "cve_id": "CVE-2019-9924",
+    "package_name": "bash",
+    "component": "bash (debian OS package)",
+    "ecosystem": "deb",
+    "installed_version": "4.3-11+deb8u1",
+    "image_identity": "kalama-lab:type-c-shellshock@sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332",
+    "target_identity": "kalama-lab:type-c-shellshock (image-only evidence; no live container executed)",
+    "container_identity": null,
+    "phase": "patch"
+  },
+  "evidence_level": {
+    "satisfied_levels": ["L0", "L1", "L2", "L3"],
+    "missing_levels": ["L4", "L5"]
+  },
+  "evidence_sufficiency": {
+    "version_recommendation": "SUPPORTED",
+    "artifact_provenance": "SUPPORTED",
+    "artifact_integrity": "SUPPORTED",
+    "dependency_closure": "SUPPORTED",
+    "patch_strategy": "SUPPORTED",
+    "command": "INSUFFICIENT",
+    "validation_command": "INSUFFICIENT"
+  },
+  "scanner_evidence": {
+    "cve_id": "CVE-2019-9924",
+    "incidental_cves": ["CVE-2016-9401"],
+    "package": "bash",
+    "installed_version": "4.3-11+deb8u1",
+    "fixed_version": "4.3-11+deb8u2",
+    "vendor_ids": ["DLA-1726-1"],
+    "purl": "pkg:deb/debian/bash@4.3-11+deb8u1?arch=amd64&distro=debian-8.10",
+    "severity": "HIGH",
+    "primary_url": "https://avd.aquasec.com/nvd/cve-2019-9924",
+    "data_source": {"id": "debian", "name": "Debian Security Tracker", "url": "https://salsa.debian.org/security-tracker-team/security-tracker"},
+    "seed_file": "seed/frozen_seed.json"
+  },
+  "runtime_evidence": {
+    "image": "kalama-lab:type-c-shellshock@sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332",
+    "os": "debian 8.10 (EOSL)",
+    "cmd": ["apache2ctl", "-DFOREGROUND"],
+    "env_path": "/usr/local/bash-4.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "custom_bash_prefix_note": "Source-built /usr/local/bash-4.3.0 observed in image history; out of scope for patch-001 (not covered by scanner finding).",
+    "seed_file": "seed/frozen_seed.json"
+  },
+  "advisory_evidence": {
+    "nvd": {"cve": "CVE-2019-9924", "description_en": "rbash in Bash before 4.4-beta2 did not prevent the shell user from modifying BASH_CMDS, thus allowing the user to execute any command with the permissions of the shell.", "cvss_v3": 7.8, "source": "S005"},
+    "osv": {"id": "CVE-2019-9924", "advisory_refs_include_dla": true, "source": "S006"},
+    "debian_tracker": {"jessie_fixed": "4.3-11+deb8u2", "via": "DLA-1726-1", "unstable_fixed": "4.4-1", "source": "S007"},
+    "kev": {"present": false, "source": "S008", "note": "Checked-negative: CVE-2019-9924 absent from the retrieved KEV feed."}
+  },
+  "package_registry_evidence": {
+    "installed_index": {"source": "S010", "version": "4.3-11+deb8u1", "sha256": "fbba12207fd2469478b95913b1e59d8b9952cc77685693133b13f06f14292590"},
+    "fixed_index": {"source": "S011", "version": "4.3-11+deb8u2", "filename": "pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb", "size": 1173300, "sha256": "9ef1f539367912045a85269b583b28d2a5b4f48e70a0457017a520d9c83992bf", "sha1": "ec7fc34e38f121a241d05b45e60d9fbb4f425587", "md5": "48b0985610391345a78af34e9e1c8053"},
+    "snapshot_corroboration": {"source": "S009", "note": "Snapshot version list contains 4.3-11+deb8u2."}
+  },
+  "upstream_documentation": null,
+  "runtime_documentation": null,
+  "artifact_evidence": {
+    "artifact": "bash_4.3-11+deb8u2_amd64.deb",
+    "artifact_url": "http://archive.debian.org/debian-security/pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb",
+    "source": "S012",
+    "size": 1173300,
+    "sha256": "9ef1f539367912045a85269b583b28d2a5b4f48e70a0457017a520d9c83992bf",
+    "checksum_match": "downloaded bytes match the S011 stanza SHA-256 and size exactly"
+  },
+  "dependency_evidence": {
+    "closure_complete": true,
+    "fixed_revision_dependencies": {"Depends": ["base-files (>= 2.1.12)", "debianutils (>= 2.15)"], "Pre-Depends": ["dash (>= 0.5.5.1-2.2)", "libc6 (>= 2.15)", "libncurses5 (>= 5.5-5~)", "libtinfo5"], "Essential": "yes"},
+    "unresolved": [],
+    "source": "S011"
+  },
+  "source_graph_summary": {
+    "source_count": 13,
+    "retrieved_count": 11,
+    "fetch_failed_count": 2,
+    "rejected_count": 0,
+    "valid": true
+  },
+  "source_references": [
+    {"source_id": "SEED-01", "url": null, "source_type": "scanner_record", "authority_class": "SEED", "discovery_method": "FROZEN_SEED", "parent_source_id": null, "parent_evidence": "seed/frozen_seed.json#scanner_finding", "retrieved_at": "2026-09-18T09:15:00Z", "content_sha256": "sha256:abe066fb808ab7c3c2d69a21ce7354f1508be43fb3c4532e3a99dd0611e9e2ac", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["derive-references", "derive-package-identity", "derive-datasource"], "used_for_fields": ["target_version"]},
+    {"source_id": "S001", "url": "https://lists.debian.org/debian-lts-announce/2019/03/msg00028.html", "source_type": "advisory_record", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:30:00Z", "content_sha256": "sha256:d19b9ef1e716a61d30480e8e528a47d9975876c11febe9c4921a04110df10439", "status": "FETCH_FAILED", "confidence": "NEEDS_REVIEW", "allowed_operations": [], "used_for_fields": []},
+    {"source_id": "S002", "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9924", "source_type": "advisory_record", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:30:00Z", "content_sha256": "sha256:952581b5e1f0428eddee689d6c27f7fa9ee32e4c8e259f0db861c7e8b091d944", "status": "FETCH_FAILED", "confidence": "NEEDS_REVIEW", "allowed_operations": [], "used_for_fields": []},
+    {"source_id": "S003", "url": "https://lists.gnu.org/archive/html/bug-bash/2017-03/msg00077.html", "source_type": "upstream_documentation", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:30:00Z", "content_sha256": "sha256:f041f1f3702d0810a674532574c9ef928b6caf317c169d0c7e1db129aae65fc9", "status": "RETRIEVED", "confidence": "LOW", "allowed_operations": [], "used_for_fields": ["notes"]},
+    {"source_id": "S004", "url": "https://git.savannah.gnu.org/cgit/bash.git/tree/CHANGES?h=bash-4.4-testing", "source_type": "upstream_documentation", "authority_class": "CANDIDATE_ONLY", "discovery_method": "SCANNER_REFERENCE_TRAVERSAL", "parent_source_id": "SEED-01", "parent_evidence": "scanner References[] entry", "retrieved_at": "2026-09-18T09:40:00Z", "content_sha256": "sha256:baf247c499cdc78a4beb2c1236bfa4ba9f633c08dbc306f51a97221bd20f8585", "status": "RETRIEVED", "confidence": "MEDIUM", "allowed_operations": [], "used_for_fields": ["target_version", "notes"]},
+    {"source_id": "S005", "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-9924", "source_type": "advisory_record", "authority_class": "ADVISORY_AUTHORITY", "discovery_method": "ADVISORY_QUERY", "parent_source_id": "SEED-01", "parent_evidence": "candidate CVE identity CVE-2019-9924", "retrieved_at": "2026-09-18T09:35:00Z", "content_sha256": "sha256:7bbfef13b1a7105a802ec74e0797b338cb5d676b066bc37d2f89efb31b085edc", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": [], "used_for_fields": ["target_version"]},
+    {"source_id": "S006", "url": "https://api.osv.dev/v1/vulns/CVE-2019-9924", "source_type": "advisory_record", "authority_class": "ADVISORY_AUTHORITY", "discovery_method": "ADVISORY_QUERY", "parent_source_id": "SEED-01", "parent_evidence": "candidate CVE identity CVE-2019-9924", "retrieved_at": "2026-09-18T09:35:00Z", "content_sha256": "sha256:730de6fad782edb235f8b880400a5b603a5e6777729705588c73cb53801761ad", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": [], "used_for_fields": ["target_version"]},
+    {"source_id": "S007", "url": "https://security-tracker.debian.org/tracker/CVE-2019-9924", "source_type": "advisory_record", "authority_class": "ADVISORY_AUTHORITY", "discovery_method": "ADVISORY_TRACKER_CVE_PATH", "parent_source_id": "SEED-02", "parent_evidence": "scanner DataSource (Debian Security Tracker) + CVE identity", "retrieved_at": "2026-09-18T09:35:00Z", "content_sha256": "sha256:79624bf79388780dcfcb6cb9a476ccda3fbd601c765bebf08486fadc4fcaa9ae", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["follow-tracker-child-links"], "used_for_fields": ["target_version"]},
+    {"source_id": "S008", "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json", "source_type": "advisory_record", "authority_class": "ADVISORY_AUTHORITY", "discovery_method": "ADVISORY_QUERY", "parent_source_id": "SEED-01", "parent_evidence": "candidate CVE identity CVE-2019-9924", "retrieved_at": "2026-09-18T09:40:00Z", "content_sha256": "sha256:72b4e3489021d2ad50c4f9b8ddddd1608a9e6b87dd7beedc126f6341ea98f105", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": [], "used_for_fields": ["target_version"]},
+    {"source_id": "S009", "url": "https://snapshot.debian.org/mr/package/bash/", "source_type": "native_registry_metadata", "authority_class": "DERIVED_PACKAGE_AUTHORITY", "discovery_method": "PACKAGE_IDENTITY_DERIVED_LIST", "parent_source_id": "SEED-01", "parent_evidence": "package identity bash (PURL ecosystem deb)", "retrieved_at": "2026-09-18T09:45:00Z", "content_sha256": "sha256:4229017260b4f6a1eda3653e247767c211a46e239425a6112bc705080bf27b95", "status": "RETRIEVED", "confidence": "MEDIUM", "allowed_operations": ["metadata"], "used_for_fields": ["artifact_source"]},
+    {"source_id": "S010", "url": "http://archive.debian.org/debian/dists/jessie/main/binary-amd64/Packages.gz", "source_type": "native_registry_metadata", "authority_class": "DERIVED_PACKAGE_AUTHORITY", "discovery_method": "DISTRO_DERIVED_ARCHIVE_INDEX", "parent_source_id": "SEED-01", "parent_evidence": "distro debian-8.10 (jessie) from PURL + scanner OS", "retrieved_at": "2026-09-18T09:45:00Z", "content_sha256": "sha256:7240a1c6ce11c3658d001261e77797818e610f7da6c2fb1f98a24fdbf4e8d84c", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["metadata"], "used_for_fields": ["artifact_source", "source_identifier"]},
+    {"source_id": "S011", "url": "http://archive.debian.org/debian-security/dists/jessie/updates/main/binary-amd64/Packages.gz", "source_type": "native_registry_metadata", "authority_class": "DERIVED_PACKAGE_AUTHORITY", "discovery_method": "DISTRO_DERIVED_ARCHIVE_INDEX", "parent_source_id": "SEED-01", "parent_evidence": "distro jessie + DLA/LTS security update identity", "retrieved_at": "2026-09-18T09:45:00Z", "content_sha256": "sha256:3da1205c671e38db711a76403b27f1b3e0b84766edcf717a4b9daea9d4c693b2", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["metadata", "artifact", "checksum"], "used_for_fields": ["artifact_source", "source_identifier", "target_version"]},
+    {"source_id": "S012", "url": "http://archive.debian.org/debian-security/pool/updates/main/b/bash/bash_4.3-11+deb8u2_amd64.deb", "source_type": "native_registry_artifact", "authority_class": "DERIVED_PACKAGE_AUTHORITY", "discovery_method": "INDEX_DERIVED_ARTIFACT_PATH", "parent_source_id": "S011", "parent_evidence": "Filename field of the S011 bash stanza", "retrieved_at": "2026-09-18T09:50:00Z", "content_sha256": "sha256:9ef1f539367912045a85269b583b28d2a5b4f48e70a0457017a520d9c83992bf", "status": "RETRIEVED", "confidence": "HIGH", "allowed_operations": ["artifact", "checksum"], "used_for_fields": ["artifact_source"]}
+  ],
+  "missing_evidence": [
+    {"code": "COMPATIBILITY_UNKNOWN", "missing": ["promoted upstream release/compat documentation"], "evidence": ["L4 not satisfied"], "impact": "Backport-vs-upstream version-family rationale unavailable in this arm."},
+    {"code": "PROCEDURE_UNKNOWN", "missing": ["runtime deployment procedure documentation"], "evidence": ["L5 not satisfied"], "impact": "Command and validation_command must remain null."},
+    {"code": "ADVISORY_TEXT_UNREACHABLE", "missing": ["full DLA-1726-1 announcement text"], "evidence": ["S001"], "impact": "DLA prose unavailable; DLA facts carried by OSV/tracker records instead."}
+  ],
+  "pack_sha256": "35ee44588ee913590b71e241695e299ebfdece631c8cc23b939511b64479fa5a",
+  "created_at": "2026-09-18T10:00:00Z"
+}

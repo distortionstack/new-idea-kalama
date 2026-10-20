@@ -7,6 +7,7 @@ from .models import EvidencePack, PROPOSAL_SCHEMA, ProposalValidationState
 
 
 ALLOWED_TOP = {"schema", "status", "run_id", "cve_id", "evidence_pack_sha256",
+               "candidate_digest", "field_evidence_sha256",
                "proposals", "missing_evidence", "guidance_notes", "reasoning_summary"}
 ALLOWED_FIELDS = {"module", "target", "targeturi", "rport", "payload",
                   "module_options", "payload_options", "execution_protocol", "preconditions"}
@@ -33,6 +34,21 @@ def validate_proposal(pack: EvidencePack, raw: Any) -> tuple[ProposalValidationS
     if (raw.get("run_id"), raw.get("cve_id"), raw.get("evidence_pack_sha256")) != (
             pack.run_id, pack.cve_id, pack.sha256):
         return ProposalValidationState.REJECTED, {}, ("proposal identity/evidence digest mismatch",)
+    # Exact candidate-context binding (Task 4C): a proposal built for one
+    # candidate must not validate for another even when the CVE matches.
+    # The binding is enforced only for packs that carry it, so legacy packs
+    # without candidate evidence keep their existing behavior.
+    bound_candidate = pack.document.get("candidate_digest")
+    if bound_candidate is not None and raw.get("candidate_digest") != bound_candidate:
+        return ProposalValidationState.REJECTED, {}, (
+            "candidate binding mismatch: proposal is not bound to this candidate context",)
+    # Exact field-evidence binding: the proposal must echo the digest of the
+    # Task 1-3 EvidencePack the provider actually received.  The current pack
+    # SHA is never substituted after receiving model output.
+    bound_field_sha = pack.document.get("field_evidence_sha256")
+    if bound_field_sha is not None and raw.get("field_evidence_sha256") != bound_field_sha:
+        return ProposalValidationState.REJECTED, {}, (
+            "field evidence digest mismatch: proposal is not bound to this evidence pack",)
     if raw.get("status") == "INSUFFICIENT_EVIDENCE":
         return ProposalValidationState.INSUFFICIENT_EVIDENCE, {}, ()
     proposals = raw.get("proposals")

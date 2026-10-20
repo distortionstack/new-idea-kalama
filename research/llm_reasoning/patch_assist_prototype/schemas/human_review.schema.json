@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kalama.patch-assist-prototype/human-review/v1",
+  "$title": "HumanReview",
+  "description": "ROLE B surrogate-reviewer record over a frozen Agent Proposal with the same Evidence Pack. Reviewer must not modify the pack or fetch new evidence.",
+  "type": "object",
+  "required": ["schema", "experiment_id", "run_id", "action_id", "proposal_sha256", "pack_sha256", "field_reviews", "created_at"],
+  "properties": {
+    "schema": {"const": "kalama.patch-assist-prototype/human-review/v1"},
+    "experiment_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "action_id": {"type": "string"},
+    "proposal_sha256": {"type": "string"},
+    "pack_sha256": {"type": "string"},
+    "reviewer_context": {"type": ["string", "null"], "description": "E.g. fresh-session surrogate; records isolation measures taken."},
+    "field_reviews": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "required": ["original_value", "final_value", "review_class", "edit_reason"],
+          "properties": {
+            "original_value": {},
+            "final_value": {},
+            "review_class": {"type": "string", "enum": ["NO_EDIT", "MINOR_EDIT", "MAJOR_EDIT", "REJECT", "ABSTENTION_ACCEPTED"], "description": "NO_EDIT: semantic value unchanged. MINOR_EDIT: format/path/syntax/clarity only, remediation logic unchanged. MAJOR_EDIT: changes target version, strategy, dependencies, artifact identity, command behavior, or validation semantics. REJECT: unsafe/unsupported/unusable. ABSTENTION_ACCEPTED: agent correctly declined on insufficient evidence."},
+            "edit_reason": {"type": "string"},
+            "evidence_refs": {"type": "array", "items": {"type": "string"}},
+            "unsupported_claim_detected": {"type": "boolean"},
+            "missing_evidence_detected": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "created_at": {"type": "string"}
+  }
+}

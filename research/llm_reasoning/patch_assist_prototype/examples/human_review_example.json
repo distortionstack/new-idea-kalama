@@ -1,0 +1,21 @@
+{
+  "schema": "kalama.patch-assist-prototype/human-review/v1",
+  "experiment_id": "EXP-DEMO-001",
+  "run_id": "RUN-DEMO",
+  "action_id": "patch-001",
+  "proposal_sha256": "demo-proposal-sha256-000000000000000000000000000000000000000000000001",
+  "pack_sha256": "demo-pack-sha256-00000000000000000000000000000000000000000000000001",
+  "reviewer_context": "Surrogate reviewer, fresh session; saw only the Evidence Pack and the frozen Agent Proposal.",
+  "field_reviews": {
+    "fix_type": {"original_value": "B", "final_value": "B", "review_class": "NO_EDIT", "edit_reason": "Fix type matches advisory + artifact evidence.", "evidence_refs": ["S001"], "unsupported_claim_detected": false, "missing_evidence_detected": false},
+    "strategy": {"original_value": "ARTIFACT_REPLACEMENT", "final_value": "ARTIFACT_REPLACEMENT", "review_class": "NO_EDIT", "edit_reason": "Strategy consistent with fix type B and registry artifact.", "evidence_refs": ["S001"], "unsupported_claim_detected": false, "missing_evidence_detected": false},
+    "target_version": {"original_value": "1.4.7", "final_value": "1.4.7", "review_class": "MINOR_EDIT", "edit_reason": "Version value kept; clarified citation to include scanner fixed-version seed field.", "evidence_refs": ["S001"], "unsupported_claim_detected": false, "missing_evidence_detected": false},
+    "artifact_source": {"original_value": "https://repo.demo.invalid/maven2/org/example/example-package/1.4.7/example-package-1.4.7.jar", "final_value": "https://repo.demo.invalid/maven2/org/example/example-package/1.4.7/example-package-1.4.7.jar", "review_class": "NO_EDIT", "edit_reason": "Exact retrieved artifact path with checksum match.", "evidence_refs": ["R001", "R002"], "unsupported_claim_detected": false, "missing_evidence_detected": false},
+    "source_identifier": {"original_value": "R002", "final_value": "R002", "review_class": "NO_EDIT", "edit_reason": "Authority record correctly parented.", "evidence_refs": ["R001", "R002"], "unsupported_claim_detected": false, "missing_evidence_detected": false},
+    "build_system": {"original_value": null, "final_value": null, "review_class": "NO_EDIT", "edit_reason": "NOT_APPLICABLE stands; no source build involved.", "evidence_refs": [], "unsupported_claim_detected": false, "missing_evidence_detected": false},
+    "command": {"original_value": null, "final_value": null, "review_class": "ABSTENTION_ACCEPTED", "edit_reason": "Correct abstention: L4/L5 missing, gate INSUFFICIENT.", "evidence_refs": [], "unsupported_claim_detected": false, "missing_evidence_detected": true},
+    "validation_command": {"original_value": null, "final_value": null, "review_class": "ABSTENTION_ACCEPTED", "edit_reason": "Correct abstention: L5 missing, gate INSUFFICIENT.", "evidence_refs": [], "unsupported_claim_detected": false, "missing_evidence_detected": true},
+    "notes": {"original_value": "Release notes and runtime deploy procedure unavailable; command deferred pending L4/L5.", "final_value": "Release notes and runtime deploy procedure unavailable; command deferred pending L4/L5.", "review_class": "NO_EDIT", "edit_reason": "Display-only summary is accurate and creates no authority.", "evidence_refs": ["S001"], "unsupported_claim_detected": false, "missing_evidence_detected": false}
+  },
+  "created_at": "2099-01-04T00:00:00Z"
+}

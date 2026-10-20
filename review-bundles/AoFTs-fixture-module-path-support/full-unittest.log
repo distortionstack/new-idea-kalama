@@ -1,0 +1,23 @@
+.........................................................................................................................................................................................................EPSS request attempt 1/4 failed after 0.000s: EPSSHTTPError: FIRST EPSS returned HTTP 422
+EPSS request will not retry deterministic HTTP 422
+...EPSS request attempt 1/2 failed after 0.000s: OSError: down
+EPSS request attempt 2/2 failed after 0.000s: OSError: down
+EPSS request attempt 1/2 failed after 0.000s: OSError: down
+EPSS request attempt 2/2 failed after 0.000s: OSError: down
+..EPSS request attempt 1/2 failed after 4.000s: TimeoutError: simulated
+EPSS request attempt 2/2 failed after 0.000s: TimeoutError: simulated
+EPSS enrichment unavailable: total deadline exceeded
+..F.................................................................
+======================================================================
+FAIL: test_epss_wall_clock_budget_interrupts_blocking_transport (tests.unit.test_prioritizer.ProviderTests.test_epss_wall_clock_budget_interrupts_blocking_transport)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\distortion\Documents\new-idea-kalama\tests\unit\test_prioritizer.py", line 171, in test_epss_wall_clock_budget_interrupts_blocking_transport
+    with self.assertRaises(TimeoutError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: TimeoutError not raised
+
+----------------------------------------------------------------------
+Ran 274 tests in 12.250s
+
+FAILED (failures=1)

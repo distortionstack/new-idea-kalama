@@ -1,0 +1,1 @@
+﻿{"Env":["PATH=/usr/local/bash-4.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["apache2ctl","-DFOREGROUND"],"Labels":{"maintainer":"phithon <root@leavesongs.com>"},"ArgsEscaped":true}

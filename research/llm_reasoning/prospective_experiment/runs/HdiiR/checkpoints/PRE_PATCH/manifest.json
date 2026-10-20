@@ -1,0 +1,69 @@
+{
+  "label": "PRE_PATCH",
+  "captured_at": "2026-09-15T22:16:39.642172+00:00",
+  "run_id": "HdiiR",
+  "revision": "1",
+  "container_id": "adf18dec3c2ffb30ee3e70507013843306bb6cbb24037c87977d2e632c7b6ba2",
+  "evidence": [
+    {
+      "id": "E001",
+      "source_path": "output\\2d8ru-struts2-prospective\\state\\run_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\run_HdiiR.json",
+      "sha256": "9110685296a3362b09715f4db99b5cd0742b7031e69a28e63907c2e4ea1dbfad"
+    },
+    {
+      "id": "E002",
+      "source_path": "output\\2d8ru-struts2-prospective\\trivy\\before\\scan_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\scan_2026-09-15_HdiiR.json",
+      "sha256": "3b2253a3078ad72170661200d86cf14c0f7b033975da7d95eac1a470fee66620"
+    },
+    {
+      "id": "E003",
+      "source_path": "output\\2d8ru-struts2-prospective\\scoring\\before\\top30_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\top30_2026-09-15_HdiiR.json",
+      "sha256": "fcfd355dc618cdad68212ca49ba74c185873272efe7442c3d1217d7a158a174a"
+    },
+    {
+      "id": "E004",
+      "source_path": "output\\2d8ru-struts2-prospective\\resolver\\resolver_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\resolver_2026-09-15_HdiiR.json",
+      "sha256": "2d89dfef863db0432e6b46ac525635e83f27fb9beab879048bff5498c069baca"
+    },
+    {
+      "id": "E005",
+      "source_path": "output\\2d8ru-struts2-prospective\\resolver\\forms\\attack_form_HdiiR_r1.yaml",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\attack_form_HdiiR_r1.yaml",
+      "sha256": "738713d20fc96b448583f5949cdc75e311e37bde9e269b863fa9627b1e321b00"
+    },
+    {
+      "id": "E006",
+      "source_path": "output\\2d8ru-struts2-prospective\\resolver\\forms\\submissions\\attack_form_submission_HdiiR_r1.yaml",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\attack_form_submission_HdiiR_r1.yaml",
+      "sha256": "bbd5822d588d16efb98f8eedabdbba30582b64f5dabc6251a26c7c9360d40a31"
+    },
+    {
+      "id": "E007",
+      "source_path": "output\\2d8ru-struts2-prospective\\resolver\\config\\exploit_config_before_HdiiR_r1.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\exploit_config_before_HdiiR_r1.json",
+      "sha256": "f81d03d73d30aee629e14841de4d4816e6bedfd474c1d61351118a20565bae22"
+    },
+    {
+      "id": "E008",
+      "source_path": "output\\2d8ru-struts2-prospective\\msf\\before\\attack_res_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\attack_res_2026-09-15_HdiiR.json",
+      "sha256": "03a6d687fa873616cfa54afc3410634fab22e73c1e6a322f9da8f85940595a5a"
+    },
+    {
+      "id": "E009",
+      "source_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\review\\attack_form_HdiiR_r1_reviewed_v3.yaml",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\attack_form_HdiiR_r1_reviewed_v3.yaml",
+      "sha256": "bbd5822d588d16efb98f8eedabdbba30582b64f5dabc6251a26c7c9360d40a31"
+    },
+    {
+      "id": "E010",
+      "source_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\review\\local_validation_v3.stdout.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PRE_PATCH\\frozen_evidence\\local_validation_v3.stdout.json",
+      "sha256": "a6c1f5f519cff95a8ec226d7b4a1366e7b2b44556eb82aa9921b22a4d70354a4"
+    }
+  ]
+}

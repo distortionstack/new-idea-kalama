@@ -1,0 +1,25 @@
+{
+  "schema": "kalama.patch-assist-prototype/pack-validation/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "arm": "ARM_C_L3_L4_L5",
+  "pack_file": "arms/ARM_C_L3_L4_L5/evidence_pack.json",
+  "pack_sha256": "a780084f1983f6b2136a90617d359353df034546cd6f4c021e64ababcfc24707",
+  "hash_procedure": "pack_sha256 = SHA-256 over the no-BOM UTF-8 file bytes with the pack_sha256 value blanked to empty string. Recompute: replace the 64-hex value with empty, hash, compare.",
+  "checks": {
+    "schema_required_keys_present": true,
+    "candidate_identity_consistent": true,
+    "same_case_as_other_arms": true,
+    "seed_binding": "seed/frozen_seed.json (sha256:abe066fb808ab7c3c2d69a21ce7354f1508be43fb3c4532e3a99dd0611e9e2ac)",
+    "all_source_refs_resolve": true,
+    "no_orphan_parents": true,
+    "retrieved_sources_have_hashes": true,
+    "failed_sources_retained_not_cited": true,
+    "gates_internally_consistent": true,
+    "missing_evidence_recorded": true,
+    "no_proposal_reviewer_content": true,
+    "arm_isolation": "Superset of ARM B refs plus L4 material (S004 promoted, S013, S014-failed). No L5 vendor docs exist under policy; runtime_documentation null by honest absence, not by omission."
+  },
+  "gate_summary": {"version_recommendation": "SUPPORTED", "artifact_provenance": "SUPPORTED", "artifact_integrity": "SUPPORTED", "dependency_closure": "SUPPORTED", "patch_strategy": "SUPPORTED", "command": "INSUFFICIENT", "validation_command": "INSUFFICIENT"},
+  "l5_determination": "Runtime-doc-vs-runtime-evidence: (B) frozen runtime deployment evidence only; vendor documentation: (D) neither. Command/validation gates INSUFFICIENT (PROCEDURE_UNKNOWN) in all arms. Whether (B) alone could suffice is an open analysis question for later phases, not a Phase 1 finding.",
+  "created_at": "2026-09-18T10:10:00Z"
+}

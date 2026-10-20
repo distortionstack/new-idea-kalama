@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kalama.patch-assist-prototype/source-reference/v1",
+  "title": "SourceReference",
+  "description": "Portable research reference to one retrieved (or attempted) source embedded in an Evidence Pack. Not a full source database schema.",
+  "type": "object",
+  "required": ["source_id", "source_type", "authority_class", "discovery_method", "status", "confidence"],
+  "properties": {
+    "source_id": {"type": "string", "description": "Stable ID within the pack, e.g. S001, R003."},
+    "url": {"type": ["string", "null"], "description": "Exact retrieved URL where applicable; null for seed-local evidence."},
+    "source_type": {"type": "string", "enum": ["scanner_reference", "scanner_record", "runtime_evidence", "advisory_record", "native_registry_metadata", "native_registry_pom", "native_registry_artifact", "native_registry_checksum", "upstream_documentation", "runtime_vendor_documentation", "dependency_index", "rejected_unanchored"]},
+    "authority_class": {"type": "string", "enum": ["SEED", "SCANNER_VENDOR", "ADVISORY_AUTHORITY", "DERIVED_PACKAGE_AUTHORITY", "PROMOTED_UPSTREAM", "PROMOTED_RUNTIME_VENDOR", "CANDIDATE_ONLY", "UNTRUSTED_REJECTED"]},
+    "discovery_method": {"type": "string", "description": "Deterministic derivation rule, e.g. SCANNER_REFERENCE_TRAVERSAL, PURL_DERIVED_MAVEN_PATH, RUNTIME_URL_DERIVATION, ADVISORY_QUERY."},
+    "parent_source_id": {"type": ["string", "null"], "description": "Parent record ID; null only for seed roots."},
+    "parent_evidence": {"type": ["string", "null"], "description": "Seed field or record the root derives from, e.g. PATCH_REASONING_SEED:TRIVY_BEFORE#CVE-2099-0001."},
+    "retrieved_at": {"type": ["string", "null"]},
+    "content_sha256": {"type": ["string", "null"], "description": "Hash of retrieved bytes; required when status is RETRIEVED."},
+    "status": {"type": "string", "enum": ["RETRIEVED", "FETCH_FAILED", "REJECTED_UNANCHORED", "CANDIDATE_NOT_RETRIEVED"]},
+    "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW", "NEEDS_REVIEW", "UNTRUSTED"]},
+    "allowed_operations": {"type": "array", "items": {"type": "string"}, "description": "E.g. metadata, pom, artifact, checksum for registry roots."},
+    "used_for_fields": {"type": "array", "items": {"type": "string"}, "description": "Proposal field names this source may support."}
+  }
+}

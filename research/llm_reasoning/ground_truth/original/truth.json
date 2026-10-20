@@ -1,0 +1,1 @@
+{"evaluator_only":true,"value":"REBUILD","provenance":"src/kalama/remediation/models.py ActionDisposition docstring and guidance/patch_proposal.py fix_type/strategy compatibility; evaluator audit only","independent_basis":"observed source-build/copy configuration plus production strategy semantics"}

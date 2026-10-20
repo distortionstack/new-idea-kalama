@@ -1,0 +1,92 @@
+{
+  "diagnostic_id": "aopts-after-isolated-20260908-192245",
+  "bundle": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\aopts-after-isolated-20260908-192245",
+  "repo": "C:\\Users\\distortion\\Documents\\new-idea-kalama",
+  "git_head": "1b617928d2df66f14a0f62b48ef119472c3dbdce",
+  "git_status": [
+    " M README.md",
+    " M setup-workbench.sh",
+    " M src/kalama/execution/executor.py",
+    " M src/kalama/execution/models.py",
+    " M src/kalama/orchestrator.py",
+    " M src/kalama/resolution/artifacts.py",
+    " M src/kalama/resolution/config_codec.py",
+    " M src/kalama/resolution/submission.py",
+    " M src/kalama/resolver/backend.py",
+    " M src/kalama/resolver/core.py",
+    " M src/kalama/resolver/models.py",
+    " M src/kalama/runtime.py",
+    " M src/kalama/target/models.py",
+    " M src/kalama/target/trivy_scanner.py",
+    " M src/kalama/target/victim_manager.py",
+    " M src/kalama/target/workbench.py",
+    " M tests/integration/test_attack_form_submission.py",
+    " M tests/integration/test_before_exploit.py",
+    " M tests/integration/test_orchestrator.py",
+    " M tests/integration/test_step4_orchestrator.py",
+    " M tests/unit/test_resolver_core.py",
+    " M tests/unit/test_workbench_scanner.py",
+    "?? diagnostics/",
+    "?? lab-fixtures/",
+    "?? output-live-cve-2015-1427-checkonly-validation-3/",
+    "?? output-live-cve-2015-1427-fixed/",
+    "?? output-live-cve-2015-1427-fixture-validation-1/",
+    "?? output-live-cve-2015-1427-fixture-validation-2/",
+    "?? output-live-cve-2015-1427-fixture-validation-3/",
+    "?? output-live-cve-2015-1427-utf8-validation-2/",
+    "?? output-live-cve-2015-1427-utf8-validation/",
+    "?? output-live-cve-2015-1427/",
+    "?? review-bundles/",
+    "?? src/kalama/metasploit_fixtures.py",
+    "?? tests/unit/test_execution_fixture_support.py",
+    "?? tests/unit/test_metasploit_fixtures.py",
+    "?? tests/unit/test_resolver_backend_cache.py"
+  ],
+  "fixture_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\lab-fixtures\\metasploit\\cve-2015-1427\\modules\\exploits\\multi\\elasticsearch\\search_groovy_script_compat.rb",
+  "fixture_sha256": "0989d37b8144722726d76dc116b845cdd7cd7a9ddcf990ece70024f643fdf01d",
+  "fixture_expected_sha256": "0989d37b8144722726d76dc116b845cdd7cd7a9ddcf990ece70024f643fdf01d",
+  "fixture_match": true,
+  "docker_server_version": "\"29.7.2\"",
+  "msf_running": "true",
+  "patched_image": {
+    "Id": "sha256:d2ff298e7aa856748b60d130bbf40a46e5f0d949fc163f5d7950e1a3a94e1658",
+    "RepoTags": [
+      "kalama/elasticsearch:patched-aofts"
+    ],
+    "RepoDigests": [
+      "kalama/elasticsearch@sha256:d2ff298e7aa856748b60d130bbf40a46e5f0d949fc163f5d7950e1a3a94e1658"
+    ],
+    "Created": "2026-09-08T12:06:18.463834547Z",
+    "Config": {
+      "ExposedPorts": {
+        "9200/tcp": {},
+        "9300/tcp": {}
+      },
+      "Env": [
+        "PATH=/usr/share/elasticsearch/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LANG=C.UTF-8",
+        "JAVA_HOME=/docker-java-home/jre",
+        "JAVA_VERSION=8u181",
+        "JAVA_DEBIAN_VERSION=8u181-b13-1~deb9u1",
+        "CA_CERTIFICATES_JAVA_VERSION=20170531+nmu1"
+      ],
+      "Entrypoint": [
+        "/docker-entrypoint.sh"
+      ],
+      "Cmd": [
+        "elasticsearch"
+      ],
+      "WorkingDir": "/usr/share/elasticsearch",
+      "Labels": {
+        "desktop.docker.io/ports.scheme": "v2",
+        "kalama.attempt": "1",
+        "kalama.managed": "true",
+        "kalama.phase": "after",
+        "kalama.role": "patch-workspace",
+        "kalama.run_id": "AoFTs",
+        "kalama.source_image_id": "sha256:df18e56d6ca11e2f1f81a66f1c4e1b3ff50fe9ede7fcc461be652f06ec7486fa",
+        "maintainer": "phithon <root@leavesongs.com>"
+      }
+    }
+  }
+}

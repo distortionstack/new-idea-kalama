@@ -1,0 +1,203 @@
+{
+  "changed_fields": [
+    {
+      "field": "target.index.confirmed",
+      "from": null,
+      "to": 0
+    },
+    {
+      "field": "target.name.confirmed",
+      "from": null,
+      "to": "ElasticSearch 1.4.2"
+    },
+    {
+      "field": "targeturi.confirmed",
+      "from": null,
+      "to": "/"
+    },
+    {
+      "field": "module_options.KrbCacheMode.confirmed",
+      "from": null,
+      "to": "read-write"
+    },
+    {
+      "field": "module_options.HTTP::Auth.confirmed",
+      "from": null,
+      "to": "auto"
+    },
+    {
+      "field": "module_options.KrbClockSkew.confirmed",
+      "from": null,
+      "to": "0s"
+    },
+    {
+      "field": "module_options.HTTP::KrbOfferedEncryptionTypes.confirmed",
+      "from": null,
+      "to": "AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1"
+    },
+    {
+      "field": "module_options.SSLVersion.confirmed",
+      "from": null,
+      "to": "Auto"
+    },
+    {
+      "field": "module_options.DOMAIN.confirmed",
+      "from": null,
+      "to": "WORKSTATION"
+    },
+    {
+      "field": "environment.rport.confirmed",
+      "from": null,
+      "to": 9200
+    },
+    {
+      "field": "execution_protocol.confirmed",
+      "from": null,
+      "to": true
+    },
+    {
+      "field": "preconditions.description",
+      "from": null,
+      "to": "Ensure Elasticsearch has at least one document before Metasploit check(); the CVE-2015-1427 lab note records an empty-index false-negative risk."
+    },
+    {
+      "field": "preconditions.commands",
+      "from": [],
+      "to": [
+        "curl -fsS -XPOST -H 'Content-Type: application/json' 'http://172.18.0.6:9200/kalama/doc/1' -d '{\"field\":\"value\"}'",
+        "curl -fsS -XPOST 'http://172.18.0.6:9200/kalama/_refresh'"
+      ]
+    },
+    {
+      "field": "preconditions.execution_target",
+      "from": null,
+      "to": "kalama-workbench"
+    },
+    {
+      "field": "preconditions.required",
+      "from": false,
+      "to": true
+    },
+    {
+      "field": "preconditions.confirmation_status",
+      "from": "UNRESOLVED",
+      "to": "HUMAN_CONFIRMED"
+    }
+  ],
+  "form_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-utf8-validation-2\\resolver\\forms\\attack_form_93AF1_r1.yaml",
+  "plan": {
+    "cve_id": "CVE-2015-1427",
+    "module": "exploit/multi/elasticsearch/search_groovy_script",
+    "module_options": [
+      [
+        "DOMAIN",
+        "WORKSTATION"
+      ],
+      [
+        "HTTP::Auth",
+        "auto"
+      ],
+      [
+        "HTTP::KrbOfferedEncryptionTypes",
+        "AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1"
+      ],
+      [
+        "KrbCacheMode",
+        "read-write"
+      ],
+      [
+        "KrbClockSkew",
+        "0s"
+      ],
+      [
+        "RHOSTS",
+        "172.18.0.6"
+      ],
+      [
+        "RPORT",
+        9200
+      ],
+      [
+        "SSLVersion",
+        "Auto"
+      ],
+      [
+        "TARGETURI",
+        "/"
+      ]
+    ],
+    "payload": null,
+    "payload_options": [],
+    "pre_attack_command": null,
+    "pre_attack_target": null,
+    "precondition_commands": [
+      "curl -fsS -XPOST -H 'Content-Type: application/json' 'http://172.18.0.6:9200/kalama/doc/1' -d '{\"field\":\"value\"}'",
+      "curl -fsS -XPOST 'http://172.18.0.6:9200/kalama/_refresh'"
+    ],
+    "precondition_required": false,
+    "precondition_target": "kalama-workbench",
+    "rank": 1,
+    "run_check": true,
+    "run_exploit": false,
+    "session_confirmation_expected": false,
+    "target_index": 0,
+    "target_name": "ElasticSearch 1.4.2"
+  },
+  "resolver_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-utf8-validation-2\\resolver\\resolver_2026-09-08_93AF1.json",
+  "state_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-utf8-validation-2\\state\\run_93AF1.json",
+  "submission_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\93AF1-attack-form-submission-prep\\attack_form_93AF1_r1_submission_check_only_precondition.yaml",
+  "submitted_precondition_required_persisted_by_current_code": false,
+  "target": {
+    "command": [
+      "elasticsearch"
+    ],
+    "container_id": "8ea7aeb94db372beadc498818049266d58eb8413e513363f1077c94215080d2b",
+    "container_name": "victim-93AF1",
+    "container_state": "running",
+    "entrypoint": [
+      "/docker-entrypoint.sh"
+    ],
+    "environment": [
+      "CA_CERTIFICATES_JAVA_VERSION=20170531+nmu1",
+      "JAVA_DEBIAN_VERSION=8u181-b13-1~deb9u1",
+      "JAVA_HOME=/docker-java-home/jre",
+      "JAVA_VERSION=8u181",
+      "LANG=C.UTF-8",
+      "PATH=/usr/share/elasticsearch/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ],
+    "exposed_ports": [
+      {
+        "container_port": 9200,
+        "protocol": "tcp",
+        "source": "docker_exposed_port"
+      },
+      {
+        "container_port": 9300,
+        "protocol": "tcp",
+        "source": "docker_exposed_port"
+      }
+    ],
+    "image_digest": "vulhub/elasticsearch@sha256:df18e56d6ca11e2f1f81a66f1c4e1b3ff50fe9ede7fcc461be652f06ec7486fa",
+    "image_id": "sha256:df18e56d6ca11e2f1f81a66f1c4e1b3ff50fe9ede7fcc461be652f06ec7486fa",
+    "ip_address": "172.18.0.6",
+    "listening_ports": [
+      {
+        "address": "127.0.0.11",
+        "container_port": 41567,
+        "protocol": "tcp",
+        "source": "proc_net"
+      }
+    ],
+    "listening_ports_status": "AVAILABLE",
+    "network": "kalama-net",
+    "phase": "before",
+    "published_ports": [],
+    "reachable_ports": [],
+    "reachable_ports_status": "UNKNOWN",
+    "requested_image_reference": "vulhub/elasticsearch:1.4.2",
+    "run_id": "93AF1"
+  },
+  "validation_issues": [],
+  "validation_readiness": "READY_TO_EXECUTE",
+  "validation_ready": true
+}

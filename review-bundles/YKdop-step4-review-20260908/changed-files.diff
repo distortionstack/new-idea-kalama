@@ -1,0 +1,46 @@
+diff --git a/src/kalama/orchestrator.py b/src/kalama/orchestrator.py
+index 564f16a..a36b823 100644
+--- a/src/kalama/orchestrator.py
++++ b/src/kalama/orchestrator.py
+@@ -264,9 +264,9 @@ class PrioritizationOrchestrator:
+         state = state.with_stage(PipelineStage.STEP_3_PRIORITIZATION, StageStatus.SUCCEEDED, timestamp)
+         returned = meta.get("top_n_returned")
+         notice_code = (IntegrationFailureCode.NO_RANKABLE_CVES.value if returned == 0
+-                       else IntegrationFailureCode.NEXT_STAGE_NOT_INTEGRATED.value)
++                       else "STEP_4_RESOLVER_READY")
+         notice_message = ("prioritization completed with no rankable CVEs" if returned == 0
+-                          else "Step 4 Resolver is not integrated yet")
++                          else "prioritization completed; Step 4 Resolver is ready to continue")
+         notice = RunNotice(notice_code, notice_message, timestamp)
+         state = replace(state, status=RunStatus.PAUSED,
+                         current_stage=PipelineStage.STEP_4_RESOLVER,
+diff --git a/tests/integration/test_orchestrator.py b/tests/integration/test_orchestrator.py
+index 3f1371b..c215354 100644
+--- a/tests/integration/test_orchestrator.py
++++ b/tests/integration/test_orchestrator.py
+@@ -220,6 +220,10 @@ class OrchestrationTests(unittest.TestCase):
+             self.assertEqual(state.target.facts["ip_address"], "172.18.0.3")
+             self.assertEqual(state.status, RunStatus.PAUSED)
+             self.assertEqual(state.current_stage, PipelineStage.STEP_4_RESOLVER)
++            self.assertEqual(state.stage(PipelineStage.STEP_4_RESOLVER).status,
++                             StageStatus.NOT_STARTED)
++            self.assertEqual(state.warnings[-1].code, "STEP_4_RESOLVER_READY")
++            self.assertIn("ready to continue", state.warnings[-1].message)
+ 
+     def test_step2_failure_stops_and_never_calls_step3(self):
+         with tempfile.TemporaryDirectory() as tmp:
+diff --git a/tests/integration/test_step4_orchestrator.py b/tests/integration/test_step4_orchestrator.py
+index ca17be1..08080d7 100644
+--- a/tests/integration/test_step4_orchestrator.py
++++ b/tests/integration/test_step4_orchestrator.py
+@@ -137,8 +137,8 @@ class Step4OrchestrationTests(unittest.TestCase):
+         self.assertEqual(seen, ["CVE-2099-0001"])
+         self.assertEqual(state.status, RunStatus.PAUSED)
+         self.assertEqual(state.waiting_reason, "NO_EXECUTABLE_MSF_CANDIDATE")
+-        self.assertEqual(Path(state.artifact(ArtifactKind.RESOLVER_BEFORE).path).parent,
+-                         self.root / "resolver")
++        self.assertTrue(Path(state.artifact(ArtifactKind.RESOLVER_BEFORE).path)
++                        .parent.samefile(self.root / "resolver"))
+         self.assertTrue(chosen.exists())
+ 
+     def test_digest_mismatch_fails_before_processor(self):

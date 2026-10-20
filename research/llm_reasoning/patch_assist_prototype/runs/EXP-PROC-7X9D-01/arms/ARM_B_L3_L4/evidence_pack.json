@@ -1,0 +1,582 @@
+{
+  "schema": "kalama.patch-assist-prototype/evidence-pack/v1",
+  "experiment_id": "EXP-PROC-7X9D-01",
+  "run_id": "6WUM1",
+  "action_id": "patch-001",
+  "candidate_identity": {
+    "run_id": "6WUM1",
+    "action_id": "patch-001",
+    "cve_id": "CVE-2019-10092",
+    "package_name": "apache2",
+    "component": "apache2 (debian OS package)",
+    "ecosystem": "deb",
+    "installed_version": "2.4.10-10+deb8u12",
+    "image_identity": "kalama-lab:type-c-shellshock@sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332",
+    "target_identity": "kalama-lab:type-c-shellshock (image-only evidence; no live container executed)",
+    "container_identity": null,
+    "phase": "patch"
+  },
+  "evidence_level": {
+    "satisfied_levels": [
+      "L0",
+      "L1",
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "missing_levels": [
+      "L5"
+    ]
+  },
+  "evidence_sufficiency": {
+    "version_recommendation": "SUPPORTED",
+    "artifact_provenance": "SUPPORTED",
+    "artifact_integrity": "SUPPORTED",
+    "dependency_closure": "SUPPORTED",
+    "patch_strategy": "SUPPORTED",
+    "command": "INSUFFICIENT",
+    "validation_command": "INSUFFICIENT"
+  },
+  "scanner_evidence": {
+    "cve_id": "CVE-2019-10092",
+    "incidental_cves": [
+      "CVE-2019-10098"
+    ],
+    "package": "apache2",
+    "installed_version": "2.4.10-10+deb8u12",
+    "fixed_version": "2.4.10-10+deb8u15",
+    "vendor_ids": [
+      "DLA-1900-1"
+    ],
+    "purl": "pkg:deb/debian/apache2@2.4.10-10+deb8u12?arch=amd64&distro=debian-8.10",
+    "severity": "MEDIUM",
+    "severity_source": "nvd",
+    "primary_url": "https://avd.aquasec.com/nvd/cve-2019-10092",
+    "data_source": {
+      "id": "debian",
+      "name": "Debian Security Tracker",
+      "url": "https://salsa.debian.org/security-tracker-team/security-tracker"
+    },
+    "seed_file": "frozen_seed.json"
+  },
+  "runtime_evidence": {
+    "image": "kalama-lab:type-c-shellshock@sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332",
+    "os": "debian 8.10 (EOSL)",
+    "cmd": [
+      "apache2ctl",
+      "-DFOREGROUND"
+    ],
+    "env_path": "/usr/local/bash-4.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "apache_build_note": "Image history: apt-get install --no-install-recommends -y apache2; a2enmod cgi/cgid; ExecCGI <Directory /var/www/html> appended; CMD apache2ctl -DFOREGROUND. Observed build steps, not a live probe.",
+    "custom_bash_prefix_note": "Source-built /usr/local/bash-4.3.0 first in PATH; out of scope for patch-001.",
+    "seed_file": "frozen_seed.json"
+  },
+  "advisory_evidence": {
+    "nvd": {
+      "cve": "CVE-2019-10092",
+      "description_en": "In Apache HTTP Server 2.4.0-2.4.39, a limited cross-site scripting issue was reported affecting the mod_proxy error page.",
+      "cvss_v3_1": 6.1,
+      "published": "2019-09-26",
+      "source": "S004"
+    },
+    "osv": {
+      "id": "CVE-2019-10092",
+      "advisory_refs_include_dla_announces": [
+        "https://lists.debian.org/debian-lts-announce/2019/08/msg00034.html",
+        "https://lists.debian.org/debian-lts-announce/2019/09/msg00034.html"
+      ],
+      "advisory_refs_include_upstream": [
+        "https://httpd.apache.org/security/vulnerabilities_24.html"
+      ],
+      "source": "S005"
+    },
+    "incidental": {
+      "cve": "CVE-2019-10098",
+      "title": "httpd: mod_rewrite potential open redirect",
+      "description_en": "In Apache HTTP server 2.4.0 to 2.4.39, Redirects configured with mod_rewrite that were intended to be self-referential might be fooled by encoded newlines.",
+      "vendor_ids": [
+        "DLA-1900-1"
+      ],
+      "scanner_fixed": "2.4.10-10+deb8u15"
+    },
+    "debian_tracker": {
+      "jessie_fixed": "2.4.10-10+deb8u15",
+      "via": "DLA-1900-1",
+      "upstream_fixed": "2.4.41-1",
+      "stretch_fixed": "2.4.25-3+deb9u9",
+      "regression_pointer": "Debian bug 941202 (pointer only; prose in L4)",
+      "source": "S006"
+    },
+    "kev": {
+      "cve_2019_10092_present": false,
+      "cve_2019_10098_present": false,
+      "source": "S007",
+      "note": "Checked-negative: neither CVE in the retrieved KEV feed."
+    }
+  },
+  "package_registry_evidence": {
+    "installed_index": {
+      "source": "S009",
+      "version": "2.4.10-10+deb8u12",
+      "filename": "pool/main/a/apache2/apache2_2.4.10-10+deb8u12_amd64.deb",
+      "size": 208468,
+      "sha256": "a7890679b519b12578b8fe3485a2a235c8f2d5ee9f6b045e5e218aff9fef1da5",
+      "sha1": "1c3ece302d94bc854abd1859edcdd713dbd91ebd",
+      "md5": "0c54378f55125582eae37c07bdaab8d5"
+    },
+    "live_security_index": {
+      "source": "S010",
+      "version": "2.4.10-10+deb8u16",
+      "filename": "pool/updates/main/a/apache2/apache2_2.4.10-10+deb8u16_amd64.deb",
+      "size": 209216,
+      "sha256": "7e6ac94653298ee7bb5e0d14a43414f7b25d19cdbb248b8681735b21bd3cd4c0",
+      "sha1": "7192470d7b0c35bf9c73a64d4e39f8ea04cadfaf",
+      "md5": "8a8a45295fb320957304816d008a93b0"
+    },
+    "scanner_fixed_revision_note": "Scanner-fixed 2.4.10-10+deb8u15 has NO stanza in the live jessie-security index (superseded/removed); existence corroborated by S008. Per L4 (S013/S014), deb8u15 carried an INCOMPLETE fix for CVE-2019-10092 plus a balancer-manager regression (Debian bug 941202); deb8u16 carries the correct upstream patch. deb8u16 is therefore the L4-supported fix revision; deb8u15 bytes were deliberately not retrieved (SUPERSEDED_ARTIFACT_UNRETRIEVED).",
+    "snapshot_corroboration": {
+      "source": "S008",
+      "note": "Snapshot version list contains 2.4.10-10+deb8u12, deb8u15, and deb8u16."
+    }
+  },
+  "upstream_documentation": {
+    "dla_security": {
+      "id": "DLA-1900-1",
+      "cves": [
+        "CVE-2019-10092",
+        "CVE-2019-10098"
+      ],
+      "jessie_fixed": "2.4.10-10+deb8u15",
+      "sources": [
+        "S001",
+        "S012"
+      ]
+    },
+    "upstream_fix_mapping": {
+      "note": "Upstream httpd 2.4 security page: CVE-2019-10092 affected range includes 2.4.10; fixed in upstream 2.4.41. Debian carries the fix as jessie backports, not a 2.4.41 upgrade; no major-version move for this target.",
+      "source": "S002"
+    },
+    "regression_record": {
+      "id": "DLA-1900-2",
+      "jessie_fixed": "2.4.10-10+deb8u16",
+      "debian_bug": "941202",
+      "finding": "DLA-1900-1 fix for CVE-2019-10092 was incomplete and introduced a balancer-manager regression; deb8u16 reverts the change and provides the correct upstream patch.",
+      "sources": [
+        "S013",
+        "S014",
+        "S021"
+      ]
+    },
+    "version_family_note": "Tracker distinguishes the jessie backport line (deb8u15/deb8u16) from stretch (2.4.25-3+deb9u9) and unstable (2.4.41-1); source S006."
+  },
+  "runtime_documentation": null,
+  "artifact_evidence": {
+    "artifact": "apache2_2.4.10-10+deb8u16_amd64.deb",
+    "artifact_url": "http://archive.debian.org/debian-security/pool/updates/main/a/apache2/apache2_2.4.10-10+deb8u16_amd64.deb",
+    "source": "S011",
+    "size": 209216,
+    "sha256": "7e6ac94653298ee7bb5e0d14a43414f7b25d19cdbb248b8681735b21bd3cd4c0",
+    "checksum_match": "downloaded bytes match the S010 stanza SHA-256 and size exactly",
+    "scanner_fixed_superseded_note": "deb8u15 (scanner-fixed) pool bytes not retrieved: stanza absent from live index; L4 establishes deb8u15 as deficient (see upstream_documentation in B/C arms)."
+  },
+  "dependency_evidence": {
+    "closure_complete": true,
+    "fixed_revision_dependencies": {
+      "Depends": [
+        "lsb-base",
+        "procps",
+        "perl",
+        "mime-support",
+        "apache2-bin (= 2.4.10-10+deb8u16)",
+        "apache2-utils (>= 2.4)",
+        "apache2-data (= 2.4.10-10+deb8u16)"
+      ],
+      "Pre-Depends": [
+        "dpkg (>= 1.17.14)"
+      ]
+    },
+    "sibling_stanzas_in_index": {
+      "apache2-bin": {
+        "version": "2.4.10-10+deb8u16",
+        "size": 1041016,
+        "sha256": "df57a29d9ea4224050dccb8a0b9182017d8a3fcda24d53b5d5cdf0457895b9b4",
+        "source": "S010"
+      },
+      "apache2-data": {
+        "version": "2.4.10-10+deb8u16",
+        "size": 162528,
+        "sha256": "1680227257de5a85489e0b40024e1dc180be1e3a032f3af742e24e689065002d",
+        "source": "S010"
+      },
+      "apache2-utils": {
+        "version": "2.4.10-10+deb8u16",
+        "size": 196496,
+        "sha256": "0f6aed369adfa06496e8ee68dbafaa1f8967ff922b23bb4c867e1bafa5f11532",
+        "source": "S010"
+      }
+    },
+    "unresolved": [],
+    "closure_convention": "Unversioned base-system dependencies (lsb-base, procps, perl, mime-support) recorded as satisfiable from the Jessie base system \u2014 same convention as EXP-BASH-7X9B-01 (procps/perl confirmed installed-with-findings in the frozen scan). Version-pinned siblings verified present at the same revision in S010.",
+    "source": "S010"
+  },
+  "source_graph_summary": {
+    "source_count": 17,
+    "retrieved_count": 16,
+    "fetch_failed_count": 1,
+    "rejected_count": 0,
+    "valid": true
+  },
+  "source_references": [
+    {
+      "source_id": "SEED-01",
+      "url": null,
+      "source_type": "scanner_record",
+      "authority_class": "SEED",
+      "discovery_method": "FROZEN_SEED",
+      "parent_source_id": null,
+      "parent_evidence": "frozen_seed.json#scanner_finding",
+      "retrieved_at": "2026-10-11T13:00:00Z",
+      "content_sha256": "sha256:80afbdafd624df658a7bfe906cc7a3ea4878a064127842a625347396028e9910",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [
+        "derive-references",
+        "derive-package-identity",
+        "derive-datasource"
+      ],
+      "used_for_fields": [
+        "target_version"
+      ]
+    },
+    {
+      "source_id": "S001",
+      "url": "https://lists.debian.org/debian-lts-announce/2019/08/msg00034.html",
+      "source_type": "advisory_record",
+      "authority_class": "PROMOTED_UPSTREAM",
+      "discovery_method": "SCANNER_REFERENCE_TRAVERSAL",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "scanner References[] entry",
+      "retrieved_at": "2026-10-11T13:03:18Z",
+      "content_sha256": "sha256:e8b1d76dac6ce38a478e28688c7e0f4ea6fb1c3e303b79e7a6a4b7de3646e159",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version",
+        "strategy",
+        "notes"
+      ]
+    },
+    {
+      "source_id": "S002",
+      "url": "https://httpd.apache.org/security/vulnerabilities_24.html",
+      "source_type": "upstream_documentation",
+      "authority_class": "PROMOTED_UPSTREAM",
+      "discovery_method": "SCANNER_REFERENCE_TRAVERSAL",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "scanner References[] entry",
+      "retrieved_at": "2026-10-11T13:03:19Z",
+      "content_sha256": "sha256:3edeb2dde2f2207cede2f2994dd55fcf8697638275671c4bd113d1ab88175cfd",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version",
+        "strategy",
+        "notes"
+      ]
+    },
+    {
+      "source_id": "S003",
+      "url": "https://www.debian.org/security/2019/dsa-4509",
+      "source_type": "advisory_record",
+      "authority_class": "CANDIDATE_ONLY",
+      "discovery_method": "SCANNER_REFERENCE_TRAVERSAL",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "scanner References[] entry",
+      "retrieved_at": "2026-10-11T13:03:20Z",
+      "content_sha256": "sha256:70dbcc2a627519988d572d80f6c9a129ef2c8e9b08dea5b02438c1bb85723f55",
+      "status": "RETRIEVED",
+      "confidence": "LOW",
+      "allowed_operations": [],
+      "used_for_fields": []
+    },
+    {
+      "source_id": "S004",
+      "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-10092",
+      "source_type": "advisory_record",
+      "authority_class": "ADVISORY_AUTHORITY",
+      "discovery_method": "ADVISORY_QUERY",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "candidate CVE identity CVE-2019-10092",
+      "retrieved_at": "2026-10-11T13:03:21Z",
+      "content_sha256": "sha256:89531d5b31f4a889b449997ff6171db187b5e7b5595520772659e905a759937f",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version"
+      ]
+    },
+    {
+      "source_id": "S005",
+      "url": "https://api.osv.dev/v1/vulns/CVE-2019-10092",
+      "source_type": "advisory_record",
+      "authority_class": "ADVISORY_AUTHORITY",
+      "discovery_method": "ADVISORY_QUERY",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "candidate CVE identity CVE-2019-10092",
+      "retrieved_at": "2026-10-11T13:03:23Z",
+      "content_sha256": "sha256:b5bc7694eb60640c677d72235d488555f36a21391d254a442ff450408235f65e",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version",
+        "strategy"
+      ]
+    },
+    {
+      "source_id": "S006",
+      "url": "https://security-tracker.debian.org/tracker/CVE-2019-10092",
+      "source_type": "advisory_record",
+      "authority_class": "ADVISORY_AUTHORITY",
+      "discovery_method": "ADVISORY_TRACKER_CVE_PATH",
+      "parent_source_id": "SEED-02",
+      "parent_evidence": "scanner DataSource (Debian Security Tracker) + CVE identity",
+      "retrieved_at": "2026-10-11T13:03:24Z",
+      "content_sha256": "sha256:9fe2e709eefb18a486206823be3696e06a86a28a2d9a5e5edac3da897d749142",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [
+        "follow-tracker-child-links"
+      ],
+      "used_for_fields": [
+        "target_version",
+        "strategy"
+      ]
+    },
+    {
+      "source_id": "S007",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "source_type": "advisory_record",
+      "authority_class": "ADVISORY_AUTHORITY",
+      "discovery_method": "ADVISORY_QUERY",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "candidate CVE identities CVE-2019-10092 + CVE-2019-10098",
+      "retrieved_at": "2026-10-11T13:03:25Z",
+      "content_sha256": "sha256:fb1621beec7db19d99c1f919dede3d4cc01ad88acd16f79f1592929c4826dfee",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "notes"
+      ]
+    },
+    {
+      "source_id": "S008",
+      "url": "https://snapshot.debian.org/mr/package/apache2/",
+      "source_type": "native_registry_metadata",
+      "authority_class": "DERIVED_PACKAGE_AUTHORITY",
+      "discovery_method": "PACKAGE_IDENTITY_DERIVED_LIST",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "package identity apache2 (PURL ecosystem deb)",
+      "retrieved_at": "2026-10-11T13:03:29Z",
+      "content_sha256": "sha256:8a14997500a0037f0dd5f3afb542fe99e9c5ec28b6fcc85a4fab31403dab7c85",
+      "status": "RETRIEVED",
+      "confidence": "MEDIUM",
+      "allowed_operations": [
+        "metadata"
+      ],
+      "used_for_fields": [
+        "artifact_source"
+      ]
+    },
+    {
+      "source_id": "S009",
+      "url": "http://archive.debian.org/debian/dists/jessie/main/binary-amd64/Packages.gz",
+      "source_type": "native_registry_metadata",
+      "authority_class": "DERIVED_PACKAGE_AUTHORITY",
+      "discovery_method": "DISTRO_DERIVED_ARCHIVE_INDEX",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "distro debian-8.10 (jessie) from PURL + scanner OS",
+      "retrieved_at": "2026-10-11T13:03:30Z",
+      "content_sha256": "sha256:7240a1c6ce11c3658d001261e77797818e610f7da6c2fb1f98a24fdbf4e8d84c",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [
+        "metadata"
+      ],
+      "used_for_fields": [
+        "artifact_source",
+        "source_identifier"
+      ]
+    },
+    {
+      "source_id": "S010",
+      "url": "http://archive.debian.org/debian-security/dists/jessie/updates/main/binary-amd64/Packages.gz",
+      "source_type": "native_registry_metadata",
+      "authority_class": "DERIVED_PACKAGE_AUTHORITY",
+      "discovery_method": "DISTRO_DERIVED_ARCHIVE_INDEX",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "distro jessie + DLA/LTS security update identity",
+      "retrieved_at": "2026-10-11T13:03:43Z",
+      "content_sha256": "sha256:3da1205c671e38db711a76403b27f1b3e0b84766edcf717a4b9daea9d4c693b2",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [
+        "metadata",
+        "artifact",
+        "checksum"
+      ],
+      "used_for_fields": [
+        "artifact_source",
+        "source_identifier",
+        "target_version"
+      ]
+    },
+    {
+      "source_id": "S011",
+      "url": "http://archive.debian.org/debian-security/pool/updates/main/a/apache2/apache2_2.4.10-10+deb8u16_amd64.deb",
+      "source_type": "native_registry_artifact",
+      "authority_class": "DERIVED_PACKAGE_AUTHORITY",
+      "discovery_method": "INDEX_DERIVED_ARTIFACT_PATH",
+      "parent_source_id": "S010",
+      "parent_evidence": "Filename field of the S010 apache2 stanza",
+      "retrieved_at": "2026-10-11T13:05:31Z",
+      "content_sha256": "sha256:7e6ac94653298ee7bb5e0d14a43414f7b25d19cdbb248b8681735b21bd3cd4c0",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [
+        "artifact",
+        "checksum"
+      ],
+      "used_for_fields": [
+        "artifact_source"
+      ]
+    },
+    {
+      "source_id": "S012",
+      "url": "https://security-tracker.debian.org/tracker/DLA-1900-1",
+      "source_type": "upstream_documentation",
+      "authority_class": "PROMOTED_UPSTREAM",
+      "discovery_method": "TRACKER_CHILD_LINK",
+      "parent_source_id": "S006",
+      "parent_evidence": "child link /tracker/DLA-1900-1 on retrieved tracker CVE page S006",
+      "retrieved_at": "2026-10-11T13:03:44Z",
+      "content_sha256": "sha256:96346d3d60fdcb6b1ffd88790d773b9637d83295842294598ad04f0ae54bff4a",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version",
+        "strategy",
+        "notes"
+      ]
+    },
+    {
+      "source_id": "S021",
+      "url": "https://security-tracker.debian.org/tracker/source-package/apache2",
+      "source_type": "upstream_documentation",
+      "authority_class": "ADVISORY_AUTHORITY",
+      "discovery_method": "TRACKER_CHILD_LINK",
+      "parent_source_id": "S012",
+      "parent_evidence": "child link /tracker/source-package/apache2 on retrieved DLA record S012",
+      "retrieved_at": "2026-10-11T13:07:52Z",
+      "content_sha256": "sha256:b482a4110f5695f54f4662dc32a2b84984b30966b977fdc6db855cefc3099eaa",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version"
+      ]
+    },
+    {
+      "source_id": "S013",
+      "url": "https://security-tracker.debian.org/tracker/DLA-1900-2",
+      "source_type": "upstream_documentation",
+      "authority_class": "PROMOTED_UPSTREAM",
+      "discovery_method": "TRACKER_CHILD_LINK",
+      "parent_source_id": "S021",
+      "parent_evidence": "child link /tracker/DLA-1900-2 on retrieved source-package page S021",
+      "retrieved_at": "2026-10-11T13:03:46Z",
+      "content_sha256": "sha256:afbf235bfcf6238c604efd9cfc70ed5099828eaacd3dcc8744fe8ac053ea6f2a",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version",
+        "strategy",
+        "notes"
+      ]
+    },
+    {
+      "source_id": "S014",
+      "url": "https://lists.debian.org/debian-lts-announce/2019/09/msg00034.html",
+      "source_type": "upstream_documentation",
+      "authority_class": "PROMOTED_UPSTREAM",
+      "discovery_method": "ADVISORY_TYPED_REFERENCE_TRAVERSAL",
+      "parent_source_id": "S005",
+      "parent_evidence": "OSV ADVISORY-typed reference URL for CVE-2019-10092",
+      "retrieved_at": "2026-10-11T13:03:47Z",
+      "content_sha256": "sha256:8ff36314134577bf25d402a03a58ab1082a28a97a51ca48076c0727fb8f7d32a",
+      "status": "RETRIEVED",
+      "confidence": "HIGH",
+      "allowed_operations": [],
+      "used_for_fields": [
+        "target_version",
+        "strategy",
+        "notes"
+      ]
+    },
+    {
+      "source_id": "S019",
+      "url": "https://manpages.debian.org/jessie/apache2/apache2.8.en.html",
+      "source_type": "runtime_vendor_documentation",
+      "authority_class": "CANDIDATE_ONLY",
+      "discovery_method": "PACKAGE_DERIVED_MANPAGE_ATTEMPT",
+      "parent_source_id": "SEED-01",
+      "parent_evidence": "package apache2 + distro jessie (derivation-pattern attempt)",
+      "retrieved_at": "2026-10-11T13:03:50Z",
+      "content_sha256": null,
+      "status": "FETCH_FAILED",
+      "confidence": "NEEDS_REVIEW",
+      "allowed_operations": [],
+      "used_for_fields": []
+    }
+  ],
+  "missing_evidence": [
+    {
+      "code": "PROCEDURE_UNKNOWN",
+      "missing": [
+        "runtime/vendor procedure documentation (L5)"
+      ],
+      "evidence": [
+        "L5 not satisfied"
+      ],
+      "impact": "Command and validation_command must remain null."
+    },
+    {
+      "code": "SUPERSEDED_ARTIFACT_UNRETRIEVED",
+      "missing": [
+        "deb8u15 .deb bytes (superseded in live index)"
+      ],
+      "evidence": [
+        "S008",
+        "S010"
+      ],
+      "impact": "Bounded-scope decision; deb8u16 bytes verified instead."
+    },
+    {
+      "code": "DEB815_DEFICIENCY_RECORDED",
+      "missing": [],
+      "evidence": [
+        "S013",
+        "S014"
+      ],
+      "impact": "Informational: deb8u15 established as deficient for the primary CVE; deb8u16 is the L4-supported fix revision."
+    }
+  ],
+  "pack_sha256": "768320fa82966535d51c944717c71665d342cf752179a64f9e8b87cf12aff1e6",
+  "created_at": "2026-10-11T13:15:00Z"
+}

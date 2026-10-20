@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "artifact": "struts2-core-2.3.32.jar",
+      "matches": true,
+      "retrieved_sha256": "74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0",
+      "retrieved_source_id": "S102",
+      "runtime_path": "/usr/local/tomcat/webapps/S2-048/WEB-INF/lib/struts2-core-2.3.32.jar",
+      "runtime_sha256": "74261d1c6507d2be2bc9d0a7b1dd6b1f7f91e174aec7b6a9d8d59d2c7f2be8f0"
+    },
+    {
+      "artifact": "xwork-core-2.3.32.jar",
+      "matches": true,
+      "retrieved_sha256": "1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01",
+      "retrieved_source_id": "S113",
+      "runtime_path": "/usr/local/tomcat/webapps/S2-048/WEB-INF/lib/xwork-core-2.3.32.jar",
+      "runtime_sha256": "1905c98a231641dc75cb2ca8eb50d2951f3389267503be940ce72394abc7cb01"
+    }
+  ],
+  "created_at": "2026-09-16T16:29:35.321837Z",
+  "repository_sha1_sidecars": "Retrieved for all direct Struts artifacts; see source_graph.json and retrieved_sources_manifest.json",
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.5-artifact-integrity/v1"
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "kalama.patch-assist-prototype/pack-validation/v1",
+  "experiment_id": "EXP-PROC-7X9D-01",
+  "run_id": "6WUM1",
+  "action_id": "patch-001",
+  "arm": "ARM_A_L3",
+  "pack_sha256": "0c5e127b1eba7997a181de6035cdbb3cfa237752db4a29cfc4d4723ccbe55101",
+  "checks": {
+    "json_parses": {
+      "pass": true
+    },
+    "pack_schema_keys": {
+      "pass": true,
+      "detail": "missing=[]"
+    },
+    "sha_recomputes": {
+      "pass": true,
+      "detail": "0c5e127b1eba7997"
+    },
+    "binding": {
+      "pass": true
+    },
+    "evidence_levels": {
+      "pass": true
+    },
+    "command_gate": {
+      "pass": true,
+      "detail": "INSUFFICIENT"
+    },
+    "validation_gate": {
+      "pass": true,
+      "detail": "INSUFFICIENT"
+    },
+    "refs_resolve": {
+      "pass": true,
+      "detail": "n=13"
+    },
+    "hashes_match_graph": {
+      "pass": true
+    },
+    "no_failed_source_as_authority": {
+      "pass": true,
+      "detail": "failed refs present but unused"
+    },
+    "provenance_complete": {
+      "pass": true
+    },
+    "arm_monotonicity": {
+      "pass": true,
+      "detail": "base arm"
+    },
+    "no_unallowed_content_sections": {
+      "pass": true,
+      "detail": "upstream=False runtime=False"
+    },
+    "no_l4l5_leakage": {
+      "pass": true,
+      "detail": "clean"
+    },
+    "no_agent_proposal": {
+      "pass": true
+    },
+    "semantic_contract_clean": {
+      "pass": true,
+      "detail": "sha256:51c96caf... reuse"
+    },
+    "summary_no_l4l5_prose": {
+      "pass": true,
+      "detail": "clean"
+    }
+  },
+  "overall": "PASS",
+  "created_at": "2026-10-11T13:20:00Z"
+}

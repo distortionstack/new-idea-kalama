@@ -33,17 +33,13 @@ def build_evidence_pack(run_id: str, item: ResolverCVEResult,
     selected = invariant.module_selection.module.value or invariant.module_selection.module.suggested_value
     candidate = next((x for x in candidates if x.module_path == selected), None)
     allowed = []
-    if not invariant.module_selection.module.confirmed: allowed.append("module")
+    # Resolver MVP: only fields the current Attack Form safely projects.
     if invariant.target_selection.target_index.confirmation_status != ConfirmationStatus.AUTO_CONFIRMED:
         allowed.append("target")
     if not invariant.targeturi.confirmed: allowed.append("targeturi")
     if not config.environment.rport.confirmed: allowed.append("rport")
     if not invariant.payload.payload.confirmed: allowed.append("payload")
-    allowed.extend(["execution_protocol", "preconditions"])
-    if candidate:
-        allowed.append("module_options")
-    if invariant.payload.payload.value and invariant.payload.options:
-        allowed.append("payload_options")
+    # Do not expand LLM authority beyond target/URI/port/payload in this phase.
     allowed = sorted(set(allowed))
     if not allowed:
         return None

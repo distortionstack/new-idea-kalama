@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-09-16T16:02:42.993854Z",
+  "command": [
+    "docker",
+    "exec",
+    "victim-UZBL5",
+    "sh",
+    "-lc",
+    "curl -sS -o /dev/null -w 'S2-045 %{http_code}\\n' http://127.0.0.1:8080/S2-045/; curl -sS -o /dev/null -w 'S2-052 %{http_code}\\n' http://127.0.0.1:8080/S2-052/orders/3"
+  ],
+  "exit_code": 0,
+  "purpose": "fresh reachable endpoints used by the reviewed Attack Form",
+  "run_id": "UZBL5",
+  "schema": "kalama.local-command-evidence/v1",
+  "stderr": "mesg: ttyname failed: Inappropriate ioctl for device\n",
+  "stdout": "S2-045 302\nS2-052 200\n"
+}

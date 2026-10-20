@@ -1,0 +1,14 @@
+{
+  "schema": "kalama.patch-assist-prototype/semantic-refs/v1",
+  "note": "Experiment-only auxiliary. Production agent_proposal schema unchanged; semantic tags also appear inline in reason_summary.",
+  "contract": "semantic_contracts/kalama_patch_semantics_v1.json",
+  "contract_sha256": "51c96cafd129d09e429ebe392189781e8a5c0caff97915ba9ee76ebd0ab672f8",
+  "refs": {
+    "fix_type": ["fix_types.C"],
+    "strategy": ["patch_strategies", "compatibility_rules"],
+    "build_system": ["build_system_semantics"],
+    "command": ["field_ownership"],
+    "validation_command": ["field_ownership"]
+  },
+  "created_at": "2026-09-18T13:25:00Z"
+}

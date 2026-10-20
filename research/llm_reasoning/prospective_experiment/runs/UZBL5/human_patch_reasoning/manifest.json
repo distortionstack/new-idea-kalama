@@ -1,0 +1,32 @@
+{
+  "created_at": "2026-09-16T16:29:35.411676Z",
+  "entries": [
+    {
+      "path": "artifact_integrity.json",
+      "sha256": "e7e228f7529bc1654e4777454ca1b867b7691cbdb9181e7c710b8cec39b3c548",
+      "size_bytes": 1092
+    },
+    {
+      "path": "decision_log.json",
+      "sha256": "a93d36bca99e166c26923630b516232d9a06a88aa8200eb49f9d7f9fd75fe512",
+      "size_bytes": 4486
+    },
+    {
+      "path": "missing_evidence.json",
+      "sha256": "90c7bbf27af6d7d9aae7e4426da7fa82a8e89a1efc6ac5f6901e761f9add4006",
+      "size_bytes": 1439
+    },
+    {
+      "path": "production_validation.json",
+      "sha256": "6bbb00b68a4829b3399b95f9455419c14c9518d33f70093707c72a05d3a55149",
+      "size_bytes": 2162
+    },
+    {
+      "path": "proposed_patch_form_UZBL5_r1.yaml",
+      "sha256": "8a8897233c3982e4f436b0e299819b184c030c4a856accda071fe995e934a457",
+      "size_bytes": 57050
+    }
+  ],
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.5-human-reasoning-manifest/v1"
+}

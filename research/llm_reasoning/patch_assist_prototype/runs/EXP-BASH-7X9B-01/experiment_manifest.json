@@ -1,0 +1,21 @@
+{
+  "schema": "kalama.patch-assist-prototype/experiment-manifest/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "phase": "PHASE_1_EVIDENCE_PREPARATION",
+  "case": {
+    "cve_primary": "CVE-2019-9924",
+    "cve_incidental": ["CVE-2016-9401"],
+    "package": "bash",
+    "ecosystem": "deb",
+    "installed_version": "4.3-11+deb8u1",
+    "scanner_fixed_version": "4.3-11+deb8u2",
+    "image": "kalama-lab:type-c-shellshock",
+    "image_repo_digest": "sha256:1ee787c9df082795ce4dce11bdc1dc04a69bda3dbf9ba104b342873e448a1332"
+  },
+  "contamination_classification": "PARTIALLY_CONTAMINATED",
+  "arms": ["ARM_A_L1", "ARM_B_L3", "ARM_C_L3_L4_L5"],
+  "forbidden_in_this_phase": ["ROLE_A_AGENT_REASONING", "AGENT_PROPOSAL", "ROLE_B_HUMAN_REVIEW", "PATCH_COMMAND_DRAFT", "PATCH_EXECUTION", "PATCH_FORM_SUBMISSION", "AFTER_SCAN", "RE_EXPLOIT", "EVALUATION", "VALIDATED_KNOWLEDGE", "PRODUCTION_MODIFICATION"],
+  "created_at": "2026-09-18T09:20:00Z"
+}

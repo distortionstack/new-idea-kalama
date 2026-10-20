@@ -1,0 +1,13 @@
+{
+  "content_hash_mismatches": [],
+  "derived_root_count": 3,
+  "fetch_failed_count": 0,
+  "missing_parents": [],
+  "retrieved_count": 12,
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.6a-replay-source-graph-validation/v1",
+  "source_count": 15,
+  "unparented_sources": [],
+  "valid": true,
+  "validated_at": "2026-09-16T23:50:03.973267Z"
+}

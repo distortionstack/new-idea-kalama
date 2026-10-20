@@ -1,0 +1,51 @@
+{
+  "label": "PATCH_REASONING_INPUT",
+  "captured_at": "2026-09-15T22:51:10.564421+00:00",
+  "run_id": "HdiiR",
+  "revision": "1",
+  "container_id": "adf18dec3c2ffb30ee3e70507013843306bb6cbb24037c87977d2e632c7b6ba2",
+  "evidence": [
+    {
+      "id": "E001",
+      "source_path": "output\\2d8ru-struts2-prospective\\trivy\\before\\scan_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PATCH_REASONING_INPUT\\frozen_evidence\\scan_2026-09-15_HdiiR.json",
+      "sha256": "3b2253a3078ad72170661200d86cf14c0f7b033975da7d95eac1a470fee66620"
+    },
+    {
+      "id": "E002",
+      "source_path": "output\\2d8ru-struts2-prospective\\scoring\\before\\top30_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PATCH_REASONING_INPUT\\frozen_evidence\\top30_2026-09-15_HdiiR.json",
+      "sha256": "fcfd355dc618cdad68212ca49ba74c185873272efe7442c3d1217d7a158a174a"
+    },
+    {
+      "id": "E003",
+      "source_path": "output\\2d8ru-struts2-prospective\\resolver\\resolver_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PATCH_REASONING_INPUT\\frozen_evidence\\resolver_2026-09-15_HdiiR.json",
+      "sha256": "2d89dfef863db0432e6b46ac525635e83f27fb9beab879048bff5498c069baca"
+    },
+    {
+      "id": "E004",
+      "source_path": "output\\2d8ru-struts2-prospective\\msf\\before\\attack_res_2026-09-15_HdiiR.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PATCH_REASONING_INPUT\\frozen_evidence\\attack_res_2026-09-15_HdiiR.json",
+      "sha256": "03a6d687fa873616cfa54afc3410634fab22e73c1e6a322f9da8f85940595a5a"
+    },
+    {
+      "id": "E005",
+      "source_path": "output\\2d8ru-struts2-prospective\\patch\\forms\\patch_form_HdiiR_r1.yaml",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PATCH_REASONING_INPUT\\frozen_evidence\\patch_form_HdiiR_r1.yaml",
+      "sha256": "1462f8a48a412a74e26955fc3e8041e853ac556d98f04bc0c6e13b3b0f1b4020"
+    },
+    {
+      "id": "E006",
+      "source_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\evidence_acquisition\\normalized\\evidence_inventory.json",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PATCH_REASONING_INPUT\\frozen_evidence\\evidence_inventory.json",
+      "sha256": "8cacb67b88f0e7fa78ddf91c8aa48d8a2f837a7141467dc3e507793f52f0e578"
+    },
+    {
+      "id": "E007",
+      "source_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\evidence_acquisition\\reports\\task_7_5_4d.md",
+      "frozen_path": "research\\llm_reasoning\\prospective_experiment\\runs\\HdiiR\\checkpoints\\PATCH_REASONING_INPUT\\frozen_evidence\\task_7_5_4d.md",
+      "sha256": "5a3b6a2550a1a797f74ae9ec91618bb4148ab5b78ac5fbd8df867ad79e69fc14"
+    }
+  ]
+}

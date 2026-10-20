@@ -1,0 +1,219 @@
+{
+  "created_at": "2026-09-16T23:50:03.983153Z",
+  "items": [
+    {
+      "actions": [
+        "patch-004",
+        "patch-008"
+      ],
+      "artifact_reachable": true,
+      "artifact_sha1_actual": "dfecae23647abc9d9fd0416629a4213a3882b101",
+      "artifact_sha1_expected": "dfecae23647abc9d9fd0416629a4213a3882b101",
+      "artifact_sha1_matches_sidecar": true,
+      "baseline_missing_codes": [
+        "DEPENDENCY_ARTIFACT_UNREACHABLE"
+      ],
+      "checksum_reachable": true,
+      "coordinate": "com.thoughtworks.xstream:xstream:1.4.10",
+      "coordinate_parentage": {
+        "baseline_source_ids": [
+          "S241",
+          "S242",
+          "S243"
+        ],
+        "parent_evidence": "baseline_source_graph:S241,S242,S243; parent_poms:S104",
+        "parent_pom_source_ids": [
+          "S104"
+        ]
+      },
+      "native_registry_root": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/",
+      "purl": "pkg:maven/com.thoughtworks.xstream/xstream@1.4.10",
+      "retrieved": {
+        "deps_dev": {
+          "artifact_path": "retrieved_sources/R005_com_thoughtworks_xstream-xstream-1_4_10_deps_dev.json",
+          "authority_note": "discovery/corroboration only; not used as final artifact authority",
+          "content_hash": "sha256:25a8b314b2f4eba7ee42e40f8087038130690eba87b03a5403841dcd8fc85ca4",
+          "error": null,
+          "http_status": 200,
+          "source_id": "R005",
+          "status": "RETRIEVED",
+          "url": "https://api.deps.dev/v3/systems/maven/packages/com.thoughtworks.xstream%3Axstream/versions/1.4.10"
+        },
+        "jar": {
+          "artifact_path": "retrieved_sources/R003_com_thoughtworks_xstream-xstream-1_4_10_jar",
+          "content_hash": "sha256:a1587f35fa617513607c86ec9e6e4de5eb8acdf9a3a6d7f7458f8a8c40b00858",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar",
+          "http_status": 200,
+          "source_id": "R003",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar"
+        },
+        "jar_sha1": {
+          "artifact_path": "retrieved_sources/R004_com_thoughtworks_xstream-xstream-1_4_10_jar_sha1",
+          "content_hash": "sha256:b764c1ca305f6bc27f08c16eed6d95e8c450c813f30daa30f249addde9250448",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar.sha1",
+          "http_status": 200,
+          "source_id": "R004",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar.sha1"
+        },
+        "pom": {
+          "artifact_path": "retrieved_sources/R002_com_thoughtworks_xstream-xstream-1_4_10_pom",
+          "content_hash": "sha256:a4a9ff688f713da3eac04412e50a0c9a5e173e6921fe446ddb07d4901d9a3417",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.pom",
+          "http_status": 200,
+          "source_id": "R002",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.pom"
+        }
+      },
+      "would_resolve_missing_evidence": true
+    },
+    {
+      "actions": [
+        "patch-004",
+        "patch-008"
+      ],
+      "artifact_reachable": true,
+      "artifact_sha1_actual": "f9db8f1e0372e124ac2d62355512501296a3666b",
+      "artifact_sha1_expected": "f9db8f1e0372e124ac2d62355512501296a3666b",
+      "artifact_sha1_matches_sidecar": true,
+      "baseline_missing_codes": [
+        "DEPENDENCY_ARTIFACT_UNREACHABLE"
+      ],
+      "checksum_reachable": true,
+      "coordinate": "ognl:ognl:3.0.21",
+      "coordinate_parentage": {
+        "baseline_source_ids": [
+          "S208",
+          "S209",
+          "S210"
+        ],
+        "parent_evidence": "baseline_source_graph:S208,S209,S210; parent_poms:S104",
+        "parent_pom_source_ids": [
+          "S104"
+        ]
+      },
+      "native_registry_root": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/",
+      "purl": "pkg:maven/ognl/ognl@3.0.21",
+      "retrieved": {
+        "deps_dev": {
+          "artifact_path": "retrieved_sources/R010_ognl-ognl-3_0_21_deps_dev.json",
+          "authority_note": "discovery/corroboration only; not used as final artifact authority",
+          "content_hash": "sha256:91eacd9dc027957cc39f115910f8019d85b3d2296cea262bb0b1f1a3e02932b0",
+          "error": null,
+          "http_status": 200,
+          "source_id": "R010",
+          "status": "RETRIEVED",
+          "url": "https://api.deps.dev/v3/systems/maven/packages/ognl%3Aognl/versions/3.0.21"
+        },
+        "jar": {
+          "artifact_path": "retrieved_sources/R008_ognl-ognl-3_0_21_jar",
+          "content_hash": "sha256:9c5419feb6c9652572c8e12f3de044253ac7ec2da87dbbb1f647ff65d357c5f6",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/ognl-3.0.21.jar",
+          "http_status": 200,
+          "source_id": "R008",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/ognl-3.0.21.jar"
+        },
+        "jar_sha1": {
+          "artifact_path": "retrieved_sources/R009_ognl-ognl-3_0_21_jar_sha1",
+          "content_hash": "sha256:d47112f670e8b116981e2fbc2843b3805a0b4567fb57dfe89d83667dbdc34c6f",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/ognl-3.0.21.jar.sha1",
+          "http_status": 200,
+          "source_id": "R009",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/ognl-3.0.21.jar.sha1"
+        },
+        "pom": {
+          "artifact_path": "retrieved_sources/R007_ognl-ognl-3_0_21_pom",
+          "content_hash": "sha256:ba33ed8cb438339e77c2d390e0d89327435663f6004888a50b51cdde5e064c55",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/ognl-3.0.21.pom",
+          "http_status": 200,
+          "source_id": "R007",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/ognl/ognl/3.0.21/ognl-3.0.21.pom"
+        }
+      },
+      "would_resolve_missing_evidence": true
+    },
+    {
+      "actions": [
+        "patch-007"
+      ],
+      "artifact_reachable": true,
+      "artifact_sha1_actual": "cd143cd8c02a9f838e3cb75a6dfe133750437f6d",
+      "artifact_sha1_expected": "cd143cd8c02a9f838e3cb75a6dfe133750437f6d",
+      "artifact_sha1_matches_sidecar": true,
+      "baseline_missing_codes": [
+        "DEPENDENCY_ARTIFACT_UNREACHABLE"
+      ],
+      "checksum_reachable": true,
+      "coordinate": "org.freemarker:freemarker:2.3.23",
+      "coordinate_parentage": {
+        "baseline_source_ids": [
+          "S226",
+          "S227",
+          "S228"
+        ],
+        "parent_evidence": "baseline_source_graph:S226,S227,S228; parent_poms:S108",
+        "parent_pom_source_ids": [
+          "S108"
+        ]
+      },
+      "native_registry_root": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/",
+      "purl": "pkg:maven/org.freemarker/freemarker@2.3.23",
+      "retrieved": {
+        "deps_dev": {
+          "artifact_path": "retrieved_sources/R015_org_freemarker-freemarker-2_3_23_deps_dev.json",
+          "authority_note": "discovery/corroboration only; not used as final artifact authority",
+          "content_hash": "sha256:8022c6c46791f418a372d8c25f869fbbfb2eb7c2a1880858eda275d01dc4d861",
+          "error": null,
+          "http_status": 200,
+          "source_id": "R015",
+          "status": "RETRIEVED",
+          "url": "https://api.deps.dev/v3/systems/maven/packages/org.freemarker%3Afreemarker/versions/2.3.23"
+        },
+        "jar": {
+          "artifact_path": "retrieved_sources/R013_org_freemarker-freemarker-2_3_23_jar",
+          "content_hash": "sha256:a6dc0d252fa000f0d2bd98b2168c4c36a56f3efe5136d041c0df08f017300758",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/freemarker-2.3.23.jar",
+          "http_status": 200,
+          "source_id": "R013",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/freemarker-2.3.23.jar"
+        },
+        "jar_sha1": {
+          "artifact_path": "retrieved_sources/R014_org_freemarker-freemarker-2_3_23_jar_sha1",
+          "content_hash": "sha256:3fffc6e9820675d8e156f56bb60d18036af5d272d270e8d8ec3ac9cb5737aa9f",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/freemarker-2.3.23.jar.sha1",
+          "http_status": 200,
+          "source_id": "R014",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/freemarker-2.3.23.jar.sha1"
+        },
+        "pom": {
+          "artifact_path": "retrieved_sources/R012_org_freemarker-freemarker-2_3_23_pom",
+          "content_hash": "sha256:25db808db0721082bda01b24275bdda5e878f38c5024e5a9751811208d5d7cc5",
+          "error": null,
+          "final_url": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/freemarker-2.3.23.pom",
+          "http_status": 200,
+          "source_id": "R012",
+          "status": "RETRIEVED",
+          "url": "https://repo.maven.apache.org/maven2/org/freemarker/freemarker/2.3.23/freemarker-2.3.23.pom"
+        }
+      },
+      "would_resolve_missing_evidence": true
+    }
+  ],
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.6a-artifact-reachability/v1"
+}

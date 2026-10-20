@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kalama.upstream-identity.replay.schema.json",
+  "title": "Kalama Upstream Identity Replay",
+  "type": "object",
+  "required": ["schema", "package_identity", "roots", "candidates", "warnings"],
+  "properties": {
+    "schema": {
+      "const": "kalama.upstream-identity.replay/v1"
+    },
+    "package_identity": {
+      "type": "object",
+      "required": ["ecosystem", "name", "version", "purl", "normalized_name"],
+      "properties": {
+        "ecosystem": { "type": "string" },
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "purl": { "type": "string" },
+        "normalized_name": { "type": "string" }
+      }
+    },
+    "roots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "root_id",
+          "kind",
+          "url",
+          "authority_class",
+          "derivation",
+          "parent_evidence",
+          "confidence",
+          "allowed_operations"
+        ],
+        "properties": {
+          "root_id": { "type": "string" },
+          "kind": { "type": "string" },
+          "url": { "type": "string" },
+          "authority_class": { "type": "string" },
+          "derivation": { "type": "string" },
+          "parent_evidence": { "type": "string" },
+          "confidence": { "type": "string" },
+          "allowed_operations": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "retrieved_at": { "type": ["string", "null"] },
+          "http_status": { "type": ["integer", "null"] },
+          "final_url": { "type": ["string", "null"] },
+          "redirect_chain": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "content_hash": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "candidates": { "type": "array" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

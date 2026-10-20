@@ -1,0 +1,12 @@
+{
+  "schema": "kalama.patch-assist-prototype/experiment-manifest/v1",
+  "experiment_id": "EXP-BASH-7X9C-SEM-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "phase": "SEMANTIC_CONTRACT_ABLATION",
+  "base_experiment": "EXP-BASH-7X9B-01",
+  "base_arm": "ARM_C_L3_L4_L5",
+  "changed_variable": "KALAMA_SEMANTIC_CONTRACT_EXPOSURE",
+  "forbidden_in_this_phase": ["NEW_REMEDIATION_EVIDENCE", "WEB_RETRIEVAL", "PRIOR_PROPOSAL_READ", "PRIOR_REVIEW_READ", "PHASE_4_REPORT_READ", "PATCH_EXECUTION", "COMMAND_UNLOCK", "PRODUCTION_MODIFICATION", "PRIOR_ARTIFACT_MODIFICATION"],
+  "created_at": "2026-09-18T13:15:00Z"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "kalama.patch-assist-prototype/agent-validation/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "arm": "ARM_C_L3_L4_L5",
+  "pack_sha256": "a780084f1983f6b2136a90617d359353df034546cd6f4c021e64ababcfc24707",
+  "proposal_sha256": "bcf4b87ad33b5bd4dd7598c0d61a0ac7c375c36036046f08525bd0bdb5f41c07",
+  "checks": [
+    {"check": "json_parses", "status": "PASS", "detail": "agent_proposal.json parses as JSON."},
+    {"check": "required_schema_fields_present", "status": "PASS", "detail": "All required top-level keys present with agent-proposal/v1 schema and 9 fields."},
+    {"check": "binding_matches_pack", "status": "PASS", "detail": "experiment/run/action match pack EXP-BASH-7X9B-01/B9X4K/patch-001."},
+    {"check": "pack_sha256_matches", "status": "PASS", "detail": "candidate_binding.pack_sha256 equals pack pack_sha256."},
+    {"check": "evidence_refs_exist_in_pack", "status": "PASS", "detail": "All cited refs exist in this pack source_references; no unknown IDs."},
+    {"check": "no_failed_source_cited", "status": "PASS", "detail": "No FETCH_FAILED sources (S001/S002/S014) cited as factual support; no S015 cited."},
+    {"check": "no_sibling_arm_source", "status": "PASS", "detail": "No source from another arm cited; all refs from ARM_C_L3_L4_L5 pack."},
+    {"check": "proposed_fields_have_refs", "status": "PASS", "detail": "All PROPOSED factual fields (strategy/target_version/artifact_source/source_identifier/notes) have non-empty evidence_refs."},
+    {"check": "abstained_fields_null", "status": "PASS", "detail": "fix_type/command/validation_command ABSTAINED with null value; build_system NOT_APPLICABLE with null value."},
+    {"check": "required_abstentions_present", "status": "PASS", "detail": "Typed abstentions present for command, validation_command, and fix_type."},
+    {"check": "command_gate_honored", "status": "PASS", "detail": "evidence_sufficiency.command INSUFFICIENT honored; command null/ABSTAINED with no command text in other fields."},
+    {"check": "validation_command_gate_honored", "status": "PASS", "detail": "evidence_sufficiency.validation_command INSUFFICIENT honored; validation_command null/ABSTAINED with no command text elsewhere."},
+    {"check": "forbidden_fields_absent", "status": "PASS", "detail": "No human_confirmed_fields/major_version_approved/execution_target/disposition/disposition_reason/trusted/source_authority/source_type/readiness/remediation_verified/execution results."},
+    {"check": "strategy_vocabulary_valid", "status": "PASS", "detail": "ARTIFACT_REPLACEMENT is in audited PatchStrategy vocabulary; no invented strategy."},
+    {"check": "proposal_hash_recomputes", "status": "PASS", "detail": "SHA-256 of UTF-8 bytes with proposal_sha256 set to empty string recomputes to stored value."},
+    {"check": "no_web_or_acquisition", "status": "PASS", "detail": "No web search, URL fetch, or source discovery performed; reasoning used pack bytes only."},
+    {"check": "no_sibling_arm_read", "status": "PASS", "detail": "No other arm pack, phase_1_report, case_selection, contamination audit, source graph/manifest, retrieval log, authority decisions, raw files, or prior proposals read."}
+  ],
+  "overall_status": "PASS",
+  "created_at": "2026-09-18T11:35:00Z"
+}

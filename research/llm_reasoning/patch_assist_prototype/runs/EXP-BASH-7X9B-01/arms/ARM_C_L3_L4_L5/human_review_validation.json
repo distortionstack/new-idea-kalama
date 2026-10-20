@@ -1,0 +1,25 @@
+{
+  "schema": "kalama.patch-assist-prototype/human-review-validation/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "arm": "ARM_C_L3_L4_L5",
+  "pack_sha256": "a780084f1983f6b2136a90617d359353df034546cd6f4c021e64ababcfc24707",
+  "proposal_sha256": "bcf4b87ad33b5bd4dd7598c0d61a0ac7c375c36036046f08525bd0bdb5f41c07",
+  "checks": [
+    {"check": "json_parses", "status": "PASS", "detail": "human_review.json parses as JSON."},
+    {"check": "binding_correct", "status": "PASS", "detail": "experiment/run/action and pack/proposal hashes match the selected frozen pack and proposal."},
+    {"check": "all_9_fields_reviewed", "status": "PASS", "detail": "fix_type, strategy, target_version, artifact_source, source_identifier, build_system, command, validation_command, notes all present."},
+    {"check": "review_class_values_valid", "status": "PASS", "detail": "All review_class values are in NO_EDIT/MINOR_EDIT/MAJOR_EDIT/REJECT/ABSTENTION_ACCEPTED."},
+    {"check": "every_review_has_reason", "status": "PASS", "detail": "Every field review carries a non-empty edit_reason."},
+    {"check": "evidence_refs_resolve_to_pack", "status": "PASS", "detail": "All field-review evidence_refs exist in the selected pack; no new sources introduced."},
+    {"check": "no_failed_source_as_authority", "status": "PASS", "detail": "No FETCH_FAILED sources cited in review refs."},
+    {"check": "command_gate_still_honored", "status": "PASS", "detail": "command final_value null with ABSTENTION_ACCEPTED; no command text in any review field."},
+    {"check": "validation_command_gate_honored", "status": "PASS", "detail": "validation_command final_value null with ABSTENTION_ACCEPTED; no validation text in any review field."},
+    {"check": "original_proposal_unchanged", "status": "PASS", "detail": "Agent proposal bytes unchanged; proposal hash still recomputes."},
+    {"check": "no_sibling_arm_read", "status": "PASS", "detail": "No sibling pack/proposal/review opened after arm selection."},
+    {"check": "no_web_or_new_retrieval", "status": "PASS", "detail": "No web search, URL fetch, execution, or evidence acquisition performed."}
+  ],
+  "overall_status": "PASS",
+  "created_at": "2026-09-18T12:05:00Z"
+}

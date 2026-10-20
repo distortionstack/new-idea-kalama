@@ -1,0 +1,25 @@
+{
+  "schema": "kalama.patch-assist-prototype/authority-decisions/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "promotion_rule": "A metadata/child link is promoted only with (a) a deterministic parent chain to seed evidence and (b) corroboration: namespace/version match plus an independent advisory typing or VendorID match. Otherwise CANDIDATE_ONLY.",
+  "decisions": [
+    {"source_id": "S003", "decision": "CANDIDATE_ONLY", "reason": "Mailing-list report; topical corroboration only, no version authority."},
+    {"source_id": "S004", "decision": "PROMOTED_UPSTREAM", "reason": "Upstream project document reached via scanner reference; fix entry corroborated by OSV ADVISORY typing of the same URL and CVE subject match."},
+    {"source_id": "S005", "decision": "ADVISORY_AUTHORITY", "reason": "NVD API record for the candidate CVE (deterministic advisory query)."},
+    {"source_id": "S006", "decision": "ADVISORY_AUTHORITY", "reason": "OSV record for the candidate CVE (deterministic advisory query)."},
+    {"source_id": "S007", "decision": "ADVISORY_AUTHORITY", "reason": "Debian Security Tracker CVE page navigated from scanner DataSource root; fixed-version statement matches scanner FixedVersion and VendorIDs."},
+    {"source_id": "S008", "decision": "ADVISORY_AUTHORITY", "reason": "CISA KEV feed (deterministic advisory query); negative membership result recorded."},
+    {"source_id": "S009", "decision": "DERIVED_PACKAGE_AUTHORITY", "reason": "Debian snapshot package list (ecosystem-native metadata); version-existence corroboration at MEDIUM (not per-file authority)."},
+    {"source_id": "S010", "decision": "DERIVED_PACKAGE_AUTHORITY", "reason": "Distro-native release index carrying the installed version with hashes and dependencies."},
+    {"source_id": "S011", "decision": "DERIVED_PACKAGE_AUTHORITY", "reason": "Distro-native security index carrying the fixed version with artifact path, size, triple hashes, dependencies, Essential flag."},
+    {"source_id": "S012", "decision": "DERIVED_PACKAGE_AUTHORITY", "reason": "Artifact bytes from the index-derived path; SHA-256 and size match the S011 stanza exactly."},
+    {"source_id": "S013", "decision": "PROMOTED_UPSTREAM", "reason": "Debian LTS security record reached via child link on S007; CVE linkage (both CVEs) and fixed version corroborated by S005/S006/S007 and scanner VendorIDs."},
+    {"source_id": "S001", "decision": "CANDIDATE_ONLY", "reason": "Body unusable (challenge page); retained for transparency, never cited as evidence."},
+    {"source_id": "S002", "decision": "CANDIDATE_ONLY", "reason": "Body unusable (JS shell); superseded by S005; never cited as evidence."},
+    {"source_id": "S014", "decision": "CANDIDATE_ONLY", "reason": "Body unusable (challenge page); never cited as evidence."},
+    {"source_id": "S015", "decision": "CANDIDATE_ONLY", "reason": "Not retrieved (404); never cited as evidence."},
+    {"source_id": "S016", "decision": "CANDIDATE_ONLY", "reason": "Not retrieved (404); superseded by S009+S010+S011; never cited as evidence."}
+  ],
+  "forbidden_classes_observed": "none: no LLM-invented domains, no search-engine roots, no blog/forum/mirror roots, no unparented sources. Homepage field from S010/S011 stanzas (tiswww.case.edu) recorded but never traversed (metadata link, candidate-only, no corroboration need).",
+  "created_at": "2026-09-18T09:55:00Z"
+}

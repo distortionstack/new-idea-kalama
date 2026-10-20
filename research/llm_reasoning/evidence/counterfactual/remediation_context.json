@@ -1,0 +1,1 @@
+{"id":"E_REMEDIATION_CONTEXT","source_class":"local_review_readme","provenance":"remediation_review_rvcdv/README.md; unchanged from original","content":{"source_lineage":"Apache 2.3.20.1 REST Showcase source","scope":"builds a new candidate image; does not touch victim"}}

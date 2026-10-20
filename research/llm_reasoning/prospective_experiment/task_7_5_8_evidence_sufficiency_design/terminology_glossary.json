@@ -1,0 +1,18 @@
+{
+  "schema": "kalama.task-7.5.8-terminology-glossary/v1",
+  "terms": {
+    "Evidence Level": "A defined tier of admissible evidence (L0-L5): L0 scanner+runtime only; L1 +scanner reference graph; L2 +advisory authority query; L3 +PURL/native registry roots; L4 +upstream project docs/release notes; L5 +runtime vendor docs. Higher levels add source classes, never remove lower-level constraints.",
+    "Source Root": "An authorized starting point for retrieval, with kind (e.g. scanner reference, runtime-derived URL, PURL-derived native registry root), derivation reason, parent evidence, authority class, confidence, and allowed operations.",
+    "Source Graph": "The auditable ledger of every seed root, derived root, retrieved source, failed fetch, and rejected unanchored source, with parentage edges, URLs, redirect chains, content hashes, and policy decisions. Valid only when no missing parents, no unparented sources, and no hash mismatches.",
+    "Upstream Source Resolver": "The deterministic component that derives allowed source roots from package identity evidence (PURL/coordinates, scanner references, runtime URLs, advisory records). It outputs typed authority candidates, never remediation strategy. The LLM must not supply its inputs as free text or choose registry domains.",
+    "Remediation Evidence Retriever": "The deterministic component that consumes allowed roots and retrieves advisory records, POM/package metadata, artifacts, checksums, release notes, and runtime docs; classifies promoted vs candidate sources; hashes bytes; and returns EVIDENCE_GRAPH_INSUFFICIENT when closure cannot complete under policy.",
+    "Evidence Pack": "The frozen, hashed bundle the LLM is allowed to reason over: seed fields plus retrieved evidence plus source graph plus missing-evidence records. Reasoning over anything outside the pack is forbidden.",
+    "LLM Patch Assist": "The LLM role restricted to interpreting retrieved evidence, drafting Patch Form suggestions, and explaining abstentions. It may propose command/validation_command only when the L3+L4+L5 threshold is met; it cannot create roots, promote authority, or mark remediation verified.",
+    "Artifact Provenance": "Evidence of an artifact's source, exact identity, availability, and publisher/registry authority (C3). Requires registry/donor evidence, not version-string assertion.",
+    "Dependency Closure": "The complete set of direct (and where needed, transitive) dependencies required by a target version, with each member's artifact resolved or explicitly listed as missing (C5).",
+    "Runtime Deployment Semantics": "How the target runtime installs, deploys, redeploys, and preserves applications (e.g. Tomcat appBase exploded-deploy vs WAR expansion, backup/preserve handling). Required basis for safe patch commands (L5).",
+    "Safe Abstention": "The correct behavior of leaving fields UNKNOWN/INSUFFICIENT_EVIDENCE and commands null with typed reason codes when evidence is insufficient, instead of fabricating values (C9).",
+    "Validator Readiness": "The property that a Patch Form passes structural and evidence-linkage checks (C10). Necessary but not sufficient for remediation success.",
+    "Remediation Success": "The property established only by the full EVVP pipeline: patch execution followed by AFTER scan, re-exploit, and evaluation confirming the vulnerability is resolved without breaking the application."
+  }
+}

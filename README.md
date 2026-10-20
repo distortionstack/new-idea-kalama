@@ -1,4 +1,14 @@
-# Kalama / EVVP
+# VIPER / Kalama
+
+**VIPER — Vulnerability Inspection, Patching, and Exploit Retesting for Container Images**
+
+VIPER is the user-facing name of the authorized container vulnerability
+inspection and remediation pipeline. The historical `kalama` Python package,
+`python -m kalama` compatibility path, Docker resources, network names, and
+artifact schemas remain unchanged to preserve existing evidence provenance.
+
+The preferred CLI is `viper`; `kalama` remains supported as a compatibility
+entry point.
 
 Kalama is a state-driven vulnerability-validation pipeline for **authorized, isolated lab containers**. It scans a Docker image, ranks findings, gathers Metasploit module information, and pauses for human review before any exploit-validation stage.
 

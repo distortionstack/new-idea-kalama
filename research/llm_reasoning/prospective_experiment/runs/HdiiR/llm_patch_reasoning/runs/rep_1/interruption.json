@@ -1,0 +1,14 @@
+{
+  "status": "HARNESS_INTERRUPTED",
+  "usable_repetition": false,
+  "replacement": "rep_1_replacement",
+  "observed_state": {
+    "request_directory_created": true,
+    "raw_response_present": false,
+    "metrics_present": false,
+    "harness_stderr_present": false,
+    "matching_process_present_on_resume": false
+  },
+  "classification": "external coding-agent/tool interruption; not a model timeout, malformed response, failure, or abstention",
+  "note": "Whether Ollama completed the request before the outer interruption cannot be established; no result is counted."
+}

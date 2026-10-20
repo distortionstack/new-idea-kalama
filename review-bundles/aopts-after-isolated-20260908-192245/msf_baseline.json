@@ -1,0 +1,6 @@
+{
+  "remote_fixture": "/tmp/aopts-after-isolated-20260908-192245/modules/exploits/multi/elasticsearch/search_groovy_script_compat.rb",
+  "remote_sha256sum": "0989d37b8144722726d76dc116b845cdd7cd7a9ddcf990ece70024f643fdf01d  /tmp/aopts-after-isolated-20260908-192245/modules/exploits/multi/elasticsearch/search_groovy_script_compat.rb",
+  "baseline_command": "cd /usr/src/metasploit-framework && ./msfconsole -q -n -x \"sessions -l; jobs -l; exit -y\"",
+  "baseline_output": "\nActive sessions\n===============\n\nNo active sessions.\n\n\nJobs\n====\n\nNo active jobs.\n"
+}

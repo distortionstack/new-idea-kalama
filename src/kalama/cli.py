@@ -1,4 +1,4 @@
-"""Thin command-line adapter for canonical Kalama orchestrators."""
+"""VIPER command-line adapter with backwards-compatible Kalama entry points."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from .state import ArtifactKind, RunState, RunStatus, StateStoreError
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="kalama", description="Kalama MVP pipeline")
+    parser = argparse.ArgumentParser(prog="viper", description="VIPER — Vulnerability Inspection, Patching, and Exploit Retesting for Container Images")
     parser.add_argument("--output-root", default="output", help="canonical output root (default: output; per-case: output/<case>)")
     sub = parser.add_subparsers(dest="command", required=True)
     run = sub.add_parser("run", help="create a run and execute target scan + prioritization")
@@ -91,8 +91,9 @@ def _next_action(stream: TextIO, state: RunState) -> None:
     elif state.status == RunStatus.WAITING_FOR_USER_INPUT:
         if state.waiting_reason == "ATTACK_FORM":
             ref = state.artifact(ArtifactKind.ATTACK_FORM)
-            if ref: print(f"  Copy/edit the canonical form: {ref.path}", file=stream)
-            print(f"  python3 -m kalama submit-attack-form {state.run_id} FILE", file=stream)
+            if ref:
+                print(f"  Copy the canonical form to a new file before editing: {ref.path}", file=stream)
+            print(f"  python3 -m kalama submit-attack-form {state.run_id} EDITED_COPY.yaml", file=stream)
         elif state.waiting_reason == "PATCH_FORM":
             ref = state.artifact(ArtifactKind.PATCH_FORM)
             if ref: print(f"  Copy/edit the canonical form: {ref.path}", file=stream)

@@ -1,0 +1,18 @@
+﻿{"event":"scan","tool":"trivy 0.74.0 (container)","subject":"kalama-lab:type-c-shellshock tar","at":"2026-09-17T22:08:50Z","result":"258 findings; bash CVE-2019-9924+CVE-2016-9401 -> 4.3-11+deb8u2"}
+{"event":"inspect","subject":"kalama-lab:type-c-shellshock","at":"2026-09-18T09:00:00Z","result":"read-only; CMD apache2ctl -DFOREGROUND; PATH with /usr/local/bash-4.3.0 prefix"}
+{"event":"fetch","source_id":"S001","raw_file":"acquisition/raw/L1-DLA-1726-1.dat","status":"FETCH_FAILED","note":"PoW-challenge"}
+{"event":"fetch","source_id":"S002","raw_file":"acquisition/raw/L1-NVD-page.dat","status":"FETCH_FAILED","note":"JS-shell"}
+{"event":"fetch","source_id":"S003","raw_file":"acquisition/raw/L1-bug-bash-thread.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S004","raw_file":"acquisition/raw/L1-gnu-changes-retry.dat","status":"RETRIEVED","note":"first-attempt-timeout-then-retry-ok"}
+{"event":"fetch","source_id":"S005","raw_file":"acquisition/raw/L2-NVD-API.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S006","raw_file":"acquisition/raw/L2-OSV.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S007","raw_file":"acquisition/raw/L2-debian-tracker.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S008","raw_file":"acquisition/raw/L2-KEV-feed.dat","status":"RETRIEVED","note":"negative-membership"}
+{"event":"fetch","source_id":"S009","raw_file":"acquisition/raw/L3-snapshot-bash-list.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S010","raw_file":"acquisition/raw/L3-jessie-packages.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S011","raw_file":"acquisition/raw/L3-jessie-security-packages.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S012","raw_file":"acquisition/raw/L3-bash-deb.dat","status":"RETRIEVED","note":"sha256-matches-S011-stanza"}
+{"event":"fetch","source_id":"S013","raw_file":"acquisition/raw/L4-DLA-1726-1-tracker.dat","status":"RETRIEVED","note":""}
+{"event":"fetch","source_id":"S014","raw_file":"acquisition/raw/L4-DLA-1726-1-debian-org.dat","status":"FETCH_FAILED","note":"PoW-challenge"}
+{"event":"fetch","source_id":"S015","raw_file":"acquisition/raw/L4-bash-changelog.dat","status":"FETCH_FAILED","note":"HTTP-404"}
+{"event":"fetch","source_id":"S016","raw_file":"acquisition/raw/L3-snapshot-version-path.dat","status":"FETCH_FAILED","note":"HTTP-404"}

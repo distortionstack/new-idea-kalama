@@ -1,0 +1,21 @@
+{
+  "schema":"kalama.llm-controlled-reasoning-fixture/v1",
+  "fixture_id":"patch-strategy-controlled-v1",
+  "repository_context":{"production_modified":false,"inspection":"read-only Dockerfile, README, production enum/planner/validator"},
+  "candidate_identity":{"cve":"CVE-2017-9805","component":"Struts REST Showcase","field":"strategy"},
+  "production_field_contract":{"type":"string enum","allowed":["COPACETIC","PACKAGE_MANAGER","ARTIFACT_REPLACEMENT","MUTATION","REBUILD","PREBUILT_IMAGE_REPLACEMENT","IMAGE_REPLACEMENT","DOCKER_COMMIT","HUMAN_COMMAND"]},
+  "observation_hashes":{"remediation_review_rvcdv/Dockerfile":"34d1ac9d622e211a7ef4c20c80be89b0aa1ece20eb0a991da881be5114c6eb2e","remediation_review_rvcdv/README.md":"9b72be8f7405c579ba327b451e0cfe9bf99290e63da56c4e458e4ce15edea40f"},
+  "resolver_gap_proof":{"status":"UNRESOLVED","source":"src/kalama/remediation/planner.py: absent strategy emits PATCH_STRATEGY_UNRESOLVED"},
+  "knowledge_miss_proof":{"status":"MISS","source":"fixture uses no Knowledge input and does not write Knowledge"},
+  "original_evidence_refs":["evidence/original/local_build.json","evidence/original/remediation_context.json"],
+  "counterfactual_evidence_refs":["evidence/counterfactual/local_deployment.json","evidence/counterfactual/remediation_context.json"],
+  "evaluator_truth_refs":["ground_truth/original/truth.json","ground_truth/counterfactual/truth.json"],
+  "direct_copy_audit":{"literal":false,"normalized":false,"semantic":"No evidence item names a Kalama strategy. However local source-build evidence is an effective deterministic premise, so non-copy alone is insufficient."},
+  "deterministic_rule_audit":{"rule":"fix_type/source-build semantics -> REBUILD; replacement-image context -> PREBUILT_IMAGE_REPLACEMENT","authoritative_basis":"guidance/patch_proposal.py compatibility comment and remediation/models.py documentation","result":"DETERMINISTIC_RULE"},
+  "evidence_necessity":{"original":{"E_LOCAL_BUILD":"necessary for deterministic mapping","E_REMEDIATION_CONTEXT":"supporting, not independently necessary"},"counterfactual":{"E_LOCAL_DEPLOYMENT":"necessary for deterministic mapping","E_REMEDIATION_CONTEXT":"supporting, not independently necessary"}},
+  "ablations":{"original":["O_ABLATION_A","O_ABLATION_B"],"counterfactual":["C_ABLATION_A","C_ABLATION_B"],"note":"frozen as negative-control conditions; not authorized for LLM evaluation"},
+  "prompt_hashes":{"O_FULL":"760397ff33855f5227d51b203042110c67da553a6ca856d30a4f4f5faa2fa756","C_FULL":"d326a2ccf867dbbb4f433ea863d27e8b4bcba9353fe245e1bc0ccc2d0306700d"},
+  "future_matrix":{"runtime":{"model":"qwen3:8b","think":false,"temperature":0,"timeout_s":45},"conditions":["O_FULL","O_ABLATION_A","O_ABLATION_B","C_FULL","C_ABLATION_A","C_ABLATION_B"],"repetitions_each":3,"calls":18,"status":"FROZEN_BUT_NOT_AUTHORIZED"},
+  "qualification_result":"REJECTED_AS_DETERMINISTIC",
+  "no_model_invocation":true
+}

@@ -1,0 +1,30 @@
+{
+  "baseline": {
+    "abstained_action_ids": [
+      "patch-004",
+      "patch-007",
+      "patch-008"
+    ],
+    "abstained_actions": 3,
+    "fetch_failed_count": 34,
+    "retrieved_count": 97,
+    "source_count": 136,
+    "validator_ready_actions": 5
+  },
+  "created_at": "2026-09-16T23:50:03.973267Z",
+  "interpretation": "Replay reachability only. This does not mutate the UZBL5 proposal and does not establish validator-ready remediation commands.",
+  "replay": {
+    "dependencies_reached": [
+      "com.thoughtworks.xstream:xstream:1.4.10",
+      "ognl:ognl:3.0.21",
+      "org.freemarker:freemarker:2.3.23"
+    ],
+    "dependencies_unreached": [],
+    "fetch_failed_count": 0,
+    "resolved_missing_evidence_count": 3,
+    "retrieved_count": 12,
+    "source_count": 15
+  },
+  "run_id": "UZBL5",
+  "schema": "kalama.task-7.5.6a-missing-evidence-comparison/v1"
+}

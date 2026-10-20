@@ -1,0 +1,76 @@
+{
+  "diagnostic_id": "aopts-after-isolated-20260908-192245",
+  "network": "kalama-diag-aopts-192245",
+  "target_container": "victim-after-diag-aopts-192245",
+  "target_container_id": "d5e64ce24916867f8cc4b9f3fb92a853afabb199c60368a85beddc4b414a75be",
+  "target_ip": "172.19.0.2",
+  "target_image_id": "sha256:d2ff298e7aa856748b60d130bbf40a46e5f0d949fc163f5d7950e1a3a94e1658",
+  "host_mapped_port": "63317",
+  "msf_container": "msf-resolver-host",
+  "msf_ip_on_diagnostic_network": "172.19.0.3",
+  "elasticsearch_version": "1.4.3",
+  "elasticsearch_response": {
+    "status": 200,
+    "name": "Scimitar",
+    "cluster_name": "elasticsearch",
+    "version": {
+      "number": "1.4.3",
+      "build_hash": "36a29a7144cfde87a960ba039091d40856fcb9af",
+      "build_timestamp": "2015-02-11T14:23:15Z",
+      "build_snapshot": false,
+      "lucene_version": "4.10.3"
+    },
+    "tagline": "You Know, for Search"
+  },
+  "count_before": "Response status code does not indicate success: 404 (Not Found).",
+  "preconditions_executed": [
+    {
+      "step": 1,
+      "method": "POST",
+      "endpoint": "/kalama/doc/1",
+      "result": {
+        "_index": "kalama",
+        "_type": "doc",
+        "_id": "1",
+        "_version": 1,
+        "created": true
+      }
+    },
+    {
+      "step": 2,
+      "method": "POST",
+      "endpoint": "/kalama/_refresh",
+      "result": {
+        "_shards": {
+          "total": 10,
+          "successful": 5,
+          "failed": 0
+        }
+      }
+    }
+  ],
+  "count_after": {
+    "count": 1,
+    "_shards": {
+      "total": 5,
+      "successful": 5,
+      "failed": 0
+    }
+  },
+  "network_containers": {
+    "9defabcb3731001b3f93140f6c09410d7fb451a5289ce175ab43c5ec66ce7ab5": {
+      "Name": "msf-resolver-host",
+      "EndpointID": "89ee3d00c5900700c8d665fa5063aec34768d6bb5711d2c9126431d49d895728",
+      "MacAddress": "aa:57:6c:9a:b2:22",
+      "IPv4Address": "172.19.0.3/16",
+      "IPv6Address": ""
+    },
+    "d5e64ce24916867f8cc4b9f3fb92a853afabb199c60368a85beddc4b414a75be": {
+      "Name": "victim-after-diag-aopts-192245",
+      "EndpointID": "b4e67f6666f2d916d8370b4ee0a46092ce3af3dddac6bf291021a83712ee1080",
+      "MacAddress": "f6:58:77:89:9a:e3",
+      "IPv4Address": "172.19.0.2/16",
+      "IPv6Address": ""
+    }
+  }
+}

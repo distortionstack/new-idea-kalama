@@ -1,0 +1,74 @@
+{
+  "schema": "kalama.patch-assist-prototype/human-review-validation/v1",
+  "experiment_id": "EXP-BASH-7X9B-01",
+  "run_id": "B9X4K",
+  "action_id": "patch-001",
+  "arm": "ARM_B_L3",
+  "pack_sha256": "35ee44588ee913590b71e241695e299ebfdece631c8cc23b939511b64479fa5a",
+  "proposal_sha256": "a3f7ba38d1a6f4de4f8282879c34ab49fd5ec3c336d0bf4a872a3c34136cb631",
+  "checks": [
+    {
+      "name": "json_parses",
+      "passed": true,
+      "detail": "human_review.json parses as JSON."
+    },
+    {
+      "name": "binding_correct",
+      "passed": true,
+      "detail": "experiment/run/action and pack/proposal SHAs match frozen pack and proposal."
+    },
+    {
+      "name": "all_9_fields_reviewed",
+      "passed": true,
+      "detail": "fix_type, strategy, target_version, artifact_source, source_identifier, build_system, command, validation_command, notes all present."
+    },
+    {
+      "name": "review_class_values_valid",
+      "passed": true,
+      "detail": "All review_class values in {NO_EDIT, MINOR_EDIT, MAJOR_EDIT, REJECT, ABSTENTION_ACCEPTED}."
+    },
+    {
+      "name": "every_review_has_reason",
+      "passed": true,
+      "detail": "All 9 field reviews carry non-empty edit_reason."
+    },
+    {
+      "name": "evidence_refs_resolve",
+      "passed": true,
+      "detail": "Cited refs SEED-01,S005,S006,S007,S008,S011,S012 all exist in selected pack; no bad refs."
+    },
+    {
+      "name": "no_new_source_introduced",
+      "passed": true,
+      "detail": "No source IDs outside selected pack; no URLs or external evidence added."
+    },
+    {
+      "name": "command_gate_honored",
+      "passed": true,
+      "detail": "command final_value null with ABSTENTION_ACCEPTED; gate INSUFFICIENT honored; no command text in review."
+    },
+    {
+      "name": "validation_command_gate_honored",
+      "passed": true,
+      "detail": "validation_command final_value null with ABSTENTION_ACCEPTED; gate INSUFFICIENT honored."
+    },
+    {
+      "name": "no_sibling_content_read",
+      "passed": true,
+      "detail": "Arm selected via directory listing only; no sibling Evidence Pack or Proposal contents opened."
+    },
+    {
+      "name": "no_web_or_retrieval",
+      "passed": true,
+      "detail": "No web search, URL fetch, evidence acquisition, or execution performed."
+    },
+    {
+      "name": "proposal_unchanged",
+      "passed": true,
+      "detail": "agent_proposal.json hash recomputes; evidence_pack.json unmodified."
+    }
+  ],
+  "overall_status": "PASS",
+  "isolation_violations": [],
+  "created_at": "2026-09-18T11:05:00Z"
+}

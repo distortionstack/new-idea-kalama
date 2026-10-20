@@ -1,0 +1,393 @@
+{
+  "schema": "kalama.review.adjudication/v1",
+  "generated_at_utc": "2026-09-08T12:42:54.6238074Z",
+  "run_id": "AoFTs",
+  "source_of_truth": "non-canonical review adjudication; production RunState and immutable artifacts are unchanged",
+  "repository": {
+    "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama",
+    "head": "1b617928d2df66f14a0f62b48ef119472c3dbdce",
+    "working_tree_status": [
+      " M README.md",
+      " M setup-workbench.sh",
+      " M src/kalama/execution/executor.py",
+      " M src/kalama/execution/models.py",
+      " M src/kalama/orchestrator.py",
+      " M src/kalama/resolution/artifacts.py",
+      " M src/kalama/resolution/config_codec.py",
+      " M src/kalama/resolution/submission.py",
+      " M src/kalama/resolver/backend.py",
+      " M src/kalama/resolver/core.py",
+      " M src/kalama/resolver/models.py",
+      " M src/kalama/runtime.py",
+      " M src/kalama/target/models.py",
+      " M src/kalama/target/trivy_scanner.py",
+      " M src/kalama/target/victim_manager.py",
+      " M src/kalama/target/workbench.py",
+      " M tests/integration/test_attack_form_submission.py",
+      " M tests/integration/test_before_exploit.py",
+      " M tests/integration/test_orchestrator.py",
+      " M tests/integration/test_step4_orchestrator.py",
+      " M tests/unit/test_resolver_core.py",
+      " M tests/unit/test_workbench_scanner.py",
+      "?? diagnostics/",
+      "?? lab-fixtures/",
+      "?? output-live-cve-2015-1427-checkonly-validation-3/",
+      "?? output-live-cve-2015-1427-fixed/",
+      "?? output-live-cve-2015-1427-fixture-validation-1/",
+      "?? output-live-cve-2015-1427-fixture-validation-2/",
+      "?? output-live-cve-2015-1427-fixture-validation-3/",
+      "?? output-live-cve-2015-1427-utf8-validation-2/",
+      "?? output-live-cve-2015-1427-utf8-validation/",
+      "?? output-live-cve-2015-1427/",
+      "?? review-bundles/",
+      "?? src/kalama/metasploit_fixtures.py",
+      "?? tests/unit/test_execution_fixture_support.py",
+      "?? tests/unit/test_metasploit_fixtures.py",
+      "?? tests/unit/test_resolver_backend_cache.py"
+    ]
+  },
+  "canonical_state": {
+    "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\state\\run_AoFTs.json",
+    "sha256": "d22e231521cf295740d4cf7032066d303686ad49f2a511182bc03092a712f356",
+    "status": "COMPLETED",
+    "current_stage": "STEP_8_EVALUATION",
+    "waiting_reason": null
+  },
+  "immutable_artifacts": [
+    {
+      "kind": "ATTACK_AFTER",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\msf\\after\\attack_res_2026-09-08_AoFTs.json",
+      "sha256": "631ffdcbb3fa4da90027fdf61a3aa1358d311451806e9a256a601466f321d8aa",
+      "summary": {
+        "AFTER_ENVIRONMENT_UNRESOLVED": 0,
+        "EXPLOIT_FAILED": 0,
+        "EXPLOIT_SUCCEEDED": 1,
+        "INCONCLUSIVE": 0,
+        "NOT_EXECUTED": 0,
+        "attempted": 1,
+        "metric_eligible": 1,
+        "selected": 1
+      }
+    },
+    {
+      "kind": "ATTACK_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\msf\\before\\attack_res_2026-09-08_AoFTs.json",
+      "sha256": "e0c14be609a19110a7b791423d0f4a1651b17cc3465b6895abde66270846fd2b",
+      "summary": {
+        "CHECK_ONLY": 0,
+        "ENVIRONMENT_ERROR": 0,
+        "EXPLOIT_FAILED": 0,
+        "EXPLOIT_SUCCEEDED": 1,
+        "INCONCLUSIVE": 0,
+        "NOT_EXECUTED": 0,
+        "NO_MSF_MODULE": 29,
+        "attempted": 1,
+        "metric_eligible": 1,
+        "selected": 30
+      }
+    },
+    {
+      "kind": "ATTACK_FORM",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\forms\\attack_form_AoFTs_r1.yaml",
+      "sha256": "281f38a297133334c8fc8de783bcf0f4f61f261da5f7755febe7274e4e02c3b7",
+      "summary": {
+        "base_config_sha256": null,
+        "base_resolver_sha256": "280370860c7df053aec82f39b1aef6c064cb946fe224d436617451eef675318c",
+        "cve_count": 1,
+        "revision": 1
+      }
+    },
+    {
+      "kind": "ATTACK_FORM_SUBMISSION",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\forms\\submissions\\attack_form_submission_AoFTs_r1.yaml",
+      "sha256": "fc6c58a6082c3bd4a697e82eb79bcdd4b73b66cf08bcc91c7b03196e8153d685",
+      "summary": {
+        "form_revision": 1
+      }
+    },
+    {
+      "kind": "EVALUATION_DATASET",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\evaluation\\evaluation_dataset_2026-09-08_AoFTs.json",
+      "sha256": "c1679b840226bc4a7dcd16baeacf04ca7aeccb075717b90b7869f161c2734aa5",
+      "summary": {
+        "records": 30,
+        "scope": "TOP_N_ONLY"
+      }
+    },
+    {
+      "kind": "EVALUATION_METRICS",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\evaluation\\metrics_2026-09-08_AoFTs.json",
+      "sha256": "b6b76422001f8570fad869b45bc2fb55458d43799b2a80e16f4f19a1a666de08",
+      "summary": {
+        "precision_available": true,
+        "scope": "TOP_N_ONLY"
+      }
+    },
+    {
+      "kind": "EXPLOIT_CONFIG_AFTER",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\config\\exploit_config_after_2026-09-08_AoFTs.json",
+      "sha256": "6d80913a19448cc4154d4ddba55a05d7750dcf487cedfb9a93e761a7e04c82fc",
+      "summary": {
+        "ready": 1,
+        "targets": 1
+      }
+    },
+    {
+      "kind": "EXPLOIT_CONFIG_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\config\\exploit_config_before_AoFTs_r1.json",
+      "sha256": "f92c095a7fb014ab6b3451a31b2e287ba4a6b7126104e0bc7957721c46117773",
+      "summary": {
+        "revision": 1
+      }
+    },
+    {
+      "kind": "PATCH_FORM",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\forms\\patch_form_AoFTs_r1.yaml",
+      "sha256": "1b1203c169c74a402fa844c78010e7504db326f6d1b9bfb1f3b5a1d18d64200a",
+      "summary": {
+        "action_count": 1,
+        "revision": 1
+      }
+    },
+    {
+      "kind": "PATCH_FORM_SUBMISSION",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\forms\\submissions\\patch_form_submission_AoFTs_r1.yaml",
+      "sha256": "d035de4f0b14fdc2753804049f7e5553ebab6d0d1b4eed9333554f4fe3b41d4f",
+      "summary": {
+        "revision": 1
+      }
+    },
+    {
+      "kind": "PATCH_PLAN",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\plan\\patch_plan_AoFTs_r1.json",
+      "sha256": "81da9421012d5a2784d3bd73e2ff303797d7ba0918ddc4827a7f62d11691e078",
+      "summary": {
+        "revision": 1,
+        "waiting_actions": 0
+      }
+    },
+    {
+      "kind": "PATCH_RESULT",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\results\\patch_result_2026-09-08_AoFTs_attempt_1.json",
+      "sha256": "07f3f7157e30382b80d8e6bb11c367063ba2676ceef602c6584a5cdc2c2679d4",
+      "summary": {
+        "actions": 1,
+        "attempt": 1,
+        "succeeded": 1
+      }
+    },
+    {
+      "kind": "REMEDIATION_DISCOVERY",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\discovery\\discovery_2026-09-08_AoFTs.json",
+      "sha256": "94309380539740ffadbdfeaa836302069ec60ff28cb9977a7c90e203f10783bd",
+      "summary": {
+        "target_count": 1
+      }
+    },
+    {
+      "kind": "REMEDIATION_RESULT",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\verification\\remediation_result_2026-09-08_AoFTs.json",
+      "sha256": "67475dd6ccc35ce077dd8e4cf23fb812d806810411f869219f5bfc5a45e995f8",
+      "summary": {
+        "failed": 1,
+        "inconclusive": 0,
+        "not_evaluated": 0,
+        "targets": 1,
+        "verified": 0
+      }
+    },
+    {
+      "kind": "REMEDIATION_SCAN_RESULT",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\trivy\\after\\verification_2026-09-08_AoFTs.json",
+      "sha256": "6ba0ef016f5923803da23a7ebd7c1b1fe8156cfe7e0f4a923c7688d34bbc2728",
+      "summary": {
+        "found": 0,
+        "intended_total": 1,
+        "not_found": 1,
+        "unknown": 0
+      }
+    },
+    {
+      "kind": "RESOLVER_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\resolver_2026-09-08_AoFTs.json",
+      "sha256": "280370860c7df053aec82f39b1aef6c064cb946fe224d436617451eef675318c",
+      "summary": {
+        "environment_error": 0,
+        "no_msf_module": 29,
+        "ready_to_execute": 0,
+        "selected_count": 30,
+        "unresolved_config": 0,
+        "waiting_for_user_input": 1
+      }
+    },
+    {
+      "kind": "RUN_SUMMARY",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\evaluation\\run_summary_2026-09-08_AoFTs.json",
+      "sha256": "bc386836fcedf4f522d5e4bd641145e1dddccc957d28fe460be4a8607c934100",
+      "summary": {
+        "completed_at": "2026-09-08T12:08:31Z",
+        "warnings": 8
+      }
+    },
+    {
+      "kind": "TOP30_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\scoring\\before\\top30_2026-09-08_AoFTs.json",
+      "sha256": "d6a391274c40c8b052edd2bb8fd876cdcd42aab06d18ab4bf13f8acab9864e36",
+      "summary": {
+        "score_model": "kalama-priority-v1",
+        "top_n_requested": 30,
+        "top_n_returned": 30
+      }
+    },
+    {
+      "kind": "TRIVY_AFTER",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\trivy\\after\\scan_2026-09-08_AoFTs.json",
+      "sha256": "d9d08f0b8375aca5b468a9be8440868d5a3a0bdd1ebac5bb47f21782886398da",
+      "summary": {
+        "image_id": "sha256:d2ff298e7aa856748b60d130bbf40a46e5f0d949fc163f5d7950e1a3a94e1658",
+        "scan_subject": "kalama/elasticsearch@sha256:d2ff298e7aa856748b60d130bbf40a46e5f0d949fc163f5d7950e1a3a94e1658",
+        "trivy_version": "0.74.0"
+      }
+    },
+    {
+      "kind": "TRIVY_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\trivy\\before\\scan_2026-09-08_AoFTs.json",
+      "sha256": "80bd4e5dd718c83f571bc7322e0609c5c2fc9d4ef1da1c6b38577c49d7908e44",
+      "summary": {
+        "scan_subject": "vulhub/elasticsearch@sha256:df18e56d6ca11e2f1f81a66f1c4e1b3ff50fe9ede7fcc461be652f06ec7486fa",
+        "scanner": "trivy"
+      }
+    }
+  ],
+  "before_exploit": {
+    "artifact_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\msf\\before\\attack_res_2026-09-08_AoFTs.json",
+    "artifact_sha256": "e0c14be609a19110a7b791423d0f4a1651b17cc3465b6895abde66270846fd2b",
+    "selected": 30,
+    "attempted": 1,
+    "metric_eligible": 1,
+    "disposition": "EXPLOIT_SUCCEEDED",
+    "oracle_verdict": "VULNERABLE",
+    "evidence_basis": "CHECK",
+    "completeness": "PARTIAL",
+    "module": "exploit/multi/elasticsearch/search_groovy_script_compat",
+    "target": "victim-AoFTs",
+    "ip": "172.18.0.10",
+    "session_status": "COLLECTED",
+    "new_session_ids": [],
+    "attribution": "UNKNOWN"
+  },
+  "patch": {
+    "method": "HUMAN_COMMAND manual-assisted remediation",
+    "artifact_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\results\\patch_result_2026-09-08_AoFTs_attempt_1.json",
+    "artifact_sha256": "07f3f7157e30382b80d8e6bb11c367063ba2676ceef602c6584a5cdc2c2679d4",
+    "target_version": "1.4.3",
+    "patched_image": "kalama/elasticsearch:patched-aofts",
+    "patched_image_id": "sha256:d2ff298e7aa856748b60d130bbf40a46e5f0d949fc163f5d7950e1a3a94e1658",
+    "patch_plan_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\plan\\patch_plan_AoFTs_r1.json",
+    "patch_plan_sha256": "81da9421012d5a2784d3bd73e2ff303797d7ba0918ddc4827a7f62d11691e078",
+    "patch_form_submission_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\patch\\forms\\submissions\\patch_form_submission_AoFTs_r1.yaml",
+    "patch_form_submission_sha256": "d035de4f0b14fdc2753804049f7e5553ebab6d0d1b4eed9333554f4fe3b41d4f",
+    "prep_script_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\AoFTs-human-command-patch-prep\\patch_workspace_install_elasticsearch_1_4_3.sh",
+    "prep_script_sha256": "41b63cb6ade7f1fe8e6b12cdaa49f513e11547944e1e3a2cb086815f1a5849ca",
+    "prep_submission_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\AoFTs-human-command-patch-prep\\patch_form_AoFTs_r1_submission_human_command_es_1_4_3.yaml",
+    "prep_submission_sha256": "d035de4f0b14fdc2753804049f7e5553ebab6d0d1b4eed9333554f4fe3b41d4f"
+  },
+  "after_scanner": {
+    "trivy_after_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\trivy\\after\\scan_2026-09-08_AoFTs.json",
+    "trivy_after_sha256": "d9d08f0b8375aca5b468a9be8440868d5a3a0bdd1ebac5bb47f21782886398da",
+    "remediation_scan_result_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\trivy\\after\\verification_2026-09-08_AoFTs.json",
+    "remediation_scan_result_sha256": "6ba0ef016f5923803da23a7ebd7c1b1fe8156cfe7e0f4a923c7688d34bbc2728",
+    "cve_2015_1427_status": "NOT_FOUND",
+    "intended_total": 1,
+    "not_found": 1
+  },
+  "original_pipeline_after": {
+    "attack_after_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\msf\\after\\attack_res_2026-09-08_AoFTs.json",
+    "attack_after_sha256": "631ffdcbb3fa4da90027fdf61a3aa1358d311451806e9a256a601466f321d8aa",
+    "exploit_config_after_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\resolver\\config\\exploit_config_after_2026-09-08_AoFTs.json",
+    "exploit_config_after_sha256": "6d80913a19448cc4154d4ddba55a05d7750dcf487cedfb9a93e761a7e04c82fc",
+    "module": "exploit/multi/elasticsearch/search_groovy_script_compat",
+    "configured_rhosts": "172.18.0.11",
+    "configured_rport": 9200,
+    "lhost": "172.18.0.3",
+    "lport": 4444,
+    "check_verdict": "VULNERABLE",
+    "disposition": "EXPLOIT_SUCCEEDED",
+    "oracle_verdict": "VULNERABLE",
+    "evidence_basis": "CHECK",
+    "completeness": "PARTIAL",
+    "session_status": "COLLECTED",
+    "new_session_ids": [],
+    "attribution": "UNKNOWN",
+    "stdout_remote_ip_anomaly": "exploit stdout reports payload stage/session to 172.18.0.6 while configured RHOSTS was 172.18.0.11"
+  },
+  "isolated_after_validation": {
+    "diagnostic_id": "aopts-after-isolated-20260908-192245",
+    "bundle": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\aopts-after-isolated-20260908-192245",
+    "target_container": "victim-after-diag-aopts-192245",
+    "target_ip": "172.19.0.2",
+    "msf_ip": "172.19.0.3",
+    "network": "kalama-diag-aopts-192245",
+    "image_id": "sha256:d2ff298e7aa856748b60d130bbf40a46e5f0d949fc163f5d7950e1a3a94e1658",
+    "elasticsearch_version": "1.4.3",
+    "baseline": "\nActive sessions\n===============\n\nNo active sessions.\n\n\nJobs\n====\n\nNo active jobs.\n",
+    "check_exit": 0,
+    "exploit_exit": 0,
+    "check_result": "NOT_EXPLOITABLE according to MSF stdout",
+    "exploit_result": "Exploit aborted before payload stage; no session created",
+    "post_sessions_jobs": "\nActive sessions\n===============\n\nNo active sessions.\n\n\nJobs\n====\n\nNo active jobs.\n",
+    "new_session_ids": [],
+    "conclusion": "NOT_REPRODUCED"
+  },
+  "preserved_classifier_result": {
+    "remediation_result_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output-live-cve-2015-1427-fixture-validation-3\\verification\\remediation_result_2026-09-08_AoFTs.json",
+    "remediation_result_sha256": "67475dd6ccc35ce077dd8e4cf23fb812d806810411f869219f5bfc5a45e995f8",
+    "production_result": "FAILED",
+    "interpretation": "Preserved as historical classifier output; evidence-supported interpretation is check-based, partial, provisional failure with session attribution unresolved."
+  },
+  "strict_attributable_execution_adjudication": {
+    "result": "UNRESOLVED",
+    "rationale": "Original AFTER run contains a positive check but session attribution is UNKNOWN and raw session peer points to 172.18.0.6, not patched target 172.18.0.11. Isolated patched-target validation did not reproduce check-positive or session creation, but one non-reproduction is not a complete universal negative under the current oracle.",
+    "empirical_remediation_success": "UNRESOLVED",
+    "empirical_remediation_failure": "UNRESOLVED"
+  },
+  "metrics_context": {
+    "precision_at_30": 1.0,
+    "eligible_denominator": "1/30 selected CVEs was empirically attempted; 29 were NO_MSF_MODULE/excluded",
+    "run_summary_warnings": [
+      "ATTACK_FORM_REQUIRED",
+      "BEFORE_EXPLOIT_NOT_INTEGRATED",
+      "DB_PROVENANCE_UNAVAILABLE",
+      "EVIDENCE_CONFLICT_PRESENT",
+      "F1_UNAVAILABLE",
+      "PATCH_NOT_INTEGRATED",
+      "RECALL_UNAVAILABLE",
+      "STEP_4_RESOLVER_READY"
+    ],
+    "selected_empirical_coverage": 0.03333333333333333,
+    "selected_total": 30,
+    "selected_binary_metric_eligible": 1
+  },
+  "references": [
+    {
+      "url": "https://github.com/elastic/elasticsearch/issues/9655",
+      "supports": "CVE-2015-1427 affects Elasticsearch 1.3.0-1.3.7 and 1.4.0-1.4.2; upgrade to 1.3.8 or 1.4.3; dynamic Groovy scripts disabled by default."
+    },
+    {
+      "url": "https://discuss.elastic.co/t/elasticsearch-1-4-3-and-1-3-8-release-including-cve/22123",
+      "supports": "Elastic release announcement for 1.4.3/1.3.8 as security and bug fix releases including CVE fix."
+    },
+    {
+      "url": "https://www.rapid7.com/db/modules/exploit/multi/elasticsearch/search_groovy_script/",
+      "supports": "Metasploit module claims RCE against Elasticsearch before 1.4.3 and tested successfully on 1.4.2."
+    },
+    {
+      "url": "https://docs.metasploit.com/docs/development/developing-modules/guides/how-to-write-a-check-method.html",
+      "supports": "Metasploit check-code semantics; Vulnerable check code is check-method evidence, not automatic attributable session proof."
+    },
+    {
+      "url": "https://github.com/distortionstack/kalama/blob/main/note/cve-2015-1427",
+      "supports": "Project lab note: scanner baseline, historical remediation notes, Trivy NOT FOUND and re-exploit observations."
+    }
+  ]
+}

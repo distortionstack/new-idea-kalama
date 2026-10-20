@@ -1,0 +1,11 @@
+{
+  "phase": "A_TARGET_CAPTURE_PREFLIGHT",
+  "historical_run": "lkW2d",
+  "exact_image": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+  "local_image_verified": true,
+  "historical_target": {"container_id": "436946f90c6af08161b55f9dc5703373e066e261cdb15b48baaf414f75fa930d", "network": "kalama-net", "ip": "172.18.0.18", "port": "8080/tcp", "tomcat": "8.5.20", "java": "8u141"},
+  "new_run_command": ".venv\\Scripts\\python.exe -m kalama --output-root output/2d8ru-struts2-prospective run --image 2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+  "capture_capability": "research wrapper can copy/hash production artifacts; Docker container logs --timestamps supports raw runtime capture without production modification",
+  "quarantine": ["historical lkW2d r2 form/submission", "r2 result", "retrospective session log", "later evaluation", "later Knowledge"],
+  "stop_point": "freeze and validate ATTEMPT_1_OBSERVATION before any revision or LLM inference"
+}

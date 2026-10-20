@@ -1,0 +1,34 @@
+{
+  "script_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\AoFTs-human-command-patch-prep\\patch_workspace_install_elasticsearch_1_4_3.sh",
+  "script_sha256": "41b63cb6ade7f1fe8e6b12cdaa49f513e11547944e1e3a2cb086815f1a5849ca",
+  "submission_path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\review-bundles\\AoFTs-human-command-patch-prep\\patch_form_AoFTs_r1_submission_human_command_es_1_4_3.yaml",
+  "submission_sha256": "d035de4f0b14fdc2753804049f7e5553ebab6d0d1b4eed9333554f4fe3b41d4f",
+  "validation_result": {
+    "action_status": "READY_FOR_PATCH_EXECUTION",
+    "candidate_checksum": "sha1:d26828bef335a164175f5af14a2a7fc44cb063f2",
+    "candidate_source_authority": "human_patch_form",
+    "candidate_source_type": "human_confirmed",
+    "candidate_source_url": "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.4.3.tar.gz",
+    "candidate_trusted": true,
+    "execution_keys": [
+      "command",
+      "execution_target",
+      "validation_command"
+    ],
+    "fix_type": "B",
+    "human_confirmed_fields": [
+      "artifact_checksum",
+      "artifact_source",
+      "command",
+      "execution_target",
+      "fix_type",
+      "strategy",
+      "target_version",
+      "validation_command"
+    ],
+    "input_reasons": [],
+    "plan_readiness": "READY_FOR_PATCH_EXECUTION",
+    "strategy": "HUMAN_COMMAND",
+    "target_version": "1.4.3"
+  }
+}

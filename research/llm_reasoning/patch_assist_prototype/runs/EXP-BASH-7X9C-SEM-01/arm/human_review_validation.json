@@ -1,0 +1,24 @@
+{
+  "schema": "kalama.patch-assist-prototype/human-review-validation/v1",
+  "experiment_id": "EXP-BASH-7X9C-SEM-01",
+  "proposal_sha256": "3cd2cc3578d70c9b3770f1ca5a12780df9fc92e9a767a6bf4fadb75540a5c1e1",
+  "pack_sha256": "a780084f1983f6b2136a90617d359353df034546cd6f4c021e64ababcfc24707",
+  "checks": {
+    "json_parses": true,
+    "proposal_binding": true,
+    "pack_binding": true,
+    "ids_binding": true,
+    "all_9_fields_reviewed": true,
+    "review_classes_valid": true,
+    "every_review_has_reason": true,
+    "evidence_refs_resolve_to_pack": true,
+    "no_new_source_introduced": true,
+    "originals_match_proposal": true,
+    "command_gate_still_honored": true,
+    "validation_gate_still_honored": true,
+    "no_command_introduced": true
+  },
+  "process_note": "First review attempt bound to a stale pre-freeze proposal hash (c4f127c8, computed over placeholder bytes before a whitespace normalization); discarded without use and the trial re-run against the frozen hash. Frozen proposal content reviewed was identical; no reviewer content was edited by the experimenter.",
+  "overall": "PASS",
+  "created_at": "2026-09-18T13:40:00Z"
+}

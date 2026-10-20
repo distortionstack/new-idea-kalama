@@ -1,0 +1,125 @@
+{
+  "abstentions": [
+    {
+      "detail": "Pack evidence_sufficiency.command is INSUFFICIENT; L5 procedure evidence missing per PROCEDURE_UNKNOWN, so value remains null.",
+      "field": "command",
+      "reason_code": "COMMAND_GATE_INSUFFICIENT"
+    },
+    {
+      "detail": "Pack evidence_sufficiency.validation_command is INSUFFICIENT; L5 procedure evidence missing per PROCEDURE_UNKNOWN, so value remains null.",
+      "field": "validation_command",
+      "reason_code": "VALIDATION_GATE_INSUFFICIENT"
+    }
+  ],
+  "action_id": "patch-001",
+  "assumptions": [
+    "Target retains jessie amd64 lineage from the pack identity.",
+    "Security index stanza is accepted as non-mutating availability proof for the target revision.",
+    "Unversioned base-system dependencies remain satisfiable from the Jessie base system per pack convention."
+  ],
+  "candidate_binding": {
+    "action_id": "patch-001",
+    "pack_sha256": "768320fa82966535d51c944717c71665d342cf752179a64f9e8b87cf12aff1e6",
+    "run_id": "6WUM1"
+  },
+  "created_at": "2026-10-11T13:20:00Z",
+  "experiment_id": "EXP-PROC-7X9D-01",
+  "fields": {
+    "artifact_source": {
+      "confidence": "HIGH",
+      "evidence_refs": [
+        "S010",
+        "S011"
+      ],
+      "reason_summary": "Index-derived pool path for the target revision; retrieved bytes match the index size and SHA-256 exactly.",
+      "status": "PROPOSED",
+      "value": "http://archive.debian.org/debian-security/pool/updates/main/a/apache2/apache2_2.4.10-10+deb8u16_amd64.deb"
+    },
+    "build_system": {
+      "confidence": "HIGH",
+      "evidence_refs": [],
+      "reason_summary": "Contract limits build_system to FixType A source builds; this candidate is FixType C so no build system applies.",
+      "status": "NOT_APPLICABLE",
+      "value": null
+    },
+    "command": {
+      "confidence": "HIGH",
+      "evidence_refs": [],
+      "reason_summary": "Authoritative gate for command is INSUFFICIENT; L5 procedure evidence is missing so no executable remediation is proposed.",
+      "status": "ABSTAINED",
+      "value": null
+    },
+    "fix_type": {
+      "confidence": "HIGH",
+      "evidence_refs": [
+        "SEED-01",
+        "S009",
+        "S010"
+      ],
+      "reason_summary": "Debian OS package identity with deb ecosystem routes to the OS-package provider, which maps to FixType C.",
+      "status": "PROPOSED",
+      "value": "C"
+    },
+    "notes": {
+      "confidence": "HIGH",
+      "evidence_refs": [
+        "S006",
+        "S010",
+        "S013",
+        "S014",
+        "S007"
+      ],
+      "reason_summary": "Lineage and supersession summary for the jessie backport line; scanner revision noted as deficient.",
+      "status": "PROPOSED",
+      "value": "Jessie backport line retained without major-version move. Scanner-reported deb8u15 is superseded and deficient per the DLA-1900-2 regression record; deb8u16 carries the corrected upstream patch. KEV checked-negative for the primary CVE. Dependency closure verified in the security index; incidental open-redirect CVE shares the DLA but is out of scope for patch-001."
+    },
+    "source_identifier": {
+      "confidence": "HIGH",
+      "evidence_refs": [
+        "S010"
+      ],
+      "reason_summary": "Filename field of the security index stanza for the target revision preserves distro lineage and arch.",
+      "status": "PROPOSED",
+      "value": "pool/updates/main/a/apache2/apache2_2.4.10-10+deb8u16_amd64.deb"
+    },
+    "strategy": {
+      "confidence": "HIGH",
+      "evidence_refs": [
+        "S006",
+        "S012",
+        "S013"
+      ],
+      "reason_summary": "Default pairing for FixType C; advisory lineage supports package-manager remediation within the jessie backport line.",
+      "status": "PROPOSED",
+      "value": "PACKAGE_MANAGER"
+    },
+    "target_version": {
+      "confidence": "HIGH",
+      "evidence_refs": [
+        "S010",
+        "S013",
+        "S014",
+        "S021"
+      ],
+      "reason_summary": "Live jessie security index carries deb8u16; DLA-1900-2 establishes deb8u16 as the corrected revision superseding deficient deb8u15 with lineage and arch preserved.",
+      "status": "PROPOSED",
+      "value": "2.4.10-10+deb8u16"
+    },
+    "validation_command": {
+      "confidence": "HIGH",
+      "evidence_refs": [],
+      "reason_summary": "Authoritative gate for validation_command is INSUFFICIENT; L5 procedure evidence is missing so no verification activity is proposed.",
+      "status": "ABSTAINED",
+      "value": null
+    }
+  },
+  "proposal_revision": 1,
+  "proposal_sha256": "df6e1aaebbccde288ef1208c4603a1ee1133cd6c2de734f76ee06253a9100302",
+  "run_id": "6WUM1",
+  "schema": "kalama.patch-assist-prototype/agent-proposal/v1",
+  "warnings": [
+    "Do not use scanner-reported deb8u15; L4 establishes it as deficient with a balancer-manager regression.",
+    "Debian 8.10 is EOSL; availability proof rests on the archived security index.",
+    "Custom source-built shell path noted in the pack is out of scope for patch-001."
+  ]
+}

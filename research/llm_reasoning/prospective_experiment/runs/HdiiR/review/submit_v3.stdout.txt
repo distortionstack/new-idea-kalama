@@ -1,0 +1,35 @@
+Run ID: HdiiR
+Status: PAUSED
+Current stage: STEP_4_RESOLVER
+Waiting reason: BEFORE_EXPLOIT_NOT_INTEGRATED
+Created: 2026-09-15T21:13:57Z
+Requested image: 2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db
+State: C:\Users\distortion\Documents\new-idea-kalama\output\2d8ru-struts2-prospective\state\run_HdiiR.json
+
+Before target:
+  container: victim-HdiiR
+  image ID: sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db
+  IP: 172.18.0.5
+
+Stages:
+  STEP_2_TARGET_SCAN: SUCCEEDED
+  STEP_3_PRIORITIZATION: SUCCEEDED
+  STEP_4_RESOLVER: SUCCEEDED
+  STEP_4_BEFORE_EXPLOIT: NOT_STARTED
+  STEP_5_PATCH: NOT_STARTED
+  STEP_5_PATCH_PLAN: NOT_STARTED
+  STEP_5_PATCH_EXECUTION: NOT_STARTED
+  STEP_6_AFTER_SCAN: NOT_STARTED
+  STEP_7_REEXPLOIT: NOT_STARTED
+  STEP_8_EVALUATION: NOT_STARTED
+
+Prioritization:
+  score_model: kalama-priority-v1
+  top_n_requested: 30
+  top_n_returned: 30
+
+Errors:
+  ATTACK_FORM_UNKNOWN_FIELD: unknown CVE field(s): lhost, lport, rport
+
+Next:
+  python3 -m kalama continue HdiiR

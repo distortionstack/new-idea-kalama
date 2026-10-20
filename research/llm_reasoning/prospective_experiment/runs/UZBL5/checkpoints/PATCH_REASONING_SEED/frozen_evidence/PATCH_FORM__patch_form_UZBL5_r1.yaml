@@ -1,0 +1,310 @@
+schema: kalama.patch-form/v1
+run_id: UZBL5
+phase: patch
+revision: 1
+base_patch_plan_sha256: 5a4e1ab6961869180ea5ad9a541fb01d4eb26d5af276996e7b773ddfe15b3d3b
+actions:
+  patch-001:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
+  patch-002:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.14.2
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
+  patch-003:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.15.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
+  patch-004:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.20.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
+  patch-005:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.24.1
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
+  patch-006:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.3.30
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.3.32
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
+  patch-007:
+    target_cves:
+    - CVE-2017-5638
+    package:
+      name: org.apache.struts:struts2-core
+      ecosystem: jar
+      before_versions:
+      - 2.5.10
+      scanner_fixed_versions:
+      - 2.3.32
+      - 2.5.10.1
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.32
+      - 2.5.10.1
+      suggested: 2.5.10.1
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null
+  patch-008:
+    target_cves:
+    - CVE-2017-9805
+    package:
+      name: org.apache.struts:struts2-rest-plugin
+      ecosystem: jar
+      before_versions:
+      - 2.3.20.1
+      scanner_fixed_versions:
+      - 2.3.34
+      - 2.5.13
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 2.3.34
+      - 2.5.13
+      suggested: 2.3.34
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null

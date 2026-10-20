@@ -1,0 +1,21 @@
+{
+  "run_id": "lkW2d",
+  "evidence_quality": "DIRECT",
+  "before_representation": "attack_form_lkW2d_r1.yaml, resolver_2026-09-08_lkW2d.json",
+  "after_representation": "attack_form_submission_lkW2d_r1.yaml, exploit_config_before_lkW2d_r1.json, attack_res_2026-09-08_lkW2d.json",
+  "summary": "The form contained suggested/default resolver values and required human confirmation. The submission selected three candidates; before evidence records two attributable successes (5638 and 9805) and one inconclusive candidate. Exact field-by-field changes require comparison of the full two YAML records; this audit does not infer omitted values.",
+  "confirmed_outcome": {
+    "CVE-2017-5638": "EXPLOIT_SUCCEEDED / ATTRIBUTABLE_SESSION",
+    "CVE-2017-9805": "EXPLOIT_SUCCEEDED / ATTRIBUTABLE_SESSION",
+    "CVE-2017-9791": "INCONCLUSIVE"
+  },
+  "human_delta": [
+    {"field": "candidate selection", "before": "waiting_for_user_input", "after": "three attempted; thirteen user-skipped", "classification": "HUMAN_CONFIRM_ONLY", "derivation": "SELECTION", "opportunity": "KNOWLEDGE_REUSE", "quality": "DIRECT"},
+    {"field": "module/target/targeturi/payload/options/execution protocol", "before": "suggested/default and unconfirmed", "after": "confirmed configuration exists", "classification": "NOT_RECORDED", "derivation": "NOT_RECORDED", "opportunity": "EVIDENCE_EXTRACTION", "quality": "PARTIAL"},
+    {"field": "run-specific listener port", "before": "environment input required", "after": "a configured value exists", "classification": "HUMAN_FILLED_GAP", "derivation": "DETERMINISTIC_RULE", "opportunity": "NOT_LLM", "quality": "PARTIAL"}
+  ],
+  "reuse": {
+    "J1Thf": "Session note says the approved J1Thf module/protocol/payload choices were mirrored and a new LPORT used. The current lkW2d form/state is direct; the comparison to J1Thf is not fully retained in a paired provenance artifact.",
+    "classification": "SAFE_REUSE_CANDIDATE for module/protocol/payload; ENVIRONMENT_BOUND for target IP, LHOST/LPORT and paths; REQUIRES_REVALIDATION for targeturi"
+  }
+}

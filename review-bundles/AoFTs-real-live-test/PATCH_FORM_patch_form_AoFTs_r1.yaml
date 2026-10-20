@@ -1,0 +1,44 @@
+schema: kalama.patch-form/v1
+run_id: AoFTs
+phase: patch
+revision: 1
+base_patch_plan_sha256: 9855d559b495a6f7e9b2ecb9ff8347e2a3c10280268e556aacfc86e97d5d32bc
+actions:
+  patch-001:
+    target_cves:
+    - CVE-2015-1427
+    package:
+      name: org.elasticsearch:elasticsearch
+      ecosystem: jar
+      before_versions:
+      - 1.4.2
+      scanner_fixed_versions:
+      - 1.3.8
+      - 1.4.3
+    input_reasons:
+    - ARTIFACT_SOURCE_UNRESOLVED
+    fix_type:
+      suggested: B
+      confirmed: null
+    target_version:
+      scanner_candidates:
+      - 1.3.8
+      - 1.4.3
+      suggested: 1.4.3
+      confirmed: null
+    artifact:
+      suggested_source: null
+      confirmed_source: null
+      checksum:
+        suggested: null
+        confirmed: null
+    strategy:
+      suggested: PREBUILT_IMAGE_REPLACEMENT
+      confirmed: null
+    command:
+      confirmed: null
+    validation_command:
+      confirmed: null
+    execution_target: patch-workspace
+    major_version_approved: null
+    notes: null

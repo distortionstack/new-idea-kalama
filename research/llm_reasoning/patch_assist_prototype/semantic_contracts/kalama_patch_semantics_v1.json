@@ -1,0 +1,59 @@
+{
+  "schema": "kalama.patch-assist-prototype/semantic-contract/v1",
+  "contract_version": "v1",
+  "scope": "Internal Kalama system-language meaning for Patch Assist fields. Contains no remediation evidence, no case facts, no CVE facts, no URLs. Must be used alongside — never merged into — a remediation Evidence Pack.",
+  "fix_types": {
+    "A": {
+      "name": "source build",
+      "meaning": "The vulnerable component is a language/ecosystem package built from source; remediation rebuilds it (Maven first).",
+      "selection_rule": "Select A when the occurrence routes to the source-build provider: scanner result_class lang-pkgs, or result_type in {jar, javapkg, pom, maven}.",
+      "provenance": ["src/kalama/remediation/discovery/source_build.py:18-24 (_is_lang_pkg, MAVEN_TYPES)", "src/kalama/remediation/discovery/source_build.py:119,175 (SOURCE_BUILD -> A, REBUILD)", "src/kalama/remediation/discovery/service.py:42-49 (provider routing)", "src/kalama/guidance/patch_proposal.py:82 (A = source build)", "src/kalama/remediation/models.py:40 (Fix type A denotes a source build)", "docs/LAB_CASES.md:27-35 (FixType A Maven source build lab case)"]
+    },
+    "B": {
+      "name": "prebuilt image",
+      "meaning": "The vulnerable component is delivered as a prebuilt image artifact; remediation replaces the image rather than rebuilding or package-upgrading.",
+      "selection_rule": "Select B when discovery classifies the candidate PREBUILT_IMAGE (uniform prebuilt classification across occurrences).",
+      "provenance": ["src/kalama/remediation/discovery/source_build.py:98-104,161-163 (PREBUILT_IMAGE -> B, PREBUILT_IMAGE_REPLACEMENT)", "src/kalama/remediation/discovery/models.py:29-31 (DiscoveryClassification incl. PREBUILT_IMAGE)", "src/kalama/guidance/patch_proposal.py:83 (B = prebuilt image)", "docs/LAB_CASES.md:35 (prebuilt-image Type B candidate contrast)"]
+    },
+    "C": {
+      "name": "OS package",
+      "meaning": "The vulnerable component is an operating-system package managed by the image package manager; remediation upgrades it via the package manager, executable only when the exact fixed version is proven available through a non-mutating package-manager query (a scanner FixedVersion alone is not proof of installability).",
+      "selection_rule": "Select C when the occurrence routes to the OS-package provider: scanner result_class os-pkgs, or result_type in {debian, ubuntu, alpine, rpm, rhel, centos, fedora, redhat, deb, apk}; package manager mapping deb/debian/ubuntu->apt, alpine/apk->apk, rpm-family->dnf.",
+      "provenance": ["src/kalama/remediation/discovery/os_package.py:1-6 (module contract: availability proof required)", "src/kalama/remediation/discovery/os_package.py:22-39 (_OS_TYPES, _is_os_package, _package_manager mapping)", "src/kalama/remediation/discovery/os_package.py:270,288,300 (OS_PACKAGE -> C, PACKAGE_MANAGER)", "src/kalama/remediation/discovery/service.py:42-49 (provider routing)", "src/kalama/guidance/patch_proposal.py:84 (C = OS package)", "docs/LAB_CASES.md:6-14 (FixType C OS package lab case)"]
+    }
+  },
+  "retired_or_out_of_scope": {
+    "D": "No FixType D exists in the production enum (remediation/models.py:10-13 defines A/B/C only). A case_id D in evaluation/llm_eval_cases.py:196-270 is an unrelated attack-case label, not a fix type. Do not propose D."
+  },
+  "patch_strategies": {
+    "values": ["COPACETIC", "PACKAGE_MANAGER", "ARTIFACT_REPLACEMENT", "MUTATION", "REBUILD", "PREBUILT_IMAGE_REPLACEMENT", "IMAGE_REPLACEMENT", "DOCKER_COMMIT", "HUMAN_COMMAND"],
+    "provenance": ["src/kalama/remediation/models.py:16-25 (PatchStrategy enum)"],
+    "default_pairings": {
+      "A": "REBUILD",
+      "B": "PREBUILT_IMAGE_REPLACEMENT",
+      "C": "PACKAGE_MANAGER"
+    },
+    "default_pairings_provenance": ["src/kalama/remediation/discovery/os_package.py:270,288,300", "src/kalama/remediation/discovery/source_build.py:103-104,119,163-175"]
+  },
+  "compatibility_rules": [
+    {"rule": "(C,REBUILD) invalid", "provenance": ["src/kalama/guidance/patch_proposal.py:89-97 (_INVALID_PAIRINGS)"]},
+    {"rule": "(C,PREBUILT_IMAGE_REPLACEMENT) invalid", "provenance": ["src/kalama/guidance/patch_proposal.py:89-97"]},
+    {"rule": "(A,PACKAGE_MANAGER) invalid", "provenance": ["src/kalama/guidance/patch_proposal.py:89-97"]},
+    {"rule": "(A,PREBUILT_IMAGE_REPLACEMENT) invalid", "provenance": ["src/kalama/guidance/patch_proposal.py:89-97"]},
+    {"rule": "(A,IMAGE_REPLACEMENT) invalid", "provenance": ["src/kalama/guidance/patch_proposal.py:89-97"]},
+    {"rule": "(B,PACKAGE_MANAGER) invalid", "provenance": ["src/kalama/guidance/patch_proposal.py:89-97"]},
+    {"rule": "(B,REBUILD) invalid", "provenance": ["src/kalama/guidance/patch_proposal.py:89-97"]},
+    {"rule": "HUMAN_COMMAND allowed with any fix type", "provenance": ["src/kalama/guidance/patch_proposal.py:85-88"]}
+  ],
+  "build_system_semantics": {
+    "vocabulary": ["maven"],
+    "meaning": "build_system applies only to source-build (FixType A) remediation; the only value deterministic discovery emits is maven. Non-source-build candidates carry no build system.",
+    "provenance": ["src/kalama/guidance/patch_proposal.py:99-102 (_BUILD_SYSTEMS)", "src/kalama/remediation/discovery/source_build.py:130,180 (build_system=maven)", "src/kalama/remediation/discovery/service.py:26-38 (manifest detection: pom.xml first, Maven first)"]
+  },
+  "field_ownership": {
+    "agent_suggestible": ["fix_type", "strategy", "target_version", "artifact_source", "source_identifier", "build_system", "notes"],
+    "agent_forbidden": ["command", "validation_command", "replacement_target", "checksum", "trusted", "source_authority", "source_type", "human_confirmed_fields", "major_version_approved", "execution_target", "disposition", "disposition_reason", "readiness", "remediation_verified"],
+    "provenance": ["src/kalama/guidance/patch_proposal.py:26-34 (eligible)", "src/kalama/guidance/patch_proposal.py:43-58 (forbidden)"]
+  },
+  "usage_constraint": "This contract supplies system-language meaning only. Every factual remediation claim (versions, artifacts, hashes, dependencies, procedures) must still cite the Evidence Pack. The contract never overrides evidence-sufficiency gates and never asserts remediation success."
+}

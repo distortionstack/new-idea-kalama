@@ -23,12 +23,14 @@ ATTACK_RESULT_SCHEMA = "kalama.attack-result/v1"
 PATCH_PLAN_SCHEMA = "kalama.patch-plan/v1"
 PATCH_FORM_SCHEMA = "kalama.patch-form/v1"
 PATCH_RESULT_SCHEMA = "kalama.patch-result/v1"
+PATCH_LLM_GUIDANCE_SCHEMA = "kalama.patch-llm-guidance/v1"
 REMEDIATION_SCAN_RESULT_SCHEMA = "kalama.remediation-scan-result/v1"
 REMEDIATION_RESULT_SCHEMA = "kalama.remediation-result/v1"
 EVALUATION_DATASET_SCHEMA = "kalama.evaluation-dataset/v1"
 EVALUATION_METRICS_SCHEMA = "kalama.metrics/v1"
 RUN_SUMMARY_SCHEMA = "kalama.run-summary/v1"
 LLM_GUIDANCE_SCHEMA = "kalama.llm-guidance/v1"
+KNOWLEDGE_HITS_SCHEMA = "kalama.knowledge-hits/v1"
 
 
 class ArtifactWriteError(RuntimeError):
@@ -229,6 +231,12 @@ def write_llm_guidance(path: Path, artifact: Mapping[str, Any]) -> str:
     return _atomic_write(path, (json.dumps(artifact, ensure_ascii=False, indent=2,
                                           sort_keys=True) + "\n").encode())
 
+def write_knowledge_hits(path: Path, artifact: Mapping[str, Any]) -> str:
+    if artifact.get("schema") != KNOWLEDGE_HITS_SCHEMA or not isinstance(artifact.get("hits"), list):
+        raise ArtifactWriteError("invalid knowledge hits artifact")
+    return _atomic_write(path, (json.dumps(artifact, ensure_ascii=False, indent=2,
+                                          sort_keys=True) + "\n").encode())
+
 
 def write_submission_snapshot(path: Path, payload: bytes) -> str:
     return _atomic_write(path, payload)
@@ -285,7 +293,14 @@ def write_patch_result_immutable(path: Path, artifact: Mapping[str, Any]) -> str
     if artifact.get("schema") != PATCH_RESULT_SCHEMA or not isinstance(artifact.get("actions"), list):
         raise ArtifactWriteError("invalid patch result")
     return _immutable_write(path, (json.dumps(artifact, ensure_ascii=False, indent=2,
-                                             sort_keys=True) + "\n").encode())
+                                              sort_keys=True) + "\n").encode())
+
+
+def write_patch_llm_guidance(path: Path, artifact: Mapping[str, Any]) -> str:
+    if artifact.get("schema") != PATCH_LLM_GUIDANCE_SCHEMA or not isinstance(artifact.get("actions"), list):
+        raise ArtifactWriteError("invalid patch LLM guidance artifact")
+    payload = (json.dumps(artifact, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode()
+    return _atomic_write(path, payload)
 
 
 def write_remediation_scan_result(path: Path, artifact: Mapping[str, Any]) -> str:

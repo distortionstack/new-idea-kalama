@@ -1,0 +1,99 @@
+{
+  "schema": "kalama.task-7.5.7-evidence-level-matrix/v1",
+  "run_basis": "UZBL5",
+  "non_execution": true,
+  "status_values": ["SUPPORTED", "PARTIALLY_SUPPORTED", "INSUFFICIENT_EVIDENCE", "UNSUPPORTED_FABRICATION_RISK", "NOT_APPLICABLE"],
+  "capability_classes": {
+    "C1": "Vulnerability Identification",
+    "C2": "Version Recommendation",
+    "C3": "Artifact Provenance",
+    "C4": "Artifact Integrity",
+    "C5": "Dependency Closure",
+    "C6": "Patch Strategy",
+    "C7": "Patch Procedure / Command",
+    "C8": "Validation Procedure / Command",
+    "C9": "Safe Abstention",
+    "C10": "Production Validator Readiness"
+  },
+  "matrix": {
+    "L0": {
+      "C1": {"status": "SUPPORTED", "justification": "Frozen scanner findings + runtime inventory identify package, installed version, CVE, path/location without external lookup.", "evidence": "PATCH_REASONING_SEED: frozen Trivy BEFORE, normalized vulns, runtime inventory, webapp_layout, webapp_artifact_sha256, BEFORE exploit binding", "caveat": "Covers only the 8 exploitation-confirmed actions; 14 other candidates correctly excluded for missing binding."},
+      "C2": {"status": "PARTIALLY_SUPPORTED", "justification": "Scanner FixedVersion field yields candidates (2.3.32 / 2.5.10.1) but cannot confirm which fixed release applies to which CVE/module or overlap case.", "evidence": "PATCH_REASONING_SEED: scanner_fixed_versions per action", "caveat": "No upstream affected/fixed confirmation; 2.3.34 selection for patch-004/008 is not derivable at L0."},
+      "C3": {"status": "PARTIALLY_SUPPORTED", "justification": "Runtime donor (S2-048, 2.3.32 set) gives local artifact source for 5 actions; no publisher/registry authority for 2.3.34 / 2.5.10.1 closures.", "evidence": "PATCH_REASONING_SEED: runtime_evidence/webapp_layout.json + webapp_artifact_sha256.json (S2-048 donor)", "caveat": "Donor covers only 2.3.32 subset; claiming registry provenance at L0 would be fabrication."},
+      "C4": {"status": "PARTIALLY_SUPPORTED", "justification": "Locally computed SHA-256 exists for runtime JARs; no publisher checksum/sidecar to match against.", "evidence": "PATCH_REASONING_SEED: webapp_artifact_sha256.json", "caveat": "Match/mismatch vs publisher impossible at L0."},
+      "C5": {"status": "INSUFFICIENT_EVIDENCE", "justification": "POM/dependency metadata unreachable without external graph; closure completeness unknown.", "evidence": "none beyond installed lib listing", "caveat": "Any transitive claim (ognl/xstream/freemarker versions) at L0 is UNSUPPORTED_FABRICATION_RISK."},
+      "C6": {"status": "PARTIALLY_SUPPORTED", "justification": "fix_type B hypothesized from scanner/runtime; strategy (HUMAN_COMMAND vs replacement) unsupported without deploy/docs evidence.", "evidence": "PATCH_REASONING_SEED only", "caveat": "Strategy must remain UNKNOWN at L0."},
+      "C7": {"status": "INSUFFICIENT_EVIDENCE", "justification": "Environment-specific steps need Tomcat deploy semantics; WAR-vs-exploded handling and backup pattern unevidenced.", "evidence": "runtime layout observed, but no deploy-behavior source", "caveat": "Drafting commands at L0 risks destructive WAR handling."},
+      "C8": {"status": "INSUFFICIENT_EVIDENCE", "justification": "No validation procedure source; scanner-after vs exploit-after separation undefined.", "evidence": "none", "caveat": "Must remain UNKNOWN."},
+      "C9": {"status": "PARTIALLY_SUPPORTED", "justification": "Can abstain on missing artifacts/closure, but cannot distinguish fixed-version uncertainty from artifact uncertainty.", "evidence": "missing-field accounting only", "caveat": "Abstention reasons would be coarse."},
+      "C10": {"status": "INSUFFICIENT_EVIDENCE", "justification": "Validator requires evidence-supported command + validation_command; neither exists at L0.", "evidence": "production_validation.json schema reference (read-only)", "caveat": "0/8 validator-ready expected at L0."}
+    },
+    "L1": {
+      "C1": {"status": "SUPPORTED", "justification": "Same as L0; scanner+runtime identification unchanged. Corresponds to Task 7.5.5 baseline.", "evidence": "PATCH_REASONING_SEED (unchanged)", "caveat": "None."},
+      "C2": {"status": "SUPPORTED", "justification": "S2-045 advisory names 2.3.32; S2-052 names 2.3.34 for REST; 2.5.10.1 notes confirm 2.5 line. Decision log Q2/Q3 HIGH confidence.", "evidence": "SOURCE_GRAPH: S001,S002,S004-S007; decision_log.json Q2/Q3", "caveat": "Independent (non-Apache-wiki) corroboration still absent; scanner+single-vendor advisory only."},
+      "C3": {"status": "PARTIALLY_SUPPORTED", "justification": "Direct Struts 2.3.32/2.3.34/2.5.10.1 POM/JAR/checksum via repository.apache.org staging + donor equality for core/xwork (S102,S113). Third-party coords unreachable (404s).", "evidence": "SOURCE_GRAPH: S013,S100-S156,S200-S252; artifact_integrity.json (2 matches); missing_evidence.json", "caveat": "patch-004/008 missing ognl:ognl:3.0.21 + xstream:1.4.10; patch-007 missing freemarker:2.3.23. Observed 5/8 vs 3/8 split."},
+      "C4": {"status": "PARTIALLY_SUPPORTED", "justification": "Registry SHA1 sidecars retrieved for direct Struts artifacts; donor SHA-256 equality shown for struts2-core/xwork-core 2.3.32. Third-party checksums missing.", "evidence": "SOURCE_GRAPH retrieved sidecars; artifact_integrity.json", "caveat": "Integrity complete only for the 5 donor-covered actions."},
+      "C5": {"status": "PARTIALLY_SUPPORTED", "justification": "POM parsing yields dependency coordinates (S104,S108,S154 parents) but closure cannot complete: S208-S210, S226-S228, S241-S243 all 404 under staging root.", "evidence": "missing_evidence.json: DEPENDENCY_ARTIFACT_UNREACHABLE + SOURCE_PATH_MISSING", "caveat": "Correct abstention on patch-004/007/008; closure completeness explicitly unknown."},
+      "C6": {"status": "PARTIALLY_SUPPORTED", "justification": "Strategy HUMAN_COMMAND resolved for 5 actions with complete closure; unresolved (PATCH_STRATEGY_UNRESOLVED) for 3.", "evidence": "proposed_patch_form_UZBL5_r1.yaml; production_validation.json (5 READY, 3 WAITING)", "caveat": "Overall run WAITING_FOR_USER_INPUT; strategy readiness is per-action, not run-level."},
+      "C7": {"status": "PARTIALLY_SUPPORTED", "justification": "Tomcat 8.5.20 archive docs (S014-S017) + frozen layout enabled safe WAR-preserve/exploded-patch/backup commands for the 5 donor actions; null for the 3 abstentions.", "evidence": "SOURCE_GRAPH: ROOT-TOMCAT-ARCHIVE S014-S018; decision_log Q5 (MEDIUM_HIGH operator inference)", "caveat": "WAR-rename-while-stopped pattern is operator inference on vendor docs, not a vendor-prescribed patch procedure."},
+      "C8": {"status": "PARTIALLY_SUPPORTED", "justification": "Per-action validation_command present for 5 actions (absence checks + donor SHA-256 re-verify); null for 3.", "evidence": "proposed_patch_form_UZBL5_r1.yaml validation_command.confirmed", "caveat": "Validates patch application only; AFTER-scan and re-exploit separation deferred by design."},
+      "C9": {"status": "SUPPORTED", "justification": "All 3 blocked actions abstained with typed codes instead of using unanchored S255 Maven Central guess. Demonstrated safe abstention.", "evidence": "missing_evidence.json; decision_log Q6; S255 UNANCHORED_SOURCE_REJECTED", "caveat": "None; this is the positive control for the ablation."},
+      "C10": {"status": "PARTIALLY_SUPPORTED", "justification": "5/8 READY_FOR_PATCH_EXECUTION per validator; overall WAITING_FOR_USER_INPUT. Validator readiness != remediation correctness.", "evidence": "production_validation.json (proposal sha 8a889723...)", "caveat": "Validator acceptance covers syntax + evidence-supported HUMAN_COMMAND fields only."}
+    },
+    "L2": {
+      "C1": {"status": "SUPPORTED", "justification": "Unchanged from L1; advisory query adds no new identity fields.", "evidence": "PATCH_REASONING_SEED", "caveat": "None."},
+      "C2": {"status": "SUPPORTED", "justification": "NVD/OSV/GHSA (+KEV where applicable) give second-authority affected/fixed confirmation for CVE-2017-5638/9805; raises fixed-version confidence vs single-vendor wiki.", "evidence": "REPLAY-PLANNED (not executed): deterministic CVE/package advisory queries; Task 7.5.6 design review s9", "caveat": "Retrospective estimate: L2 was not run on UZBL5; no new artifact/dependency evidence expected from advisories alone."},
+      "C3": {"status": "PARTIALLY_SUPPORTED", "justification": "Same artifact coverage as L1; advisory refs are typed candidates, third-party links not auto-promoted.", "evidence": "L1 source graph (no change)", "caveat": "Advisory references may add candidate roots but per 7.5.6 rules they do not resolve the 3 missing artifacts."},
+      "C4": {"status": "PARTIALLY_SUPPORTED", "justification": "Same as L1; advisories do not supply publisher checksums.", "evidence": "L1 artifacts", "caveat": "None."},
+      "C5": {"status": "PARTIALLY_SUPPORTED", "justification": "Same closure gap as L1; advisory layer does not parse POM dependencies.", "evidence": "missing_evidence.json (unchanged at L2)", "caveat": "Expected 5/8 vs 3/8 split persists at L2."},
+      "C6": {"status": "PARTIALLY_SUPPORTED", "justification": "Same per-action split as L1; stronger version rationale but strategy still blocked on closure.", "evidence": "L1 patch form", "caveat": "None."},
+      "C7": {"status": "PARTIALLY_SUPPORTED", "justification": "Same as L1; advisories do not supply deploy procedure.", "evidence": "S014-S017 (unchanged)", "caveat": "None."},
+      "C8": {"status": "PARTIALLY_SUPPORTED", "justification": "Same as L1.", "evidence": "L1 validation commands", "caveat": "None."},
+      "C9": {"status": "SUPPORTED", "justification": "Same correct-abstention behavior as L1, with richer reason codes (advisory-confirmed version + still-missing artifact).", "evidence": "L1 abstention records", "caveat": "None."},
+      "C10": {"status": "PARTIALLY_SUPPORTED", "justification": "Same 5/8 estimate; advisory confidence does not convert abstentions.", "evidence": "production_validation.json (read-only reference)", "caveat": "Must not conflate advisory confidence with validator readiness."}
+    },
+    "L3": {
+      "C1": {"status": "SUPPORTED", "justification": "Unchanged.", "evidence": "PATCH_REASONING_SEED", "caveat": "None."},
+      "C2": {"status": "SUPPORTED", "justification": "Unchanged from L2; registry metadata corroborates version existence but version choice remains advisory-driven.", "evidence": "L2 advisories + registry version-dir existence (replay R002/R007/R012 POMs)", "caveat": "Registry presence != fixed-version authority."},
+      "C3": {"status": "SUPPORTED", "justification": "7.5.6A replay: deterministic Maven native registry roots reached POM+JAR for all 3 missing coords (R002/R003, R007/R008, R012/R013).", "evidence": "replay_artifact_reachability.json (all artifact_reachable=true); replay_source_graph.json (15 sources, valid:true)", "caveat": "Source reachability only; 7.5.6A explicitly does NOT claim validator-ready patch commands."},
+      "C4": {"status": "SUPPORTED", "justification": "JAR.sha1 sidecars retrieved for all 3 and SHA-1(actual)==SHA-1(expected): xstream dfecae23..., ognl f9db8f1e..., freemarker cd143cd8....", "evidence": "replay_artifact_reachability.json items[].artifact_sha1_matches_sidecar=true (R004,R009,R014)", "caveat": "SHA-1 sidecar + sha256 content_hash recorded; still need per-action donor/local equality step before command drafting."},
+      "C5": {"status": "SUPPORTED", "justification": "Dependency coordinates parsed from anchored POMs (S104,S108 parents) resolve to retrievable artifacts; closure completable for 2.3.34 and 2.5.10.1 lines.", "evidence": "replay coordinate_parentage: S104/S108 -> R-roots; would_resolve_missing_evidence=true x3", "caveat": "Full transitive closure below these deps (their own POM parents) not enumerated in replay; production retriever must recurse with depth policy."},
+      "C6": {"status": "SUPPORTED", "justification": "Blocking condition (DEPENDENCY_ARTIFACT_UNREACHABLE) removed for all 3; strategydrafting becomes evidence-supported in principle.", "evidence": "replay_missing_evidence_comparison.json (read-only reference)", "caveat": "Strategy support != drafted/validated command; drafting still needs L4/L5 review."},
+      "C7": {"status": "PARTIALLY_SUPPORTED", "justification": "Artifact availability solved, but safe command drafting additionally needs compatibility (L4) + runtime deploy (L5) review; 7.5.6A warns reachability != validator-ready.", "evidence": "task_7_5_6a.md s9: 'would likely convert abstentions into source candidates, but not automatically into validated patch commands'", "caveat": "L3 alone must NOT auto-emit commands; require L4/L5 gates (see Q6/Q8)."},
+      "C8": {"status": "PARTIALLY_SUPPORTED", "justification": "Checksum evidence enables validation-command drafting (hash re-verify pattern), but procedure still needs L5 deploy semantics.", "evidence": "L1 validation pattern + L3 checksums", "caveat": "Same gating as C7."},
+      "C9": {"status": "SUPPORTED", "justification": "Abstention no longer triggered by these 3 artifacts; abstention logic must shift to compatibility/procedure gaps if L4/L5 missing.", "evidence": "replay: 0 fetch-failed, 0 unparented", "caveat": "Risk shifts from fabrication-by-guessing-registry to fabrication-by-guessing-compatibility; guard accordingly."},
+      "C10": {"status": "PARTIALLY_SUPPORTED", "justification": "Source-coverage gate for all 8 now passable; validator readiness still requires drafted commands + validation commands + review, which were not produced in replay.", "evidence": "task_7_5_6a.md s11-s12", "caveat": "Separate source coverage from validator readiness from remediation success (Q-design-G)."}
+    },
+    "L4": {
+      "C1": {"status": "SUPPORTED", "justification": "Unchanged.", "evidence": "PATCH_REASONING_SEED", "caveat": "None."},
+      "C2": {"status": "SUPPORTED", "justification": "Promoted upstream release notes/changelogs/security pages give version-selection rationale (minor vs major, 2.3.34 vs 2.5.10.1 REST notes); deterministic promotion rules required.", "evidence": "PARTIAL PRECEDENT: S004-S007 version notes already used at L1; L4 systematizes via Task 7.5.6 s9 retriever", "caveat": "Metadata-only links need corroboration before promotion; deps.dev stays candidate unless promoted."},
+      "C3": {"status": "SUPPORTED", "justification": "Unchanged from L3.", "evidence": "replay artifacts", "caveat": "None."},
+      "C4": {"status": "SUPPORTED", "justification": "Unchanged from L3.", "evidence": "replay checksums", "caveat": "None."},
+      "C5": {"status": "SUPPORTED", "justification": "Module-relationship decisions (overlap alignment 2.3.34, 2.5-line isolation) gain upstream migration-note support.", "evidence": "S2-052 REST compatibility evidence (S002) + L4 release-note roots (planned)", "caveat": "Retrospective: full L4 retrieval not executed on UZBL5; status is projected, not observed."},
+      "C6": {"status": "SUPPORTED", "justification": "Fix-type + strategy choices backed by upstream compatibility/migration guidance, not just POM version alignment.", "evidence": "planned promoted upstream docs", "caveat": "Major-version moves still need human approval flag (major_version_approved)."},
+      "C7": {"status": "SUPPORTED", "justification": "Compatibility interpretation present; command drafting still gated on L5 runtime procedure.", "evidence": "L3 artifacts + L4 compat notes", "caveat": "C7 fully SUPPORTED only jointly with L5; L4 alone leaves deploy-behavior assumptions."},
+      "C8": {"status": "PARTIALLY_SUPPORTED", "justification": "Functional smoke criteria may come from release notes, but deploy validation still needs L5.", "evidence": "planned", "caveat": "See C7 caveat."},
+      "C9": {"status": "SUPPORTED", "justification": "Abstention reasons become fine-grained (compat-unknown vs artifact-unknown).", "evidence": "planned reason taxonomy", "caveat": "None."},
+      "C10": {"status": "PARTIALLY_SUPPORTED", "justification": "Closer to validator-ready for all 8, but runtime procedure gate (L5) still outstanding.", "evidence": "n/a (projection)", "caveat": "Do not mark READY without L5 procedure evidence."}
+    },
+    "L5": {
+      "C1": {"status": "SUPPORTED", "justification": "Unchanged.", "evidence": "PATCH_REASONING_SEED", "caveat": "None."},
+      "C2": {"status": "SUPPORTED", "justification": "Unchanged from L4.", "evidence": "L4 roots", "caveat": "None."},
+      "C3": {"status": "SUPPORTED", "justification": "Unchanged from L3.", "evidence": "replay artifacts", "caveat": "None."},
+      "C4": {"status": "SUPPORTED", "justification": "Unchanged from L3.", "evidence": "replay checksums", "caveat": "None."},
+      "C5": {"status": "SUPPORTED", "justification": "Unchanged from L4.", "evidence": "L3+L4", "caveat": "None."},
+      "C6": {"status": "SUPPORTED", "justification": "Strategy + environment-specific procedure jointly evidenced.", "evidence": "L3 artifacts + L4 compat + L5 Tomcat/base-image docs", "caveat": "None beyond standard human-review for destructive ops."},
+      "C7": {"status": "SUPPORTED", "justification": "Runtime-vendor docs (Tomcat deployer, container base-image docs) ground WAR-preserve/exploded-patch/backup/redeploy steps; UZBL5 already showed partial L5 via S014-S017 archive docs.", "evidence": "PRECEDENT: S014-S017 Tomcat 8.5.20 docs; L5 generalizes to runtime-identity-derived vendor docs", "caveat": "Docs must be discovered from runtime identity/derived URL, not LLM memory."},
+      "C8": {"status": "SUPPORTED", "justification": "Deploy/redeploy behavior + validation procedure (absence checks + hash re-verify + endpoint smoke separation) fully evidenced.", "evidence": "L5 vendor docs + L3 checksums + L1 validation pattern", "caveat": "AFTER-scan and re-exploit remain separate stages, never part of validation_command."},
+      "C9": {"status": "SUPPORTED", "justification": "Any remaining gap triggers typed abstention with explicit missing-evidence code.", "evidence": "missing_evidence.json taxonomy extended", "caveat": "None."},
+      "C10": {"status": "SUPPORTED", "justification": "All gates passable: identification + version + provenance + integrity + closure + strategy + procedure + validation. Per-action READY possible; run-level READY still requires all actions resolved + human review.", "evidence": "projection from L1 5/8 precedent + L3 reachability + L4/L5 procedure", "caveat": "Validator readiness != remediation correctness (AFTER scan / re-exploit / behavior still downstream)."}
+    }
+  },
+  "provenance": {
+    "seed_manifest_sha256": "89386175433caf5b6db9b0123a9c430e62aa030809d4cbcb6aadc1380a790130",
+    "baseline_source_graph_sha256": "82af3843d8d5980c2f50458b4a964d3c9d6b9d5b528097da7e21ca3d1c2d49b2",
+    "baseline_proposal_sha256": "8a8897233c3982e4f436b0e299819b184c030c4a856accda071fe995e934a457",
+    "replay_source_graph_sha256": "74A1EC78F31F4A7BA9F8E191FF4510546A332BFF2C61D9AD2A7B6E7F0E85C662",
+    "method": "offline retrospective mapping from frozen artifacts; no new network retrieval; no UZBL5 mutation"
+  }
+}

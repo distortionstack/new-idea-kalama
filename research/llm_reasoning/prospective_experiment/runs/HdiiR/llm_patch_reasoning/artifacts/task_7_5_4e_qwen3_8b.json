@@ -1,0 +1,81 @@
+{
+  "schema": "kalama.research.blind-patch-reasoning-evaluation/v1",
+  "task": "7.5.4E",
+  "run_id": "HdiiR",
+  "conclusion": "INCONCLUSIVE_DUE_TO_RUNTIME",
+  "checkpoint_integrity": {
+    "valid": true,
+    "evidence_count": 7,
+    "run_binding": "HdiiR",
+    "container_id": "adf18dec3c2ffb30ee3e70507013843306bb6cbb24037c87977d2e632c7b6ba2",
+    "image_digest": "sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "historical_denylist_hits": [],
+    "prior_solution_present": false,
+    "patch_command_present": false,
+    "validation_command_present": false
+  },
+  "coverage": {
+    "scanner_vulnerability_evidence": "PRESENT",
+    "installed_component_version_evidence": "PRESENT",
+    "fixed_version_candidates": "PRESENT",
+    "apache_upstream_security_evidence": "PARTIAL",
+    "release_version_evidence": "PARTIAL",
+    "maven_artifact_metadata": "ABSENT",
+    "pom_metadata": "ABSENT",
+    "dependency_metadata": "PARTIAL",
+    "checksum_integrity_metadata": "PARTIAL",
+    "runtime_jar_inventory": "PARTIAL",
+    "deployment_layout": "PARTIAL",
+    "tomcat_runtime_configuration": "ABSENT",
+    "current_patch_form_constraints": "PRESENT"
+  },
+  "frozen_configuration": {
+    "model": "qwen3:8b",
+    "model_digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+    "quantization": "Q4_K_M",
+    "think": false,
+    "temperature": 0,
+    "timeout_seconds": 300,
+    "num_predict": 4096,
+    "num_ctx": 40960,
+    "prompt_sha256": "808403f88b97a3e00b50e83c16f2833f3ae896429fd699435574a026db0a1be4",
+    "schema_sha256": "1a81551da77413918d12df30b6a71c127aaefc0663947dd23f9330b7979bf050",
+    "evidence_pack_sha256": "57af57ecf36a6c4f3b87876761ca9d03e92455aede4cbcfc14e2da1929a69ddb",
+    "request_sha256": "979c80de8610c77c99de35f3f8f04e4f3dbd1af9f3d35137d86765f5b6916296"
+  },
+  "invocations": [
+    {
+      "label": "rep_1",
+      "usable": false,
+      "status": "HARNESS_INTERRUPTED",
+      "raw_response_present": false,
+      "note": "Outer coding-agent/tool interruption; whether Ollama completed is unknowable. Not counted as model behavior."
+    },
+    {
+      "label": "rep_1_replacement",
+      "usable": false,
+      "status": "RUNTIME_TIMEOUT",
+      "latency_seconds": 300.068,
+      "timeout_seconds": 300,
+      "raw_response_present": false,
+      "error_type": "TimeoutError",
+      "error": "timed out"
+    }
+  ],
+  "usable_repetition_count": 0,
+  "required_usable_repetition_count": 3,
+  "rep_2_started": false,
+  "rep_3_started": false,
+  "evaluation": {
+    "json_schema_validation": "NOT_POSSIBLE_NO_RESPONSE",
+    "evidence_attribution": "NOT_POSSIBLE_NO_RESPONSE",
+    "deterministic_baseline_comparison": "NOT_POSSIBLE_NO_RESPONSE",
+    "patch_procedure_assessment": "NOT_POSSIBLE_NO_RESPONSE",
+    "validation_procedure_assessment": "NOT_POSSIBLE_NO_RESPONSE",
+    "fabrication_analysis": "NOT_POSSIBLE_NO_RESPONSE",
+    "abstention_analysis": "NOT_POSSIBLE_NO_RESPONSE",
+    "cross_evidence_synthesis": "NOT_POSSIBLE_NO_RESPONSE",
+    "capability_beyond_deterministic_extraction": "NOT_ESTABLISHED"
+  },
+  "stop_reason": "The first replacement trial reached Ollama but exceeded the frozen timeout before returning a response. Changing timeout, context, prompt, schema, evidence, or retry selection would violate the frozen experiment."
+}

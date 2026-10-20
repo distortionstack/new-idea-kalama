@@ -1,0 +1,1803 @@
+{
+  "actions": [
+    {
+      "action_id": "patch-001",
+      "before_versions": [
+        "2.3.1"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-core",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-core"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-core@2.3.1"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.1"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.32",
+              "2.5.10.1"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.32"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.3.32",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [
+        "CVE-2011-3923",
+        "CVE-2013-1965",
+        "CVE-2013-2251",
+        "CVE-2017-12611",
+        "CVE-2018-11776",
+        "CVE-2019-0230",
+        "CVE-2020-17530",
+        "CVE-2021-31805",
+        "CVE-2023-50164",
+        "CVE-2024-53677"
+      ],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-5638",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 2,
+          "fixed_versions": [
+            "2.3.32",
+            "2.5.10.1"
+          ],
+          "installed_version": "2.3.1",
+          "modified_at": "2026-06-17T01:20:54.013Z",
+          "package_name": "org.apache.struts:struts2-core",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-core@2.3.1",
+          "package_uid": "11512860f535e414",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+          "published_at": "2017-03-11T02:59:00.15Z",
+          "references": [
+            "http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/",
+            "http://www.arubanetworks.com/assets/alert/ARUBA-PSA-2017-002.txt",
+            "http://www.eweek.com/security/apache-struts-vulnerability-under-attack.html",
+            "http://www.oracle.com/technetwork/security-advisory/cpujul2017-3236622.html",
+            "http://www.securityfocus.com/bid/96729",
+            "http://www.securitytracker.com/id/1037973",
+            "https://access.redhat.com/security/cve/CVE-2017-5638",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites/",
+            "https://cwiki.apache.org/confluence/display/WW/S2-045",
+            "https://cwiki.apache.org/confluence/display/WW/S2-046",
+            "https://exploit-db.com/exploits/41570",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://github.com/advisories/GHSA-j77q-2qqg-6989",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://github.com/apache/struts/commit/b06dd50af2a3319dd896bf5c2f4972d2b772cf2b",
+            "https://github.com/mazen160/struts-pwn",
+            "https://github.com/rapid7/metasploit-framework/issues/8064",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03733en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03749en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03723en_us",
+            "https://isc.sans.edu/diary/22169",
+            "https://lists.apache.org/thread.html/r1125f3044a0946d1e7e6f125a6170b58d413ebd4a95157e4608041c7@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r6d03e45b81eab03580cf7f8bb51cb3e9a1b10a2cc0c6a2d3cc92ed0c@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r90890afea72a9571d666820b2fe5942a0a5f86be406fa31da3dd0922@%3Cannounce.apache.org%3E",
+            "https://nmap.org/nsedoc/scripts/http-vuln-cve2017-5638.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+            "https://packetstormsecurity.com/files/141494/S2-45-poc.py.txt",
+            "https://security.netapp.com/advisory/ntap-20170310-0001",
+            "https://security.netapp.com/advisory/ntap-20170310-0001/",
+            "https://struts.apache.org/docs/s2-045.html",
+            "https://struts.apache.org/docs/s2-046.html",
+            "https://support.lenovo.com/us/en/product_security/len-14200",
+            "https://twitter.com/theog150/status/841146956135124993",
+            "https://web.archive.org/web/20170311203630/http://www.securityfocus.com/bid/96729",
+            "https://web.archive.org/web/20170921030226/http://www.securitytracker.com/id/1037973",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-5638",
+            "https://www.cve.org/CVERecord?id=CVE-2017-5638",
+            "https://www.exploit-db.com/exploits/41614",
+            "https://www.exploit-db.com/exploits/41614/",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2/",
+            "https://www.kb.cert.org/vuls/id/834067",
+            "https://www.symantec.com/security-center/network-protection-security-advisories/SA145"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "CRITICAL",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-5638"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-core@2.3.1",
+      "package_name": "org.apache.struts:struts2-core",
+      "scanner_fixed_versions": [
+        "2.3.32",
+        "2.5.10.1"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-5638"
+      ]
+    },
+    {
+      "action_id": "patch-002",
+      "before_versions": [
+        "2.3.14.2"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-core",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-core"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-core@2.3.14.2"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.14.2"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.32",
+              "2.5.10.1"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.32"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.3.32",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [
+        "CVE-2013-1965",
+        "CVE-2013-2251",
+        "CVE-2017-12611",
+        "CVE-2018-11776",
+        "CVE-2019-0230",
+        "CVE-2020-17530",
+        "CVE-2021-31805",
+        "CVE-2023-50164",
+        "CVE-2024-53677"
+      ],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-5638",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 4,
+          "fixed_versions": [
+            "2.3.32",
+            "2.5.10.1"
+          ],
+          "installed_version": "2.3.14.2",
+          "modified_at": "2026-06-17T01:20:54.013Z",
+          "package_name": "org.apache.struts:struts2-core",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-core@2.3.14.2",
+          "package_uid": "865f630bf329bf8b",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+          "published_at": "2017-03-11T02:59:00.15Z",
+          "references": [
+            "http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/",
+            "http://www.arubanetworks.com/assets/alert/ARUBA-PSA-2017-002.txt",
+            "http://www.eweek.com/security/apache-struts-vulnerability-under-attack.html",
+            "http://www.oracle.com/technetwork/security-advisory/cpujul2017-3236622.html",
+            "http://www.securityfocus.com/bid/96729",
+            "http://www.securitytracker.com/id/1037973",
+            "https://access.redhat.com/security/cve/CVE-2017-5638",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites/",
+            "https://cwiki.apache.org/confluence/display/WW/S2-045",
+            "https://cwiki.apache.org/confluence/display/WW/S2-046",
+            "https://exploit-db.com/exploits/41570",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://github.com/advisories/GHSA-j77q-2qqg-6989",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://github.com/apache/struts/commit/b06dd50af2a3319dd896bf5c2f4972d2b772cf2b",
+            "https://github.com/mazen160/struts-pwn",
+            "https://github.com/rapid7/metasploit-framework/issues/8064",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03733en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03749en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03723en_us",
+            "https://isc.sans.edu/diary/22169",
+            "https://lists.apache.org/thread.html/r1125f3044a0946d1e7e6f125a6170b58d413ebd4a95157e4608041c7@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r6d03e45b81eab03580cf7f8bb51cb3e9a1b10a2cc0c6a2d3cc92ed0c@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r90890afea72a9571d666820b2fe5942a0a5f86be406fa31da3dd0922@%3Cannounce.apache.org%3E",
+            "https://nmap.org/nsedoc/scripts/http-vuln-cve2017-5638.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+            "https://packetstormsecurity.com/files/141494/S2-45-poc.py.txt",
+            "https://security.netapp.com/advisory/ntap-20170310-0001",
+            "https://security.netapp.com/advisory/ntap-20170310-0001/",
+            "https://struts.apache.org/docs/s2-045.html",
+            "https://struts.apache.org/docs/s2-046.html",
+            "https://support.lenovo.com/us/en/product_security/len-14200",
+            "https://twitter.com/theog150/status/841146956135124993",
+            "https://web.archive.org/web/20170311203630/http://www.securityfocus.com/bid/96729",
+            "https://web.archive.org/web/20170921030226/http://www.securitytracker.com/id/1037973",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-5638",
+            "https://www.cve.org/CVERecord?id=CVE-2017-5638",
+            "https://www.exploit-db.com/exploits/41614",
+            "https://www.exploit-db.com/exploits/41614/",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2/",
+            "https://www.kb.cert.org/vuls/id/834067",
+            "https://www.symantec.com/security-center/network-protection-security-advisories/SA145"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "CRITICAL",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-5638"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-core@2.3.14.2",
+      "package_name": "org.apache.struts:struts2-core",
+      "scanner_fixed_versions": [
+        "2.3.32",
+        "2.5.10.1"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-5638"
+      ]
+    },
+    {
+      "action_id": "patch-003",
+      "before_versions": [
+        "2.3.15.1"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-core",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-core"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-core@2.3.15.1"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.15.1"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.32",
+              "2.5.10.1"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.32"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.3.32",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [
+        "CVE-2017-12611",
+        "CVE-2018-11776",
+        "CVE-2019-0230",
+        "CVE-2020-17530",
+        "CVE-2021-31805",
+        "CVE-2023-50164",
+        "CVE-2024-53677"
+      ],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-5638",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 2,
+          "fixed_versions": [
+            "2.3.32",
+            "2.5.10.1"
+          ],
+          "installed_version": "2.3.15.1",
+          "modified_at": "2026-06-17T01:20:54.013Z",
+          "package_name": "org.apache.struts:struts2-core",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-core@2.3.15.1",
+          "package_uid": "4fe11d8d3f46222f",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+          "published_at": "2017-03-11T02:59:00.15Z",
+          "references": [
+            "http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/",
+            "http://www.arubanetworks.com/assets/alert/ARUBA-PSA-2017-002.txt",
+            "http://www.eweek.com/security/apache-struts-vulnerability-under-attack.html",
+            "http://www.oracle.com/technetwork/security-advisory/cpujul2017-3236622.html",
+            "http://www.securityfocus.com/bid/96729",
+            "http://www.securitytracker.com/id/1037973",
+            "https://access.redhat.com/security/cve/CVE-2017-5638",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites/",
+            "https://cwiki.apache.org/confluence/display/WW/S2-045",
+            "https://cwiki.apache.org/confluence/display/WW/S2-046",
+            "https://exploit-db.com/exploits/41570",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://github.com/advisories/GHSA-j77q-2qqg-6989",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://github.com/apache/struts/commit/b06dd50af2a3319dd896bf5c2f4972d2b772cf2b",
+            "https://github.com/mazen160/struts-pwn",
+            "https://github.com/rapid7/metasploit-framework/issues/8064",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03733en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03749en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03723en_us",
+            "https://isc.sans.edu/diary/22169",
+            "https://lists.apache.org/thread.html/r1125f3044a0946d1e7e6f125a6170b58d413ebd4a95157e4608041c7@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r6d03e45b81eab03580cf7f8bb51cb3e9a1b10a2cc0c6a2d3cc92ed0c@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r90890afea72a9571d666820b2fe5942a0a5f86be406fa31da3dd0922@%3Cannounce.apache.org%3E",
+            "https://nmap.org/nsedoc/scripts/http-vuln-cve2017-5638.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+            "https://packetstormsecurity.com/files/141494/S2-45-poc.py.txt",
+            "https://security.netapp.com/advisory/ntap-20170310-0001",
+            "https://security.netapp.com/advisory/ntap-20170310-0001/",
+            "https://struts.apache.org/docs/s2-045.html",
+            "https://struts.apache.org/docs/s2-046.html",
+            "https://support.lenovo.com/us/en/product_security/len-14200",
+            "https://twitter.com/theog150/status/841146956135124993",
+            "https://web.archive.org/web/20170311203630/http://www.securityfocus.com/bid/96729",
+            "https://web.archive.org/web/20170921030226/http://www.securitytracker.com/id/1037973",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-5638",
+            "https://www.cve.org/CVERecord?id=CVE-2017-5638",
+            "https://www.exploit-db.com/exploits/41614",
+            "https://www.exploit-db.com/exploits/41614/",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2/",
+            "https://www.kb.cert.org/vuls/id/834067",
+            "https://www.symantec.com/security-center/network-protection-security-advisories/SA145"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "CRITICAL",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-5638"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-core@2.3.15.1",
+      "package_name": "org.apache.struts:struts2-core",
+      "scanner_fixed_versions": [
+        "2.3.32",
+        "2.5.10.1"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-5638"
+      ]
+    },
+    {
+      "action_id": "patch-004",
+      "before_versions": [
+        "2.3.20.1"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-core",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-core"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-core@2.3.20.1"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.20.1"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.32",
+              "2.5.10.1"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.32"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.3.32",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [
+        "CVE-2016-3087",
+        "CVE-2017-12611",
+        "CVE-2018-11776",
+        "CVE-2019-0230",
+        "CVE-2020-17530",
+        "CVE-2021-31805",
+        "CVE-2023-50164",
+        "CVE-2024-53677"
+      ],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-5638",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 10,
+          "fixed_versions": [
+            "2.3.32",
+            "2.5.10.1"
+          ],
+          "installed_version": "2.3.20.1",
+          "modified_at": "2026-06-17T01:20:54.013Z",
+          "package_name": "org.apache.struts:struts2-core",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-core@2.3.20.1",
+          "package_uid": "54f66800d67fe7b6",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+          "published_at": "2017-03-11T02:59:00.15Z",
+          "references": [
+            "http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/",
+            "http://www.arubanetworks.com/assets/alert/ARUBA-PSA-2017-002.txt",
+            "http://www.eweek.com/security/apache-struts-vulnerability-under-attack.html",
+            "http://www.oracle.com/technetwork/security-advisory/cpujul2017-3236622.html",
+            "http://www.securityfocus.com/bid/96729",
+            "http://www.securitytracker.com/id/1037973",
+            "https://access.redhat.com/security/cve/CVE-2017-5638",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites/",
+            "https://cwiki.apache.org/confluence/display/WW/S2-045",
+            "https://cwiki.apache.org/confluence/display/WW/S2-046",
+            "https://exploit-db.com/exploits/41570",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://github.com/advisories/GHSA-j77q-2qqg-6989",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://github.com/apache/struts/commit/b06dd50af2a3319dd896bf5c2f4972d2b772cf2b",
+            "https://github.com/mazen160/struts-pwn",
+            "https://github.com/rapid7/metasploit-framework/issues/8064",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03733en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03749en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03723en_us",
+            "https://isc.sans.edu/diary/22169",
+            "https://lists.apache.org/thread.html/r1125f3044a0946d1e7e6f125a6170b58d413ebd4a95157e4608041c7@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r6d03e45b81eab03580cf7f8bb51cb3e9a1b10a2cc0c6a2d3cc92ed0c@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r90890afea72a9571d666820b2fe5942a0a5f86be406fa31da3dd0922@%3Cannounce.apache.org%3E",
+            "https://nmap.org/nsedoc/scripts/http-vuln-cve2017-5638.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+            "https://packetstormsecurity.com/files/141494/S2-45-poc.py.txt",
+            "https://security.netapp.com/advisory/ntap-20170310-0001",
+            "https://security.netapp.com/advisory/ntap-20170310-0001/",
+            "https://struts.apache.org/docs/s2-045.html",
+            "https://struts.apache.org/docs/s2-046.html",
+            "https://support.lenovo.com/us/en/product_security/len-14200",
+            "https://twitter.com/theog150/status/841146956135124993",
+            "https://web.archive.org/web/20170311203630/http://www.securityfocus.com/bid/96729",
+            "https://web.archive.org/web/20170921030226/http://www.securitytracker.com/id/1037973",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-5638",
+            "https://www.cve.org/CVERecord?id=CVE-2017-5638",
+            "https://www.exploit-db.com/exploits/41614",
+            "https://www.exploit-db.com/exploits/41614/",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2/",
+            "https://www.kb.cert.org/vuls/id/834067",
+            "https://www.symantec.com/security-center/network-protection-security-advisories/SA145"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "CRITICAL",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-5638"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-core@2.3.20.1",
+      "package_name": "org.apache.struts:struts2-core",
+      "scanner_fixed_versions": [
+        "2.3.32",
+        "2.5.10.1"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-5638"
+      ]
+    },
+    {
+      "action_id": "patch-005",
+      "before_versions": [
+        "2.3.24.1"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-core",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-core"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-core@2.3.24.1"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.24.1"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.32",
+              "2.5.10.1"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.32"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.3.32",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [
+        "CVE-2016-3087",
+        "CVE-2017-12611",
+        "CVE-2018-11776",
+        "CVE-2019-0230",
+        "CVE-2020-17530",
+        "CVE-2021-31805",
+        "CVE-2023-50164",
+        "CVE-2024-53677"
+      ],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-5638",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 2,
+          "fixed_versions": [
+            "2.3.32",
+            "2.5.10.1"
+          ],
+          "installed_version": "2.3.24.1",
+          "modified_at": "2026-06-17T01:20:54.013Z",
+          "package_name": "org.apache.struts:struts2-core",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-core@2.3.24.1",
+          "package_uid": "537a5063ba07900b",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+          "published_at": "2017-03-11T02:59:00.15Z",
+          "references": [
+            "http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/",
+            "http://www.arubanetworks.com/assets/alert/ARUBA-PSA-2017-002.txt",
+            "http://www.eweek.com/security/apache-struts-vulnerability-under-attack.html",
+            "http://www.oracle.com/technetwork/security-advisory/cpujul2017-3236622.html",
+            "http://www.securityfocus.com/bid/96729",
+            "http://www.securitytracker.com/id/1037973",
+            "https://access.redhat.com/security/cve/CVE-2017-5638",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites/",
+            "https://cwiki.apache.org/confluence/display/WW/S2-045",
+            "https://cwiki.apache.org/confluence/display/WW/S2-046",
+            "https://exploit-db.com/exploits/41570",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://github.com/advisories/GHSA-j77q-2qqg-6989",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://github.com/apache/struts/commit/b06dd50af2a3319dd896bf5c2f4972d2b772cf2b",
+            "https://github.com/mazen160/struts-pwn",
+            "https://github.com/rapid7/metasploit-framework/issues/8064",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03733en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03749en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03723en_us",
+            "https://isc.sans.edu/diary/22169",
+            "https://lists.apache.org/thread.html/r1125f3044a0946d1e7e6f125a6170b58d413ebd4a95157e4608041c7@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r6d03e45b81eab03580cf7f8bb51cb3e9a1b10a2cc0c6a2d3cc92ed0c@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r90890afea72a9571d666820b2fe5942a0a5f86be406fa31da3dd0922@%3Cannounce.apache.org%3E",
+            "https://nmap.org/nsedoc/scripts/http-vuln-cve2017-5638.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+            "https://packetstormsecurity.com/files/141494/S2-45-poc.py.txt",
+            "https://security.netapp.com/advisory/ntap-20170310-0001",
+            "https://security.netapp.com/advisory/ntap-20170310-0001/",
+            "https://struts.apache.org/docs/s2-045.html",
+            "https://struts.apache.org/docs/s2-046.html",
+            "https://support.lenovo.com/us/en/product_security/len-14200",
+            "https://twitter.com/theog150/status/841146956135124993",
+            "https://web.archive.org/web/20170311203630/http://www.securityfocus.com/bid/96729",
+            "https://web.archive.org/web/20170921030226/http://www.securitytracker.com/id/1037973",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-5638",
+            "https://www.cve.org/CVERecord?id=CVE-2017-5638",
+            "https://www.exploit-db.com/exploits/41614",
+            "https://www.exploit-db.com/exploits/41614/",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2/",
+            "https://www.kb.cert.org/vuls/id/834067",
+            "https://www.symantec.com/security-center/network-protection-security-advisories/SA145"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "CRITICAL",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-5638"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-core@2.3.24.1",
+      "package_name": "org.apache.struts:struts2-core",
+      "scanner_fixed_versions": [
+        "2.3.32",
+        "2.5.10.1"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-5638"
+      ]
+    },
+    {
+      "action_id": "patch-006",
+      "before_versions": [
+        "2.3.30"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-core",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-core"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-core@2.3.30"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.30"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.32",
+              "2.5.10.1"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.32"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.3.32",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [
+        "CVE-2017-12611",
+        "CVE-2018-11776",
+        "CVE-2019-0230",
+        "CVE-2020-17530",
+        "CVE-2021-31805",
+        "CVE-2023-50164",
+        "CVE-2024-53677"
+      ],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-5638",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 2,
+          "fixed_versions": [
+            "2.3.32",
+            "2.5.10.1"
+          ],
+          "installed_version": "2.3.30",
+          "modified_at": "2026-06-17T01:20:54.013Z",
+          "package_name": "org.apache.struts:struts2-core",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-core@2.3.30",
+          "package_uid": "25bcd6dc65c43f5d",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+          "published_at": "2017-03-11T02:59:00.15Z",
+          "references": [
+            "http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/",
+            "http://www.arubanetworks.com/assets/alert/ARUBA-PSA-2017-002.txt",
+            "http://www.eweek.com/security/apache-struts-vulnerability-under-attack.html",
+            "http://www.oracle.com/technetwork/security-advisory/cpujul2017-3236622.html",
+            "http://www.securityfocus.com/bid/96729",
+            "http://www.securitytracker.com/id/1037973",
+            "https://access.redhat.com/security/cve/CVE-2017-5638",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites/",
+            "https://cwiki.apache.org/confluence/display/WW/S2-045",
+            "https://cwiki.apache.org/confluence/display/WW/S2-046",
+            "https://exploit-db.com/exploits/41570",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://github.com/advisories/GHSA-j77q-2qqg-6989",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://github.com/apache/struts/commit/b06dd50af2a3319dd896bf5c2f4972d2b772cf2b",
+            "https://github.com/mazen160/struts-pwn",
+            "https://github.com/rapid7/metasploit-framework/issues/8064",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03733en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03749en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03723en_us",
+            "https://isc.sans.edu/diary/22169",
+            "https://lists.apache.org/thread.html/r1125f3044a0946d1e7e6f125a6170b58d413ebd4a95157e4608041c7@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r6d03e45b81eab03580cf7f8bb51cb3e9a1b10a2cc0c6a2d3cc92ed0c@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r90890afea72a9571d666820b2fe5942a0a5f86be406fa31da3dd0922@%3Cannounce.apache.org%3E",
+            "https://nmap.org/nsedoc/scripts/http-vuln-cve2017-5638.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+            "https://packetstormsecurity.com/files/141494/S2-45-poc.py.txt",
+            "https://security.netapp.com/advisory/ntap-20170310-0001",
+            "https://security.netapp.com/advisory/ntap-20170310-0001/",
+            "https://struts.apache.org/docs/s2-045.html",
+            "https://struts.apache.org/docs/s2-046.html",
+            "https://support.lenovo.com/us/en/product_security/len-14200",
+            "https://twitter.com/theog150/status/841146956135124993",
+            "https://web.archive.org/web/20170311203630/http://www.securityfocus.com/bid/96729",
+            "https://web.archive.org/web/20170921030226/http://www.securitytracker.com/id/1037973",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-5638",
+            "https://www.cve.org/CVERecord?id=CVE-2017-5638",
+            "https://www.exploit-db.com/exploits/41614",
+            "https://www.exploit-db.com/exploits/41614/",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2/",
+            "https://www.kb.cert.org/vuls/id/834067",
+            "https://www.symantec.com/security-center/network-protection-security-advisories/SA145"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "CRITICAL",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-5638"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-core@2.3.30",
+      "package_name": "org.apache.struts:struts2-core",
+      "scanner_fixed_versions": [
+        "2.3.32",
+        "2.5.10.1"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-5638"
+      ]
+    },
+    {
+      "action_id": "patch-007",
+      "before_versions": [
+        "2.5.10"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-core",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-core"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-core@2.5.10"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.5.10"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.32",
+              "2.5.10.1"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.5.10.1"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.5.10.1",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [
+        "CVE-2017-12611",
+        "CVE-2018-11776",
+        "CVE-2019-0230",
+        "CVE-2020-17530",
+        "CVE-2021-31805",
+        "CVE-2023-50164",
+        "CVE-2024-53677"
+      ],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-5638",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 2,
+          "fixed_versions": [
+            "2.3.32",
+            "2.5.10.1"
+          ],
+          "installed_version": "2.5.10",
+          "modified_at": "2026-06-17T01:20:54.013Z",
+          "package_name": "org.apache.struts:struts2-core",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-core@2.5.10",
+          "package_uid": "5fc55bc255c1246e",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+          "published_at": "2017-03-11T02:59:00.15Z",
+          "references": [
+            "http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution",
+            "http://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/",
+            "http://www.arubanetworks.com/assets/alert/ARUBA-PSA-2017-002.txt",
+            "http://www.eweek.com/security/apache-struts-vulnerability-under-attack.html",
+            "http://www.oracle.com/technetwork/security-advisory/cpujul2017-3236622.html",
+            "http://www.securityfocus.com/bid/96729",
+            "http://www.securitytracker.com/id/1037973",
+            "https://access.redhat.com/security/cve/CVE-2017-5638",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites",
+            "https://arstechnica.com/security/2017/03/critical-vulnerability-under-massive-attack-imperils-high-impact-sites/",
+            "https://cwiki.apache.org/confluence/display/WW/S2-045",
+            "https://cwiki.apache.org/confluence/display/WW/S2-046",
+            "https://exploit-db.com/exploits/41570",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git%3Ba=commit%3Bh=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://git1-us-west.apache.org/repos/asf?p=struts.git;a=commit;h=6b8272ce47160036ed120a48345d9aa884477228",
+            "https://github.com/advisories/GHSA-j77q-2qqg-6989",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a",
+            "https://github.com/apache/struts/commit/b06dd50af2a3319dd896bf5c2f4972d2b772cf2b",
+            "https://github.com/mazen160/struts-pwn",
+            "https://github.com/rapid7/metasploit-framework/issues/8064",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03733en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbgn03749en_us",
+            "https://h20566.www2.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03723en_us",
+            "https://isc.sans.edu/diary/22169",
+            "https://lists.apache.org/thread.html/r1125f3044a0946d1e7e6f125a6170b58d413ebd4a95157e4608041c7@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r6d03e45b81eab03580cf7f8bb51cb3e9a1b10a2cc0c6a2d3cc92ed0c@%3Cannounce.apache.org%3E",
+            "https://lists.apache.org/thread.html/r90890afea72a9571d666820b2fe5942a0a5f86be406fa31da3dd0922@%3Cannounce.apache.org%3E",
+            "https://nmap.org/nsedoc/scripts/http-vuln-cve2017-5638.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+            "https://packetstormsecurity.com/files/141494/S2-45-poc.py.txt",
+            "https://security.netapp.com/advisory/ntap-20170310-0001",
+            "https://security.netapp.com/advisory/ntap-20170310-0001/",
+            "https://struts.apache.org/docs/s2-045.html",
+            "https://struts.apache.org/docs/s2-046.html",
+            "https://support.lenovo.com/us/en/product_security/len-14200",
+            "https://twitter.com/theog150/status/841146956135124993",
+            "https://web.archive.org/web/20170311203630/http://www.securityfocus.com/bid/96729",
+            "https://web.archive.org/web/20170921030226/http://www.securitytracker.com/id/1037973",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-5638",
+            "https://www.cve.org/CVERecord?id=CVE-2017-5638",
+            "https://www.exploit-db.com/exploits/41614",
+            "https://www.exploit-db.com/exploits/41614/",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2",
+            "https://www.imperva.com/blog/2017/03/cve-2017-5638-new-remote-code-execution-rce-vulnerability-in-apache-struts-2/",
+            "https://www.kb.cert.org/vuls/id/834067",
+            "https://www.symantec.com/security-center/network-protection-security-advisories/SA145"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "10",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "9.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-5638",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "CRITICAL",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-5638"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-core@2.5.10",
+      "package_name": "org.apache.struts:struts2-core",
+      "scanner_fixed_versions": [
+        "2.3.32",
+        "2.5.10.1"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-5638"
+      ]
+    },
+    {
+      "action_id": "patch-008",
+      "before_versions": [
+        "2.3.20.1"
+      ],
+      "candidate": {
+        "artifact_name": "org.apache.struts:struts2-rest-plugin",
+        "availability": null,
+        "build_system": null,
+        "candidate_status": "KNOWLEDGE_REQUIRED",
+        "checksum": null,
+        "classification": "PREBUILT_IMAGE",
+        "classification_status": "RESOLVED",
+        "discovery_issue": "dependency coordinates present but no local source/build manifest and no trusted replacement-image mapping",
+        "eol": false,
+        "evidence": [
+          {
+            "detail": null,
+            "fact": "package",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "org.apache.struts:struts2-rest-plugin"
+          },
+          {
+            "detail": null,
+            "fact": "maven_purl",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "pkg:maven/org.apache.struts/struts2-rest-plugin@2.3.20.1"
+          },
+          {
+            "detail": null,
+            "fact": "installed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.20.1"
+          },
+          {
+            "detail": null,
+            "fact": "fixed_versions",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": [
+              "2.3.34",
+              "2.5.13"
+            ]
+          },
+          {
+            "detail": null,
+            "fact": "fixed_version",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "2.3.34"
+          },
+          {
+            "detail": null,
+            "fact": "branch_policy",
+            "provenance": "SCANNER_EVIDENCE",
+            "value": "same major AND minor release branch match"
+          }
+        ],
+        "execution_readiness": "NOT_READY",
+        "fallback_reason": null,
+        "fallback_used": false,
+        "fix_type": "B",
+        "replacement_target": null,
+        "retrieved_at": null,
+        "same_branch": true,
+        "source_authority": "remediation_discovery",
+        "source_identifier": null,
+        "source_type": "auto_discovered",
+        "source_url": null,
+        "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+        "target_version": "2.3.34",
+        "trusted": false,
+        "version_status": "RESOLVED"
+      },
+      "disposition": "EXECUTE",
+      "disposition_reason": null,
+      "ecosystem": "jar",
+      "execution": {},
+      "fix_type": "B",
+      "human_confirmed_fields": [],
+      "incidental_cves": [],
+      "input_reasons": [
+        "ARTIFACT_SOURCE_UNRESOLVED"
+      ],
+      "occurrences": [
+        {
+          "aliases": [],
+          "canonical_cve_id": "CVE-2017-9805",
+          "data_source": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Maven",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
+          },
+          "duplicate_count": 8,
+          "fixed_versions": [
+            "2.3.34",
+            "2.5.13"
+          ],
+          "installed_version": "2.3.20.1",
+          "modified_at": "2026-06-17T01:28:57.493Z",
+          "package_name": "org.apache.struts:struts2-rest-plugin",
+          "package_purl": "pkg:maven/org.apache.struts/struts2-rest-plugin@2.3.20.1",
+          "package_uid": "cbf4acc5239afb58",
+          "primary_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+          "published_at": "2017-09-15T19:29:00.237Z",
+          "references": [
+            "http://www.oracle.com/technetwork/security-advisory/alert-cve-2017-9805-3889403.html",
+            "http://www.securityfocus.com/bid/100609",
+            "http://www.securitytracker.com/id/1039263",
+            "https://access.redhat.com/security/cve/CVE-2017-9805",
+            "https://blogs.apache.org/foundation/entry/apache-struts-statement-on-equifax",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=1488482",
+            "https://cwiki.apache.org/confluence/display/WW/S2-052",
+            "https://github.com/apache/struts",
+            "https://github.com/apache/struts/commit/19494718865f2fb7da5ea363de3822f87fbda26",
+            "https://github.com/apache/struts/commit/6dd6e5cfb7b5e020abffe7e8091bd63fe97c10a",
+            "https://lgtm.com/blog/apache_struts_CVE-2017-9805",
+            "https://nvd.nist.gov/vuln/detail/CVE-2017-9805",
+            "https://security.netapp.com/advisory/ntap-20170907-0001",
+            "https://security.netapp.com/advisory/ntap-20170907-0001/",
+            "https://struts.apache.org/docs/s2-052.html",
+            "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170907-struts2",
+            "https://web.archive.org/web/20170909031344/http://www.securityfocus.com/bid/100609",
+            "https://web.archive.org/web/20170922053119/http://www.securitytracker.com/id/1039263",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+            "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2017-9805",
+            "https://www.cve.org/CVERecord?id=CVE-2017-9805",
+            "https://www.exploit-db.com/exploits/42627",
+            "https://www.exploit-db.com/exploits/42627/",
+            "https://www.kb.cert.org/vuls/id/112992"
+          ],
+          "result_class": "lang-pkgs",
+          "result_type": "jar",
+          "scanner_cvss_candidates": [
+            {
+              "authority": "ghsa",
+              "score": "8.1",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H",
+              "version": "3.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "6.8",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+              "version": "2.0"
+            },
+            {
+              "authority": "nvd",
+              "score": "8.1",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.1"
+            },
+            {
+              "authority": "redhat",
+              "score": "8.1",
+              "source_url": "https://avd.aquasec.com/nvd/cve-2017-9805",
+              "transport_source": "trivy_embedded",
+              "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "version": "3.0"
+            }
+          ],
+          "scanner_severity": "HIGH",
+          "scanner_severity_source": "ghsa",
+          "target": "Java",
+          "vulnerability_id_raw": "CVE-2017-9805"
+        }
+      ],
+      "package_key": "pkg:maven/org.apache.struts/struts2-rest-plugin@2.3.20.1",
+      "package_name": "org.apache.struts:struts2-rest-plugin",
+      "scanner_fixed_versions": [
+        "2.3.34",
+        "2.5.13"
+      ],
+      "status": "WAITING_FOR_USER_INPUT",
+      "strategy": "PREBUILT_IMAGE_REPLACEMENT",
+      "target_cves": [
+        "CVE-2017-9805"
+      ]
+    }
+  ],
+  "created_at": "2026-09-16T16:01:03Z",
+  "inputs": {
+    "attack_before": {
+      "created_at": "2026-09-16T16:00:43Z",
+      "kind": "ATTACK_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\msf\\before\\attack_res_2026-09-16_UZBL5.json",
+      "producer_stage": "STEP_4_BEFORE_EXPLOIT",
+      "schema": "kalama.attack-result/v1",
+      "sha256": "1b6886609b953374cdd1ae010923efdf54c83e72143bfc5814a73c5079446c68",
+      "summary": {
+        "CHECK_ONLY": 0,
+        "ENVIRONMENT_ERROR": 0,
+        "EXPLOIT_FAILED": 0,
+        "EXPLOIT_SUCCEEDED": 2,
+        "INCONCLUSIVE": 0,
+        "NOT_EXECUTED": 0,
+        "NO_MSF_MODULE": 14,
+        "USER_SKIPPED": 14,
+        "attempted": 2,
+        "metric_eligible": 2,
+        "selected": 30
+      }
+    },
+    "top30_before": {
+      "created_at": "2026-09-16T15:44:19Z",
+      "kind": "TOP30_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\scoring\\before\\top30_2026-09-16_UZBL5.json",
+      "producer_stage": "STEP_3_PRIORITIZATION",
+      "schema": "kalama.prioritization/v1",
+      "sha256": "7134de488d73e29f94be6c103baf1541837910ebf4fa2f9a84a83199c08c7bdb",
+      "summary": {
+        "score_model": "kalama-priority-v1",
+        "top_n_requested": 30,
+        "top_n_returned": 30
+      }
+    },
+    "trivy_before": {
+      "created_at": "2026-09-16T15:44:18.166499534Z",
+      "kind": "TRIVY_BEFORE",
+      "path": "C:\\Users\\distortion\\Documents\\new-idea-kalama\\output\\2d8ru-struts2-evidence-anchored-755\\trivy\\before\\scan_2026-09-16_UZBL5.json",
+      "producer_stage": "STEP_2_TARGET_SCAN",
+      "schema": 2,
+      "sha256": "ee4317422be2c644718f64b08edfbfe9c275939c658aebebc70b243b2e2f7321",
+      "summary": {
+        "scan_subject": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+        "scanner": "trivy"
+      }
+    }
+  },
+  "phase": "patch",
+  "planned_after": {
+    "container_name": "victim-after-UZBL5",
+    "image_reference": "kalama/struts2:patched-uzbl5",
+    "patch_workspace": "patch-workspace-UZBL5"
+  },
+  "policy": {
+    "fallback": "LATEST_UPSTREAM",
+    "major_version_change_requires_confirmation": true,
+    "preferred": "SAME_BRANCH"
+  },
+  "readiness": "WAITING_FOR_USER_INPUT",
+  "run_id": "UZBL5",
+  "schema": "kalama.patch-plan/v1",
+  "source_image": {
+    "canonical_identity": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "do_not_delete_source_image": true,
+    "image_id": "sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "platform": "linux/amd64",
+    "repo_digests": [
+      "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db"
+    ],
+    "repo_tags": [
+      "2d8ru/struts2:latest"
+    ],
+    "requested_reference": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "selected_digest": "2d8ru/struts2@sha256:7aa386b4b606bec5f6a7f015bab6bd1cc84169beadb2a632b6939e6e703e47db",
+    "source_kind": "LOCAL_EXISTING"
+  },
+  "summary": {
+    "actions": 8,
+    "intended_cves": 2,
+    "waiting_actions": 8
+  }
+}

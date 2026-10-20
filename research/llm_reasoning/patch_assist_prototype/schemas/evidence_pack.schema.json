@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "kalama.patch-assist-prototype/evidence-pack/v1",
+  "$title": "EvidencePack",
+  "description": "Frozen, auditable, self-contained research Evidence Pack. The only input ROLE A (Agent) may see.",
+  "type": "object",
+  "required": ["schema", "experiment_id", "run_id", "action_id", "candidate_identity", "evidence_level", "evidence_sufficiency", "scanner_evidence", "runtime_evidence", "source_graph_summary", "source_references", "missing_evidence", "pack_sha256", "created_at"],
+  "properties": {
+    "schema": {"const": "kalama.patch-assist-prototype/evidence-pack/v1"},
+    "experiment_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "action_id": {"type": "string"},
+    "candidate_identity": {
+      "type": "object",
+      "required": ["run_id", "action_id", "cve_id", "package_name", "ecosystem", "installed_version", "image_identity", "target_identity", "phase"],
+      "properties": {
+        "run_id": {"type": "string"},
+        "action_id": {"type": "string"},
+        "cve_id": {"type": "string"},
+        "package_name": {"type": "string"},
+        "component": {"type": ["string", "null"]},
+        "ecosystem": {"type": "string"},
+        "installed_version": {"type": "string"},
+        "image_identity": {"type": "string"},
+        "target_identity": {"type": "string"},
+        "container_identity": {"type": ["string", "null"]},
+        "phase": {"type": "string"}
+      }
+    },
+    "evidence_level": {
+      "type": "object",
+      "required": ["satisfied_levels", "missing_levels"],
+      "properties": {
+        "satisfied_levels": {"type": "array", "items": {"type": "string", "enum": ["L0", "L1", "L2", "L3", "L4", "L5"]}},
+        "missing_levels": {"type": "array", "items": {"type": "string", "enum": ["L0", "L1", "L2", "L3", "L4", "L5"]}}
+      }
+    },
+    "evidence_sufficiency": {
+      "type": "object",
+      "description": "Deterministic capability gates computed by policy from satisfied_levels + retrieved evidence. Agent cannot override.",
+      "required": ["version_recommendation", "artifact_provenance", "artifact_integrity", "dependency_closure", "patch_strategy", "command", "validation_command"],
+      "properties": {
+        "version_recommendation": {"type": "string", "enum": ["SUPPORTED", "PARTIAL", "INSUFFICIENT"]},
+        "artifact_provenance": {"type": "string", "enum": ["SUPPORTED", "PARTIAL", "INSUFFICIENT"]},
+        "artifact_integrity": {"type": "string", "enum": ["SUPPORTED", "PARTIAL", "INSUFFICIENT"]},
+        "dependency_closure": {"type": "string", "enum": ["SUPPORTED", "PARTIAL", "INSUFFICIENT"]},
+        "patch_strategy": {"type": "string", "enum": ["SUPPORTED", "PARTIAL", "INSUFFICIENT"]},
+        "command": {"type": "string", "enum": ["SUPPORTED", "INSUFFICIENT"]},
+        "validation_command": {"type": "string", "enum": ["SUPPORTED", "INSUFFICIENT"]}
+      }
+    },
+    "scanner_evidence": {"type": "object", "description": "Frozen scanner finding: CVE, package, installed/fixed versions, path, references."},
+    "runtime_evidence": {"type": "object", "description": "Frozen runtime inventory: image/container identity, paths, local hashes, deployment layout."},
+    "advisory_evidence": {"type": ["object", "null"]},
+    "package_registry_evidence": {"type": ["object", "null"]},
+    "upstream_documentation": {"type": ["object", "null"]},
+    "runtime_documentation": {"type": ["object", "null"]},
+    "artifact_evidence": {"type": ["object", "null"]},
+    "dependency_evidence": {"type": ["object", "null"]},
+    "source_graph_summary": {
+      "type": "object",
+      "required": ["source_count", "retrieved_count", "fetch_failed_count", "rejected_count", "valid"],
+      "properties": {
+        "source_count": {"type": "integer"},
+        "retrieved_count": {"type": "integer"},
+        "fetch_failed_count": {"type": "integer"},
+        "rejected_count": {"type": "integer"},
+        "valid": {"type": "boolean"}
+      }
+    },
+    "source_references": {"type": "array", "items": {"type": "object"}},
+    "missing_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "missing", "impact"],
+        "properties": {
+          "code": {"type": "string"},
+          "missing": {"type": "array", "items": {"type": "string"}},
+          "evidence": {"type": "array", "items": {"type": "string"}},
+          "impact": {"type": "string"}
+        }
+      }
+    },
+    "pack_sha256": {"type": "string"},
+    "created_at": {"type": "string"}
+  }
+}

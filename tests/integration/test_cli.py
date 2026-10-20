@@ -118,7 +118,7 @@ class CLITests(unittest.TestCase):
         code, out, _ = self.invoke(["continue", "aB3x9"], runtime)
         self.assertEqual(code, 0)
         self.assertEqual(runtime.calls, [])
-        self.assertIn("submit-attack-form aB3x9 FILE", out)
+        self.assertIn("submit-attack-form aB3x9 EDITED_COPY.yaml", out)
 
     def test_submissions_pass_exact_paths(self):
         boundary(self.store, PipelineStage.STEP_4_RESOLVER)

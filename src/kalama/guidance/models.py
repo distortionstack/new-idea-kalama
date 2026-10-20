@@ -50,15 +50,24 @@ class GuidanceOutcome:
     validation_state: ProposalValidationState = ProposalValidationState.INSUFFICIENT_EVIDENCE
     accepted: Mapping[str, Any] = None  # type: ignore[assignment]
     issues: tuple[str, ...] = ()
+    # Task 4B: in-memory link to the exact Task 2/3 EvidenceCollector pack
+    # consumed for this field-level call.  It is intentionally excluded from
+    # the serialized artifact; the artifact carries the pack sha instead.
+    field_evidence_pack: Any = None
 
     def __post_init__(self):
         if self.accepted is None:
             object.__setattr__(self, "accepted", {})
 
     def to_dict(self) -> dict[str, Any]:
+        document = self.evidence_pack.document
         return {"cve_id": self.cve_id,
-                "evidence_pack": dict(self.evidence_pack.document),
+                "evidence_pack": dict(document),
                 "evidence_pack_sha256": self.evidence_pack.sha256,
+                # Task 4C audit trail: exact bindings the proposal had to echo.
+                "candidate_digest": document.get("candidate_digest"),
+                "field_evidence_sha256": document.get("field_evidence_sha256"),
+                "allowed_proposal_fields": list(document.get("allowed_proposal_fields", [])),
                 "provider_status": self.provider_status, "provider": self.provider,
                 "model": self.model, "elapsed_seconds": self.elapsed_seconds,
                 "proposal": dict(self.raw_proposal) if self.raw_proposal else None,

