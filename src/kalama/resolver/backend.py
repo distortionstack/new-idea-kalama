@@ -23,6 +23,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 
 import yaml  # batch/review file I/O and ground-truth reads (draft_config.py)
 
@@ -40,7 +41,7 @@ from kalama.resolver.models import DiscoveryStatus
 MSF_METADATA_CACHE = os.path.expanduser("~/.msf4/store/modules_metadata.json")
 
 DEFAULT_MSF_CONTAINER = os.environ.get("MSF_RESOLVER_CONTAINER", "msf-resolver-host")
-MSF_TIMEOUT_SECONDS = 240
+MSF_TIMEOUT_SECONDS = float(os.environ.get("KALAMA_MSF_TIMEOUT_SECONDS", "240"))
 DOCKER_TIMEOUT_SECONDS = 20
 JSON_SENTINEL_START = "===KALAMA_RESOLVER_JSON_START==="
 JSON_SENTINEL_END = "===KALAMA_RESOLVER_JSON_END==="
@@ -57,6 +58,25 @@ def _positive_timeout(seconds, *, operation):
     if value <= 0:
         raise RuntimeError(f"{operation} deadline expired before subprocess invocation")
     return value
+
+
+def _cleanup_msf_operation(container, script_path):
+    """Terminate only msfconsole processes executing this resolver script."""
+    pattern = f"msfconsole.*{script_path}"
+    diagnostics = []
+    for signal_name in ("TERM", "KILL"):
+        try:
+            result = subprocess.run(
+                ["docker", "exec", container, "sh", "-c",
+                 f"pkill -{signal_name} -f {json.dumps(pattern)} 2>/dev/null || true"],
+                capture_output=True, text=True, timeout=DOCKER_TIMEOUT_SECONDS,
+            )
+            diagnostics.append(f"{signal_name}:exit={result.returncode}")
+        except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
+            diagnostics.append(f"{signal_name}:{type(exc).__name__}")
+        if signal_name == "TERM":
+            time.sleep(0.2)
+    return "; ".join(diagnostics)
 
 # Msf::RankingName, mirrored here because modules_metadata.json stores rank
 # as the raw integer, not the string msfconsole displays.
@@ -358,8 +378,11 @@ def find_candidates_via_msfconsole_search(cve_id, container,
         )
     except FileNotFoundError:
         raise RuntimeError("docker not found in PATH. Install Docker or ensure it's on PATH.")
-    except subprocess.TimeoutExpired:
-        raise RuntimeError(f"docker exec msfconsole search timed out (container '{container}').")
+    except subprocess.TimeoutExpired as exc:
+        cleanup = _cleanup_msf_operation(container, f"search cve:{cve_id}")
+        raise RuntimeError(
+            f"docker exec msfconsole search timed out after {MSF_TIMEOUT_SECONDS:.1f}s "
+            f"(container '{container}'; cleanup={cleanup}).") from exc
 
     if proc.returncode != 0:
         raise RuntimeError(
@@ -632,11 +655,12 @@ def query_msfconsole_for_modules(fullnames, container,
         proc = subprocess.run(
             cmd, capture_output=True, text=True, timeout=MSF_TIMEOUT_SECONDS,
         )
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired as exc:
+        cleanup = _cleanup_msf_operation(container, CONTAINER_SCRIPT_PATH)
         raise RuntimeError(
-            f"docker exec msfconsole timed out while extracting module data "
-            f"(container '{container}')."
-        )
+            f"docker exec msfconsole timed out after {MSF_TIMEOUT_SECONDS:.1f}s "
+            f"while extracting module data (container '{container}'; cleanup={cleanup})."
+        ) from exc
     finally:
         subprocess.run(
             ["docker", "exec", container, "rm", "-f", CONTAINER_SCRIPT_PATH],
