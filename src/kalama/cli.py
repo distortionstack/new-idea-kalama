@@ -31,6 +31,9 @@ def build_parser() -> argparse.ArgumentParser:
     ):
         command = sub.add_parser(name, help=help_text)
         command.add_argument("run_id")
+        if name == "continue":
+            command.add_argument("--resolver-cve", default=None,
+                                 help="controlled Resolver scope: one CVE already present in verified Top-30")
     attack = sub.add_parser("submit-attack-form", help="submit an Attack Form snapshot")
     attack.add_argument("run_id")
     attack.add_argument("file", type=Path)
@@ -171,7 +174,10 @@ def main(argv: list[str] | None = None, *, runtime_factory: Callable = build_run
                                      RunStatus.FAILED_FATAL):
                     state = before
                 else:
-                    state = runtime.continue_once(args.run_id)
+                        if args.resolver_cve:
+                            state = runtime.continue_once(args.run_id, resolver_cve=args.resolver_cve)
+                        else:
+                            state = runtime.continue_once(args.run_id)
             elif args.command == "submit-attack-form":
                 state = runtime.submit_attack_form(args.run_id, args.file)
             elif args.command == "submit-patch-form":

@@ -42,11 +42,13 @@ class ImmutableArtifactConflict(ArtifactWriteError):
 
 
 def resolver_artifact(analysis: Step4Analysis, *, run_id: str, created_at: str,
-                      top30_path: str, top30_sha256: str) -> dict[str, Any]:
+                      top30_path: str, top30_sha256: str,
+                      resolver_scope: tuple[str, ...] | None = None) -> dict[str, Any]:
     return {
         "schema": RESOLVER_SCHEMA,
         "artifact": {"run_id": run_id, "phase": "before", "created_at": created_at,
-                     "input_top30": {"path": top30_path, "sha256": top30_sha256}},
+                     "input_top30": {"path": top30_path, "sha256": top30_sha256},
+                     "resolver_scope": list(resolver_scope) if resolver_scope else None},
         "summary": analysis.summary(),
         "cves": [item.to_dict() for item in analysis.cves],
     }

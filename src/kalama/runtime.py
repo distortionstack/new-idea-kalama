@@ -119,7 +119,7 @@ class ProductionRuntime:
                 run_id, edit_plan=edit_plan, force_smoke_failed=force_smoke_failed)
         return self.store.load(run_id)
 
-    def continue_once(self, run_id: str) -> RunState:
+    def continue_once(self, run_id: str, *, resolver_cve: str | None = None) -> RunState:
         state = self.store.load(run_id)
         if state.status != RunStatus.PAUSED:
             return state
@@ -141,6 +141,7 @@ class ProductionRuntime:
             "resolver": lambda: ResolverOrchestrator(
                 self.store,
                 production_step4_processor(resolver_backend(), msf_container="msf-resolver-host"),
+                resolver_scope=(resolver_cve,),
                 guidance_service=self._guidance_service(),
                 knowledge_store=KnowledgeStore(self.store.output_root),
                 evidence_collector_factory=self._evidence_collector_factory(),

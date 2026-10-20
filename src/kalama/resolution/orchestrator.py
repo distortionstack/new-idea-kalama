@@ -52,11 +52,13 @@ def _sha256(path: Path) -> str:
 
 class ResolverOrchestrator:
     def __init__(self, store: StateStore, processor: Step4Processor, *,
+                 resolver_scope: Sequence[str] | None = None,
                  clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
                  guidance_service=None, knowledge_store=None,
                  evidence_collector=None, evidence_collector_factory=None,
                  evidence_config=None):
         self.store, self.processor, self.clock = store, processor, clock
+        self.resolver_scope = tuple(x.upper() for x in (resolver_scope or ()) if x)
         self.guidance_service = guidance_service
         self.knowledge_store = knowledge_store
         self.evidence_collector = evidence_collector
@@ -127,6 +129,11 @@ class ResolverOrchestrator:
                     or meta.get("run_id") != state.run_id or meta.get("phase") != "before"):
                 raise ValueError("schema, run_id, or phase is incompatible")
             inputs = parse_ranked_inputs(document)
+            if self.resolver_scope:
+                scoped = tuple(x for x in inputs if x.cve_id.upper() in self.resolver_scope)
+                if not scoped:
+                    raise ValueError("resolver scope did not match any verified Top-30 CVE")
+                inputs = scoped
         except (OSError, json.JSONDecodeError, ValueError) as exc:
             raise Step4OrchestrationError(
                 IntegrationFailureCode.ARTIFACT_INTEGRITY_ERROR.value,
@@ -218,7 +225,8 @@ class ResolverOrchestrator:
         resolver_path = (self.store.output_root / "resolver" /
                          f"resolver_{date_text}_{run_id}.json")
         artifact = resolver_artifact(analysis, run_id=run_id, created_at=self._now(),
-                                     top30_path=reference.path, top30_sha256=reference.sha256)
+                                     top30_path=reference.path, top30_sha256=reference.sha256,
+                                     resolver_scope=self.resolver_scope or None)
         try:
             resolver_sha = write_resolver_artifact(resolver_path, artifact)
             disk = json.loads(resolver_path.read_bytes())
