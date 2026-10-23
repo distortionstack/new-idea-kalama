@@ -15,10 +15,14 @@ dependencies = [
 test = [
   "pytest>=8",
 ]
+desktop = [
+  "pywebview>=5.0",
+]
 
 [project.scripts]
 kalama = "kalama.cli:main"
 viper = "kalama.cli:main"
+viper-desktop = "kalama.desktop:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -33,3 +37,6 @@ py-modules = [
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["kalama*"]
+
+[tool.setuptools.package-data]
+"kalama.desktop.web" = ["*.html"]
