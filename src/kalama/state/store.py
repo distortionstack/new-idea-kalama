@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from contextlib import closing
 import json
 import os
+import sqlite3
 from pathlib import Path
 import re
 import secrets
@@ -247,6 +249,63 @@ class StateStore:
     def __init__(self, output_root: Path):
         self.output_root = output_root.resolve()
         self.state_dir = self.output_root / "state"
+        self.database_path = self.output_root / "kalama.db"
+        self._database_available = True
+        self._initialize_database()
+
+    def _initialize_database(self) -> None:
+        """Create the local metadata index; JSON remains the canonical export."""
+        self.output_root.mkdir(parents=True, exist_ok=True)
+        try:
+            with closing(sqlite3.connect(self.database_path)) as db:
+                with db:
+                    db.execute("""CREATE TABLE IF NOT EXISTS runs (
+                    run_id TEXT PRIMARY KEY,
+                    image TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    current_stage TEXT,
+                    waiting_reason TEXT,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    state_path TEXT NOT NULL,
+                    state_json TEXT NOT NULL
+                    )""")
+                    db.execute("CREATE INDEX IF NOT EXISTS idx_runs_updated_at ON runs(updated_at DESC)")
+        except sqlite3.OperationalError:
+            # JSON persistence remains usable if a read-only/ephemeral output root
+            # cannot host SQLite (for example, restricted test sandboxes).
+            self._database_available = False
+
+    def _index(self, state: RunState, path: Path) -> None:
+        if not self._database_available:
+            return
+        with closing(sqlite3.connect(self.database_path)) as db:
+            with db:
+                db.execute("""INSERT INTO runs
+                (run_id, image, status, current_stage, waiting_reason, created_at,
+                 updated_at, state_path, state_json)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(run_id) DO UPDATE SET
+                  image=excluded.image, status=excluded.status,
+                  current_stage=excluded.current_stage, waiting_reason=excluded.waiting_reason,
+                  created_at=excluded.created_at, updated_at=excluded.updated_at,
+                  state_path=excluded.state_path, state_json=excluded.state_json""",
+                    (state.run_id, state.victim_image, state.status.value,
+                     state.current_stage.value if state.current_stage else None,
+                     state.waiting_reason, state.created_at, state.updated_at,
+                     str(path), serialize_run_state(state).decode()))
+
+    def _migrate_json_states(self) -> None:
+        if not self._database_available:
+            return
+        if not self.state_dir.exists():
+            return
+        for path in self.state_dir.glob("run_*.json"):
+            try:
+                state = self.load(path)
+                self._index(state, path)
+            except StateStoreError:
+                continue
 
     def path_for(self, run_id: str) -> Path:
         if not RUN_ID_RE.fullmatch(run_id):
@@ -278,6 +337,7 @@ class StateStore:
                 handle.flush()
                 os.fsync(handle.fileno())
             os.replace(temporary, path)
+            self._index(state, path)
             return path
         except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
             if temporary:
@@ -288,9 +348,20 @@ class StateStore:
             raise StateStoreError("STATE_WRITE_ERROR", f"cannot atomically save state: {exc}", path) from exc
 
     def discover(self) -> tuple[RunState, ...]:
-        if not self.state_dir.exists():
-            return ()
-        return tuple(self.load(path) for path in sorted(self.state_dir.glob("run_*.json")))
+        if not self._database_available:
+            if not self.state_dir.exists():
+                return ()
+            return tuple(self.load(path) for path in sorted(self.state_dir.glob("run_*.json")))
+        self._migrate_json_states()
+        with closing(sqlite3.connect(self.database_path)) as db:
+            rows = db.execute("SELECT state_json FROM runs ORDER BY updated_at DESC, run_id").fetchall()
+        states = []
+        for (payload,) in rows:
+            try:
+                states.append(run_state_from_dict(json.loads(payload)))
+            except (TypeError, ValueError, json.JSONDecodeError):
+                continue
+        return tuple(states)
 
     def assert_no_active_run(self) -> None:
         active = [state.run_id for state in self.discover() if state.status == RunStatus.RUNNING]
