@@ -11,6 +11,23 @@ class Base:
     def candidate(self, **kwargs): return self.value
 
 class RemediationKnowledgeTests(unittest.TestCase):
+    def test_lab_note_is_retrievable_but_mismatch_is_not_applied(self):
+        with tempfile.TemporaryDirectory() as root:
+            store=KnowledgeStore(Path(root))
+            store.upsert(KnowledgeRecord("CVE-2017-9805", "org.apache.struts:struts2-rest-plugin",
+                {"package_name":"org.apache.struts:struts2-rest-plugin", "ecosystem":"jar", "installed_version":"2.5.12"},
+                "remediation", {"target_version":"2.5.13", "strategy":"HUMAN_COMMAND"},
+                TrustState.LAB_VALIDATED, "LAB-NOTE:test", {"source":"lab-note"}))
+            p=KnowledgeRemediationProvider(Base(),store)
+            result=p.candidate(package_name="org.apache.struts:struts2-rest-plugin", ecosystem="jar",
+                installed_versions=("2.3.20.1",), scanner_fixed_versions=("2.3.34",),
+                occurrences=({"canonical_cve_id":"CVE-2017-9805", "package_name":"org.apache.struts:struts2-rest-plugin",
+                              "package_purl":"pkg:maven/org.apache.struts/struts2-rest-plugin@2.3.20.1",
+                              "result_type":"jar", "installed_version":"2.3.20.1"},))
+            self.assertIsNotNone(result)
+            self.assertIsNone(result.target_version)
+            self.assertEqual("MISMATCH", result.evidence[-1]["compatibility"])
+
     def test_compatible_validated_fills_only_missing_and_persists(self):
         with tempfile.TemporaryDirectory() as root:
             store=KnowledgeStore(Path(root)); occ={"canonical_cve_id":"CVE-2020-1","package_name":"libx","result_type":"deb","installed_version":"1"}

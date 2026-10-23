@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import Any, Mapping, Sequence
 from .models import FixType, PatchStrategy, RemediationCandidate
-from ..knowledge import retrieve_compatible
+from ..knowledge import retrieve_compatible, retrieve_related
 
 class KnowledgeRemediationProvider:
     def __init__(self, deterministic, store):
@@ -23,6 +23,13 @@ class KnowledgeRemediationProvider:
         context = {"package_purl": first.get("package_purl"), "package_name": first.get("package_name"),
                    "ecosystem": first.get("result_type"), "installed_version": first.get("installed_version")}
         records = retrieve_compatible(self.store, cve_id=cve, component=str(component), kind="remediation", context=context)
+        related = retrieve_related(self.store, cve_id=cve,
+            component_names=(str(first.get("package_name") or ""), str(component)), kind="remediation")
+        if not records and related:
+            return replace(base or RemediationCandidate(), evidence=tuple(base.evidence if base else ()) + tuple({
+                "source": "lab-knowledge", "record_id": r.record_id, "origin_run_id": r.run_id,
+                "compatibility": "MISMATCH", "knowledge_context": dict(r.context),
+                "evidence": dict(r.evidence), "fields": dict(r.fields)} for r in related))
         if not records:
             return base
         record = records[0]

@@ -34,6 +34,7 @@ from .resolution import AttackFormOrchestrator, ResolverOrchestrator, production
 from .guidance import GuidanceService, OllamaConfig, OllamaProvider
 from .config import load_config, load_evidence_config
 from .knowledge import KnowledgeStore
+from .knowledge.lab_notes import import_repository_lab_notes
 from .remediation.knowledge import KnowledgeRemediationProvider
 from .state import RunState, RunStatus, StateStore
 from .target import SubprocessCommandRunner, WorkbenchToolRunner, execute_step2
@@ -65,6 +66,7 @@ class ProductionRuntime:
     def start(self, image: str, *, dynamic_scan: str = "off",
               nuclei_profile: str = "safe-cve-http",
               dynamic_scan_required: bool = False) -> RunState:
+        import_repository_lab_notes(KnowledgeStore(self.store.output_root))
         initial = PrioritizationOrchestrator(
             self.store,
             lambda request: execute_step2(request, self.scanner_runner),
@@ -120,6 +122,7 @@ class ProductionRuntime:
         return self.store.load(run_id)
 
     def continue_once(self, run_id: str, *, resolver_cve: str | None = None) -> RunState:
+        import_repository_lab_notes(KnowledgeStore(self.store.output_root))
         state = self.store.load(run_id)
         if state.status != RunStatus.PAUSED:
             return state

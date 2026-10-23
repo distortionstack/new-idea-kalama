@@ -4,6 +4,7 @@ from enum import Enum
 from typing import Any, Mapping
 
 class TrustState(str, Enum):
+    LAB_VALIDATED = "LAB_VALIDATED"
     OBSERVED = "OBSERVED"
     HUMAN_CONFIRMED = "HUMAN_CONFIRMED"
     VALIDATED = "VALIDATED"

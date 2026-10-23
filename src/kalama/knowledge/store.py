@@ -35,10 +35,11 @@ class KnowledgeStore:
         finally:
             db.close()
         return KnowledgeRecord(**{**record.__dict__, "record_id": row[0]})
-    def candidates(self, cve_id: str, component: str, kind: str):
+    def candidates(self, cve_id: str, component: str, kind: str, *, trusts=(TrustState.VALIDATED,)):
         db = self._connect()
         try:
-            rows = db.execute("SELECT id,context_json,fields_json,trust,run_id,evidence_json FROM knowledge WHERE cve_id=? AND component=? AND kind=? AND trust='VALIDATED' ORDER BY id", (cve_id, component, kind)).fetchall()
+            marks = ",".join("?" for _ in trusts)
+            rows = db.execute(f"SELECT id,context_json,fields_json,trust,run_id,evidence_json FROM knowledge WHERE cve_id=? AND component=? AND kind=? AND trust IN ({marks}) ORDER BY id", (cve_id, component, kind, *[x.value for x in trusts])).fetchall()
         finally:
             db.close()
         return [KnowledgeRecord(cve_id, component, json.loads(x[1]), kind, json.loads(x[2]), TrustState(x[3]), x[4], json.loads(x[5]), x[0]) for x in rows]
