@@ -11,6 +11,8 @@ output/*.db
 venv/
 env/
 .env/
+.env
+.env.local
 
 # Python build and packaging artifacts
 build/

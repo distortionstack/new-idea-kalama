@@ -46,6 +46,7 @@ def target_facts_from_state(run_id: str, raw: Mapping[str, Any]) -> TargetFacts:
             x.container_port, x.protocol, x.host_port or 0))),
         exposed_ports=tuple(sorted(exposed, key=lambda x: (x.port, x.protocol))),
         reachable_ports=tuple(sorted(reachable, key=lambda x: (x.port, x.protocol))),
+        platform=raw.get("platform") if isinstance(raw.get("platform"), str) else None,
     )
 
 

@@ -161,7 +161,19 @@ def attack_form(analysis: Step4Analysis, *, run_id: str, revision: int = 1,
                 guidance_by_cve: Mapping[str, Mapping[str, Any]] | None = None) -> dict[str, Any]:
     cves = {}
     for item in analysis.cves:
-        if item.status == ResolverCVEStatus.WAITING_FOR_USER_INPUT:
+        if item.status in (ResolverCVEStatus.WAITING_FOR_USER_INPUT,
+                           ResolverCVEStatus.UNRESOLVED_CONFIG):
+            config = item.exploit_config
+            module = None
+            if config is not None:
+                module = (config.invariant.module_selection.module.value
+                          or config.invariant.module_selection.module.suggested_value)
+            # Attack Forms may represent either an exploit action or an
+            # auxiliary vulnerability-test action.  Auxiliary modules remain
+            # excluded from exploit execution protocol elsewhere; they are
+            # still valid form candidates when their own oracle is supported.
+            if not isinstance(module, str) or not module.startswith(("exploit/", "auxiliary/")):
+                continue
             cves[item.input.cve_id] = _form_cve(
                 item, (guidance_by_cve or {}).get(item.input.cve_id))
     return {"schema": ATTACK_FORM_SCHEMA, "run_id": run_id, "phase": "before",

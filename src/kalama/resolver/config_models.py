@@ -38,8 +38,21 @@ class EnvironmentPhase(str, Enum):
 
 class ConfigReadiness(str, Enum):
     UNRESOLVED = "UNRESOLVED"
+    UNKNOWN = "UNKNOWN"
+    INCOMPATIBLE = "INCOMPATIBLE"
     READY_FOR_CONFIRMATION = "READY_FOR_CONFIRMATION"
     READY_TO_EXECUTE = "READY_TO_EXECUTE"
+
+
+class FieldResolutionStatus(str, Enum):
+    """Deterministic evidence status for an Attack Form field."""
+
+    CONFIRMED = "CONFIRMED"
+    SUGGESTED = "SUGGESTED"
+    USER_SKIP = "USER_SKIP"
+    NOT_APPLICABLE = "NOT_APPLICABLE"
+    INCOMPATIBLE = "INCOMPATIBLE"
+    UNKNOWN = "UNKNOWN"
 
 
 class ConfigInputReason(str, Enum):
@@ -57,6 +70,8 @@ class ConfigInputReason(str, Enum):
     EXECUTION_PROTOCOL_REQUIRED = "EXECUTION_PROTOCOL_REQUIRED"
     ENVIRONMENT_RHOSTS_REQUIRED = "ENVIRONMENT_RHOSTS_REQUIRED"
     ENVIRONMENT_RPORT_REQUIRED = "ENVIRONMENT_RPORT_REQUIRED"
+    EXECUTION_CONTEXT_UNKNOWN = "EXECUTION_CONTEXT_UNKNOWN"
+    TARGET_PLATFORM_UNKNOWN = "TARGET_PLATFORM_UNKNOWN"
 
 
 @dataclass(frozen=True)
@@ -246,6 +261,7 @@ class EnvironmentBinding:
     rport: ExploitValue = ExploitValue(required=False)
     lhost: ExploitValue = ExploitValue(required=False)
     port_binding_source: str | None = None
+    platform: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -262,6 +278,7 @@ class EnvironmentBinding:
             "rport": self.rport.to_dict(),
             "lhost": self.lhost.to_dict(),
             "port_binding_source": self.port_binding_source,
+            "platform": self.platform,
         }
 
 
@@ -290,11 +307,28 @@ class InvariantExploitConfiguration:
 
 
 @dataclass(frozen=True)
+class ConfirmationProvenance:
+    """Optional human approval metadata; never an execution result."""
+
+    status: str = "UNRESOLVED"
+    module: str | None = None
+    user: str | None = None
+    timestamp: str | None = None
+    run_id: str | None = None
+    scope: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"status": self.status, "module": self.module, "user": self.user,
+                "timestamp": self.timestamp, "run_id": self.run_id, "scope": self.scope}
+
+
+@dataclass(frozen=True)
 class ExploitConfig:
     cve_id: str
     invariant: InvariantExploitConfiguration
     environment: EnvironmentBinding
     readiness: ConfigReadiness = ConfigReadiness.UNRESOLVED
+    confirmation: ConfirmationProvenance = ConfirmationProvenance()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -302,6 +336,7 @@ class ExploitConfig:
             "readiness": self.readiness.value,
             "invariant": self.invariant.to_dict(),
             "environment": self.environment.to_dict(),
+            "confirmation": self.confirmation.to_dict(),
         }
 
 

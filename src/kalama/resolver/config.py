@@ -196,12 +196,14 @@ def _build_module_options(
 def _build_execution_protocol(candidate: ModuleCandidate | None) -> ExecutionProtocol:
     if candidate is None:
         return ExecutionProtocol(False, False, False, False)
-    # Intended-protocol suggestion only, never an oracle result. Check-capable
-    # modules begin check-only; modules without check support propose exploit.
+    # ``check_supported`` describes a capability, not the requested execution
+    # mode.  Exploit validation remains available for every exploit module;
+    # auxiliary modules are outside the Exploit Attack Form path.
+    is_exploit = candidate.module_path.startswith("exploit/")
     return ExecutionProtocol(
         check_supported=candidate.check_supported,
         run_check=candidate.check_supported,
-        run_exploit=not candidate.check_supported,
+        run_exploit=is_exploit,
         session_confirmation_expected=False,
         confirmation_status=ConfirmationStatus.SUGGESTED,
     )
@@ -300,12 +302,14 @@ def _build_environment_binding(
         rport=rport,
         lhost=lhost,
         port_binding_source=port_source,
+        platform=target_facts.platform,
     )
 
 
 def validate_exploit_config(config: ExploitConfig) -> ConfigValidationResult:
     """Return structured readiness issues without performing external calls."""
     issues: list[ConfigValidationIssue] = []
+    unknown_prerequisites = False
     invariant = config.invariant
     selection = invariant.module_selection
 
@@ -374,7 +378,8 @@ def validate_exploit_config(config: ExploitConfig) -> ConfigValidationResult:
         ))
 
     protocol = invariant.execution_protocol
-    if not protocol.confirmed or not (protocol.run_check or protocol.run_exploit):
+    auxiliary_module = (selection.module.value or selection.module.suggested_value or "").startswith("auxiliary/")
+    if not protocol.confirmed or not (protocol.run_check or protocol.run_exploit or auxiliary_module):
         issues.append(ConfigValidationIssue(
             ConfigInputReason.EXECUTION_PROTOCOL_REQUIRED,
             "invariant.execution_protocol",
@@ -382,6 +387,42 @@ def validate_exploit_config(config: ExploitConfig) -> ConfigValidationResult:
         ))
 
     module_path = selection.module.value or selection.module.suggested_value or ""
+    selected_candidate = next(
+        (ranked.candidate for ranked in selection.ranking.ranked_candidates
+         if ranked.candidate.module_path == module_path),
+        None,
+    )
+    if selected_candidate is not None and selected_candidate.platform:
+        target_platform = config.environment.platform
+        target_os = target_platform.split("/", 1)[0].casefold() if target_platform else None
+        supported = {value.casefold() for value in selected_candidate.platform}
+        compatible = target_os is not None and (
+            target_os in supported or (target_os == "linux" and "unix" in supported)
+        )
+        if not compatible:
+            unknown_prerequisites = True
+            detail = (
+                "target image OS/architecture evidence is unavailable"
+                if target_os is None else
+                f"target platform {target_platform!r} is not compatible with module platforms "
+                f"{list(selected_candidate.platform)!r}"
+            )
+            issues.append(ConfigValidationIssue(
+                ConfigInputReason.TARGET_PLATFORM_UNKNOWN,
+                "target.platform",
+                detail,
+            ))
+    if module_path.startswith("exploit/") and "/local/" in module_path:
+        # Persisted TargetFacts carry container/image/port identity, but do not
+        # carry a local Metasploit session, session type, host-kernel identity,
+        # or module-specific local prerequisites.  Package presence alone is
+        # deliberately not treated as proof of exploit applicability.
+        unknown_prerequisites = True
+        issues.append(ConfigValidationIssue(
+            ConfigInputReason.EXECUTION_CONTEXT_UNKNOWN,
+            "invariant.execution_protocol",
+            "local exploit session, kernel relationship, and module prerequisites are not evidenced",
+        ))
     requires_payload = protocol.run_exploit and not module_path.startswith("auxiliary/")
     if requires_payload and not invariant.payload.payload.confirmed:
         issues.append(ConfigValidationIssue(
@@ -411,7 +452,9 @@ def validate_exploit_config(config: ExploitConfig) -> ConfigValidationResult:
             "required pre-attack command has not been confirmed",
         ))
 
-    if not issues:
+    if unknown_prerequisites:
+        readiness = ConfigReadiness.UNKNOWN
+    elif not issues:
         readiness = ConfigReadiness.READY_TO_EXECUTE
     elif selection.module.suggested_value is not None or selection.module.value is not None:
         readiness = ConfigReadiness.READY_FOR_CONFIRMATION

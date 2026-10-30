@@ -190,7 +190,7 @@ class BeforeExploitOrchestrator:
                 summaries.append(CVEStateSummary(cve_id, rank, "INCONCLUSIVE"))
 
         counts = {name: sum(x.resolver_status == name for x in summaries) for name in (
-            "EXPLOIT_SUCCEEDED", "EXPLOIT_FAILED", "CHECK_ONLY", "INCONCLUSIVE",
+            "EXPLOIT_SUCCEEDED", "USER_CONFIRMED_IMPACT", "EXPLOIT_FAILED", "CHECK_ONLY", "INCONCLUSIVE",
             "NOT_EXECUTED", "USER_SKIPPED", "NO_MSF_MODULE", "ENVIRONMENT_ERROR")}
         attack = {"schema": ATTACK_RESULT_SCHEMA,
                   "artifact": {"run_id": run_id, "phase": "before",

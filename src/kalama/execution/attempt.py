@@ -11,7 +11,7 @@ from kalama.resolver.config import validate_exploit_config
 
 from .executor import (
     EnvironmentValidator, LabCommandExecutor, MetasploitExecutor,
-    build_execution_plan, validate_committed_environment,
+    build_execution_plan, extract_auxiliary_impact, validate_committed_environment,
 )
 from .models import (
     CheckEvidence, CheckVerdict, CommandEvidence, ImpactEvidence,
@@ -185,7 +185,9 @@ def execute_attempt(*, run_id: str, phase: str, rank: int, config,
                 if value.state != OperationState.EXECUTED:
                     prerequisites_ok, issue = False, "PRE_ATTACK_FAILED"
         baseline = None
-        if prerequisites_ok and plan.run_exploit:
+        is_auxiliary = plan.module.startswith("auxiliary/")
+        action_required = plan.run_exploit or is_auxiliary
+        if prerequisites_ok and action_required and not is_auxiliary:
             probe_path = _filesystem_probe(plan)
             if probe_path is not None:
                 probe_before = _probe_marker(lab_commands, probe_path, timeout=command_timeout)
@@ -206,7 +208,7 @@ def execute_attempt(*, run_id: str, phase: str, rank: int, config,
             systemic = exploit.state == OperationState.BACKEND_ERROR
         else:
             baseline = metasploit.sessions(timeout=session_timeout) if (
-                prerequisites_ok and plan.run_exploit) else None
+                prerequisites_ok and action_required and not is_auxiliary) else None
             if prerequisites_ok and plan.run_check:
                 check = metasploit.check(plan, timeout=operation_timeout)
                 systemic = check.operation.state == OperationState.BACKEND_ERROR
@@ -221,6 +223,16 @@ def execute_attempt(*, run_id: str, phase: str, rank: int, config,
                 else:
                     sessions = SessionEvidence(SessionCollectionStatus.UNKNOWN,
                         error=(post.error or baseline.error if baseline is not None else post.error))
+            if prerequisites_ok and is_auxiliary:
+                auxiliary = getattr(metasploit, "auxiliary", None)
+                if callable(auxiliary):
+                    exploit = auxiliary(plan, timeout=operation_timeout)
+                    impact = extract_auxiliary_impact(
+                        stdout=exploit.stdout, stderr=exploit.stderr,
+                        operation_state=exploit.state)
+                else:
+                    impact = ImpactEvidence(ImpactEvidenceStatus.UNKNOWN,
+                                            basis="AUXILIARY_EXECUTOR_UNSUPPORTED")
 
         if prerequisites_ok and plan.run_exploit and probe_path is not None and probe_before is not None:
             probe_after = _probe_marker(lab_commands, probe_path, timeout=command_timeout)
@@ -231,15 +243,31 @@ def execute_attempt(*, run_id: str, phase: str, rank: int, config,
                 impact = filesystem_impact
 
     protocol = config.invariant.execution_protocol
+    module_type = "auxiliary" if plan is not None and plan.module.startswith("auxiliary/") else "exploit"
     oracle = classify_oracle(config_ready=validation.ready, environment=environment,
         run_check=protocol.run_check, run_exploit=protocol.run_exploit,
         prerequisites_ok=prerequisites_ok, check=check, exploit=exploit, sessions=sessions,
-        impact=impact)
+        impact=impact, module_type=module_type)
     disposition = "INCONCLUSIVE"
-    if oracle.verdict == OracleVerdict.VULNERABLE:
-        disposition = "EXPLOIT_SUCCEEDED" if protocol.run_exploit else "CHECK_ONLY"
+    user_confirmed_impact = (
+        phase == "before"
+        and module_type == "auxiliary"
+        and getattr(config, "confirmation", None) is not None
+        and config.confirmation.status == "USER_CONFIRMED"
+        and exploit.state == OperationState.EXECUTED
+    )
+    if user_confirmed_impact:
+        disposition = "USER_CONFIRMED_IMPACT"
+    if user_confirmed_impact:
+        pass
+    elif oracle.verdict == OracleVerdict.VULNERABLE:
+        disposition = ("EXPLOIT_SUCCEEDED"
+                       if protocol.run_exploit or module_type == "auxiliary"
+                       else "CHECK_ONLY")
     elif oracle.verdict == OracleVerdict.NOT_VULNERABLE:
-        disposition = "EXPLOIT_FAILED" if protocol.run_exploit else "CHECK_ONLY"
+        disposition = ("EXPLOIT_FAILED"
+                       if protocol.run_exploit or module_type == "auxiliary"
+                       else "CHECK_ONLY")
     elif issue and (issue.startswith("ENVIRONMENT") or issue in {
             "TARGET_BINDING_MISMATCH", "AFTER_RPORT_UNRESOLVED", "AFTER_LHOST_UNRESOLVED"}):
         disposition = "AFTER_ENVIRONMENT_UNRESOLVED" if phase == "after" else "ENVIRONMENT_ERROR"

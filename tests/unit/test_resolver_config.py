@@ -191,12 +191,15 @@ class CanonicalExploitConfigTests(unittest.TestCase):
         self.assertEqual(target.target_name.suggested_value, "Automatic")
         self.assertFalse(target.target_index.confirmed)
 
-    def test_exploit_protocol_requires_payload_but_confirmed_check_only_does_not(self):
+    def test_exploit_protocol_keeps_exploit_path_when_check_is_supported(self):
         _, _, _, exploit_config = build((module("exploit/no_check", check=False),))
         self.assertTrue(exploit_config.invariant.execution_protocol.run_exploit)
         self.assertIn(ConfigInputReason.PAYLOAD_SELECTION_REQUIRED, issue_reasons(exploit_config))
 
         _, _, _, check_config = build((module("exploit/check", check=True),))
+        self.assertTrue(check_config.invariant.execution_protocol.check_supported)
+        self.assertTrue(check_config.invariant.execution_protocol.run_check)
+        self.assertTrue(check_config.invariant.execution_protocol.run_exploit)
         confirmed_protocol = replace(
             check_config.invariant.execution_protocol,
             confirmation_status=ConfirmationStatus.HUMAN_CONFIRMED,
@@ -207,9 +210,44 @@ class CanonicalExploitConfigTests(unittest.TestCase):
         )
         check_config = replace(check_config, invariant=confirmed_invariant)
         reasons = issue_reasons(check_config)
-        self.assertNotIn(ConfigInputReason.PAYLOAD_SELECTION_REQUIRED, reasons)
-        self.assertTrue(validate_exploit_config(check_config).ready)
-        self.assertEqual(validate_exploit_config(check_config).readiness, ConfigReadiness.READY_TO_EXECUTE)
+        self.assertIn(ConfigInputReason.PAYLOAD_SELECTION_REQUIRED, reasons)
+        self.assertFalse(validate_exploit_config(check_config).ready)
+
+    def test_auxiliary_module_does_not_require_payload_for_exploit_path(self):
+        _, _, _, config = build((module("auxiliary/scanner/http/example", check=False),))
+        protocol = config.invariant.execution_protocol
+        self.assertFalse(protocol.run_check)
+        self.assertFalse(protocol.run_exploit)
+        self.assertFalse(config.invariant.payload.payload.required)
+        self.assertNotIn(ConfigInputReason.PAYLOAD_SELECTION_REQUIRED, issue_reasons(config))
+
+    def test_local_exploit_without_session_context_is_unknown(self):
+        options = (
+            ModuleOption("SESSION", "integer", True, -1),
+            ModuleOption("WritableDir", "string", True, "/tmp"),
+        )
+        _, _, _, config = build((module(
+            "exploit/linux/local/ptrace_traceme_pkexec_helper",
+            check=True, options=options),))
+        validation = validate_exploit_config(config)
+        self.assertFalse(validation.ready)
+        self.assertEqual(validation.readiness, ConfigReadiness.UNKNOWN)
+        self.assertIn(ConfigInputReason.EXECUTION_CONTEXT_UNKNOWN, issue_reasons(config))
+
+    def test_persisted_linux_platform_satisfies_linux_module_compatibility(self):
+        facts = TargetFacts(platform="linux/amd64")
+        candidate = replace(module("exploit/linux/http/example"), platform=("Linux", "Unix"))
+        _, _, _, config = build((candidate,), facts)
+
+        self.assertEqual(config.environment.platform, "linux/amd64")
+        self.assertNotIn(ConfigInputReason.TARGET_PLATFORM_UNKNOWN, issue_reasons(config))
+
+    def test_platform_mismatch_remains_unknown(self):
+        facts = TargetFacts(platform="windows/amd64")
+        candidate = replace(module("exploit/linux/http/example"), platform=("Linux",))
+        _, _, _, config = build((candidate,), facts)
+
+        self.assertIn(ConfigInputReason.TARGET_PLATFORM_UNKNOWN, issue_reasons(config))
 
     def test_payload_option_precondition_and_pre_attack_models_validate(self):
         _, _, _, config = build((module("exploit/no_check", check=False),))

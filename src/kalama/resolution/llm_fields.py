@@ -15,7 +15,8 @@ auto-submits a form, or executes an exploit.
 
 from __future__ import annotations
 
-from typing import Any, Callable, Mapping, Sequence
+import inspect
+from typing import Any, Callable, Mapping, MutableSequence, Sequence
 
 from ..evidence import (
     CandidateContext,
@@ -42,6 +43,25 @@ from ..evidence.sources import (
 
 LLM_ELIGIBLE_FIELDS: tuple[str, ...] = ("target", "targeturi", "rport", "payload")
 _ELIGIBLE_SET = frozenset(LLM_ELIGIBLE_FIELDS)
+
+
+def _evidence_source_config(config: Any | None) -> EvidenceSourceConfig:
+    """Normalize runtime configuration to the Evidence policy contract.
+
+    ``kalama.config.EvidenceConfig`` intentionally only carries switches,
+    while the evidence package owns the policy object with ``enabled()``.
+    Keep both public configurations compatible without relying on duck typing.
+    """
+    if config is None:
+        return EvidenceSourceConfig()
+    if isinstance(config, EvidenceSourceConfig):
+        return config
+    fields = EvidenceSourceConfig.__dataclass_fields__
+    return EvidenceSourceConfig(**{
+        name: getattr(config, name)
+        for name in fields
+        if hasattr(config, name)
+    })
 
 
 def deterministic_resolved(item: Any) -> dict[str, Any]:
@@ -244,7 +264,7 @@ def build_production_collector(
     disabled, no web search).  External adapters are instantiated disabled
     so the shared EvidenceCache/policy path is exercised without network.
     """
-    config = evidence_config if evidence_config is not None else EvidenceSourceConfig()
+    config = _evidence_source_config(evidence_config)
     policy = SourcePolicy(config)
     facts = dict(target_facts or {})
     occurrences_list = [dict(x) for x in (occurrences or ()) if isinstance(x, Mapping)]
@@ -275,8 +295,52 @@ def build_production_collector(
 
 
 def default_enabled_sources(evidence_config: EvidenceSourceConfig | None = None) -> frozenset[SourceKind]:
-    config = evidence_config if evidence_config is not None else EvidenceSourceConfig()
-    return config.enabled()
+    return _evidence_source_config(evidence_config).enabled()
+
+
+def _collector_from_factory(
+    factory: Callable[..., Any],
+    *,
+    knowledge_store: Any,
+    target_facts: Mapping[str, Any],
+    occurrences: Sequence[Mapping[str, Any]],
+    candidates_by_cve: Mapping[str, Any],
+) -> Any:
+    """Call a collector factory with live Resolver context when it accepts it.
+
+    Older zero-argument factories remain supported.  Signature binding happens
+    before invocation, so a ``TypeError`` raised *inside* a factory is not
+    misclassified as an old signature and is allowed to reach the caller.
+    """
+    supplied = {
+        "knowledge_store": knowledge_store,
+        "target_facts": target_facts,
+        "occurrences": occurrences,
+        "candidates_by_cve": candidates_by_cve,
+    }
+    try:
+        signature = inspect.signature(factory)
+    except (TypeError, ValueError) as exc:
+        raise TypeError("EVIDENCE_COLLECTOR_FACTORY_SIGNATURE_UNAVAILABLE") from exc
+    parameters = signature.parameters
+    accepts_var_kwargs = any(
+        parameter.kind is inspect.Parameter.VAR_KEYWORD
+        for parameter in parameters.values()
+    )
+    kwargs = (supplied if accepts_var_kwargs else
+              {key: value for key, value in supplied.items() if key in parameters})
+    try:
+        signature.bind(**kwargs)
+    except TypeError as contextual_error:
+        try:
+            signature.bind()
+        except TypeError as zero_argument_error:
+            raise TypeError(
+                "EVIDENCE_COLLECTOR_FACTORY_INCOMPATIBLE: "
+                "factory accepts neither live Resolver context nor zero arguments"
+            ) from zero_argument_error
+        return factory()
+    return factory(**kwargs)
 
 
 def schedule_field_guidance(
@@ -290,6 +354,7 @@ def schedule_field_guidance(
     evidence_config: EvidenceSourceConfig | None = None,
     knowledge_store: Any = None,
     output_root: Any = None,
+    diagnostics: MutableSequence[dict[str, Any]] | None = None,
 ) -> tuple[Any, ...]:
     """Schedule per-candidate field LLM assistance on the production path.
 
@@ -328,6 +393,9 @@ def schedule_field_guidance(
                 continue
 
     outcomes: list[Any] = []
+    def skipped(cve_id: str, fields: Sequence[str] = (), *, reason: str) -> None:
+        if diagnostics is not None:
+            diagnostics.append({"cve_id": cve_id, "fields": list(fields), "reason": reason})
     for item in cves:
         try:
             cve_id = item.input.cve_id
@@ -343,8 +411,10 @@ def schedule_field_guidance(
             from ..resolution.models import ResolverCVEStatus
 
             if item.status != ResolverCVEStatus.WAITING_FOR_USER_INPUT:
+                skipped(cve_id, reason=f"CVE_STATUS_{item.status.value}")
                 continue
             if item.exploit_config is None or item.validation is None or item.discovery is None:
+                skipped(cve_id, reason="RESOLVER_CONFIGURATION_INCOMPLETE")
                 continue
         except Exception:
             continue
@@ -353,8 +423,10 @@ def schedule_field_guidance(
                 item, (knowledge_guidance or {}).get(cve_id)
             )
         except Exception:
+            skipped(cve_id, reason="FIELD_RESOLUTION_ERROR")
             continue
         if not unresolved:
+            skipped(cve_id, reason="NO_UNRESOLVED_ELIGIBLE_FIELDS")
             continue
         try:
             context = build_candidate_context(
@@ -362,8 +434,10 @@ def schedule_field_guidance(
                 target_facts,
             )
         except Exception:
+            skipped(cve_id, unresolved, reason="CANDIDATE_CONTEXT_ERROR")
             continue
         if context is None:
+            skipped(cve_id, unresolved, reason="NO_STABLE_COMPONENT_IDENTITY")
             continue
         try:
             request = build_field_request(
@@ -373,19 +447,18 @@ def schedule_field_guidance(
                 enabled_sources=default_enabled_sources(evidence_config),
             )
         except Exception:
+            skipped(cve_id, unresolved, reason="FIELD_REQUEST_ERROR")
             continue
         try:
             active = shared
             if active is None and factory is not None:
-                try:
-                    active = factory()
-                except TypeError:
-                    active = factory(
-                        knowledge_store=knowledge_store,
-                        target_facts=target_facts,
-                        occurrences=occurrences_all,
-                        candidates_by_cve=candidates_by_cve,
-                    )
+                active = _collector_from_factory(
+                    factory,
+                    knowledge_store=knowledge_store,
+                    target_facts=target_facts,
+                    occurrences=occurrences_all,
+                    candidates_by_cve=candidates_by_cve,
+                )
             if active is None:
                 active = build_production_collector(
                     knowledge_store=knowledge_store,
@@ -395,18 +468,22 @@ def schedule_field_guidance(
                     output_root=output_root,
                     evidence_config=evidence_config,
                 )
-        except Exception:
+        except Exception as exc:
+            skipped(cve_id, unresolved, reason=f"COLLECTOR_SETUP_ERROR:{type(exc).__name__}")
             continue
         try:
             collection = active.collect(request)
-        except Exception:
+        except Exception as exc:
+            skipped(cve_id, unresolved, reason=f"EVIDENCE_COLLECTION_ERROR:{type(exc).__name__}")
             continue
         if not has_useful_evidence(collection):
+            skipped(cve_id, unresolved, reason="NO_USEFUL_EVIDENCE")
             continue
         guide_with_pack = getattr(guidance_service, "guide_with_field_pack", None)
         if guide_with_pack is None:
             # Never rebuild an unrelated legacy pack alongside the collected
             # one; without the pack-accepting API there is no safe call.
+            skipped(cve_id, unresolved, reason="GUIDANCE_SERVICE_FIELD_PACK_UNSUPPORTED")
             continue
         try:
             outcome = guide_with_pack(
@@ -416,8 +493,11 @@ def schedule_field_guidance(
                 field_pack=collection.pack,
                 allowed_fields=frozenset(unresolved),
             )
-        except Exception:
+        except Exception as exc:
+            skipped(cve_id, unresolved, reason=f"GUIDANCE_CALL_ERROR:{type(exc).__name__}")
             continue
         if outcome is not None:
             outcomes.append(outcome)
+        else:
+            skipped(cve_id, unresolved, reason="GUIDANCE_NOT_INVOKED")
     return tuple(outcomes)

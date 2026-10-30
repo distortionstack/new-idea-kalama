@@ -9,6 +9,9 @@ from pathlib import Path
 import sys
 import tempfile
 from typing import Sequence
+from urllib.error import HTTPError, URLError
+from urllib.parse import quote
+from urllib.request import Request, urlopen
 
 import yaml
 
@@ -19,7 +22,7 @@ from .dynamic_probe import (
 from .target.models import CommandResult
 from .target.victim_manager import CommandRunner, SubprocessCommandRunner
 from .infrastructure import WORKBENCH_NAME
-from .config import load_config
+from .config import LLMConfig, load_config
 
 
 class CheckStatus(str, Enum):
@@ -95,6 +98,47 @@ def _storage_check(output_root: Path) -> CheckResult:
             except OSError: pass
         return CheckResult("OUTPUT_ROOT", "Storage", "output root writable",
                            CheckStatus.FAIL, True, f"OUTPUT_ROOT_UNWRITABLE: {exc}")
+
+
+def _llm_connection_check(config: LLMConfig, *, opener=None) -> CheckResult:
+    """Verify credentials and model availability without generating content.
+
+    The key is sent only as an authorization header.  It is never placed in a
+    URL, returned message, artifact, or exception diagnostic.
+    """
+    opener = opener or urlopen
+    if config.provider == "openai-compatible":
+        url = config.base_url.rstrip("/") + "/models/" + quote(config.model, safe="")
+        headers = {"Authorization": "Bearer " + (config.api_key or "")}
+    elif config.provider == "ollama":
+        url = config.base_url.rstrip("/") + "/api/tags"
+        headers = {}
+    else:
+        return CheckResult("LLM_CONNECTION", "LLM", "LLM provider connection",
+                           CheckStatus.FAIL, False, "LLM_PROVIDER_UNSUPPORTED")
+    try:
+        request = Request(url, headers=headers, method="GET")
+        with opener(request, timeout=8) as response:
+            payload = response.read(512 * 1024 + 1)
+        if len(payload) > 512 * 1024:
+            raise ValueError("response too large")
+        if config.provider == "ollama":
+            data = yaml.safe_load(payload) or {}
+            models = data.get("models", []) if isinstance(data, dict) else []
+            names = {item.get("name") for item in models if isinstance(item, dict)}
+            if config.model not in names:
+                return CheckResult("LLM_CONNECTION", "LLM", "LLM provider connection",
+                                   CheckStatus.FAIL, False, "LLM_MODEL_NOT_FOUND")
+        return CheckResult("LLM_CONNECTION", "LLM", "LLM provider connection",
+                           CheckStatus.OK, False,
+                           f"CONNECTED provider={config.provider} model={config.model}")
+    except HTTPError as exc:
+        code = "LLM_AUTH_FAILED" if exc.code in {401, 403} else "LLM_MODEL_NOT_FOUND" if exc.code == 404 else "LLM_PROVIDER_HTTP_ERROR"
+        return CheckResult("LLM_CONNECTION", "LLM", "LLM provider connection",
+                           CheckStatus.FAIL, False, f"{code}: HTTP {exc.code}")
+    except (URLError, OSError, ValueError):
+        return CheckResult("LLM_CONNECTION", "LLM", "LLM provider connection",
+                           CheckStatus.FAIL, False, "LLM_CONNECTION_FAILED")
 
 
 def _nuclei_checks(config: NucleiDoctorConfig, runner: CommandRunner) -> list[CheckResult]:
@@ -324,6 +368,7 @@ def run_doctor(output_root: Path, *, runner: CommandRunner | None = None,
     else:
         checks.append(CheckResult("LLM", "LLM", "LLM assistance", CheckStatus.OK, False,
                                   f"READY provider={llm.provider} model={llm.model}"))
+        checks.append(_llm_connection_check(llm))
     if nuclei_config is not None:
         checks.extend(_nuclei_checks(nuclei_config, runner))
     return DoctorReport(tuple(checks))

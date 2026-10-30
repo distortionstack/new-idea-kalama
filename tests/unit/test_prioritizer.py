@@ -262,7 +262,7 @@ class ProviderTests(unittest.TestCase):
         provider = FIRSTEPSSProvider(timeout, max_query_chars=25, timeout=5, retries=1,
                                      total_timeout=8, sleeper=lambda _: None, monotonic=clock)
         records = provider.get_many(["CVE-2020-0001", "CVE-2020-0002"], date(2026, 8, 30))
-        self.assertLessEqual(len(calls), 2)
+        self.assertLessEqual(len(calls), 4)
         self.assertTrue(all(x.state == EvidenceState.LOOKUP_FAILED for x in records.values()))
         self.assertTrue(all(x.score is None for x in records.values()))
 

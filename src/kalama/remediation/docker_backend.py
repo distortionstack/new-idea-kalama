@@ -124,6 +124,18 @@ class DockerPatchBackend:
             return None
         package_arg, version_arg = shlex.quote(package), shlex.quote(version)
         if ecosystem in {"debian", "ubuntu", "deb"}:
+            source_url = action.candidate.source_url if action.candidate else None
+            if isinstance(source_url, str) and source_url.startswith("http://archive.debian.org/debian/"):
+                # Jessie is archived; the disposable patch workspace must not
+                # inherit its source image's retired security/CDN mirrors. Its
+                # Release signing key is also expired, so authentication is
+                # relaxed only for this explicitly confirmed official archive.
+                return ("printf '%s\\n' 'deb http://archive.debian.org/debian/ jessie main' "
+                        "> /etc/apt/sources.list && rm -f /etc/apt/sources.list.d/*.list && "
+                        "apt-get -o Acquire::Check-Valid-Until=false "
+                        "-o Acquire::AllowInsecureRepositories=true update && "
+                        f"apt-get --allow-unauthenticated install -y -- "
+                        f"{package_arg}={version_arg}")
             return f"apt-get update && apt-get install -y -- {package_arg}={version_arg}"
         if ecosystem in {"alpine", "apk"}:
             return f"apk add --no-cache {package_arg}={version_arg}"

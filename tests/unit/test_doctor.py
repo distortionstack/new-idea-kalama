@@ -4,8 +4,10 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+from urllib.error import HTTPError
 
 from kalama.doctor import run_doctor
+from kalama.config import LLMConfig
 from kalama.dynamic_probe import (
     APPROVED_TEMPLATE_MANIFEST_SCHEMA, NucleiDoctorConfig, sha256_file,
     template_tree_sha256,
@@ -110,6 +112,34 @@ class DoctorTests(unittest.TestCase):
         forbidden = {"create", "run", "start", "rm", "pull", "prune", "apt", "pip"}
         for command in runner.calls:
             self.assertTrue(forbidden.isdisjoint(command), command)
+
+    def test_llm_connection_checks_the_configured_model_without_exposing_key(self):
+        class Response:
+            def read(self, _limit): return b'{"id":"gemini-test"}'
+            def __enter__(self): return self
+            def __exit__(self, *_args): return False
+
+        config = LLMConfig(True, "openai-compatible", "gemini-test",
+                           "https://provider.example/v1", "secret-value")
+        with patch("kalama.doctor.load_config", return_value=config), \
+             patch("kalama.doctor.urlopen", return_value=Response()) as opener:
+            report, _ = self.report()
+        check = next(item for item in report.checks if item.check_id == "LLM_CONNECTION")
+        self.assertEqual(check.status.value, "OK")
+        self.assertNotIn("secret-value", check.message)
+        request = opener.call_args.args[0]
+        self.assertEqual(request.full_url, "https://provider.example/v1/models/gemini-test")
+        self.assertNotIn("secret-value", request.full_url)
+
+    def test_llm_connection_reports_auth_failure_without_exposing_key(self):
+        config = LLMConfig(True, "openai-compatible", "gemini-test",
+                           "https://provider.example/v1", "secret-value")
+        error = HTTPError("https://provider.example/v1/models/gemini-test", 401, "", {}, None)
+        with patch("kalama.doctor.load_config", return_value=config), \
+             patch("kalama.doctor.urlopen", side_effect=error):
+            report, _ = self.report()
+        check = next(item for item in report.checks if item.check_id == "LLM_CONNECTION")
+        self.assertEqual(check.message, "LLM_AUTH_FAILED: HTTP 401")
 
     def test_optional_nuclei_preflight_checks_pinned_local_manifest(self):
         with tempfile.TemporaryDirectory() as temporary:

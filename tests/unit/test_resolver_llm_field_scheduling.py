@@ -18,10 +18,12 @@ from kalama.evidence import (
 )
 from kalama.guidance.models import PROPOSAL_SCHEMA
 from kalama.guidance.service import GuidanceService
+from kalama.config import EvidenceConfig as RuntimeEvidenceConfig
 from kalama.resolution.llm_fields import (
     LLM_ELIGIBLE_FIELDS,
     build_candidate_context,
     build_field_request,
+    build_production_collector,
     effective_fields,
 )
 from kalama.resolution.models import RankedCVEInput, ResolverCVEStatus, Step4Analysis
@@ -308,6 +310,91 @@ class FieldSchedulingTests(unittest.TestCase):
         item = analysis.cves[0]
         self.assertEqual(item.status, ResolverCVEStatus.WAITING_FOR_USER_INPUT)
         self.assertIsNotNone(item.exploit_config)
+
+    def test_contextual_factory_receives_live_occurrences_and_candidates(self):
+        """Regression: runtime factories must not silently get an empty context."""
+        analysis = make_analysis()
+        captured = {}
+
+        def items_factory(request):
+            yield EvidenceItem(
+                request.context, SourceKind.MSF_METADATA, "metasploit", "msf-module:test",
+                {"targeturi": "/demo/"}, provenance_ref="msf:test",
+            )
+
+        def factory(*, target_facts, occurrences, candidates_by_cve, knowledge_store=None):
+            captured.update(target_facts=target_facts, occurrences=occurrences,
+                            candidates_by_cve=candidates_by_cve, knowledge_store=knowledge_store)
+            return FakeCollector(items_factory)
+
+        def insufficient(document, sha):
+            return {
+                "schema": PROPOSAL_SCHEMA, "status": "INSUFFICIENT_EVIDENCE",
+                "run_id": "run-4b", "cve_id": CVE, "evidence_pack_sha256": sha,
+                "candidate_digest": document.get("candidate_digest"),
+                "field_evidence_sha256": document.get("field_evidence_sha256"),
+                "proposals": {}, "missing_evidence": [], "guidance_notes": [],
+                "reasoning_summary": "test",
+            }
+
+        provider = FakeProvider(insufficient)
+        diagnostics = []
+        from kalama.resolution.llm_fields import schedule_field_guidance
+        outcomes = schedule_field_guidance(
+            "run-4b", analysis, RAW_TARGET, {}, GuidanceService(provider), factory,
+            knowledge_store="knowledge", diagnostics=diagnostics,
+        )
+        self.assertEqual(len(provider.calls), 1)
+        self.assertEqual(len(outcomes), 1)
+        self.assertEqual(captured["target_facts"], RAW_TARGET)
+        self.assertEqual(tuple(captured["occurrences"]), OCCURRENCES)
+        self.assertIn(CVE, captured["candidates_by_cve"])
+        self.assertEqual(captured["knowledge_store"], "knowledge")
+        self.assertEqual(diagnostics, [])
+
+    def test_production_collector_uses_live_context_from_runtime_factory_contract(self):
+        """The real collector receives the facts, occurrences, and MSF candidate."""
+        analysis = make_analysis()
+        item = analysis.cves[0]
+        context = build_candidate_context("run-4b", CVE, OCCURRENCES, RAW_TARGET)
+        request = build_field_request(context, {}, ("targeturi", "payload"))
+        candidate = item.discovery.candidates[0]
+        collector = build_production_collector(
+            target_facts=RAW_TARGET,
+            occurrences=OCCURRENCES,
+            candidates_by_cve={CVE: candidate},
+            # This is the production runtime config type, not the evidence
+            # package's policy type.
+            evidence_config=RuntimeEvidenceConfig(),
+        )
+        collection = collector.collect(request)
+        self.assertEqual(len(collector.sources[SourceKind.RUNTIME].occurrences), 1)
+        self.assertIs(collector.sources[SourceKind.MSF_METADATA].candidates[CVE], candidate)
+        self.assertTrue(any("targeturi" in item.facts for item in collection.pack.items))
+
+    def test_factory_internal_type_error_is_not_retried_as_legacy_signature(self):
+        analysis = make_analysis()
+        calls = []
+
+        def broken_factory(**kwargs):
+            calls.append(kwargs)
+            raise TypeError("factory bug")
+
+        provider = FakeProvider(lambda document, sha: self.fail("provider must not be called"))
+        diagnostics = []
+        from kalama.resolution.llm_fields import schedule_field_guidance
+        outcomes = schedule_field_guidance(
+            "run-4b", analysis, RAW_TARGET, {}, GuidanceService(provider), broken_factory,
+            diagnostics=diagnostics,
+        )
+        self.assertEqual(outcomes, ())
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(len(provider.calls), 0)
+        self.assertEqual(diagnostics, [{
+            "cve_id": CVE,
+            "fields": ["payload", "target", "targeturi"],
+            "reason": "COLLECTOR_SETUP_ERROR:TypeError",
+        }])
 
 
 if __name__ == "__main__":

@@ -32,6 +32,7 @@ class MetasploitExecutor(Protocol):
     def sessions(self, *, timeout: float) -> SessionEvidence: ...
     def check(self, plan: ExecutionPlan, *, timeout: float) -> CheckEvidence: ...
     def exploit(self, plan: ExecutionPlan, *, timeout: float) -> CommandEvidence: ...
+    def auxiliary(self, plan: ExecutionPlan, *, timeout: float) -> CommandEvidence: ...
 
 
 class SingleInvocationExecutor(Protocol):
@@ -94,6 +95,31 @@ def normalize_check(stdout: str, stderr: str, state: OperationState) -> CheckVer
     if re.search(r"\bdetected\b", text): return CheckVerdict.DETECTED
     if "check method is not supported" in text: return CheckVerdict.UNSUPPORTED
     return CheckVerdict.UNKNOWN
+
+
+def extract_auxiliary_impact(*, stdout: str, stderr: str,
+                             operation_state: OperationState) -> ImpactEvidence:
+    """Parse an auxiliary scanner's explicit vulnerability oracle.
+
+    OptionsBleed reports the oracle as ``[OptionsBleed Response]`` after an
+    OPTIONS request.  Generic auxiliary output is deliberately inconclusive.
+    """
+    if operation_state != OperationState.EXECUTED:
+        return ImpactEvidence(ImpactEvidenceStatus.UNKNOWN,
+                              basis="AUXILIARY_EXECUTION_UNAVAILABLE")
+    text = f"{stdout}\n{stderr}"
+    if re.search(r"\[OptionsBleed Response\]", text, re.IGNORECASE):
+        return ImpactEvidence(ImpactEvidenceStatus.COLLECTED,
+                              basis="OPTIONSBLEED_MEMORY_DISCLOSURE",
+                              confirmed=True)
+    if re.search(r"\[Standard Response\]", text, re.IGNORECASE):
+        return ImpactEvidence(ImpactEvidenceStatus.COLLECTED,
+                              basis="OPTIONSBLEED_STANDARD_ALLOW_HEADER",
+                              complete_negative=bool(re.search(
+                                  r"Scanned\s+(\d+)\s+of\s+\1\s+hosts", text,
+                                  re.IGNORECASE)))
+    return ImpactEvidence(ImpactEvidenceStatus.UNKNOWN,
+                          basis="AUXILIARY_ORACLE_UNRECOGNIZED")
 
 
 # ---------------------------------------------------------------------------
@@ -519,6 +545,12 @@ class DockerMetasploitExecutor:
             safe = self._safe(value)
             commands.append(f"set {self._safe(name)} {safe}")
             if self.SENSITIVE_RE.search(name): secrets.append((safe, "<redacted>"))
+        if plan.module == "auxiliary/scanner/http/apache_optionsbleed" \
+                and not any(name.upper() == "VERBOSE" for name, _ in plan.module_options):
+            # The module emits its standard Allow-header oracle through
+            # vprint_status; collect it deterministically without requiring
+            # the operator to confirm an otherwise optional display flag.
+            commands.append("set VERBOSE true")
         if plan.payload:
             commands.append(f"set PAYLOAD {self._safe(plan.payload)}")
         for name, value in plan.payload_options:
@@ -564,6 +596,9 @@ class DockerMetasploitExecutor:
 
     def exploit(self, plan: ExecutionPlan, *, timeout: float) -> CommandEvidence:
         return self._run(plan, "run -z", timeout)
+
+    def auxiliary(self, plan: ExecutionPlan, *, timeout: float) -> CommandEvidence:
+        return self._run(plan, "run", timeout)
 
     def _single_invocation_commands(self, plan: ExecutionPlan, *, run_check: bool,
                                     settle_seconds: float) -> tuple[str, list[tuple[str, str]]]:

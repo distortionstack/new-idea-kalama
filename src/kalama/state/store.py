@@ -363,6 +363,20 @@ class StateStore:
                 continue
         return tuple(states)
 
+    def delete_run(self, run_id: str) -> None:
+        """Remove one explicitly selected run from the state index."""
+        path = self.path_for(run_id)
+        if self._database_available:
+            with closing(sqlite3.connect(self.database_path)) as db:
+                deleted = db.execute("DELETE FROM runs WHERE run_id = ?", (run_id,)).rowcount
+                db.commit()
+            if not deleted and not path.exists():
+                raise StateStoreError("RUN_NOT_FOUND", "ไม่พบ Run ที่ต้องการลบ")
+            return
+        if not path.exists():
+            raise StateStoreError("RUN_NOT_FOUND", "ไม่พบ Run ที่ต้องการลบ")
+        path.unlink()
+
     def assert_no_active_run(self) -> None:
         active = [state.run_id for state in self.discover() if state.status == RunStatus.RUNNING]
         if active:

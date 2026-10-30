@@ -110,6 +110,7 @@ class Step4OrchestrationTests(unittest.TestCase):
                  "container_id": "cid", "requested_image_reference": "victim:test",
                  "image_id": "sha256:image", "image_digest": "sha256:digest",
                  "network": "kalama-net", "ip_address": "172.18.0.3",
+                 "platform": "linux/amd64",
                  "listening_ports": [{"container_port": 8080, "protocol": "tcp", "address": "0.0.0.0"}],
                  "published_ports": []}
         state = replace(state, status=RunStatus.PAUSED,
@@ -202,6 +203,17 @@ class Step4OrchestrationTests(unittest.TestCase):
         self.assertEqual(state.status, RunStatus.PAUSED)
         self.assertEqual(state.waiting_reason, "BEFORE_EXPLOIT_NOT_INTEGRATED")
         self.assertIsNone(state.artifact(ArtifactKind.ATTACK_FORM))
+
+    def test_unresolved_config_publishes_form_and_waits(self):
+        self.prepare()
+        processor = production_step4_processor(
+            backend(candidates={"exploit/a": {"rank": "excellent"}},
+                    live={"exploit/a": {"options": []}}),
+            msf_container="msf")
+        state = ResolverOrchestrator(self.store, processor, clock=lambda: NOW).run("aB3x9")
+        self.assertEqual(state.status, RunStatus.WAITING_FOR_USER_INPUT)
+        self.assertEqual(state.waiting_reason, "ATTACK_FORM")
+        self.assertIsNotNone(state.artifact(ArtifactKind.ATTACK_FORM))
 
     def test_mixed_results_preserve_all_statuses_and_form_only_waiting(self):
         self.prepare(("CVE-2099-0001", "CVE-2099-0002", "CVE-2099-0003"))

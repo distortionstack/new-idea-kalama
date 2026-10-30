@@ -55,7 +55,14 @@ class Step4Analysis:
 
     @property
     def needs_form(self) -> bool:
-        return any(x.status == ResolverCVEStatus.WAITING_FOR_USER_INPUT for x in self.cves)
+        # A discovered module with an incomplete configuration still needs a
+        # human decision/input.  Without exposing it in the form, the
+        # pipeline can advance to before-exploit without an
+        # EXPLOIT_CONFIG_BEFORE artifact.
+        return any(x.status in (ResolverCVEStatus.WAITING_FOR_USER_INPUT,
+                                ResolverCVEStatus.UNRESOLVED_CONFIG)
+                   and x.exploit_config is not None and x.validation is not None
+                   for x in self.cves)
 
     def summary(self) -> dict[str, int]:
         values = {"selected_count": len(self.cves)}

@@ -242,12 +242,13 @@ class RuntimeFactsTests(unittest.TestCase):
                 return (0, self.TCP if args[-1].endswith("tcp") else self.TCP6, "")
             raise AssertionError(args)
         request = Step2Request("aB3x9", "repo:test", "out")
-        image = ImageIdentity("repo:test", "sha256:image1", (), None, (), None, ImageSourceKind.LOCAL_BUILT)
+        image = ImageIdentity("repo:test", "sha256:image1", (), None, (), "linux/amd64", ImageSourceKind.LOCAL_BUILT)
         facts = collect_target_facts(request, image, data, FakeRunner(handler))
         self.assertEqual(facts.ip_address, "172.18.0.9")
         self.assertEqual(facts.listening_ports_status, ObservationStatus.AVAILABLE)
         self.assertEqual({x.container_port for x in facts.listening_ports}, {443, 8080})
         self.assertEqual(facts.reachable_ports_status, ObservationStatus.UNKNOWN)
+        self.assertEqual(facts.platform, "linux/amd64")
 
     def test_target_facts_can_inspect_an_explicit_after_container(self):
         data = container_data(networks={"kalama-net": {"IPAddress": "172.18.0.10"}})

@@ -188,6 +188,7 @@ class ResolverOrchestrator:
 
         knowledge_hits, knowledge_guidance = self._knowledge(inputs, state.target.facts)
         guidance_outcomes = ()
+        guidance_diagnostics = []
         if self.guidance_service is not None:
             # Task 4B field-level path: deterministic facts + compatible
             # VALIDATED Knowledge -> unresolved eligible fields ->
@@ -204,10 +205,16 @@ class ResolverOrchestrator:
                     evidence_config=self.evidence_config,
                     knowledge_store=self.knowledge_store,
                     output_root=self.store.output_root,
+                    diagnostics=guidance_diagnostics,
                 )
-            except Exception:
+            except Exception as exc:
                 # Nonfatal: fall through to the deterministic/Knowledge manual form.
                 guidance_outcomes = ()
+                guidance_diagnostics.append({
+                    "cve_id": None,
+                    "fields": [],
+                    "reason": f"GUIDANCE_SCHEDULER_ERROR:{type(exc).__name__}",
+                })
         filtered_outcomes = []
         for outcome in guidance_outcomes:
             protected = set(knowledge_guidance.get(outcome.cve_id, {}).get("accepted_suggestions", {}))
@@ -255,7 +262,8 @@ class ResolverOrchestrator:
                              "outcome_count": len(guidance_outcomes),
                              "status": "OUTCOMES_RECORDED" if guidance_outcomes
                                        else "NO_ELIGIBLE_EVIDENCE_OR_FIELDS"},
-                "cves": [x.to_dict() for x in guidance_outcomes]}
+                "cves": [x.to_dict() for x in guidance_outcomes],
+                "diagnostics": guidance_diagnostics}
             try:
                 guidance_sha = write_llm_guidance(guidance_path, guidance_artifact)
             except (ArtifactWriteError, OSError):

@@ -257,7 +257,14 @@ class FIRSTEPSSProvider:
         retrieved_at = _now()
         output: dict[str, EPSSRecord] = {}
         batches = self._batches(ids)
-        deadline = self.monotonic() + self.total_timeout
+        retry_sleep = sum(0.1 * (2 ** attempt) for attempt in range(self.retries))
+        per_batch_budget = self.timeout * (self.retries + 1) + retry_sleep
+        effective_total_timeout = max(
+            30.0,
+            self.total_timeout,
+            len(batches) * per_batch_budget,
+        )
+        deadline = self.monotonic() + effective_total_timeout
         current_run = data_date == self.today()
         date_resolution = ("LATEST_AVAILABLE_AS_OF" if current_run else "EXACT_DATE")
         for batch_index, batch in enumerate(batches, 1):

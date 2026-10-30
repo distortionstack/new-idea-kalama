@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Mapping
 
 from kalama.resolver.config_models import (
-    ConfigOption, ConfigReadiness, ConfirmationStatus, EnvironmentBinding,
+    ConfigOption, ConfigReadiness, ConfirmationProvenance, ConfirmationStatus, EnvironmentBinding,
     EnvironmentPhase, ExecutionProtocol, ExploitConfig, ExploitValue, FieldSource,
     InvariantExploitConfiguration, ModuleSelection, PayloadConfiguration,
     PreAttackCommand, PreconditionConfiguration, TargetSelection,
@@ -128,6 +128,13 @@ def exploit_config_from_dict(raw: Any) -> ExploitConfig:
         environment.get("network"), environment.get("ip_address"),
         exploit_value_from_dict(environment["rhosts"]),
         exploit_value_from_dict(environment["rport"]),
-        exploit_value_from_dict(environment["lhost"]), environment.get("port_binding_source"))
+        exploit_value_from_dict(environment["lhost"]), environment.get("port_binding_source"),
+        environment.get("platform"))
+    confirmation = _map(root.get("confirmation", {}), "confirmation")
     return ExploitConfig(root["cve_id"], canonical_invariant, canonical_environment,
-                         ConfigReadiness(root.get("readiness", "UNRESOLVED")))
+                         ConfigReadiness(root.get("readiness", "UNRESOLVED")),
+                         ConfirmationProvenance(
+                             str(confirmation.get("status", "UNRESOLVED")),
+                             confirmation.get("module"), confirmation.get("user"),
+                             confirmation.get("timestamp"), confirmation.get("run_id"),
+                             confirmation.get("scope")))

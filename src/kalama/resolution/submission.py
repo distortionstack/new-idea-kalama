@@ -156,6 +156,7 @@ def apply_human_confirmation(
         return AppliedConfig(replace(config, readiness=validation.readiness), validation,
                              True, skip_reason)
     invariant, environment = config.invariant, config.environment
+    selected_module = invariant.module_selection.module.value
 
     module_raw = human_input.get("module")
     supplied, value = _confirmed(module_raw)
@@ -219,7 +220,6 @@ def apply_human_confirmation(
                 or payload_value not in payload.compatible_payloads):
             raise SubmissionValidationError("ATTACK_FORM_INVALID_PAYLOAD",
                                             "payload is not in compatible payload evidence")
-        selected_module = invariant.module_selection.module.value
         payload = replace(payload, payload=_human(payload.payload, payload_value),
                           options=_payload_options(config, selected_module, payload_value,
                                                    payload_introspector))
@@ -285,6 +285,8 @@ def apply_human_confirmation(
                 run_check, run_exploit = True, True
             elif mode == "exploit-only":
                 run_check, run_exploit = False, True
+            elif mode == "auxiliary-test" and selected_module.startswith("auxiliary/"):
+                run_check, run_exploit = False, False
             else:
                 raise SubmissionValidationError("ATTACK_FORM_INVALID_OPTION",
                                                 "execution protocol mode is unsupported")

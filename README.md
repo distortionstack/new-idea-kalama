@@ -116,6 +116,25 @@ kalama doctor
 
 Doctor is read-only. It checks Python/PyYAML, Docker and its daemon, `kalama-net`, the resolver container, workbench socket/Trivy, provider setup, and writable output. `Overall READY` means the core environment is ready.
 
+### Optional LLM Assist
+
+LLM Assist is optional and can only make evidence-backed suggestions for
+unresolved form fields. It never confirms a form or executes an action.
+
+For an OpenAI-compatible API, copy `.env.example` to a local `.env`, then set
+the provider's Base URL (normally its `/v1` URL), model name, and your own API
+key. The `.env` file is ignored by Git. The desktop app can also accept these
+values for its current session; that path keeps the key only in memory.
+
+The generic provider supports the OpenAI-compatible chat-completions contract.
+Use an endpoint supplied by the provider; a key's appearance is not used to
+identify or route a provider. Native Ollama remains available with
+`KALAMA_LLM_PROVIDER=ollama` and no API key.
+
+When LLM Assist is enabled, `viper doctor` also makes a read-only provider
+request for the configured model. It reports `CONNECTED`, `LLM_AUTH_FAILED`,
+`LLM_MODEL_NOT_FOUND`, or `LLM_CONNECTION_FAILED`; it never prints the API key.
+
 ## Windows (Docker Desktop + Git Bash)
 
 Use Git Bash to run the shell setup script. Docker Desktop must be running and

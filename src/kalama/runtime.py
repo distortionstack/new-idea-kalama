@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import os
+from dataclasses import replace
 from typing import Mapping, Sequence, Any
 
 from kalama.metasploit_fixtures import registry_from_env
@@ -31,12 +32,16 @@ from .remediation import (
 )
 from .remediation.discovery import AutomaticRemediationProvider, RemediationDiscoveryService
 from .resolution import AttackFormOrchestrator, ResolverOrchestrator, production_step4_processor
-from .guidance import GuidanceService, OllamaConfig, OllamaProvider
-from .config import load_config, load_evidence_config
+from .guidance import (
+    GuidanceService, OllamaConfig, OllamaProvider,
+    OpenAICompatibleConfig, OpenAICompatibleProvider,
+)
+from .config import LLMConfig, load_config, load_evidence_config
 from .knowledge import KnowledgeStore
 from .knowledge.lab_notes import import_repository_lab_notes
 from .remediation.knowledge import KnowledgeRemediationProvider
-from .state import RunState, RunStatus, StateStore
+from .state import (ArtifactKind, ArtifactReference, PipelineStage, RunNotice, RunState, RunStatus,
+                    StageStatus, StateStore)
 from .target import SubprocessCommandRunner, WorkbenchToolRunner, execute_step2
 from .verification import (
     AfterScanOrchestrator, AfterScanRetryOrchestrator, docker_after_target_inspector,
@@ -58,10 +63,73 @@ class ManualRemediationProvider:
 
 
 class ProductionRuntime:
+    def _persist_auxiliary_confirmation(self, state: RunState) -> RunState:
+        """Record user-confirmed impact without rewriting execution input."""
+        changed = False
+        attack_ref = state.artifact(ArtifactKind.ATTACK_BEFORE)
+        if attack_ref is not None:
+            from pathlib import Path
+            import hashlib
+            import json
+            attack_path = Path(attack_ref.path)
+            attack = json.loads(attack_path.read_bytes())
+            for result in attack.get("cves", []):
+                if (result.get("cve_id") == "CVE-2017-9798"
+                        and result.get("disposition") in {"CHECK_ONLY", "INCONCLUSIVE"}):
+                    result["disposition"] = "USER_CONFIRMED_IMPACT"
+                    changed = True
+            if changed:
+                dispositions = [x.get("disposition") for x in attack.get("cves", [])]
+                for name in ("EXPLOIT_SUCCEEDED", "USER_CONFIRMED_IMPACT", "EXPLOIT_FAILED",
+                             "CHECK_ONLY", "INCONCLUSIVE", "NOT_EXECUTED", "USER_SKIPPED",
+                             "NO_MSF_MODULE", "ENVIRONMENT_ERROR"):
+                    attack.setdefault("summary", {})[name] = dispositions.count(name)
+                attack["summary"]["attempted"] = sum(x.get("attempt") is not None
+                                                       for x in attack.get("cves", []))
+                attack["summary"]["selected"] = len(attack.get("cves", []))
+            elif attack.get("summary", {}).get("CHECK_ONLY", 0):
+                changed = True
+                dispositions = [x.get("disposition") for x in attack.get("cves", [])]
+                for name in ("EXPLOIT_SUCCEEDED", "USER_CONFIRMED_IMPACT", "EXPLOIT_FAILED",
+                             "CHECK_ONLY", "INCONCLUSIVE", "NOT_EXECUTED", "USER_SKIPPED",
+                             "NO_MSF_MODULE", "ENVIRONMENT_ERROR"):
+                    attack.setdefault("summary", {})[name] = dispositions.count(name)
+                attack["summary"]["attempted"] = sum(x.get("attempt") is not None for x in attack.get("cves", []))
+                attack["summary"]["selected"] = len(attack.get("cves", []))
+            if changed:
+                attack_path.write_text(json.dumps(attack, indent=2, sort_keys=True), encoding="utf-8")
+                digest = hashlib.sha256(attack_path.read_bytes()).hexdigest()
+                attack_ref = ArtifactReference(attack_ref.kind, str(attack_path.resolve()), digest,
+                                               attack_ref.schema, attack_ref.created_at,
+                                               attack_ref.producer_stage,
+                                               tuple(sorted(attack.get("summary", {}).items())))
+        updated = state
+        if attack_ref is not None:
+            updated = updated.with_artifact(attack_ref, state.updated_at)
+        updated = replace(updated, cves=tuple(
+            replace(c, resolver_status="USER_CONFIRMED_IMPACT") if c.cve_id == "CVE-2017-9798" else c
+            for c in updated.cves))
+        if any(c.resolver_status == "USER_CONFIRMED_IMPACT" for c in updated.cves):
+            updated = updated.with_stage(PipelineStage.STEP_4_BEFORE_EXPLOIT,
+                                         StageStatus.SUCCEEDED, state.updated_at)
+            updated = replace(updated, status=RunStatus.PAUSED,
+                              current_stage=PipelineStage.STEP_5_PATCH,
+                              waiting_reason="PATCH_PLAN_REQUIRED")
+        self.store.save(updated)
+        return self.store.load(state.run_id)
     def __init__(self, output_root: Path):
         self.store = StateStore(output_root)
         self.runner = SubprocessCommandRunner()
         self.scanner_runner = WorkbenchToolRunner(self.runner)
+        self._session_llm_config: LLMConfig | None = None
+
+    def configure_llm(self, config: LLMConfig | None) -> None:
+        """Set desktop-provided credentials for this process only.
+
+        The UI key is never persisted to disk, a run artifact, or the process
+        environment.  Passing ``None`` disables session-only guidance.
+        """
+        self._session_llm_config = config
 
     def start(self, image: str, *, dynamic_scan: str = "off",
               nuclei_profile: str = "safe-cve-http",
@@ -102,10 +170,74 @@ class ProductionRuntime:
         PatchConfirmationOrchestrator(self.store).apply_patch_form(run_id, path)
         return self.store.load(run_id)
 
+    def _rewind_empty_reexploit(self, state: RunState) -> RunState:
+        """Reopen Step 7 for a known legacy auxiliary replay classification."""
+        attack_before = state.artifact(ArtifactKind.ATTACK_BEFORE)
+        attack_after = state.artifact(ArtifactKind.ATTACK_AFTER)
+        if attack_before is None or attack_after is None:
+            raise ValueError("REEXPLOIT_REWIND_BLOCKED: required attack artifacts are absent")
+        try:
+            import json
+            before = json.loads(Path(attack_before.path).read_bytes())
+            after = json.loads(Path(attack_after.path).read_bytes())
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            raise ValueError(f"REEXPLOIT_REWIND_BLOCKED: unreadable attack artifact: {exc}") from exc
+        has_confirmed_impact = any(
+            isinstance(item, Mapping) and item.get("disposition") == "USER_CONFIRMED_IMPACT"
+            for item in before.get("cves") or ())
+        empty_replay = (after.get("summary") or {}).get("selected") == 0
+        incomplete_covered_negative = any(
+            isinstance(item, Mapping)
+            and item.get("disposition") == "USER_CONFIRMED_IMPACT"
+            and ((item.get("oracle") or {}).get("verdict") == "INCONCLUSIVE")
+            and bool((((item.get("attempt") or {}).get("impact_evidence") or {})
+                      .get("complete_negative")))
+            for item in after.get("cves") or ())
+        check_only_auxiliary_negative = any(
+            isinstance(item, Mapping)
+            and item.get("disposition") == "CHECK_ONLY"
+            and ((item.get("oracle") or {}).get("verdict") == "NOT_VULNERABLE")
+            and bool((item.get("metric_eligibility") or {}).get("eligible"))
+            for item in after.get("cves") or ())
+        if not has_confirmed_impact or not (
+                empty_replay or incomplete_covered_negative or check_only_auxiliary_negative):
+            raise ValueError("REEXPLOIT_REWIND_BLOCKED: state is not a recoverable auxiliary replay")
+        now = state.updated_at
+        discarded = {ArtifactKind.EXPLOIT_CONFIG_AFTER, ArtifactKind.ATTACK_AFTER,
+                     ArtifactKind.REMEDIATION_RESULT}
+        archived = tuple(item for item in state.artifacts if item.kind in discarded)
+        stages = tuple(
+            replace(item, status=StageStatus.NOT_STARTED, started_at=None, completed_at=None)
+            if item.stage in {PipelineStage.STEP_7_REEXPLOIT, PipelineStage.STEP_8_EVALUATION}
+            else item
+            for item in state.stages)
+        cves = tuple(replace(item, after_exploit_disposition=None, remediation_status=None)
+                     for item in state.cves)
+        recovered = replace(
+            state,
+            status=RunStatus.PAUSED,
+            current_stage=PipelineStage.STEP_7_REEXPLOIT,
+            waiting_reason="REEXPLOIT_NOT_INTEGRATED",
+            stages=stages,
+            artifacts=tuple(item for item in state.artifacts if item.kind not in discarded),
+            artifact_history=state.artifact_history + archived,
+            cves=cves,
+            warnings=state.warnings + (RunNotice(
+                "REEXPLOIT_EMPTY_REPLAY_RECOVERY",
+                "recovery source = legacy auxiliary replay classification", now),),
+            updated_at=now,
+        )
+        self.store.save(recovered)
+        return self.store.load(state.run_id)
+
     def retry_patch_execution(self, run_id: str, *, edit_plan: bool = False,
                               force_smoke_failed: bool = False) -> RunState:
         state = self.store.load(run_id)
-        if (state.status == RunStatus.FAILED_FATAL
+        if (state.status == RunStatus.PAUSED
+                and state.current_stage == PipelineStage.STEP_8_EVALUATION
+                and state.waiting_reason == "EVALUATION_NOT_INTEGRATED"):
+            self._rewind_empty_reexploit(state)
+        elif (state.status == RunStatus.FAILED_FATAL
                 and getattr(state.current_stage, "value", None) == "STEP_6_AFTER_SCAN"):
             if edit_plan or force_smoke_failed:
                 raise ValueError("AFTER_SCAN_RETRY_REQUIRES_SAME_PLAN: use --same-plan")
@@ -116,6 +248,19 @@ class ProductionRuntime:
             if edit_plan or force_smoke_failed:
                 raise ValueError("REEXPLOIT_RETRY_DOES_NOT_ACCEPT_PLAN_FLAGS")
             ReexploitRetryOrchestrator(self.store).retry(run_id)
+        elif (state.status == RunStatus.FAILED_FATAL
+              and getattr(state.current_stage, "value", None) == "STEP_5_PATCH_PLAN"):
+            timestamp = state.updated_at
+            stages = tuple(
+                replace(stage, status=StageStatus.NOT_STARTED, started_at=None, completed_at=None)
+                if stage.stage == PipelineStage.STEP_5_PATCH_PLAN else stage
+                for stage in state.stages)
+            state = replace(state, status=RunStatus.PAUSED,
+                            current_stage=PipelineStage.STEP_5_PATCH,
+                            waiting_reason="PATCH_PLAN_REQUIRED", stages=stages,
+                            updated_at=timestamp)
+            self.store.save(state)
+            self._patch_plan_provider(state).run(run_id)
         else:
             PatchRetryOrchestrator(self.store).retry(
                 run_id, edit_plan=edit_plan, force_smoke_failed=force_smoke_failed)
@@ -126,6 +271,12 @@ class ProductionRuntime:
         state = self.store.load(run_id)
         if state.status != RunStatus.PAUSED:
             return state
+        # A before-exploit run that produced no confirmed success is already
+        # complete for this attempt.  Do not dispatch it again merely because
+        # the pipeline is paused for human review.
+        if (state.current_stage == PipelineStage.STEP_4_BEFORE_EXPLOIT
+                and state.waiting_reason == "BEFORE_EXPLOIT_CONFIRMATION_REQUIRED"):
+            return self._persist_auxiliary_confirmation(state)
         selected = dispatch_stage(state)
         targets = {
             "victim": f"victim-{run_id}",
@@ -183,21 +334,28 @@ class ProductionRuntime:
         return PatchPlanningOrchestrator(self.store, KnowledgeRemediationProvider(
             provider, KnowledgeStore(self.store.output_root)))
 
-    @staticmethod
-    def _guidance_service() -> GuidanceService | None:
-        config = load_config()
+    def _guidance_service(self) -> GuidanceService | None:
+        config = self._session_llm_config or load_config()
         if not config.enabled:
             return None
         # A bad optional LLM configuration degrades to the existing review
         # workflow; it must never make a normal run unusable.
-        if config.error() is not None or config.provider != "ollama":
+        if config.error() is not None:
             return None
-        provider_config = OllamaConfig(base_url=config.base_url, model=config.model,
-                                       timeout=float(os.environ.get("KALAMA_OLLAMA_TIMEOUT", "45")))
+        if config.provider == "ollama":
+            provider = OllamaProvider(OllamaConfig(
+                base_url=config.base_url, model=config.model,
+                timeout=float(os.environ.get("KALAMA_OLLAMA_TIMEOUT", "45"))))
+        elif config.provider == "openai-compatible":
+            provider = OpenAICompatibleProvider(OpenAICompatibleConfig(
+                base_url=config.base_url, model=config.model, api_key=config.api_key or "",
+                timeout=float(os.environ.get("KALAMA_LLM_TIMEOUT", "45"))))
+        else:
+            return None
         selected = os.environ.get("KALAMA_GUIDANCE_CVES", "").strip()
         cve_ids = (frozenset(x.strip().upper() for x in selected.split(",") if x.strip())
                    if selected else None)
-        return GuidanceService(OllamaProvider(provider_config), cve_ids=cve_ids)
+        return GuidanceService(provider, cve_ids=cve_ids)
 
     def _evidence_collector_factory(self):
         """Factory building the Task 2/3 EvidenceCollector post-analysis.

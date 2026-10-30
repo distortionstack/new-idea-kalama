@@ -166,7 +166,7 @@ class PatchPlanningOrchestrator:
             ranked = top.get("ranked_cves")
             if not isinstance(attack_cves, list) or not isinstance(ranked, list):
                 raise ValueError("attack/top30 CVE arrays are invalid")
-            valid_statuses = {"EXPLOIT_SUCCEEDED", "EXPLOIT_FAILED", "CHECK_ONLY", "INCONCLUSIVE",
+            valid_statuses = {"EXPLOIT_SUCCEEDED", "USER_CONFIRMED_IMPACT", "EXPLOIT_FAILED", "CHECK_ONLY", "INCONCLUSIVE",
                               "NO_MSF_MODULE", "UNRESOLVED_CONFIG", "ENVIRONMENT_ERROR", "NOT_EXECUTED"}
             successful = []
             top_ids = {x.get("cve_id") for x in ranked if isinstance(x, Mapping)}
@@ -176,7 +176,7 @@ class PatchPlanningOrchestrator:
                 disposition = item.get("disposition")
                 if disposition not in valid_statuses:
                     raise ValueError("attack disposition is malformed")
-                if disposition == "EXPLOIT_SUCCEEDED":
+                if disposition in {"EXPLOIT_SUCCEEDED", "USER_CONFIRMED_IMPACT"}:
                     successful.append((int(item["rank"]), str(item["cve_id"])))
             plan = build_patch_plan(run_id, successful, ranked, self.provider,
                                     target_facts=dict(state.target.facts) if state.target.facts else None)

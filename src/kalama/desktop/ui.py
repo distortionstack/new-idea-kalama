@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-from importlib.resources import files
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -20,14 +19,29 @@ class DesktopBridge:
     def list_runs(self) -> dict[str, Any]:
         return self._reply(lambda: self.application.list_runs())
 
+    def configure_llm(self, settings: Mapping[str, Any]) -> dict[str, Any]:
+        return self._reply(lambda: self.application.configure_llm(settings))
+
+    def disable_llm(self) -> dict[str, Any]:
+        return self._reply(lambda: self.application.disable_llm())
+
+    def get_run_detail(self, run_id: str) -> dict[str, Any]:
+        return self._reply(lambda: self.application.get_run_detail(run_id))
+
     def list_forms(self, run_id: str) -> dict[str, Any]:
         return self._reply(lambda: self.application.list_forms(run_id))
 
-    def start_scan(self, image: str) -> dict[str, Any]:
-        return self._reply(lambda: self.application.start_scan(image))
+    def start_scan(self, image: str, dynamic_scan: bool = False) -> dict[str, Any]:
+        return self._reply(lambda: self.application.start_scan(image, dynamic_scan))
 
     def get_job(self, job_id: str) -> dict[str, Any]:
         return self._reply(lambda: self.application.get_job(job_id))
+
+    def stop_run(self, run_id: str) -> dict[str, Any]:
+        return self._reply(lambda: self.application.stop_run(run_id))
+
+    def delete_run(self, run_id: str) -> dict[str, Any]:
+        return self._reply(lambda: self.application.delete_run(run_id))
 
     def get_form(self, raw: Mapping[str, Any]) -> dict[str, Any]:
         return self._reply(lambda: self._document(self.application.get_form(self._context(raw))))
@@ -99,7 +113,10 @@ def main(argv: list[str] | None = None) -> int:
     except ImportError as exc:
         raise SystemExit("pywebview is required: install with pip install -e '.[desktop]'") from exc
     bridge = DesktopBridge(MockDesktopApplication() if args.mock else RuntimeDesktopApplication(Path(args.output_root)))
-    html = files("kalama.desktop.web").joinpath("index.html").read_text(encoding="utf-8")
+    # Load the checkout's UI file directly so an older copied package resource
+    # cannot hide desktop UI fixes during editable/local development.
+    html_path = Path(__file__).with_name("web") / "index.html"
+    html = html_path.read_text(encoding="utf-8")
     webview.create_window("VIPER — Container Security", html=html, js_api=bridge, width=1440, height=920, min_size=(1040, 720))
     webview.start(debug=False)
     return 0

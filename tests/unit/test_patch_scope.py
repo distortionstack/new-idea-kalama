@@ -2,6 +2,7 @@ import unittest
 
 from kalama.remediation.codec import validate_patch_plan
 from kalama.remediation.confirmation import PatchSubmissionError, apply_patch_confirmations
+from kalama.remediation.docker_backend import DockerPatchBackend
 from kalama.remediation.models import (ActionDisposition, FixType, PatchAction, PatchPlan,
                                       PatchStrategy, PlanningStatus, RemediationCandidate)
 
@@ -60,3 +61,21 @@ class PatchScopeTests(unittest.TestCase):
                               "candidate": candidate})
         plan = validate_patch_plan(PatchPlan("run", (item,), PlanningStatus.WAITING_FOR_USER_INPUT))
         self.assertEqual(plan.actions[0].status, PlanningStatus.WAITING_FOR_USER_INPUT)
+
+    def test_debian_archive_source_uses_jessie_archive_repository(self):
+        candidate = RemediationCandidate(
+            target_version="2.4.10-10+deb8u12",
+            source_url=("http://archive.debian.org/debian/pool/main/a/apache2/"
+                        "apache2_2.4.10-10+deb8u12_amd64.deb"),
+        )
+        item = PatchAction(
+            "patch-001", ("CVE-2017-9798",), (), "pkg:deb/debian/apache2",
+            "apache2", "debian", (), ("2.4.10-10+deb8u8",),
+            ("2.4.10-10+deb8u11",), FixType.C, PatchStrategy.PACKAGE_MANAGER,
+            candidate, PlanningStatus.READY_FOR_PATCH_EXECUTION, (),
+        )
+        command = DockerPatchBackend._package_command(item)
+        self.assertIn("archive.debian.org/debian/ jessie main", command)
+        self.assertIn("Acquire::Check-Valid-Until=false", command)
+        self.assertIn("Acquire::AllowInsecureRepositories=true", command)
+        self.assertIn("--allow-unauthenticated", command)

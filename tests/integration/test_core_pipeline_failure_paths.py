@@ -133,21 +133,16 @@ class CoreFailurePathTests(unittest.TestCase):
         self.assertFalse(attack["cves"][0]["metric_eligibility"]["eligible"])
         self.assertEqual(state.cves[0].resolver_status, "INCONCLUSIVE")
 
-        # With no EXPLOIT_SUCCEEDED evidence the planner must not produce an
-        # executable plan: the run parks with zero remediation targets.
-        planned = PatchPlanningOrchestrator(
-            self.pipeline.store, FakeProvider(), clock=lambda: NOW).run(RUN_ID)
-        self.assertEqual(planned.status, RunStatus.PAUSED)
-        self.assertEqual(planned.current_stage, PipelineStage.STEP_5_PATCH_PLAN)
-        self.assertEqual(planned.waiting_reason,
-                         "NO_EXPLOIT_CONFIRMED_REMEDIATION_TARGETS")
-        self.assertIsNone(planned.artifact(ArtifactKind.PATCH_RESULT))
-        self.assertIsNone(planned.artifact(ArtifactKind.TRIVY_AFTER))
-        self.assertIsNone(planned.artifact(ArtifactKind.REMEDIATION_RESULT))
-        # Duplicate continuation from this parked state is rejected.
-        with self.assertRaises(Exception):
-            PatchPlanningOrchestrator(
-                self.pipeline.store, FakeProvider(), clock=lambda: NOW).run(RUN_ID)
+        # With no EXPLOIT_SUCCEEDED evidence the before-exploit stage itself
+        # must remain parked and patch planning must not be entered.
+        self.assertEqual(state.status, RunStatus.PAUSED)
+        self.assertEqual(state.current_stage, PipelineStage.STEP_4_BEFORE_EXPLOIT)
+        self.assertEqual(state.waiting_reason,
+                         "BEFORE_EXPLOIT_CONFIRMATION_REQUIRED")
+        self.assertIsNone(state.artifact(ArtifactKind.PATCH_PLAN))
+        self.assertIsNone(state.artifact(ArtifactKind.PATCH_RESULT))
+        self.assertIsNone(state.artifact(ArtifactKind.TRIVY_AFTER))
+        self.assertIsNone(state.artifact(ArtifactKind.REMEDIATION_RESULT))
 
     # Patch failure ---------------------------------------------------------
     def test_patch_failure_never_proceeds_to_after_validation(self):

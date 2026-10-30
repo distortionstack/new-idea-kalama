@@ -97,6 +97,7 @@ class TargetFacts:
     reachable_ports: tuple[ObservedPort, ...] = ()
     msf_container: str | None = None
     msf_ip: str | None = None
+    platform: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -114,6 +115,7 @@ class TargetFacts:
             "reachable_ports": [port.to_dict() for port in self.reachable_ports],
             "msf_container": self.msf_container,
             "msf_ip": self.msf_ip,
+            "platform": self.platform,
         }
 
 

@@ -169,6 +169,7 @@ class TargetFacts:
     listening_ports: tuple[ListeningPort, ...]
     reachable_ports_status: ObservationStatus = ObservationStatus.UNKNOWN
     reachable_ports: tuple[int, ...] = ()
+    platform: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {"run_id": self.run_id, "phase": self.phase,
@@ -184,7 +185,8 @@ class TargetFacts:
                 "listening_ports_status": self.listening_ports_status.value,
                 "listening_ports": [x.to_dict() for x in self.listening_ports],
                 "reachable_ports_status": self.reachable_ports_status.value,
-                "reachable_ports": list(self.reachable_ports)}
+                "reachable_ports": list(self.reachable_ports),
+                "platform": self.platform}
 
 
 @dataclass(frozen=True)

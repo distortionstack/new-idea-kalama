@@ -13,6 +13,7 @@ import yaml
 
 from kalama.resolver.config import validate_exploit_config
 from kalama.resolver.models import DiscoveryStatus
+from kalama.resolver.config_models import ConfirmationProvenance
 
 from ..state.models import (
     ArtifactKind, ArtifactReference, CVEStateSummary, IntegrationFailureCode,
@@ -227,6 +228,14 @@ class AttackFormOrchestrator:
                         config, human, payload_introspector=self.payload_introspector)
                     config, validation = applied.config, applied.validation
                     skip_reason = applied.skip_reason
+                    selected_module = config.invariant.module_selection.module.value
+                    if (skip_reason is None and isinstance(selected_module, str)
+                            and selected_module.startswith("auxiliary/")
+                            and config.invariant.module_selection.module.confirmed):
+                        config = replace(config, confirmation=ConfirmationProvenance(
+                            status="USER_CONFIRMED", module=selected_module,
+                            user="operator", timestamp=self._now(), run_id=run_id,
+                            scope="auxiliary_execution"))
                 else:
                     validation = validate_exploit_config(config)
                     config = replace(config, readiness=validation.readiness)

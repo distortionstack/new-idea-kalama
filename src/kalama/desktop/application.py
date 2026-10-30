@@ -15,16 +15,22 @@ from uuid import uuid4
 import yaml
 
 from kalama.runtime import ProductionRuntime, build_runtime
+from kalama.config import LLMConfig
 from kalama.state import ArtifactKind
 
 from .contracts import ApplicationError, FormContext, FormDocument
 
 
 class DesktopApplication(Protocol):
+    def configure_llm(self, settings: Mapping[str, Any]) -> dict[str, Any]: ...
+    def disable_llm(self) -> dict[str, Any]: ...
     def list_runs(self) -> list[dict[str, Any]]: ...
+    def get_run_detail(self, run_id: str) -> dict[str, Any]: ...
     def list_forms(self, run_id: str) -> list[dict[str, Any]]: ...
-    def start_scan(self, image: str) -> dict[str, Any]: ...
+    def start_scan(self, image: str, dynamic_scan: bool = False) -> dict[str, Any]: ...
     def get_job(self, job_id: str) -> dict[str, Any]: ...
+    def stop_run(self, run_id: str) -> dict[str, Any]: ...
+    def delete_run(self, run_id: str) -> dict[str, Any]: ...
     def get_form(self, context: FormContext) -> FormDocument: ...
     def save_form(self, document: FormDocument) -> FormDocument: ...
     def submit_form(self, document: FormDocument) -> dict[str, Any]: ...
@@ -41,11 +47,39 @@ class RuntimeDesktopApplication:
         self._jobs: dict[str, Future] = {}
         self._workers = ThreadPoolExecutor(max_workers=1, thread_name_prefix="viper-desktop")
 
+    def configure_llm(self, settings: Mapping[str, Any]) -> dict[str, Any]:
+        """Apply a user-supplied provider key for this desktop session only."""
+        provider = str(settings.get("provider") or "openai-compatible").strip().casefold()
+        base_url = str(settings.get("base_url") or "").strip().rstrip("/")
+        model = str(settings.get("model") or "").strip()
+        api_key = str(settings.get("api_key") or "").strip()
+        if provider not in {"ollama", "openai-compatible"}:
+            raise DesktopApplicationException("LLM_PROVIDER_INVALID", "รองรับ Ollama หรือ OpenAI-compatible API เท่านั้น")
+        if not base_url.startswith(("https://", "http://")):
+            raise DesktopApplicationException("LLM_URL_INVALID", "API Base URL ต้องขึ้นต้นด้วย http:// หรือ https://")
+        if not model:
+            raise DesktopApplicationException("LLM_MODEL_REQUIRED", "ระบุชื่อโมเดลก่อนเปิดใช้")
+        if provider == "openai-compatible" and not api_key:
+            raise DesktopApplicationException("LLM_KEY_REQUIRED", "ระบุ API key ของผู้ให้บริการก่อนเปิดใช้")
+        config = LLMConfig(True, provider, model, base_url, api_key or None)
+        if error := config.error():
+            raise DesktopApplicationException("LLM_CONFIG_INVALID", "การตั้งค่า LLM ไม่ถูกต้อง", error)
+        self.runtime.configure_llm(config)
+        return {"enabled": True, "provider": provider, "base_url": base_url, "model": model}
+
+    def disable_llm(self) -> dict[str, Any]:
+        self.runtime.configure_llm(None)
+        return {"enabled": False}
+
     def list_runs(self) -> list[dict[str, Any]]:
         return [{"run_id": state.run_id, "image": state.victim_image,
                  "status": state.status.value, "waiting_reason": state.waiting_reason,
                  "updated_at": state.updated_at}
                 for state in self.runtime.store.discover()]
+
+    def get_run_detail(self, run_id: str) -> dict[str, Any]:
+        """Return canonical pipeline state without loading large artifact files."""
+        return self.runtime.store.load(run_id).to_dict()
 
     def list_forms(self, run_id: str) -> list[dict[str, Any]]:
         state = self.runtime.store.load(run_id)
@@ -68,11 +102,12 @@ class RuntimeDesktopApplication:
                          for item_id in raw[collection])
         return forms
 
-    def start_scan(self, image: str) -> dict[str, Any]:
+    def start_scan(self, image: str, dynamic_scan: bool = False) -> dict[str, Any]:
         if not isinstance(image, str) or not image.strip():
             raise DesktopApplicationException("IMAGE_REQUIRED", "ระบุ Docker image ก่อนเริ่มวิเคราะห์")
         job_id = uuid4().hex
-        self._jobs[job_id] = self._workers.submit(self.runtime.start, image.strip())
+        self._jobs[job_id] = self._workers.submit(
+            self.runtime.start, image.strip(), dynamic_scan="nuclei" if dynamic_scan else "off")
         return {"job_id": job_id, "status": "QUEUED"}
 
     def get_job(self, job_id: str) -> dict[str, Any]:
@@ -87,6 +122,22 @@ class RuntimeDesktopApplication:
             return {"job_id": job_id, "status": "FAILED", "error": str(exc)}
         return {"job_id": job_id, "status": "COMPLETED", "run_id": state.run_id,
                 "run_status": state.status.value}
+
+    def stop_run(self, run_id: str) -> dict[str, Any]:
+        future = next((future for future_id, future in self._jobs.items()
+                       if future_id and not future.done()), None)
+        if future is not None and future.cancel():
+            return {"run_id": run_id, "status": "STOPPED"}
+        raise DesktopApplicationException("RUN_NOT_STOPPABLE", "งานนี้ไม่มีงานวิเคราะห์ที่กำลังหยุดได้")
+
+    def delete_run(self, run_id: str) -> dict[str, Any]:
+        if not isinstance(run_id, str) or not run_id:
+            raise DesktopApplicationException("RUN_ID_REQUIRED", "ไม่พบ Run ที่ต้องการลบ")
+        try:
+            self.runtime.store.delete_run(run_id)
+        except Exception as exc:
+            raise DesktopApplicationException("RUN_DELETE_FAILED", "ไม่สามารถลบ Run นี้ได้", str(exc)) from exc
+        return {"run_id": run_id, "status": "DELETED"}
 
     def get_form(self, context: FormContext) -> FormDocument:
         key = (context.run_id, context.kind, context.item_id)
@@ -156,9 +207,18 @@ class MockDesktopApplication:
     def __init__(self):
         self._docs = _mock_documents()
 
+    def configure_llm(self, settings: Mapping[str, Any]) -> dict[str, Any]:
+        raise DesktopApplicationException("MOCK_ONLY", "การตั้งค่า LLM ใช้ได้เฉพาะโหมดข้อมูลจริง")
+
+    def disable_llm(self) -> dict[str, Any]:
+        raise DesktopApplicationException("MOCK_ONLY", "การตั้งค่า LLM ใช้ได้เฉพาะโหมดข้อมูลจริง")
+
     def list_runs(self) -> list[dict[str, Any]]:
         return [{"run_id": "DEMO1", "image": "demo/elasticsearch:1.4.2", "status": "WAITING_FOR_USER_INPUT",
                  "waiting_reason": "ATTACK_FORM", "updated_at": "Mock data"}]
+
+    def get_run_detail(self, run_id: str) -> dict[str, Any]:
+        raise DesktopApplicationException("MOCK_ONLY", "ไม่มีข้อมูล pipeline จริงในโหมด mock")
 
     def list_forms(self, run_id: str) -> list[dict[str, Any]]:
         if run_id != "DEMO1":
@@ -166,7 +226,7 @@ class MockDesktopApplication:
         return [{"run_id": "DEMO1", "kind": "attack", "item_id": "CVE-2015-1427", "phase": "before", "revision": 1},
                 {"run_id": "DEMO1", "kind": "patch", "item_id": "patch-001", "phase": "patch", "revision": 1}]
 
-    def start_scan(self, image: str) -> dict[str, Any]:
+    def start_scan(self, image: str, dynamic_scan: bool = False) -> dict[str, Any]:
         if not image.strip():
             raise DesktopApplicationException("IMAGE_REQUIRED", "ระบุ Docker image ก่อนเริ่มวิเคราะห์")
         return {"job_id": "mock-job", "status": "QUEUED"}
@@ -174,6 +234,12 @@ class MockDesktopApplication:
     def get_job(self, job_id: str) -> dict[str, Any]:
         return {"job_id": job_id, "status": "COMPLETED", "run_id": "DEMO1",
                 "run_status": "WAITING_FOR_USER_INPUT", "is_mock": True}
+
+    def stop_run(self, run_id: str) -> dict[str, Any]:
+        return {"run_id": run_id, "status": "STOPPED", "is_mock": True}
+
+    def delete_run(self, run_id: str) -> dict[str, Any]:
+        raise DesktopApplicationException("MOCK_ONLY", "ลบงานได้เฉพาะโหมดข้อมูลจริง")
 
     def get_form(self, context: FormContext) -> FormDocument:
         try:

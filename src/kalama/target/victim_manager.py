@@ -345,4 +345,5 @@ def collect_target_facts(request: Step2Request, image: ImageIdentity,
         tuple(sorted(str(x) for x in environment)), tuple(str(x) for x in command),
         tuple(str(x) for x in entrypoint), parse_exposed_ports(current),
         parse_published_ports(current), listening_status, listening,
+        platform=image.platform,
     )

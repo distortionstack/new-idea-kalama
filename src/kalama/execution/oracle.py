@@ -17,8 +17,10 @@ def classify_oracle(*, config_ready: bool, environment: EnvironmentValidation,
                     run_check: bool, run_exploit: bool,
                     prerequisites_ok: bool, check: CheckEvidence,
                     exploit: CommandEvidence, sessions: SessionEvidence,
-                    impact: ImpactEvidence | None = None) -> OracleResult:
+                    impact: ImpactEvidence | None = None,
+                    module_type: str = "exploit") -> OracleResult:
     impact = impact or ImpactEvidence()
+    auxiliary_action = module_type == "auxiliary"
     exploit_executed = exploit.state == OperationState.EXECUTED and exploit.submitted
     invalidating = (not config_ready or not environment.valid or not prerequisites_ok
                     or exploit.state in {OperationState.EXECUTION_ERROR, OperationState.TIMEOUT,
@@ -28,24 +30,25 @@ def classify_oracle(*, config_ready: bool, environment: EnvironmentValidation,
     attributable_session = (session_known and bool(sessions.attributable_ids)
                             and sessions.attribution == "TARGET_MATCH")
     deterministic_impact = (impact.status == ImpactEvidenceStatus.COLLECTED
-                            and impact.confirmed)
+                             and impact.confirmed)
     complete_negative = bool(config_ready and environment.valid and prerequisites_ok
-                             and run_exploit and exploit_executed and not invalidating
+                             and (run_exploit or auxiliary_action) and exploit_executed and not invalidating
                              and not positive_check
                              and ((session_known and not sessions.new_ids
                                    and sessions.attribution in {"NO_NEW_SESSION", "UNKNOWN"})
-                                  or impact.complete_negative))
+                             or impact.complete_negative))
     conflict = ((attributable_session or deterministic_impact)
                 and check.verdict == CheckVerdict.SAFE)
 
     binary_observation = attributable_session or deterministic_impact or complete_negative
-    eligible = bool(config_ready and environment.valid and run_exploit and exploit_executed
+    eligible = bool(config_ready and environment.valid and (run_exploit or auxiliary_action)
+                    and exploit_executed
                     and not invalidating and binary_observation)
     exclusion = None
     if not config_ready: exclusion = "CONFIG_NOT_READY"
     elif not environment.valid: exclusion = environment.code or "ENVIRONMENT_ERROR"
     elif not prerequisites_ok: exclusion = "PRECONDITION_FAILED"
-    elif not run_exploit: exclusion = "CHECK_ONLY_PROTOCOL"
+    elif not run_exploit and not auxiliary_action: exclusion = "CHECK_ONLY_PROTOCOL"
     elif not exploit_executed: exclusion = "EXPLOIT_NOT_RUN"
     elif invalidating: exclusion = "MSF_BACKEND_ERROR"
     elif not binary_observation:
@@ -59,7 +62,7 @@ def classify_oracle(*, config_ready: bool, environment: EnvironmentValidation,
             exclusion = "IMPACT_EVIDENCE_INCOMPLETE"
     metric = MetricEligibility(eligible, (
         ("config_complete", config_ready), ("environment_validated", environment.valid),
-        ("exploit_required", run_exploit), ("exploit_executed", exploit_executed),
+        ("exploit_required", run_exploit or auxiliary_action), ("exploit_executed", exploit_executed),
         ("invalidating_error", invalidating),
         ("attributable_session", attributable_session),
         ("deterministic_impact", deterministic_impact),
@@ -79,7 +82,7 @@ def classify_oracle(*, config_ready: bool, environment: EnvironmentValidation,
     if not environment.valid or not prerequisites_ok:
         return OracleResult(OracleVerdict.INCONCLUSIVE, exclusion or "ENVIRONMENT",
                             EvidenceCompleteness.NONE, False, metric)
-    if run_check and not run_exploit:
+    if run_check and not run_exploit and not auxiliary_action:
         if positive_check:
             return OracleResult(OracleVerdict.VULNERABLE, "CHECK_ONLY",
                                 EvidenceCompleteness.FULL, False, metric)
