@@ -1,0 +1,9 @@
+{
+  "id": "negative-purl",
+  "input_purl": "not-a-purl",
+  "resources": [],
+  "providers": [],
+  "warnings": [],
+  "status": "INVALID_INPUT",
+  "parse_error": "purl is missing the required \"pkg\" scheme component: 'not-a-purl'."
+}

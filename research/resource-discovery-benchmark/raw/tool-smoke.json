@@ -1,0 +1,12 @@
+{
+  "run_date": "2026-11-21",
+  "environment": {"python": "3.14.4", "network": "AVAILABLE_AFTER_ESCALATION"},
+  "tools": [
+    {"name":"purldb-toolkit","version":"0.1.0","installation":"PASS","cli":"purlcli metadata --purl <PURL> --output <FILE>","smoke":"BLOCKED_TOOL_INTERFACE","error":"ModuleNotFoundError: No module named packagedb.package_managers after installing packagedb 2.0.0"},
+    {"name":"fetchcode","version":"0.8.5","python_api":"fetchcode.package.info(purl)","smoke_results":{"pkg:npm/express@4.17.1":"PASS exact release metadata, download_url and vcs_url present","pkg:maven/org.apache.tomcat/tomcat-catalina@9.0.98":"PROVIDER_ERROR TypeError: NoneType is not iterable"}},
+    {"name":"purl2meta","version":"0.1.1","installation":"PASS","smoke":"NOT_TESTED","reason":"no verified CLI entry point was exposed by installed distribution; no invented invocation"},
+    {"name":"ClearlyDefined","smoke":"NOT_TESTED","reason":"no installed client or endpoint invocation was established in this run"},
+    {"name":"PurlDB REST API","smoke":"NOT_TESTED","reason":"no endpoint invocation was established in this run"},
+    {"name":"Software Heritage","smoke":"NOT_TESTED","reason":"no endpoint invocation was established in this run"}
+  ]
+}

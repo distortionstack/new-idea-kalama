@@ -1,0 +1,50 @@
+{
+  "id": "debian-perl-modules",
+  "input_purl": "pkg:deb/debian/perl-modules-5.24@5.24.1-3%2Bdeb9u5?arch=all&distro=debian-9.5",
+  "resources": [
+    {
+      "provider": "direct-registry",
+      "type": "debian-binary-metadata",
+      "url": "https://snapshot.debian.org/mr/binary/perl-modules-5.24/5.24.1-3+deb9u5/binfiles",
+      "version": "5.24.1-3+deb9u5",
+      "download_method": "GET",
+      "http": {
+        "status": 200,
+        "final_url": "https://snapshot.debian.org/mr/binary/perl-modules-5.24/5.24.1-3+deb9u5/binfiles",
+        "redirect_chain": [],
+        "elapsed_seconds": 0.285,
+        "error": null,
+        "category": null
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": null,
+        "computed": "506a47aafa276eb738c775b916c8e819fecd61aeeb5665040f9598f471914cee",
+        "scope": "complete_response_body"
+      },
+      "verification": {
+        "availability": "PASS",
+        "identity": "NOT_CHECKED",
+        "version": "NOT_CHECKED",
+        "integrity": "LOCAL_HASH_ONLY",
+        "authenticity": "NOT_CHECKED",
+        "provenance": "NOT_CHECKED"
+      },
+      "raw_body": "{\"_comment\":\"foo\",\"binary\":\"perl-modules-5.24\",\"binary_version\":\"5.24.1-3+deb9u5\",\"result\":[{\"architecture\":\"all\",\"hash\":\"63c757ade3979febbe033f6917307bbbf293dcb8\"}]}\n"
+    }
+  ],
+  "providers": [],
+  "warnings": [],
+  "parsed": {
+    "type": "deb",
+    "namespace": "debian",
+    "name": "perl-modules-5.24",
+    "version": "5.24.1-3+deb9u5",
+    "qualifiers": {
+      "arch": "all",
+      "distro": "debian-9.5"
+    },
+    "subpath": null
+  },
+  "status": "QUERIED"
+}

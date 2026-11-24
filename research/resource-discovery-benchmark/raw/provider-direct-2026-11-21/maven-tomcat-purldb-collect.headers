@@ -1,0 +1,10 @@
+HTTP/2 404 
+server: nginx/1.31.2
+date: Sat, 21 Nov 2026 13:58:52 GMT
+content-type: text/html; charset=utf-8
+content-length: 179
+x-frame-options: DENY
+x-content-type-options: nosniff
+referrer-policy: same-origin
+cross-origin-opener-policy: same-origin
+

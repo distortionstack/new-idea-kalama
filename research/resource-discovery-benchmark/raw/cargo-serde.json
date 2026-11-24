@@ -1,0 +1,78 @@
+{
+  "id": "cargo-serde",
+  "input_purl": "pkg:cargo/serde@1.0.197",
+  "resources": [
+    {
+      "provider": "direct-registry",
+      "type": "package-metadata",
+      "url": "https://crates.io/api/v1/crates/serde/1.0.197",
+      "version": "1.0.197",
+      "download_method": "GET",
+      "http": {
+        "status": 200,
+        "final_url": "https://crates.io/api/v1/crates/serde/1.0.197",
+        "redirect_chain": [],
+        "elapsed_seconds": 1.074,
+        "error": null,
+        "category": null
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": null,
+        "computed": "57803437fd9d4eff4300aefc87e67a44b406842b87828fbbe691bfd2f8abb906",
+        "scope": "complete_response_body"
+      },
+      "verification": {
+        "availability": "PASS",
+        "identity": "NOT_CHECKED",
+        "version": "NOT_CHECKED",
+        "integrity": "LOCAL_HASH_ONLY",
+        "authenticity": "NOT_CHECKED",
+        "provenance": "NOT_CHECKED"
+      },
+      "raw_body": "{\"version\":{\"id\":1057075,\"crate\":\"serde\",\"num\":\"1.0.197\",\"dl_path\":\"/api/v1/crates/serde/1.0.197/download\",\"readme_path\":\"/api/v1/crates/serde/1.0.197/readme\",\"updated_at\":\"2024-02-20T00:22:31.542077Z\",\"created_at\":\"2024-02-20T00:22:31.542077Z\",\"downloads\":38743574,\"features\":{\"alloc\":[],\"default\":[\"std\"],\"derive\":[\"serde_derive\"],\"rc\":[],\"std\":[],\"unstable\":[]},\"yanked\":false,\"yank_message\":null,\"lib_links\":null,\"license\":\"MIT OR Apache-2.0\",\"links\":{\"dependencies\":\"/api/v1/crates/serde/1.0.197/dependencies\",\"version_downloads\":\"/api/v1/crates/serde/1.0.197/downloads\",\"authors\":\"/api/v1/crates/serde/1.0.197/authors\"},\"crate_size\":77087,\"published_by\":{\"id\":3618,\"login\":\"dtolnay\",\"name\":\"David Tolnay\",\"avatar\":\"https://avatars.githubusercontent.com/u/1940490?v=4\",\"url\":\"https://github.com/dtolnay\",\"github_username_matches\":true,\"created_at\":\"2012-07-09T03:55:40Z\"},\"audit_actions\":[{\"action\":\"publish\",\"user\":{\"id\":3618,\"login\":\"dtolnay\",\"name\":\"David Tolnay\",\"avatar\":\"https://avatars.githubusercontent.com/u/1940490?v=4\",\"url\":\"https://github.com/dtolnay\",\"github_username_matches\":true,\"created_at\":\"2012-07-09T03:55:40Z\"},\"time\":\"2024-02-20T00:22:31.542077Z\"}],\"checksum\":\"3fb1c873e1b9b056a4dc4c0c198b24c3ffa059243875552b2bd0933b1aee4ce2\",\"rust_version\":\"1.31\",\"has_lib\":true,\"bin_names\":[],\"edition\":\"2018\",\"description\":\"A generic serialization/deserialization framework\",\"homepage\":\"https://serde.rs\",\"documentation\":\"https://docs.rs/serde\",\"repository\":\"https://github.com/serde-rs/serde\",\"trustpub_data\":null,\"linecounts\":{\"languages\":{\"Rust\":{\"code_lines\":10572,\"comment_lines\":217,\"files\":20}},\"total_code_lines\":10572,\"total_comment_lines\":217}}}"
+    }
+  ],
+  "providers": [
+    {
+      "provider": "deps.dev",
+      "url": "https://api.deps.dev/v3/systems/CARGO/packages/serde/versions/1.0.197",
+      "http": {
+        "url": "https://api.deps.dev/v3/systems/CARGO/packages/serde/versions/1.0.197",
+        "method": "GET",
+        "status": 200,
+        "redirect_chain": [],
+        "final_url": "https://api.deps.dev/v3/systems/CARGO/packages/serde/versions/1.0.197",
+        "error": null,
+        "body": "{\"versionKey\":{\"system\":\"CARGO\",\"name\":\"serde\",\"version\":\"1.0.197\"},\"publishedAt\":\"2024-02-20T00:22:31Z\",\"isDefault\":false,\"isDeprecated\":false,\"deprecatedReason\":\"\",\"licenses\":[\"Apache-2.0 OR MIT\"],\"advisoryKeys\":[],\"links\":[{\"label\":\"SOURCE_REPO\",\"url\":\"https://github.com/serde-rs/serde\"},{\"label\":\"HOMEPAGE\",\"url\":\"https://serde.rs\"},{\"label\":\"DOCUMENTATION\",\"url\":\"https://docs.rs/serde\"}],\"slsaProvenances\":[],\"attestations\":[],\"registries\":[\"https://crates.io/\"],\"relatedProjects\":[{\"projectKey\":{\"id\":\"github.com/serde-rs/serde\"},\"relationProvenance\":\"UNVERIFIED_METADATA\",\"relationType\":\"SOURCE_REPO\"}]}",
+        "truncated": false,
+        "elapsed_seconds": 0.095
+      }
+    },
+    {
+      "provider": "OSV",
+      "url": "https://api.osv.dev/v1/query",
+      "http": {
+        "url": "https://api.osv.dev/v1/query",
+        "method": "POST",
+        "status": 200,
+        "redirect_chain": [],
+        "final_url": "https://api.osv.dev/v1/query",
+        "error": null,
+        "body": "{}",
+        "truncated": false,
+        "elapsed_seconds": 0.462
+      }
+    }
+  ],
+  "warnings": [],
+  "parsed": {
+    "type": "cargo",
+    "namespace": null,
+    "name": "serde",
+    "version": "1.0.197",
+    "qualifiers": {},
+    "subpath": null
+  },
+  "status": "QUERIED"
+}

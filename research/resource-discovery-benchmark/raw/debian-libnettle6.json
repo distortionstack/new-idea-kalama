@@ -1,0 +1,80 @@
+{
+  "id": "debian-libnettle6",
+  "input_purl": "pkg:deb/debian/libnettle6@3.3-1%2Bb2?arch=amd64&distro=debian-9.5",
+  "resources": [
+    {
+      "provider": "direct-registry",
+      "type": "debian-binary-metadata",
+      "url": "https://snapshot.debian.org/mr/package/libnettle6/3.3-1+b2/binpackages",
+      "version": "3.3-1+b2",
+      "download_method": "GET",
+      "http": {
+        "status": 404,
+        "final_url": "https://snapshot.debian.org/mr/package/libnettle6/3.3-1+b2/binpackages",
+        "redirect_chain": [],
+        "elapsed_seconds": 0.063,
+        "error": "HTTP Error 404: NOT FOUND",
+        "category": "NOT_FOUND"
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": null,
+        "computed": "9c6dba30e713d8f051e64c9a2189d9496cf3aeeaf625f0c38b60ebcd2d3a62c8",
+        "scope": "complete_response_body"
+      },
+      "verification": {
+        "availability": "NOT_CHECKED",
+        "identity": "NOT_CHECKED",
+        "version": "NOT_CHECKED",
+        "integrity": "LOCAL_HASH_ONLY",
+        "authenticity": "NOT_CHECKED",
+        "provenance": "NOT_CHECKED"
+      },
+      "raw_body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        \n            <title>snapshot.debian.org</title>\n        \n        <link rel=\"stylesheet\" type=\"text/css\" href=\"/static/style.css\" />\n        <link rel=\"icon\" type=\"image/vnd.microsoft.icon\" href=\"/static/favicon.ico\" />\n    </head>\n    <body>\n        <div id=\"top\">\n            <a id=\"logo\" href=\"http://snapshot.debian.org/\"><img src=\"/static/images/top.png\" alt=\"snapshot.debian.org\" width=\"644\" height=\"71\"/></a>\n        </div>\n        \n\n\n\n\n<h1>404 Not Found</h1>\nNo such source package or no binary packages found\n\n\n        <div id=\"bottom\">\n            Application Developed by Peter Palfrader &mdash; Web/Graphics designed by Bernhard Weitzhofer\n            <br/>\n            Source code can be cloned with <code>git clone <a href=\"https://salsa.debian.org/snapshot-team/snapshot.git\">https://salsa.debian.org/snapshot-team/snapshot.git</a></code>\n            or browsed directly on <a href=\"https://salsa.debian.org/snapshot-team/snapshot\"><code>salsa.debian.org</code></a>.\n            <br/>\n            Please <a href=\"https://www.debian.org/Bugs/Reporting\">report bugs</a> against the <a href=\"https://bugs.debian.org/snapshot.debian.org\">snapshot.debian.org package</a>.\n            <br/>\n            Built at 2026-11-21 13:46:01.527738 on snapshot-mlm-01.\n            <br/>\n            <br/>\n            <br/>\n            Hosting for snapshot.debian.org generously provided by our partners.\n            <div>\n                <a title=\"Glasklar Teknik AB\" href=\"https://www.glasklarteknik.se/\"><img width=\"174\" height=\"40\" alt=\"Glasklar\" src=\"/static/images/glasklar.png\"/></a>\n                &nbsp;&nbsp;&nbsp;\n                <a title=\"LeaseWeb offers hosted infrastructure solutions, including Cloud, CDN, Dedicated Servers, Managed Hosting, Colocation, and Hybrid Solutions\" href=\"https://www.leaseweb.com\"><img width=\"150\" height=\"50\" alt=\"LeaseWeb\" src=\"/static/images/leaseweb.png\"/></a>\n                &nbsp;&nbsp;&nbsp;\n\t\t<a title=\"Wellcome Trust Sanger Institute\" href=\"https://www.sanger.ac.uk\"><img width=\"150\" height=\"50\" alt=\"Sanger\" src=\"/static/images/sanger.png\"/></a>\n\t    </div>\n        </div>\n    </body>\n</html>"
+    },
+    {
+      "provider": "direct-registry",
+      "type": "debian-source-metadata",
+      "url": "https://snapshot.debian.org/mr/package/libnettle6/3.3-1+b2/srcpackages",
+      "version": "3.3-1+b2",
+      "download_method": "GET",
+      "http": {
+        "status": 404,
+        "final_url": "https://snapshot.debian.org/mr/package/libnettle6/3.3-1+b2/srcpackages",
+        "redirect_chain": [],
+        "elapsed_seconds": 0.068,
+        "error": "HTTP Error 404: NOT FOUND",
+        "category": "NOT_FOUND"
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": null,
+        "computed": "4d1ab7fe79d2e8ff9d173c21b7d935211762a69029ae852ed75411d78f501d74",
+        "scope": "complete_response_body"
+      },
+      "verification": {
+        "availability": "NOT_CHECKED",
+        "identity": "NOT_CHECKED",
+        "version": "NOT_CHECKED",
+        "integrity": "LOCAL_HASH_ONLY",
+        "authenticity": "NOT_CHECKED",
+        "provenance": "NOT_CHECKED"
+      },
+      "raw_body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"utf-8\">\n        \n            <title>snapshot.debian.org</title>\n        \n        <link rel=\"stylesheet\" type=\"text/css\" href=\"/static/style.css\" />\n        <link rel=\"icon\" type=\"image/vnd.microsoft.icon\" href=\"/static/favicon.ico\" />\n    </head>\n    <body>\n        <div id=\"top\">\n            <a id=\"logo\" href=\"http://snapshot.debian.org/\"><img src=\"/static/images/top.png\" alt=\"snapshot.debian.org\" width=\"644\" height=\"71\"/></a>\n        </div>\n        \n\n\n\n\n<h1>404 Not Found</h1>\nThe requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.\n\n\n        <div id=\"bottom\">\n            Application Developed by Peter Palfrader &mdash; Web/Graphics designed by Bernhard Weitzhofer\n            <br/>\n            Source code can be cloned with <code>git clone <a href=\"https://salsa.debian.org/snapshot-team/snapshot.git\">https://salsa.debian.org/snapshot-team/snapshot.git</a></code>\n            or browsed directly on <a href=\"https://salsa.debian.org/snapshot-team/snapshot\"><code>salsa.debian.org</code></a>.\n            <br/>\n            Please <a href=\"https://www.debian.org/Bugs/Reporting\">report bugs</a> against the <a href=\"https://bugs.debian.org/snapshot.debian.org\">snapshot.debian.org package</a>.\n            <br/>\n            Built at 2026-11-21 13:46:01.794265 on snapshot-mlm-01.\n            <br/>\n            <br/>\n            <br/>\n            Hosting for snapshot.debian.org generously provided by our partners.\n            <div>\n                <a title=\"Glasklar Teknik AB\" href=\"https://www.glasklarteknik.se/\"><img width=\"174\" height=\"40\" alt=\"Glasklar\" src=\"/static/images/glasklar.png\"/></a>\n                &nbsp;&nbsp;&nbsp;\n                <a title=\"LeaseWeb offers hosted infrastructure solutions, including Cloud, CDN, Dedicated Servers, Managed Hosting, Colocation, and Hybrid Solutions\" href=\"https://www.leaseweb.com\"><img width=\"150\" height=\"50\" alt=\"LeaseWeb\" src=\"/static/images/leaseweb.png\"/></a>\n                &nbsp;&nbsp;&nbsp;\n\t\t<a title=\"Wellcome Trust Sanger Institute\" href=\"https://www.sanger.ac.uk\"><img width=\"150\" height=\"50\" alt=\"Sanger\" src=\"/static/images/sanger.png\"/></a>\n\t    </div>\n        </div>\n    </body>\n</html>"
+    }
+  ],
+  "providers": [],
+  "warnings": [],
+  "parsed": {
+    "type": "deb",
+    "namespace": "debian",
+    "name": "libnettle6",
+    "version": "3.3-1+b2",
+    "qualifiers": {
+      "arch": "amd64",
+      "distro": "debian-9.5"
+    },
+    "subpath": null
+  },
+  "status": "QUERIED"
+}

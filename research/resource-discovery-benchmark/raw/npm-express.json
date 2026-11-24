@@ -1,0 +1,78 @@
+{
+  "id": "npm-express",
+  "input_purl": "pkg:npm/express@4.17.1",
+  "resources": [
+    {
+      "provider": "direct-registry",
+      "type": "package-metadata",
+      "url": "https://registry.npmjs.org/express/4.17.1",
+      "version": "4.17.1",
+      "download_method": "GET",
+      "http": {
+        "status": 200,
+        "final_url": "https://registry.npmjs.org/express/4.17.1",
+        "redirect_chain": [],
+        "elapsed_seconds": 0.228,
+        "error": null,
+        "category": null
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": null,
+        "computed": "85b8b0ce267ce5339d60444929f7e8a1373d0e30105e2992e2e929c52a8c1e22",
+        "scope": "complete_response_body"
+      },
+      "verification": {
+        "availability": "PASS",
+        "identity": "NOT_CHECKED",
+        "version": "NOT_CHECKED",
+        "integrity": "LOCAL_HASH_ONLY",
+        "authenticity": "NOT_CHECKED",
+        "provenance": "NOT_CHECKED"
+      },
+      "raw_body": "{\"bugs\":{\"url\":\"https://github.com/expressjs/express/issues\"},\"dist\":{\"shasum\":\"4491fc38605cf51f8629d39c2b5d026f98a4c134\",\"tarball\":\"https://registry.npmjs.org/express/-/express-4.17.1.tgz\",\"fileCount\":16,\"integrity\":\"sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g==\",\"signatures\":[{\"sig\":\"MEUCICQgcHZI8QrmBKcFkCxEopG6oFx7tOFQ/5MEphrR6yzDAiEAk/lgG7aANiylDTtQ31NrvELKJ4MmRQ+3u89poClP2Io=\",\"keyid\":\"SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA\"}],\"unpackedSize\":208133,\"npm-signature\":\"-----BEGIN PGP SIGNATURE-----\\r\\nVersion: OpenPGP.js v3.0.4\\r\\nComment: https://openpgpjs.org\\r\\n\\r\\nwsFcBAEBCAAQBQJc6hU/CRA9TVsSAnZWagAAFc4QAJzqxI1sgdfreUHk+NIa\\n38jYea65Xg8N9JgZVF67j7aXqPT6VXhGu2j54oveGIkr+RL2Xm58RrRWn+Sg\\nVWOOSZzotLKtx1qCYS4ozPRYvujKMLYDeiLxePDCSrrLYt48+IJwkHF04Un1\\nJ0ZUmtlEqgLL85gvaCrKa9qF8TfwbQhhIzQ914vum11tJ506ePpffN2xFY0M\\nsHf0CiuV1OFOD7Wne/RR7DVsxQwZ/FXomkxLJm8+T+T9ZYm3WQxWVD7BRQpA\\nN08+zkPd1XMEZiVZkR9Ie4+7ydZomJE8PNCOt5SzvEW6ekDW10QuuF0521Wj\\n5lHp4AflVFq1LTJB0WDR6VIPJRp0H5aYTh1tBRxWHUx/EP2LfFS/XEz1bUvm\\nBDVj2e1iA4ZWz8aeu9p/2N8Zp05WGINF3/E4YG9smxxs5EDJZGA9k1DAj6US\\nzKWTOemaqypRshFWThvfA70a1Rcwdj+0XGboscg/S20XTT0FvG2GLkEY0OO/\\niHBy5fKYplUQsths48V8I9P9Gx6U534iaFJlxlzzVEsDleBkH+NBSP8OB7dx\\n8N/0ZQDBY6JWL5ZSW9yVY2FzrTEmUOPC1Rts5Uj4m7SBmu8yK154ylnPQ4T6\\nMr0jG8XQPYhTLc5pYNTFZNV1Ydu4d01xIrLhGy/3dc7kRlwy3FN5ceNVsB88\\njyN+\\r\\n=QYw2\\r\\n-----END PGP SIGNATURE-----\\r\\n\"},\"name\":\"express\",\"author\":{\"name\":\"TJ Holowaychuk\",\"email\":\"tj@vision-media.ca\"},\"engines\":{\"node\":\">= 0.10.0\"},\"gitHead\":\"e1b45ebd050b6f06aa38cda5aaf0c21708b0c71e\",\"license\":\"MIT\",\"scripts\":{\"lint\":\"eslint .\",\"test\":\"mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/\",\"test-ci\":\"istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/\",\"test-cov\":\"istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/\",\"test-tap\":\"mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/\"},\"_npmUser\":{\"name\":\"dougwilson\",\"email\":\"doug@somethingdoug.com\"},\"homepage\":\"http://expressjs.com/\",\"keywords\":[\"express\",\"framework\",\"sinatra\",\"web\",\"rest\",\"restful\",\"router\",\"app\",\"api\"],\"repository\":{\"url\":\"git+https://github.com/expressjs/express.git\",\"type\":\"git\"},\"_npmVersion\":\"6.4.1\",\"description\":\"Fast, unopinionated, minimalist web framework\",\"directories\":{},\"maintainers\":[{\"name\":\"dougwilson\",\"email\":\"doug@somethingdoug.com\"},{\"name\":\"jasnell\",\"email\":\"jasnell@gmail.com\"},{\"name\":\"mikeal\",\"email\":\"mikeal.rogers@gmail.com\"}],\"_nodeVersion\":\"8.16.0\",\"contributors\":[{\"name\":\"Aaron Heckmann\",\"email\":\"aaron.heckmann+github@gmail.com\"},{\"name\":\"Ciaran Jessup\",\"email\":\"ciaranj@gmail.com\"},{\"name\":\"Douglas Christopher Wilson\",\"email\":\"doug@somethingdoug.com\"},{\"name\":\"Guillermo Rauch\",\"email\":\"rauchg@gmail.com\"},{\"name\":\"Jonathan Ong\",\"email\":\"me@jongleberry.com\"},{\"name\":\"Roman Shtylman\",\"email\":\"shtylman+expressjs@gmail.com\"},{\"name\":\"Young Jae Sim\",\"email\":\"hanul@hanul.me\"}],\"dependencies\":{\"qs\":\"6.7.0\",\"depd\":\"~1.1.2\",\"etag\":\"~1.8.1\",\"send\":\"0.17.1\",\"vary\":\"~1.1.2\",\"debug\":\"2.6.9\",\"fresh\":\"0.5.2\",\"cookie\":\"0.4.0\",\"accepts\":\"~1.3.7\",\"methods\":\"~1.1.2\",\"type-is\":\"~1.6.18\",\"parseurl\":\"~1.3.3\",\"statuses\":\"~1.5.0\",\"encodeurl\":\"~1.0.2\",\"proxy-addr\":\"~2.0.5\",\"body-parser\":\"1.19.0\",\"escape-html\":\"~1.0.3\",\"on-finished\":\"~2.3.0\",\"safe-buffer\":\"5.1.2\",\"utils-merge\":\"1.0.1\",\"content-type\":\"~1.0.4\",\"finalhandler\":\"~1.1.2\",\"range-parser\":\"~1.2.1\",\"serve-static\":\"1.14.1\",\"array-flatten\":\"1.1.1\",\"path-to-regexp\":\"0.1.7\",\"setprototypeof\":\"1.1.1\",\"cookie-signature\":\"1.0.6\",\"merge-descriptors\":\"1.0.1\",\"content-disposition\":\"0.5.3\"},\"_hasShrinkwrap\":false,\"devDependencies\":{\"ejs\":\"2.6.1\",\"hbs\":\"4.0.4\",\"after\":\"0.8.2\",\"mocha\":\"5.2.0\",\"vhost\":\"~3.0.2\",\"eslint\":\"2.13.1\",\"marked\":\"0.6.2\",\"morgan\":\"1.9.1\",\"should\":\"13.2.3\",\"istanbul\":\"0.4.5\",\"supertest\":\"3.3.0\",\"multiparty\":\"4.2.1\",\"connect-redis\":\"3.4.1\",\"cookie-parser\":\"~1.4.4\",\"cookie-session\":\"1.3.3\",\"express-session\":\"1.16.1\",\"method-override\":\"3.0.0\",\"pbkdf2-password\":\"1.2.1\"},\"_npmOperationalInternal\":{\"tmp\":\"tmp/express_4.17.1_1558844734329_0.21547943776855627\",\"host\":\"s3://npm-registry-packages\"},\"_id\":\"express@4.17.1\",\"version\":\"4.17.1\"}"
+    }
+  ],
+  "providers": [
+    {
+      "provider": "deps.dev",
+      "url": "https://api.deps.dev/v3/systems/NPM/packages/express/versions/4.17.1",
+      "http": {
+        "url": "https://api.deps.dev/v3/systems/NPM/packages/express/versions/4.17.1",
+        "method": "GET",
+        "status": 200,
+        "redirect_chain": [],
+        "final_url": "https://api.deps.dev/v3/systems/NPM/packages/express/versions/4.17.1",
+        "error": null,
+        "body": "{\"versionKey\":{\"system\":\"NPM\",\"name\":\"express\",\"version\":\"4.17.1\"},\"publishedAt\":\"2019-05-26T04:25:34Z\",\"isDefault\":false,\"isDeprecated\":false,\"deprecatedReason\":\"\",\"licenses\":[\"MIT\"],\"advisoryKeys\":[{\"id\":\"GHSA-qw6h-vgh9-j6wx\"},{\"id\":\"GHSA-rv95-896h-c2vc\"}],\"links\":[{\"label\":\"HOMEPAGE\",\"url\":\"http://expressjs.com/\"},{\"label\":\"ISSUE_TRACKER\",\"url\":\"https://github.com/expressjs/express/issues\"},{\"label\":\"ORIGIN\",\"url\":\"https://registry.npmjs.org/express/4.17.1\"},{\"label\":\"SOURCE_REPO\",\"url\":\"git+https://github.com/expressjs/express.git\"}],\"slsaProvenances\":[],\"attestations\":[],\"registries\":[\"https://registry.npmjs.org/\"],\"relatedProjects\":[{\"projectKey\":{\"id\":\"github.com/expressjs/express\"},\"relationProvenance\":\"UNVERIFIED_METADATA\",\"relationType\":\"ISSUE_TRACKER\"},{\"projectKey\":{\"id\":\"github.com/expressjs/express\"},\"relationProvenance\":\"UNVERIFIED_METADATA\",\"relationType\":\"SOURCE_REPO\"}]}",
+        "truncated": false,
+        "elapsed_seconds": 0.123
+      }
+    },
+    {
+      "provider": "OSV",
+      "url": "https://api.osv.dev/v1/query",
+      "http": {
+        "url": "https://api.osv.dev/v1/query",
+        "method": "POST",
+        "status": 200,
+        "redirect_chain": [],
+        "final_url": "https://api.osv.dev/v1/query",
+        "error": null,
+        "body": "{\"vulns\":[{\"id\":\"GHSA-qw6h-vgh9-j6wx\",\"summary\":\"express vulnerable to XSS via response.redirect()\",\"details\":\"### Impact\\n\\nIn express \\u003c4.20.0, passing untrusted user input - even after sanitizing it - to `response.redirect()` may execute untrusted code\\n\\n### Patches\\n\\nthis issue is patched in express 4.20.0\\n\\n### Workarounds\\n\\nusers are encouraged to upgrade to the patched version of express, but otherwise can workaround this issue by making sure any untrusted inputs are safe, ideally by validating them against an explicit allowlist\\n\\n### Details\\n\\nsuccessful exploitation of this vector requires the following:\\n\\n1. The attacker MUST control the input to response.redirect()\\n1. express MUST NOT redirect before the template appears\\n1. the browser MUST NOT complete redirection before:\\n1. the user MUST click on the link in the template\\n\",\"aliases\":[\"CVE-2024-43796\"],\"modified\":\"2026-09-10T03:50:18.298562940Z\",\"published\":\"2024-09-10T19:41:04Z\",\"database_specific\":{\"cwe_ids\":[\"CWE-79\"],\"severity\":\"LOW\",\"github_reviewed\":true,\"github_reviewed_at\":\"2024-09-10T19:41:04Z\",\"nvd_published_at\":\"2024-09-10T15:15:17Z\"},\"references\":[{\"type\":\"WEB\",\"url\":\"https://github.com/expressjs/express/security/advisories/GHSA-qw6h-vgh9-j6wx\"},{\"type\":\"ADVISORY\",\"url\":\"https://nvd.nist.gov/vuln/detail/CVE-2024-43796\"},{\"type\":\"WEB\",\"url\":\"https://github.com/expressjs/express/commit/54271f69b511fea198471e6ff3400ab805d6b553\"},{\"type\":\"PACKAGE\",\"url\":\"https://github.com/expressjs/express\"}],\"affected\":[{\"package\":{\"name\":\"express\",\"ecosystem\":\"npm\",\"purl\":\"pkg:npm/express\"},\"ranges\":[{\"type\":\"SEMVER\",\"events\":[{\"introduced\":\"0\"},{\"fixed\":\"4.20.0\"}]}],\"database_specific\":{\"source\":\"https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2024/09/GHSA-qw6h-vgh9-j6wx/GHSA-qw6h-vgh9-j6wx.json\"}},{\"package\":{\"name\":\"express\",\"ecosystem\":\"npm\",\"purl\":\"pkg:npm/express\"},\"ranges\":[{\"type\":\"SEMVER\",\"events\":[{\"introduced\":\"5.0.0-alpha.1\"},{\"fixed\":\"5.0.0\"}]}],\"database_specific\":{\"source\":\"https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2024/09/GHSA-qw6h-vgh9-j6wx/GHSA-qw6h-vgh9-j6wx.json\"}}],\"schema_version\":\"1.9.0\",\"severity\":[{\"type\":\"CVSS_V3\",\"score\":\"CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L\"},{\"type\":\"CVSS_V4\",\"score\":\"CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:L\"}]},{\"id\":\"GHSA-rv95-896h-c2vc\",\"summary\":\"Express.js Open Redirect in malformed URLs\",\"details\":\"### Impact\\n\\nVersions of Express.js prior to 4.19.2 and pre-release alpha and beta versions before 5.0.0-beta.3 are affected by an open redirect vulnerability using malformed URLs.\\n\\nWhen a user of Express performs a redirect using a user-provided URL Express performs an encode [using `encodeurl`](https://github.com/pillarjs/encodeurl) on the contents before passing it to the `location` header. This can cause malformed URLs to be evaluated in unexpected ways by common redirect allow list implementations in Express applications, leading to an Open Redirect via bypass of a properly implemented allow list.\\n\\nThe main method impacted is `res.location()` but this is also called from within `res.redirect()`.\\n\\n### Patches\\n\\nhttps://github.com/expressjs/express/commit/0867302ddbde0e9463d0564fea5861feb708c2dd\\nhttps://github.com/expressjs/express/commit/0b746953c4bd8e377123527db11f9cd866e39f94\\n\\nAn initial fix went out with `express@4.19.0`, we then patched a feature regression in `4.19.1` and added improved handling for the bypass in `4.19.2`.\\n\\n### Workarounds\\n\\nThe fix for this involves pre-parsing the url string with either `require('node:url').parse` or `new URL`. These are steps you can take on your own before passing the user input string to `res.location` or `res.redirect`.\\n\\n### Resources\\n\\nhttps://github.com/expressjs/express/pull/5539\\nhttps://github.com/koajs/koa/issues/1800\\nhttps://expressjs.com/en/4x/api.html#res.location\",\"aliases\":[\"CVE-2024-29041\"],\"modified\":\"2026-09-10T03:50:10.750068508Z\",\"published\":\"2024-03-25T19:40:26Z\",\"database_specific\":{\"cwe_ids\":[\"CWE-1286\",\"CWE-601\"],\"severity\":\"MODERATE\",\"github_reviewed\":true,\"github_reviewed_at\":\"2024-03-25T19:40:26Z\",\"nvd_published_at\":\"2024-03-25T21:15:46Z\"},\"references\":[{\"type\":\"WEB\",\"url\":\"https://github.com/expressjs/express/security/advisories/GHSA-rv95-896h-c2vc\"},{\"type\":\"ADVISORY\",\"url\":\"https://nvd.nist.gov/vuln/detail/CVE-2024-29041\"},{\"type\":\"WEB\",\"url\":\"https://github.com/koajs/koa/issues/1800\"},{\"type\":\"WEB\",\"url\":\"https://github.com/expressjs/express/pull/5539\"},{\"type\":\"WEB\",\"url\":\"https://github.com/expressjs/express/commit/0867302ddbde0e9463d0564fea5861feb708c2dd\"},{\"type\":\"WEB\",\"url\":\"https://github.com/expressjs/express/commit/0b746953c4bd8e377123527db11f9cd866e39f94\"},{\"type\":\"WEB\",\"url\":\"https://expressjs.com/en/4x/api.html#res.location\"},{\"type\":\"PACKAGE\",\"url\":\"https://github.com/expressjs/express\"}],\"affected\":[{\"package\":{\"name\":\"express\",\"ecosystem\":\"npm\",\"purl\":\"pkg:npm/express\"},\"ranges\":[{\"type\":\"SEMVER\",\"events\":[{\"introduced\":\"0\"},{\"fixed\":\"4.19.2\"}]}],\"database_specific\":{\"source\":\"https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2024/03/GHSA-rv95-896h-c2vc/GHSA-rv95-896h-c2vc.json\"}},{\"package\":{\"name\":\"express\",\"ecosystem\":\"npm\",\"purl\":\"pkg:npm/express\"},\"ranges\":[{\"type\":\"SEMVER\",\"events\":[{\"introduced\":\"5.0.0-alpha.1\"},{\"fixed\":\"5.0.0-beta.3\"}]}],\"database_specific\":{\"source\":\"https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2024/03/GHSA-rv95-896h-c2vc/GHSA-rv95-896h-c2vc.json\"}}],\"schema_version\":\"1.9.0\",\"severity\":[{\"type\":\"CVSS_V3\",\"score\":\"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N\"}]}]}",
+        "truncated": false,
+        "elapsed_seconds": 0.443
+      }
+    }
+  ],
+  "warnings": [],
+  "parsed": {
+    "type": "npm",
+    "namespace": null,
+    "name": "express",
+    "version": "4.17.1",
+    "qualifiers": {},
+    "subpath": null
+  },
+  "status": "QUERIED"
+}

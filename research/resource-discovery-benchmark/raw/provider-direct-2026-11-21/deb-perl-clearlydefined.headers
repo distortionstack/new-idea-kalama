@@ -1,0 +1,32 @@
+HTTP/2 404 
+date: Sat, 21 Nov 2026 14:00:15 GMT
+content-type: application/json; charset=utf-8
+content-length: 74
+access-control-allow-origin: *
+etag: W/"4a-/du8iWpPKfY5JEJLn0Dhh6CE4Mw"
+strict-transport-security: max-age=31536000; includeSubDomains
+content-security-policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+origin-agent-cluster: ?1
+referrer-policy: no-referrer
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-xss-protection: 0
+x-request-id: 1d83d5be-ace5-49d7-9df7-ee9b903e1b9f
+ratelimit-policy: 2000;w=60
+ratelimit-limit: 2000
+ratelimit-remaining: 1997
+ratelimit-reset: 13
+age: 14
+cache-control: max-age=1800
+cf-cache-status: HIT
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=HBO9CSikns8y9rfV9IaK%2BNcHpTXflO%2FyICT3s8rxV2VWhTJO5eokjcPQggipNEN60BQOMm0uMuxh8MbpZlAQpDM5WJBuT8nSgopPX%2Bsbb%2FC4iLRM28EYumn7H%2F43NgRTbyoWLMXYf70oZ8AnaeYFWPU8f%2Fc%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a5e0383a0bb69102-BKK
+alt-svc: h3=":443"; ma=86400
+

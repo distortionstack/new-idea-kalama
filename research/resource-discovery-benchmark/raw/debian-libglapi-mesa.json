@@ -1,0 +1,50 @@
+{
+  "id": "debian-libglapi-mesa",
+  "input_purl": "pkg:deb/debian/libglapi-mesa@13.0.6-1%2Bb2?arch=amd64&distro=debian-9.5",
+  "resources": [
+    {
+      "provider": "direct-registry",
+      "type": "debian-binary-metadata",
+      "url": "https://snapshot.debian.org/mr/binary/libglapi-mesa/13.0.6-1+b2/binfiles",
+      "version": "13.0.6-1+b2",
+      "download_method": "GET",
+      "http": {
+        "status": 200,
+        "final_url": "https://snapshot.debian.org/mr/binary/libglapi-mesa/13.0.6-1+b2/binfiles",
+        "redirect_chain": [],
+        "elapsed_seconds": 0.346,
+        "error": null,
+        "category": null
+      },
+      "checksum": {
+        "algorithm": "sha256",
+        "expected": null,
+        "computed": "ad8ae4f3b7e7fa74fddc6929b49aa6034fb9df8f9b7858b2c6e194d228063340",
+        "scope": "complete_response_body"
+      },
+      "verification": {
+        "availability": "PASS",
+        "identity": "NOT_CHECKED",
+        "version": "NOT_CHECKED",
+        "integrity": "LOCAL_HASH_ONLY",
+        "authenticity": "NOT_CHECKED",
+        "provenance": "NOT_CHECKED"
+      },
+      "raw_body": "{\"_comment\":\"foo\",\"binary\":\"libglapi-mesa\",\"binary_version\":\"13.0.6-1+b2\",\"result\":[{\"architecture\":\"mips\",\"hash\":\"cb1adb3cff2d6e0b99fbefb70991a859fd6a001e\"},{\"architecture\":\"armel\",\"hash\":\"210241295bfb1410b38503aad80ff62b2bed5a5b\"},{\"architecture\":\"mipsel\",\"hash\":\"13d23ac13adda1c36e45c1381bb86ca13005caa7\"},{\"architecture\":\"mips64el\",\"hash\":\"91c99d2d1bb271cabf4e809b2320f958387d7eeb\"},{\"architecture\":\"armhf\",\"hash\":\"3c2a9afeb5472482b21fc5e82ea194ddc28de098\"},{\"architecture\":\"amd64\",\"hash\":\"3a4d618b33c0351a3e3c6c67061498b7bf7dad28\"},{\"architecture\":\"arm64\",\"hash\":\"1027a38acca497d51478f98fe9084df17cfe74cc\"},{\"architecture\":\"s390x\",\"hash\":\"4831a909e90d25ec5850ebb14d09261534a58a9c\"},{\"architecture\":\"i386\",\"hash\":\"ad0e69be6b5958cbcb9c3717dc8e983d526495e1\"},{\"architecture\":\"ppc64el\",\"hash\":\"bb3e35e189f381e2ae3c2d047b14d02b4cd46ae2\"}]}\n"
+    }
+  ],
+  "providers": [],
+  "warnings": [],
+  "parsed": {
+    "type": "deb",
+    "namespace": "debian",
+    "name": "libglapi-mesa",
+    "version": "13.0.6-1+b2",
+    "qualifiers": {
+      "arch": "amd64",
+      "distro": "debian-9.5"
+    },
+    "subpath": null
+  },
+  "status": "QUERIED"
+}

@@ -1,0 +1,1 @@
+{"valid":true,"exists":true,"message":"The provided Package URL is valid, and the package exists in the upstream repo.","purl":"pkg:maven/org.apache.tomcat/tomcat-catalina@9.0.98"}

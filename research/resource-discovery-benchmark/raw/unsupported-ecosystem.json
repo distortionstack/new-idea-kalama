@@ -1,0 +1,16 @@
+{
+  "id": "unsupported-ecosystem",
+  "input_purl": "pkg:example/acme/widget@1.0.0",
+  "resources": [],
+  "providers": [],
+  "warnings": [],
+  "parsed": {
+    "type": "example",
+    "namespace": "acme",
+    "name": "widget",
+    "version": "1.0.0",
+    "qualifiers": {},
+    "subpath": null
+  },
+  "status": "UNSUPPORTED"
+}

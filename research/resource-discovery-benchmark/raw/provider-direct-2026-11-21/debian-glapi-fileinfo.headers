@@ -1,0 +1,22 @@
+HTTP/2 200 
+server: Apache
+x-content-type-options: nosniff
+x-frame-options: sameorigin
+referrer-policy: no-referrer
+x-xss-protection: 1
+permissions-policy: interest-cohort=()
+cache-control: max-age=600, public
+expires: Sat, 21 Nov 2026 14:10:53 GMT
+x-clacks-overhead: GNU Terry Pratchett
+content-type: application/json
+via: 1.1 snapshot-mmx-01 (Varnish/7.7), 1.1 varnish, 1.1 varnish
+strict-transport-security: max-age=15768000; preload
+accept-ranges: bytes
+age: 0
+date: Sat, 21 Nov 2026 14:00:53 GMT
+x-served-by: cache-bma-essb1270045-BMA, cache-bkk2280026-BKK
+x-cache: MISS, MISS
+x-cache-hits: 0, 0
+x-timer: S1795269653.405806,VS0,VE209
+content-length: 381
+

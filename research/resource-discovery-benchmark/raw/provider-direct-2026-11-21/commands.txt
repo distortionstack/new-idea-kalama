@@ -1,0 +1,3 @@
+PurlDB: curl --fail-with-body -sS -D <headers> -o <body> 'https://public.purldb.io/api/validate/?purl=<encoded>&check_existence=true'
+PurlDB: curl --fail-with-body -sS -D <headers> -o <body> 'https://public.purldb.io/api/collect/?purl=<encoded>'
+ClearlyDefined: curl --fail-with-body -sS -D <headers> -o <body> 'https://api.clearlydefined.io/definitions/<coordinates>'
