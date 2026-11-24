@@ -12,6 +12,7 @@ from kalama.remediation.planner import build_patch_plan
 from kalama.state.models import (
     ArtifactKind, ArtifactReference, CVEStateSummary, PipelineStage, RunStatus, StageStatus,
 )
+from kalama.state.store import utc_text
 
 
 class FakeProvider:
@@ -76,6 +77,19 @@ class PatchPlanningIntegrationTests(unittest.TestCase):
         self.helper.setUp()
         self.root, self.store = self.helper.root, self.helper.store
         self.helper.make_exploit_protocol()
+        # BeforeExploitTests.setUp intentionally leaves an unresolved payload so
+        # its own tests can exercise confirmation.  This fixture supplies the
+        # payload directly through make_exploit_protocol(); mirror the canonical
+        # before-exploit boundary instead of depending on another test to advance
+        # the shared run state.
+        timestamp = utc_text(task4_helpers.NOW)
+        ready = self.store.load("aB3x9").with_stage(
+            PipelineStage.STEP_4_RESOLVER, StageStatus.SUCCEEDED, timestamp)
+        self.store.save(replace(
+            ready, status=RunStatus.PAUSED,
+            waiting_reason="BEFORE_EXPLOIT_NOT_INTEGRATED",
+            updated_at=timestamp,
+        ))
         self.state = self.helper.execute_pipeline(
             task4_helpers.FakeMsf(sessions=(("1",), ("1", "2")),
                                   session_details=({}, {"2": {"tunnel_peer": "172.18.0.3:4444",

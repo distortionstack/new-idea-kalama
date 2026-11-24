@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import json
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 from kalama.remediation.discovery import (
     AutomaticRemediationProvider, ClassificationStatus, DiscoveryClassification,
@@ -23,6 +25,7 @@ from kalama.remediation.discovery.os_package import (
 from kalama.remediation.discovery.models import AvailabilityStatus
 from kalama.remediation.discovery.source_build import SourceBuildProvider
 from kalama.remediation.models import RemediationCandidate
+from kalama.remediation.discovery.contracts import ProviderStatus
 
 
 def occurrence(*, cve, package, installed, fixed, result_class, result_type, purl=None):
@@ -58,15 +61,16 @@ class FakeRunner:
 
 
 class SelectFixedVersionTests(unittest.TestCase):
-    def test_same_branch_selection_prefers_matching_minor(self):
-        self.assertEqual(select_same_branch_fixed("2.3.30", ["2.3.32", "2.5.10.1"]), (
-            "2.3.32", True, "same major AND minor release branch match"))
-
-    def test_no_silent_major_jump(self):
-        target, same, reason = select_same_branch_fixed("2.3.30", ["3.0.0"])
+    def test_multiple_scanner_versions_are_not_collapsed(self):
+        target, same, reason = select_same_branch_fixed(
+            "2.3.30", ["2.3.32", "2.5.10.1"])
         self.assertIsNone(target)
-        self.assertFalse(same)
-        self.assertIn("major", reason or "")
+        self.assertIsNone(same)
+        self.assertIn("separate discovery requests", reason or "")
+
+    def test_single_scanner_version_is_preserved_without_branch_guess(self):
+        self.assertEqual(select_same_branch_fixed("2.3.30", ["3.0.0"]), (
+            "3.0.0", None, "single scanner requested fixed version"))
 
     def test_no_fixed_version(self):
         target, same, reason = select_same_branch_fixed("1.0", [])
@@ -75,7 +79,7 @@ class SelectFixedVersionTests(unittest.TestCase):
 
     def test_installed_unknown_is_ambiguous(self):
         target, same, reason = select_same_branch_fixed(None, ["2.3.32"])
-        self.assertIsNone(target)
+        self.assertEqual(target, "2.3.32")
         self.assertIsNone(same)
 
 
@@ -179,6 +183,34 @@ class OsPackageProviderTests(unittest.TestCase):
         probe_facts = [e for e in d.evidence if e.fact == "availability_query_attempted"]
         self.assertEqual(len(probe_facts), 3)
 
+    @unittest.expectedFailure
+    def test_known_defect_multi_package_availability_requires_every_package(self):
+        """Task 7 will make one unavailable package block aggregate availability."""
+        runner = FakeRunner()
+        runner.when("apt-cache policy alpha", stdout="Candidate: 1.1\n", exit_code=0)
+        runner.when("apt-cache policy beta", stdout="Candidate: 1.0\n", exit_code=0)
+        d = self.build(runner).discover("CVE-1", [
+            occurrence(cve="CVE-1", package="alpha", installed="1.0", fixed=["1.1"],
+                       result_class="os-pkgs", result_type="debian"),
+            occurrence(cve="CVE-1", package="beta", installed="1.0", fixed=["1.1"],
+                       result_class="os-pkgs", result_type="debian"),
+        ], None)
+        self.assertNotEqual(d.availability.status, AvailabilityStatus.AVAILABLE)
+
+    @unittest.expectedFailure
+    def test_known_defect_multi_package_candidate_status_is_not_first_item(self):
+        """Task 7 will aggregate CandidateStatus with its own status policy."""
+        runner = FakeRunner()
+        runner.when("apt-cache policy alpha", stdout="Candidate: 1.1\n", exit_code=0)
+        runner.when("apt-cache policy beta", stdout="Candidate: 1.0\n", exit_code=0)
+        d = self.build(runner).discover("CVE-1", [
+            occurrence(cve="CVE-1", package="alpha", installed="1.0", fixed=["1.1"],
+                       result_class="os-pkgs", result_type="debian"),
+            occurrence(cve="CVE-1", package="beta", installed="1.0", fixed=["1.1"],
+                       result_class="os-pkgs", result_type="debian"),
+        ], None)
+        self.assertEqual(d.candidate_status, CandidateStatus.PARTIAL)
+
     def test_F_unsupported_distro_no_fabricated_command(self):
         runner = FakeRunner()
         prov = self.build(runner)
@@ -202,7 +234,7 @@ class SourceBuildProviderTests(unittest.TestCase):
     def test_G_with_local_manifest_proposal_not_ready(self):
         prov = SourceBuildProvider(source_root=None)
         manifests = [{"name": "pom.xml", "detail": "/src/pom.xml"}]
-        d = prov.discover("CVE-2017-5638", [self.maven_occ()], manifests)
+        d = prov.discover("CVE-2017-5638", [self.maven_occ(fixed=("2.3.32",))], manifests)
         self.assertEqual(d.classification, DiscoveryClassification.SOURCE_BUILD)
         self.assertEqual(d.fix_type, "A")
         self.assertEqual(d.strategy, "REBUILD")
@@ -216,7 +248,7 @@ class SourceBuildProviderTests(unittest.TestCase):
     def test_H_no_manifest_prebuilt_knowledge_required(self):
         prov = SourceBuildProvider(source_root=None)
         d = prov.discover("CVE-2017-9805", [self.maven_occ(
-            installed="2.5.12", fixed=("2.3.34", "2.5.13"))], [])
+            installed="2.5.12", fixed=("2.5.13",))], [])
         self.assertEqual(d.classification, DiscoveryClassification.PREBUILT_IMAGE)
         self.assertEqual(d.fix_type, "B")
         self.assertEqual(d.fixed_version, "2.5.13")
@@ -226,7 +258,7 @@ class SourceBuildProviderTests(unittest.TestCase):
     def test_K_prebuilt_has_fixed_version_but_no_image_candidate(self):
         prov = SourceBuildProvider(source_root=None)
         d = prov.discover("CVE-2017-9805", [self.maven_occ(
-            installed="2.5.12", fixed=("2.3.34", "2.5.13"))], [])
+            installed="2.5.12", fixed=("2.5.13",))], [])
         self.assertEqual(d.fixed_version, "2.5.13")
         self.assertIsNone(d.source_identifier)
         self.assertIsNone(d.availability)
@@ -234,22 +266,23 @@ class SourceBuildProviderTests(unittest.TestCase):
     def test_L_no_guessed_repo_tag_generated(self):
         prov = SourceBuildProvider(source_root=None)
         d = prov.discover("CVE-2017-9805", [self.maven_occ(
-            installed="2.5.12", fixed=("2.3.34", "2.5.13"))], [])
+            installed="2.5.12", fixed=("2.5.13",))], [])
         # There must be no image identity/tag anywhere in the evidence output.
         text = json.dumps(d.to_dict())
         self.assertNotIn("rest-showcase", text)
         self.assertNotIn("vulhub/struts2:2.5.13", text)
 
-    def test_I_ambiguous_branch_no_major_jump(self):
+    def test_I_single_scanner_version_is_not_branch_normalized(self):
         prov = SourceBuildProvider(source_root=None)
         d = prov.discover("CVE-X", [self.maven_occ(installed="2.3.30",
                                                    fixed=("3.0.0",))], [{"name": "pom.xml"}])
-        self.assertIsNone(d.fixed_version)
-        self.assertEqual(d.same_branch, False)
+        self.assertEqual(d.fixed_version, "3.0.0")
+        self.assertIsNone(d.same_branch)
 
     def test_J_no_shell_build_command_generated(self):
         prov = SourceBuildProvider(source_root=None)
-        d = prov.discover("CVE-2017-5638", [self.maven_occ()], [{"name": "pom.xml"}])
+        d = prov.discover("CVE-2017-5638", [self.maven_occ(fixed=("2.3.32",))],
+                          [{"name": "pom.xml"}])
         text = json.dumps(d.to_dict())
         self.assertNotIn("mvn", text)
         self.assertNotIn("apt-get", text)
@@ -294,10 +327,91 @@ class ServiceIntegrationTests(unittest.TestCase):
         self.assertNotIn(cand.execution_readiness, {"VERIFIED", "PATCH_SUCCEEDED"})
         self.assertNotIn("CVE_REMOVED", cand.evidence)
 
+    def test_multiple_cves_remain_separate_in_legacy_discovery(self):
+        runner = FakeRunner()
+        runner.when("apt-cache policy alpha", stdout="Candidate: 1.1\n", exit_code=0)
+        runner.when("apt-cache policy beta", stdout="Candidate: 2.1\n", exit_code=0)
+        results = self.make_service(runner).discover_occurrences([], [
+            occurrence(cve="CVE-1", package="alpha", installed="1.0", fixed=["1.1"],
+                       result_class="os-pkgs", result_type="debian"),
+            occurrence(cve="CVE-2", package="beta", installed="2.0", fixed=["2.1"],
+                       result_class="os-pkgs", result_type="debian"),
+        ])
+        self.assertEqual(set(results), {"CVE-1", "CVE-2"})
+
+    def test_same_package_uid_and_version_remain_separate_across_cves(self):
+        runner = FakeRunner()
+        runner.when("apt-cache policy alpha", stdout="Candidate: 1.1\n", exit_code=0)
+        occurrences = []
+        for cve in ("CVE-1", "CVE-2"):
+            item = occurrence(cve=cve, package="alpha", installed="1.0",
+                              fixed=["1.1"], result_class="os-pkgs",
+                              result_type="debian")
+            item["package_uid"] = "shared-package-uid"
+            occurrences.append(item)
+        results = self.make_service(runner).discover_unified([], occurrences)
+        self.assertEqual(len(results), 2)
+        self.assertEqual(len({item.request.request_id for item in results}), 2)
+        self.assertEqual({item.request.cve_id for item in results}, {"CVE-1", "CVE-2"})
+
+    def test_each_fixed_version_is_projected_before_os_provider(self):
+        runner = FakeRunner()
+        runner.when("apt-cache policy alpha", stdout="Candidate: 1.2\n", exit_code=0)
+        results = self.make_service(runner).discover_unified([], [occurrence(
+            cve="CVE-1", package="alpha", installed="1.0", fixed=["1.1", "1.2"],
+            result_class="os-pkgs", result_type="debian")])
+        self.assertEqual({item.request.requested_fixed_version for item in results},
+                         {"1.1", "1.2"})
+        availability_calls = [call for call in runner.calls
+                              if call[0][-1].startswith("apt-cache policy")]
+        self.assertEqual(len(availability_calls), 2)
+        by_version = {item.request.requested_fixed_version: item for item in results}
+        self.assertEqual(by_version["1.1"].provider_results[0].status,
+                         ProviderStatus.UNAVAILABLE)
+        self.assertEqual(by_version["1.2"].provider_results[0].status,
+                         ProviderStatus.RESOLVED)
+
+    def test_provider_status_is_scoped_to_each_package_request(self):
+        runner = FakeRunner()
+        runner.when("apt-cache policy alpha", stdout="Candidate: 1.1\n", exit_code=0)
+        runner.when("apt-cache policy beta", stderr="Unable to locate package beta",
+                    exit_code=100)
+        results = self.make_service(runner).discover_unified([], [
+            occurrence(cve="CVE-1", package="alpha", installed="1.0", fixed=["1.1"],
+                       result_class="os-pkgs", result_type="debian"),
+            occurrence(cve="CVE-1", package="beta", installed="2.0", fixed=["2.1"],
+                       result_class="os-pkgs", result_type="debian"),
+        ])
+        by_package = {item.request.package.name: item for item in results}
+        self.assertEqual(by_package["alpha"].provider_results[0].status,
+                         ProviderStatus.RESOLVED)
+        self.assertEqual(by_package["beta"].provider_results[0].status,
+                         ProviderStatus.UNAVAILABLE)
+        self.assertFalse(by_package["beta"].provider_results[0].resources)
+
+    def test_each_fixed_version_is_projected_before_application_provider(self):
+        results = self.make_service(FakeRunner()).discover_unified([], [occurrence(
+            cve="CVE-1", package="org.example:app", installed="1.0",
+            fixed=["1.1", "2.0"], result_class="lang-pkgs", result_type="jar",
+            purl="pkg:maven/org.example/app@1.0")])
+        self.assertEqual({item.request.requested_fixed_version for item in results},
+                         {"1.1", "2.0"})
+        self.assertEqual(
+            {resource.provider_resolved_version
+             for item in results for provider in item.provider_results
+             for resource in provider.resources},
+            {"1.1", "2.0"},
+        )
+
     def test_auto_provider_writes_discovery_artifact(self):
         runner = FakeRunner()
         runner.when("apt-cache policy curl", stdout="curl:\n  Candidate: 1.1\n", exit_code=0)
         with tempfile.TemporaryDirectory() as root:
+            legacy = (Path(root) / "patch" / "discovery" /
+                      f"discovery_{datetime.now(timezone.utc):%Y-%m-%d}_aB3x9.json")
+            legacy.parent.mkdir(parents=True)
+            legacy.write_text('{"schema":"kalama.remediation-discovery/v1"}\n',
+                              encoding="utf-8")
             provider = AutomaticRemediationProvider(self.make_service(runner),
                                                     output_root=Path(root))
             provider.candidate(package_name="curl", ecosystem="debian",
@@ -310,10 +424,29 @@ class ServiceIntegrationTests(unittest.TestCase):
             self.assertIsNotNone(written)
             path, sha = written
             data = json.loads(Path(path).read_bytes())
-            self.assertEqual(data["schema"], "kalama.remediation-discovery/v1")
+            self.assertEqual(data["schema"], "kalama.remediation-discovery/v2")
             self.assertEqual(data["run_id"], "aB3x9")
-            self.assertEqual(len(data["targets"]), 1)
-            self.assertTrue(data["targets"][0]["evidence"])
+            self.assertEqual(len(data["results"]), 1)
+            self.assertTrue(data["results"][0]["provider_results"][0]["raw_evidence"])
+            self.assertIn("discovery_v2_", Path(path).name)
+            self.assertEqual(legacy.read_text(encoding="utf-8"),
+                             '{"schema":"kalama.remediation-discovery/v1"}\n')
+
+    def test_discovery_artifact_write_failure_is_visible_to_caller(self):
+        runner = FakeRunner()
+        runner.when("apt-cache policy curl", stdout="Candidate: 1.1\n", exit_code=0)
+        with tempfile.TemporaryDirectory() as root:
+            provider = AutomaticRemediationProvider(
+                self.make_service(runner), output_root=Path(root))
+            provider.candidate(
+                package_name="curl", ecosystem="debian", installed_versions=["1.0"],
+                scanner_fixed_versions=["1.1"], occurrences=[occurrence(
+                    cve="CVE-1", package="curl", installed="1.0", fixed=["1.1"],
+                    result_class="os-pkgs", result_type="debian")])
+            with patch("kalama.resolution.artifacts._atomic_write",
+                       side_effect=OSError("replace failed")):
+                with self.assertRaisesRegex(OSError, "replace failed"):
+                    provider.write_discovery_artifact("aB3x9")
 
 
 class OrchestratorDiscoveryIntegrationTests(unittest.TestCase):
@@ -338,7 +471,8 @@ class OrchestratorDiscoveryIntegrationTests(unittest.TestCase):
         ref = state.artifact(ArtifactKind.REMEDIATION_DISCOVERY)
         self.assertIsNotNone(ref)
         data = json.loads(Path(ref.path).read_bytes())
-        self.assertIn("targets", data)
+        self.assertEqual(data["schema"], "kalama.remediation-discovery/v2")
+        self.assertIn("results", data)
         # Human confirmation remains mandatory even for an available OS candidate.
         self.assertEqual(state.status, RunStatus.WAITING_FOR_USER_INPUT)
         self.assertEqual(state.current_stage, PipelineStage.STEP_5_PATCH_PLAN)
@@ -352,6 +486,21 @@ class OrchestratorDiscoveryIntegrationTests(unittest.TestCase):
         self.assertEqual(action["candidate"]["candidate_status"], "DISCOVERED")
         self.assertEqual(action["candidate"]["execution_readiness"],
                          "HUMAN_CONFIRMATION_REQUIRED")
+
+    def test_discovery_artifact_write_failure_keeps_legacy_planning_nonfatal(self):
+        runner = FakeRunner()
+        runner.when("apt-cache policy openssl", stdout="Candidate: 1.1\n", exit_code=0)
+        provider = AutomaticRemediationProvider(
+            RemediationDiscoveryService(runner=runner, container_name="victim-aB3x9"),
+            output_root=self.store.output_root,
+        )
+        with patch.object(provider, "write_discovery_artifact",
+                          side_effect=OSError("discovery replace failed")):
+            state = self.fixture.run_plan(provider)
+        from kalama.state.models import ArtifactKind, RunStatus
+        self.assertEqual(state.status, RunStatus.WAITING_FOR_USER_INPUT)
+        self.assertIsNone(state.artifact(ArtifactKind.REMEDIATION_DISCOVERY))
+        self.assertIsNotNone(state.artifact(ArtifactKind.PATCH_PLAN))
 
 
 if __name__ == "__main__":

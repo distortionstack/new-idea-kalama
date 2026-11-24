@@ -46,34 +46,13 @@ def _distro_label(target_facts: Mapping[str, Any] | None) -> str | None:
             or target_facts.get("os") or None)
 
 
-def _major_minor(version: str) -> tuple[str, str]:
-    parts = version.split(".")
-    return (parts[0] if parts else "", parts[1] if len(parts) > 1 else "")
-
-
 def select_same_branch_fixed(installed: str | None, fixed_versions: Sequence[str]) -> tuple[str | None, bool | None, str | None]:
-    """Pick the fixed version consistent with the installed release branch.
-
-    Trivy's FixedVersion list is not ordered; do not silently jump major versions.
-    If no same-branch match exists among the fixed versions, candidate resolution is
-    ambiguous and must remain PARTIAL.
-    """
+    """Legacy bridge: accept one scanner version, never choose among alternatives."""
     if not fixed_versions:
         return None, None, "no fixed version in scanner evidence"
-    if not installed:
-        return None, None, "installed version unknown; branch cannot be determined"
-    installed_major, installed_minor = _major_minor(installed)
-    matches = [v for v in fixed_versions if _major_minor(v)[0] == installed_major]
-    if matches:
-        # Same major branch. Prefer the matching minor branch when resolvable to
-        # avoid upgrading beyond the installed minor release without evidence.
-        minor_matches = [v for v in matches if _major_minor(v)[1] == installed_minor]
-        pool = sorted(minor_matches, key=lambda v: tuple(map(int, re.findall(r"\d+", v) or [0])))
-        if minor_matches:
-            return pool[-1], True, "same major AND minor release branch match"
-        return min(matches, key=lambda v: tuple(map(int, re.findall(r"\d+", v) or [0]))), True, \
-            "same major release branch; no minor match, chose lowest fixed"
-    return None, False, "no fixed version on the installed major branch"
+    if len(fixed_versions) != 1:
+        return None, None, "multiple scanner fixed versions require separate discovery requests"
+    return fixed_versions[0], None, "single scanner requested fixed version"
 
 
 def build_availability_query(package_manager: str | None, package: str,

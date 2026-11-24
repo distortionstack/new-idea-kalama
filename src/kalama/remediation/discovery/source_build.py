@@ -7,13 +7,13 @@ coordinates, but it never executes a build and never emits an executable candida
 
 from __future__ import annotations
 
-import re
 from typing import Any, Mapping, Sequence
 
 from .models import (
     CandidateStatus, ClassificationStatus, DiscoveredCandidate, DiscoveryClassification,
     DiscoveryEvidence, ExecutionReadiness, ProvenanceCategory, VersionStatus,
 )
+from .purl import normalize_purl
 
 MAVEN_TYPES = {"jar", "javapkg", "pom", "maven"}
 
@@ -26,42 +26,20 @@ def _is_lang_pkg(occurrence: Mapping[str, Any]) -> bool:
 
 def _maven_coordinates(purl: str | None) -> tuple[str | None, str | None]:
     """Extract (groupId, artifactId) from a Maven PURL: pkg:maven/<group>/<artifact>@<ver>."""
-    if not purl:
+    normalized = normalize_purl(purl, None)
+    if not normalized.ok or not normalized.package or normalized.package.package_type != "maven":
         return None, None
-    try:
-        rest = purl.split(":", 1)[1]
-        body = rest.split("@", 1)[0]
-        parts = body.split("/")
-        if len(parts) >= 2:
-            return parts[0], parts[1]
-        return None, parts[0] if parts else None
-    except Exception:
-        return None, None
+    return normalized.package.namespace, normalized.package.name
 
 
 def _select_target(purl: str | None, installed: str | None,
                    fixed_versions: Sequence[str]) -> tuple[str | None, bool | None, str | None]:
-    """Same-(major,preferably minor)-branch selection, never a silent major jump."""
+    """Legacy bridge: preserve a sole scanner version without branch guessing."""
     if not fixed_versions:
         return None, None, "no fixed version in scanner evidence"
-    if not installed:
-        return None, None, "installed version unknown; branch ambiguous"
-    installed_major = installed.split(".", 1)[0]
-    matches = [v for v in fixed_versions if v.split(".", 1)[0] == installed_major]
-    if not matches:
-        return None, False, "no fixed version on installed major branch"
-
-    def key(v):
-        return tuple(int(x) for x in re.findall(r"\d+", v) or [0])
-
-    installed_parts = installed.split(".")
-    installed_minor = installed_parts[1] if len(installed_parts) > 1 else None
-    minor_matches = [v for v in matches
-                     if installed_minor is not None
-                     and (v.split(".")[1] if v.count(".") >= 1 else None) == installed_minor]
-    if minor_matches:
-        return min(minor_matches, key=key), True, "same major AND minor release branch match"
-    return min(matches, key=key), True, "same major release branch; no minor match, chose lowest fixed"
+    if len(fixed_versions) != 1:
+        return None, None, "multiple scanner fixed versions require separate discovery requests"
+    return fixed_versions[0], None, "single scanner requested fixed version"
 
 
 class SourceBuildProvider:
@@ -178,6 +156,7 @@ class SourceBuildProvider:
             CandidateStatus.DISCOVERED, ExecutionReadiness.HUMAN_CONFIRMATION_REQUIRED, None,
             packages=(package,), installed_versions=(installed,) if installed else (),
             fixed_versions=tuple(fixed_versions), build_system="maven",
-            source_identifier=coordinate and f"{coordinate[0]}:{coordinate[1]}",
+            source_identifier=(f"{coordinate[0]}:{coordinate[1]}"
+                               if coordinate[0] and coordinate[1] else None),
             same_branch=same_branch, branch_reason=reason,
             evidence=tuple(evidence))

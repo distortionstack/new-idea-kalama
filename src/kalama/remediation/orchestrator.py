@@ -226,7 +226,8 @@ class PatchPlanningOrchestrator:
                         ArtifactKind.REMEDIATION_DISCOVERY, discovery_path, discovery_sha,
                         discovery_value.get("schema", "kalama.remediation-discovery/v1"),
                         self._now(), PipelineStage.STEP_5_PATCH_PLAN,
-                        (("target_count", len(discovery_value.get("targets") or ())),))
+                        (("target_count", len(discovery_value.get("results")
+                                              or discovery_value.get("targets") or ())),))
             except Exception:
                 discovery_ref = None
         if discovery_ref is not None:

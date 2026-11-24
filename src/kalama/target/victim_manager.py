@@ -21,9 +21,15 @@ RUN_ID_RE = re.compile(r"^[A-Za-z0-9]{5}$")
 
 class CommandRunner(Protocol):
     def run(self, argv: Sequence[str], *, timeout: float | None = None) -> CommandResult: ...
+    def popen(self, argv: Sequence[str]): ...
 
 
 class SubprocessCommandRunner:
+    def popen(self, argv: Sequence[str]):
+        return subprocess.Popen(
+            tuple(str(x) for x in argv), stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+
     def run(self, argv: Sequence[str], *, timeout: float | None = None) -> CommandResult:
         args = tuple(str(x) for x in argv)
         try:

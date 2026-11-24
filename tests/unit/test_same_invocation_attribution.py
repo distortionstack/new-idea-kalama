@@ -33,8 +33,8 @@ from kalama.resolver.config_models import (
     ConfirmationStatus, ExploitValue, FieldSource,
 )
 from kalama.resolution.config_codec import exploit_config_from_dict
-from kalama.state.models import ArtifactKind
-from kalama.state.store import StateStore
+from kalama.state.models import ArtifactKind, PipelineStage, RunStatus, StageStatus
+from kalama.state.store import StateStore, utc_text
 from kalama.target.models import CommandResult
 
 NOW = task3_helpers.NOW
@@ -277,7 +277,13 @@ class BeforeExploitHarness:
         Path(ref.path).write_text(json.dumps(artifact, sort_keys=True), encoding="utf-8")
         import hashlib
         new_ref = replace(ref, sha256=hashlib.sha256(Path(ref.path).read_bytes()).hexdigest())
-        self.store.save(state.with_artifact(new_ref, state.updated_at))
+        timestamp = utc_text(NOW)
+        ready = state.with_artifact(new_ref, timestamp).with_stage(
+            PipelineStage.STEP_4_RESOLVER, StageStatus.SUCCEEDED, timestamp)
+        self.store.save(replace(
+            ready, status=RunStatus.PAUSED,
+            waiting_reason="BEFORE_EXPLOIT_NOT_INTEGRATED", updated_at=timestamp,
+        ))
         return new_ref
 
     def execute_pipeline(self, msf, env=None, commands=None):
@@ -348,12 +354,17 @@ class SameInvocationPipelineTests(BeforeExploitHarness, unittest.TestCase):
             helper.root, helper.store = root, store
             helper.helper = task3_helpers.step4_helpers.Step4OrchestrationTests()
             helper.helper.root, helper.helper.store = root, store
-            state = helper.waiting_run(("CVE-2099-0002", "CVE-2099-0003"))
+            state = helper.waiting_run(
+                ("CVE-2099-0002", "CVE-2099-0003"),
+                payloads=({"name": "cmd/unix/generic", "options": []},),
+                payload_status="FOUND",
+            )
 
             def mixed(form):
                 ready = form["cves"]["CVE-2099-0002"]
                 ready["module"]["confirmed"] = "exploit/a"
                 ready["execution_protocol"]["confirmed"] = True
+                ready["payload"]["confirmed"] = "cmd/unix/generic"
                 skipped = form["cves"]["CVE-2099-0003"]
                 skipped["decision"]["confirmed"] = "skip"
                 skipped["decision"]["reason"] = "operator declined validation"
@@ -367,8 +378,8 @@ class SameInvocationPipelineTests(BeforeExploitHarness, unittest.TestCase):
             attack = json.loads(
                 Path(result.artifact(ArtifactKind.ATTACK_BEFORE).path).read_bytes())
             skipped = next(x for x in attack["cves"] if x["cve_id"] == "CVE-2099-0003")
-            self.assertEqual(msf.legacy_calls, [("check", 1)])
-            self.assertEqual(msf.attempt_calls, [])
+            self.assertEqual(msf.legacy_calls, [])
+            self.assertEqual(len(msf.attempt_calls), 1)
             self.assertEqual(skipped["config_status"], "USER_SKIPPED")
             self.assertEqual(skipped["disposition"], "NOT_EXECUTED")
             self.assertEqual(skipped["metric_eligibility"],
